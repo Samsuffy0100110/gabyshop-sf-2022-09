@@ -2,15 +2,27 @@
 
 namespace App\Controller\Admin;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Logo;
+use App\Entity\Shop;
+use App\Entity\Taxe;
+use App\Entity\Offer;
+use App\Entity\Theme;
+use App\Entity\Banner;
+use App\Entity\Product;
+use App\Entity\Category;
+use App\Entity\NewsLetter;
+use App\Entity\ParentCategory;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]
+    // #[IsGranted('ROLE_ADMIN')] // A ACTIVER APRES AVOIR MIS LE REGISTER //
     public function index(): Response
     {
         return $this->render('admin/dashboard.html.twig');
@@ -26,6 +38,28 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::section('');
+        yield MenuItem::section('Gestion Produits');
+        yield MenuItem::linkToCrud('Catégorie', 'fas fa-folder', ParentCategory::class);
+        yield MenuItem::linkToCrud('Sous Catégorie', 'fas fa-folder-tree', Category::class);
+        yield MenuItem::linkToCrud('Produit', 'fas fa-box', Product::class);
+        yield MenuItem::section('');
+        yield MenuItem::section('Taxes');
+        yield MenuItem::linkToCrud('TVA', 'fas fa-percent', Taxe::class);
+        yield MenuItem::section('');
+        yield MenuItem::section('');
+        yield MenuItem::section('Promotions');
+        yield MenuItem::linkToCrud('Offres', 'fas fa-ad', Offer::class);
+        yield MenuItem::section('');
+        yield MenuItem::section('Newsletter');
+        yield MenuItem::linkToCrud('Gestion des newsletters', 'fas fa-envelope', NewsLetter::class);
+        yield MenuItem::section('');
+        yield MenuItem::section('Personnalisation');
+        yield MenuItem::linkToCrud('Boutique', 'fas fa-store', Shop::class);
+        yield MenuItem::linkToCrud('Logo', 'fas fa-font-awesome', Logo::class);
+        yield MenuItem::linkToCrud('Banniére', 'fas fa-image', Banner::class);
+        yield MenuItem::linkToCrud('Thémes', 'fas fa-droplet', Theme::class);
+        yield MenuItem::section('');
+        yield MenuItem::linkToRoute('Retour sur le site', 'fas fa-home', 'home');
     }
 }
