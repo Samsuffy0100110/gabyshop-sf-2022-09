@@ -40,7 +40,8 @@ class NewsLetterCrudController extends AbstractCrudController
             TextField::new('summary')
                 ->setLabel('Résumé'),
             TextEditorField::new('description')
-                ->setLabel('Description'),
+                ->hideOnIndex()
+                ->setFormType(CKEditorType::class),
             DateTimeField::new('createdAt')
                 ->setFormTypeOptions([
                     'data' => new DateTime(),
@@ -48,5 +49,11 @@ class NewsLetterCrudController extends AbstractCrudController
                 ->setLabel('Date de création')
                 ->setFormat('dd-MM-Y HH:mm'),
         ];
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
 }
