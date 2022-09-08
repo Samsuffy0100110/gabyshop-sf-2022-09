@@ -22,7 +22,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]
-    // #[IsGranted('ROLE_ADMIN')] // A ACTIVER APRES AVOIR MIS LE REGISTER //
+    #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
         return $this->render('admin/dashboard.html.twig');

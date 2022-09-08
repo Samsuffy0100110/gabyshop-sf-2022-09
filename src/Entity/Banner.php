@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\BannerRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BannerRepository;
 
 #[ORM\Entity(repositoryClass: BannerRepository::class)]
 class Banner
