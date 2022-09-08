@@ -42,7 +42,8 @@ class NewsLetterCrudController extends AbstractCrudController
                 ->hideOnIndex()
                 ->setFormType(CKEditorType::class),
             DateField::new('createdAt')
-                ->setFormat('dd-MM-Y')
+                ->setLabel('Date de création')
+                ->setFormat('long')
                 ->hideOnForm(),
         ];
     }
