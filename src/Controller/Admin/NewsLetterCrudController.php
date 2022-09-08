@@ -18,7 +18,7 @@ class NewsLetterCrudController extends AbstractCrudController
         return NewsLetter::class;
     }
 
-    public function configureToCrud(Crud $crud): Crud
+    public function configureCrud(Crud $crud): Crud
     {
         return Crud::new()
             ->setEntityLabelInSingular('Newsletter')
@@ -49,11 +49,5 @@ class NewsLetterCrudController extends AbstractCrudController
                 ->setLabel('Date de création')
                 ->setFormat('dd-MM-Y HH:mm'),
         ];
-    }
-
-    public function configureCrud(Crud $crud): Crud
-    {
-        return $crud
-            ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
 }

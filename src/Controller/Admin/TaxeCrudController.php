@@ -16,7 +16,7 @@ class TaxeCrudController extends AbstractCrudController
         return Taxe::class;
     }
 
-    public function configureToCrud(Crud $crud): Crud
+    public function configureCrud(Crud $crud): Crud
     {
         return Crud::new()
             ->setEntityLabelInSingular('Taxe')
