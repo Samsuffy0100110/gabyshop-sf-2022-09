@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Envoi de mot de passe{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row g-0">
+        <div class="col mt-5 fs-5 mx-auto">
+            <p class="text-warning">
+                Si un compte email existe, un email sera envoyé avec un lien pour réinitialiser votre mot de passe.
+                Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+            </p>
+            <p class="text-warning">Si vous ne recevez pas d'email, vérifier vos spams où <a href="{{ path('forgot_password_request') }}">recommencer</a>.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
