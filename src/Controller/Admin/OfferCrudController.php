@@ -19,7 +19,7 @@ class OfferCrudController extends AbstractCrudController
         return Offer::class;
     }
 
-    public function configureToCrud(Crud $crud): Crud
+    public function configureCrud(Crud $crud): Crud
     {
         return Crud::new()
             ->setEntityLabelInSingular('Offre')

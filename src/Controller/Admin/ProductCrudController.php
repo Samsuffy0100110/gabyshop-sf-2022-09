@@ -21,7 +21,7 @@ class ProductCrudController extends AbstractCrudController
         return Product::class;
     }
 
-    public function configureToCrud(Crud $crud): Crud
+    public function configureCrud(Crud $crud): Crud
     {
         return Crud::new()
             ->setEntityLabelInSingular('Produit')
