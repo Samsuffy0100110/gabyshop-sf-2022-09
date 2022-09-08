@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -73,19 +74,19 @@ class ProductCrudController extends AbstractCrudController
             ->setCurrency('EUR'),
         NumberField::new('quantity')
             ->setLabel('Quantité'),
-        DateTimeField::new('createdAt')
-            ->setLabel('Créé le')
-            ->setFormTypeOptions([
-                'data' => new DateTime(),
-            ]),
+        DateField::new('createdAt')
+            ->setFormat('dd-MM-Y')
+            ->hideOnForm(),
         DateTimeField::new('updatedAt')
             ->setLabel('Modifié le')
+            ->setFormat('dd-MM-Y')
             ->setFormTypeOptions([
                 'data' => new DateTime(),
-            ]),
+            ])
+            ->setTimezone('Europe/Paris'),
         DateTimeField::new('releaseAt')
             ->setLabel('Sorti le')
-            ->setFormat('dd-MM-Y HH:mm')
+            ->setFormat('dd-MM-Y')
             ->setTimezone('Europe/Paris'),
         NumberField::new('weight')
             ->setLabel('Poids')

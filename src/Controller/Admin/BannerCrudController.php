@@ -45,14 +45,14 @@ class BannerCrudController extends AbstractCrudController
                     'data' => new DateTime(),
                 ])
                 ->setLabel('Date de création')
-                ->setFormat('dd-MM-Y HH:mm'),
+                ->setFormat('dd-MM-Y'),
             DateTimeField::new('startedAt')
                 ->setLabel('Date de début d\'affichage')
-                ->setFormat('dd-MM-Y HH:mm')
+                ->setFormat('dd-MM-Y')
                 ->setTimezone('Europe/Paris'),
             DateTimeField::new('endedAt')
                 ->setLabel('Date de fin d\'affichage')
-                ->setFormat('dd-MM-Y HH:mm')
+                ->setFormat('dd-MM-Y')
                 ->setTimezone('Europe/Paris'),
             BooleanField::new('isActive')
                 ->setLabel('Actif'),
