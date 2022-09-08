@@ -71,6 +71,8 @@ class ProductCrudController extends AbstractCrudController
         MoneyField::new('price')
             ->setLabel('Prix')
             ->setCurrency('EUR'),
+        AssociationField::new('taxe', 'TVA')
+            ->setLabel('TVA'),
         NumberField::new('quantity')
             ->setLabel('Quantité'),
         DateTimeField::new('createdAt')
