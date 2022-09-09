@@ -1,0 +1,8 @@
+<div class="col">
+    <a href="{{ path('home') }}">
+ {% for logo in logo %}
+    <img class="logo" src="{{ logo.image }}" alt="{{ logo.name }}">
+ {% endfor %}
+        
+    </a>
+</div>
