@@ -1,15 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
-
-{% block body %}
-    {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-    {% endfor %}
-
-    <h1>Inscription</h1>
-    <div class="container">
-        {{ form(registrationForm) }}
-    </div>
+{% block title %}Register
 {% endblock %}
 
+{% block body %}
+	{% for flash_error in app.flashes('verify_email_error') %}
+		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+	{% endfor %}
+
+	<h1>Inscription</h1>
+	<div class="container">
+		{{ form_start(registrationForm) }}
+		{{ form_row(registrationForm.firstName)}}
+		{{ form_row(registrationForm.lastName)}}
+		{{ form_row(registrationForm.email) }}
+		{{ form_row(registrationForm.plainPassword) }}
+		<div class="form-check form-switch">
+			{{ form_row(registrationForm.isNewsletterOk) }}
+			{{ form_row(registrationForm.isPro) }}
+		</div>
+		{{ form_row(registrationForm.submit)}}
+		{{ form_end(registrationForm) }}
+	</div>
+{% endblock %}

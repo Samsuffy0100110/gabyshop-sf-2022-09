@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use DateTimeImmutable;
 use App\Entity\Product;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -25,7 +26,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             $product->setPrice($faker->randomFloat(2, 0, 100));
             $product->setQuantity($faker->numberBetween(0, 100));
             $product->setDescription($faker->realText(100));
-            $product->setCreatedAt($faker->dateTimeBetween('-6 months'));
+            $product->setCreatedAt(new DateTimeImmutable());
             $product->setUpdatedAt($faker->dateTimeBetween('-6 months'));
             $product->setReleaseAt($faker->dateTimeBetween('-6 months'));
             $product->setSummary($faker->realText(50));

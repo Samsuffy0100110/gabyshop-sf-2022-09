@@ -5,9 +5,6 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,17 +19,17 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', TextType::class, [
-                'label' => 'Prénom',
-            ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
+            ])
+            ->add('firstName', TextType::class, [
+                'label' => 'Prénom',
             ])
             ->add(
                 'email',
                 EmailType::class,
                 [
-                'label' => 'mail',
+                'label' => 'Email',
                 ]
             )
             ->add(
@@ -49,9 +46,19 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Mot de passe requis',
                         ]
                     ),
-                    new Regex(
+                    new Assert\Length(
                         [
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/',
+                        'min' => 8,
+                        'minMessage' => 'Le mot de passe doit faire au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le mot de passe doit faire au maximum {{ limit }} caractères',
+                        ]
+                    ),
+                    new Assert\Regex(
+                        [
+                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{8,}$/',
+                        'message' => 'Le mot de passe doit contenir au moins une minuscule, 
+                            une majuscule, un chiffre et un caractère spécial',
                         ]
                     ),
                 ],
@@ -65,46 +72,29 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Confirmation requise',
                         ]
                     ),
-                    new Assert\Length(
-                        [
-                        'min' => 3,
-                        'max' => 50,
-                        'minMessage' => 'Confirmation trop courte',
-                        'maxMessage' => 'Confirmation trop longue',
-                        ]
-                    ),
                 ],
                 ],
                 ]
             )
-            ->add('adress', TextType::class, [
-                'label' => 'Adresse',
-            ])
-            ->add('city', TextType::class, [
-                'label' => 'Ville',
-            ])
-            ->add('zipCode', TextType::class, [
-                'label' => 'Code postal',
-            ])
-            ->add('country', TextType::class, [
-                'label' => 'Pays',
-            ])
-            ->add('phone', TextType::class, [
-                'label' => 'Téléphone',
+            ->add('isNewsletterOk', CheckboxType::class, [
+                'label' => 'Je souhaite recevoir la newsletter',
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
             ])
             ->add('isPro', CheckboxType::class, [
                 'label' => 'Je suis un professionnel',
                 'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
             ])
-            ->add('companyName', TextType::class, [
-                'label' => 'Nom de la société',
-            ])
-            ->add('idPro', TextType::class, [
-                'label' => 'Numéro de SIRET',
-            ])
-            ->add('isNewsletterOk', CheckboxType::class, [
-                'label' => 'Je souhaite recevoir la newsletter',
-                'required' => false,
+            ->add('submit', SubmitType::class, [
+                'label' => 'S\'inscrire',
+                'attr' => [
+                'class' => 'btn btn-primary',
+                ],
             ])
         ;
     }

@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\NewsLetterUserRepository;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
+use App\Repository\NewsLetterUserRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: NewsLetterUserRepository::class)]
 class NewsLetterUser
@@ -15,6 +16,21 @@ class NewsLetterUser
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: 'L\'adresse email doit faire au moins {{ limit }} caractères',
+        maxMessage: 'L\'adresse email doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Email(
+        message: 'L\'adresse email n\'est pas valide',
+    )]
+    #[Assert\Unique]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$/',
+        message: 'L\'adresse email n\'est pas valide',
+    )]
     private ?string $email = null;
 
     #[ORM\Column(type: 'uuid')]

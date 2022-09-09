@@ -22,8 +22,8 @@ class BannerCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return Crud::new()
-            ->setEntityLabelInPlural('Banniéres')
-            ->setEntityLabelInSingular('Banniére')
+            ->setEntityLabelInPlural('Bannières')
+            ->setEntityLabelInSingular('Bannière')
             ->setPageTitle('index', 'Administration des Banniéres');
     }
 

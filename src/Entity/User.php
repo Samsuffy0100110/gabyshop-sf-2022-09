@@ -6,12 +6,13 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Cette adresse email est déjà utilisée')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,6 +21,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 5,
+        max: 180,
+        minMessage: 'L\'adresse email doit faire au moins {{ limit }} caractères',
+        maxMessage: 'L\'adresse email doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$/',
+        message: 'L\'adresse email n\'est pas valide',
+    )]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -34,33 +46,125 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Le nom doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le nom doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
+        message: 'Le nom n\'est pas valide',
+    )]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Le prénom doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le prénom doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
+        message: 'Le prénom n\'est pas valide',
+    )]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'L\'adresse doit faire au moins {{ limit }} caractères',
+        maxMessage: 'L\'adresse doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-Z0-9À-ÿ\' -]+$/',
+        message: 'L\'adresse n\'est pas valide',
+    )]
     private ?string $adress = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: 'Le nom de la ville doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le nom de la ville doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
+        message: 'Le nom de la ville n\'est pas valide',
+    )]
     private ?string $city = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 5,
+        max: 255,
+        minMessage: 'Le code postal doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le code postal doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[0-9]{5}$/',
+        message: 'Le code postal n\'est pas valide',
+    )]
     private ?string $zipcode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 10,
+        max: 255,
+        minMessage: 'Le pays doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le pays doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
+        message: 'Le pays n\'est pas valide',
+    )]
     private ?string $country = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 10,
+        max: 255,
+        minMessage: 'Le numéro de téléphone doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le numéro de téléphone doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[0-9]{10}$/',
+        message: 'Le numéro de téléphone n\'est pas valide',
+    )]
     private ?string $phone = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $isPro = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Le numéro de SIRET doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le numéro de SIRET doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[0-9]{14}$/',
+        message: 'Le numéro de SIRET n\'est pas valide',
+    )]
     private ?string $idpro = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: 'Le nom de la société doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le nom de la société doit faire au maximum {{ limit }} caractères',
+    )]
+    #[Assert\Regex(
+        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
+        message: 'Le nom de la société n\'est pas valide',
+    )]
     private ?string $companyname = null;
 
     #[ORM\Column(nullable: true)]
