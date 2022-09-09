@@ -24,8 +24,12 @@
 					{{ message|raw }}
 					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
-			{% endfor %}
 		{% endfor %}
-		{% block body %}{% endblock %}
+		{% endfor %}
+		{% block body %}
+		{% endblock %}
+		{% block footer %}
+		{{ render(controller('App\\Controller\\FrontController::footerColor')) }}
+		{% endblock %}
 	</body>
 </html>
