@@ -72,21 +72,23 @@ class ProductCrudController extends AbstractCrudController
         MoneyField::new('price')
             ->setLabel('Prix')
             ->setCurrency('EUR'),
+        AssociationField::new('taxe', 'TVA')
+            ->setLabel('TVA'),
         NumberField::new('quantity')
             ->setLabel('Quantité'),
         DateField::new('createdAt')
-            ->setFormat('dd-MM-Y')
+            ->setFormat('long')
             ->hideOnForm(),
         DateTimeField::new('updatedAt')
             ->setLabel('Modifié le')
-            ->setFormat('dd-MM-Y')
+            ->setFormat('long')
             ->setFormTypeOptions([
                 'data' => new DateTime(),
             ])
             ->setTimezone('Europe/Paris'),
         DateTimeField::new('releaseAt')
             ->setLabel('Sorti le')
-            ->setFormat('dd-MM-Y')
+            ->setFormat('long')
             ->setTimezone('Europe/Paris'),
         NumberField::new('weight')
             ->setLabel('Poids')
