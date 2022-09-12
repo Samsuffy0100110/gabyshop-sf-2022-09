@@ -47,6 +47,16 @@ class FrontController extends AbstractController
         ]);
     }
 
+    public function carousel(
+        CategoryRepository $category,
+        ParentCategoryRepository $parent,
+        ProductRepository $product
+    ): Response {
+        return $this->render('includes/productcarousel/index.html.twig', [
+            'categories' => $category->findAll(),
+            'parentCategories' => $parent->findAll(),
+            'products' => $product->findAll(),
+
     public function latestProducts(ProductRepository $productRepository): Response
     {
         return $this->render('includes/latestProducts/index.html.twig', [
