@@ -28,8 +28,9 @@
 		{% endfor %}
 		{% include "includes/navsecurity/index.html.twig" %}
 		{{ render(controller('App\\Controller\\FrontController::logo')) }}
-		{% block body %}
-		{% endblock %}
+		{{ render(controller('App\\Controller\\FrontController::navbar')) }}
+		{% block body %}{% endblock %}
+
 		{% block footer %}
 			{{ render(controller('App\\Controller\\FrontController::footerColor')) }}
 		{% endblock %}
