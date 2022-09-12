@@ -12,8 +12,8 @@
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-
 		{% block javascripts %}
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
@@ -24,15 +24,14 @@
 					{{ message|raw }}
 					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
-		{% endfor %}
-
+			{% endfor %}
 		{% endfor %}
 		{% include "includes/navsecurity/index.html.twig" %}
 		{{ render(controller('App\\Controller\\FrontController::logo')) }}
 		{% block body %}
 		{% endblock %}
 		{% block footer %}
-		{{ render(controller('App\\Controller\\FrontController::footerColor')) }}
+			{{ render(controller('App\\Controller\\FrontController::footerColor')) }}
 		{% endblock %}
 	</body>
 </html>
