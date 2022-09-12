@@ -12,7 +12,7 @@
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-	    {{ render(controller('App\\Controller\\FrontController::logo')) }}
+
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
@@ -27,6 +27,8 @@
 		{% endfor %}
 
 		{% endfor %}
+		{% include "includes/navsecurity/index.html.twig" %}
+		{{ render(controller('App\\Controller\\FrontController::logo')) }}
 		{% block body %}
 		{% endblock %}
 		{% block footer %}
