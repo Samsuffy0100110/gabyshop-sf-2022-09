@@ -12,7 +12,7 @@
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-
+	    {{ render(controller('App\\Controller\\FrontController::logo')) }}
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
@@ -25,6 +25,7 @@
 					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 				</div>
 		{% endfor %}
+
 		{% endfor %}
 		{% block body %}
 		{% endblock %}
