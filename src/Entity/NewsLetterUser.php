@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\NewsLetterUserRepository;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,15 +25,14 @@ class NewsLetterUser
     #[Assert\Email(
         message: 'L\'adresse email n\'est pas valide',
     )]
-    #[Assert\Unique]
     #[Assert\Regex(
         pattern: '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$/',
         message: 'L\'adresse email n\'est pas valide',
     )]
     private ?string $email = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $uuid = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $uuid;
 
     public function getId(): ?int
     {
@@ -53,12 +51,12 @@ class NewsLetterUser
         return $this;
     }
 
-    public function getUuid(): ?Uuid
+    public function getUuid(): string
     {
         return $this->uuid;
     }
 
-    public function setUuid(Uuid $uuid): self
+    public function setUuid(string $uuid): self
     {
         $this->uuid = $uuid;
 
