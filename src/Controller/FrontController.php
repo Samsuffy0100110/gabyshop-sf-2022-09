@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\BannerRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\LogoRepository;
+use App\Repository\ParentCategoryRepository;
+use App\Repository\ProductRepository;
 use App\Repository\ThemeRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,6 +31,18 @@ class FrontController extends AbstractController
     {
         return $this->render('includes/logo/index.html.twig', [
             'logo' => $logoRepository->findAll(),
+        ]);
+    }
+
+    public function navbar(
+        CategoryRepository $category,
+        ParentCategoryRepository $parent,
+        ProductRepository $product
+    ): Response {
+        return $this->render('includes/navbar/index.html.twig', [
+            'categories' => $category->findAll(),
+            'parentCategories' => $parent->findAll(),
+            'products' => $product->findAll(),
         ]);
     }
 }
