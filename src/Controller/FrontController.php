@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\BannerRepository;
 use App\Repository\LogoRepository;
 use App\Repository\ThemeRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
