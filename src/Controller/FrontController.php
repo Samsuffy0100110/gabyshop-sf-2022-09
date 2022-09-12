@@ -8,6 +8,7 @@ use App\Repository\LogoRepository;
 use App\Repository\ParentCategoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\ThemeRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

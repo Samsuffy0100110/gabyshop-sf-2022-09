@@ -1,0 +1,36 @@
+{% if app.user %}
+	<div class="container-fluid bg-dark g-0">
+		<div class="row">
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="col-lg-8"></div>
+				<div class="col-lg-1 text-center">
+					<a class="nav-link nav-security text-white p-2" href="{{ path('admin') }}">Administration</a>
+				</div>
+			{% else %}
+				<div class="col-lg-9"></div>
+			{% endif %}
+			<div class="col-lg-1 text-center">
+				<a class="nav-link text-white p-2">Bonjour
+					{{ app.user.firstname }}</a>
+			</div>
+			<div class="col-lg-1 text-center">
+				<a class="nav-link nav-security text-white p-2" href="{{ path('register') }}">Mon Compte</a>
+			</div>
+			<div class="col-lg-1 text-center">
+				<a class="nav-link nav-security text-white p-2" href="{{ path('logout') }}">Déconnexion</a>
+			</div>
+		</div>
+	</div>
+{% else %}
+	<div class="container-fluid bg-dark g-0">
+		<div class="row">
+			<div class="col-lg-10"></div>
+			<div class="col-lg-1 text-center">
+				<a class="nav-link nav-security text-white p-2" href="{{ path('login') }}">Connexion</a>
+			</div>
+			<div class="col-lg-1 text-center">
+				<a class="nav-link nav-security text-white p-2" href="{{ path('register') }}">Inscription</a>
+			</div>
+		</div>
+	</div>
+{% endif %}

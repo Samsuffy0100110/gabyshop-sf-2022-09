@@ -36,7 +36,8 @@ class ThemeCrudController extends AbstractCrudController
             ColorField::new('footerColor')
                 ->setLabel('Couleur du pied de page'),
             BooleanField::new('isActive')
-                ->setLabel('Actif'),
+                ->setLabel('Actif')
+                ->hideOnForm(),
         ];
     }
 }
