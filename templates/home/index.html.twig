@@ -4,6 +4,7 @@
 
 {% block body %}
 {{ render(controller('App\\Controller\\FrontController::banner')) }}
+{{ render(controller('App\\Controller\\FrontController::carousel')) }}
 {{include('includes/aboutus/index.html.twig')}}
 
 {% endblock %}
