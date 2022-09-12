@@ -46,4 +46,11 @@ class FrontController extends AbstractController
             'products' => $product->findAll(),
         ]);
     }
+
+    public function latestProducts(ProductRepository $productRepository): Response
+    {
+        return $this->render('includes/latestProducts/index.html.twig', [
+            'products' => $productRepository->findBy([], ['createdAt' => 'DESC'], 3),
+        ]);
+    }
 }

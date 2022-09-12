@@ -4,6 +4,6 @@
 
 {% block body %}
 {{ render(controller('App\\Controller\\FrontController::banner')) }}
+{{ render(controller('App\\Controller\\FrontController::latestProducts')) }}
 {{include('includes/aboutus/index.html.twig')}}
-
 {% endblock %}
