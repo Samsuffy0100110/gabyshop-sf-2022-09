@@ -1,5 +1,7 @@
 .product-card{
     position: relative;
+    margin-bottom: 3rem;
+    margin-top: 3rem;
 }
 
 .product-image{
@@ -9,6 +11,9 @@
     height: auto;
     transition: .5s ease;
     backface-visibility: hidden;
+    width: 400px;
+    height: 400px;
+    object-fit:cover;
 }
 
 .middle {
@@ -35,4 +40,5 @@
     color: white;
     font-size: 16px;
     padding: 16px 32px;
+    margin-bottom: 3rem;
 }
