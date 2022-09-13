@@ -56,6 +56,8 @@ class FrontController extends AbstractController
             'categories' => $category->findAll(),
             'parentCategories' => $parent->findAll(),
             'products' => $product->findAll(),
+        ]);
+    }
 
     public function latestProducts(ProductRepository $productRepository): Response
     {
