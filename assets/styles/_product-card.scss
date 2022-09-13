@@ -27,7 +27,7 @@
 
 .product-card:hover{
     .product-image{
-        opacity: 0.3;
+        filter: grayscale(100%);
     }
     .middle{
         opacity: 1;

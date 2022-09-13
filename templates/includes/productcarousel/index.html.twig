@@ -7,26 +7,25 @@
 						<div class="row">
 						{% endif %}
 						<div class="col-lg">
-						<a href="#">
-						<div class="card product-card">
-						<img src="{{ product.image0 }}" class="card-img-top product-carousel" alt="{{ product.name }}">
-						<div class="middle">
-							<a href="#" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
+							<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
+								<div class="card product-card">
+									<img src="{{ product.image0 }}" class="card-img-top product-carousel" alt="{{ product.name }}">
+									<div class="middle">
+										<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
+									</div>
+								</a>
+								<div class="card-body">
+									<h5 class="card-title">{{ product.name }}</h5>
+									<p class="card-text">{{ product.summary }}</p>
+								</div>
+								<div class="card-body">
+									<p class="card-link fw-bold">{{ product.price}}€</p>
+								</div>
+							</div>
 						</div>
-					</a>
-						<div class="card-body">
-							<h5 class="card-title">{{ product.name }}</h5>
-							<p class="card-text">{{ product.summary }}</p>
-						</div>
-						<div class="card-body">
-							<p href="#" class="card-link fw-bold">{{ product.price}}€</p>
-						</div>
-					</div>
-					</div>
 						{% if loop.index0 % 3 == 2 %}
 						</div>
 					</div>
-					
 				{% endif %}
 			{% endfor %}
 		</div>
