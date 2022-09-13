@@ -2,10 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
-use App\Entity\Category;
-use App\Service\fullProducts;
-use App\Entity\ParentCategory;
 use App\Repository\LogoRepository;
 use App\Repository\ThemeRepository;
 use App\Repository\BannerRepository;
@@ -65,17 +61,12 @@ class FrontController extends AbstractController
 
     public function latestProducts(
         ProductRepository $productRepository,
-        CategoryRepository $categoryRepository,
-        ParentCategoryRepository $parentCategory
     ): Response {
 
         return $this->render('includes/latestProducts/index.html.twig', [
             'products' => $productRepository->findBy([], ['createdAt' => 'DESC'], 3),
-            'categories' => $categoryRepository->findAll(),
-            'parentCategories' => $parentCategory->findAll(),
         ]);
     }
-
 
     public function randomProducts(FeaturedProductsRepository $featuredRepository): Response
     {

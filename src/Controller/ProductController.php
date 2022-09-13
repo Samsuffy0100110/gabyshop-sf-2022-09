@@ -21,14 +21,14 @@ class ProductController extends AbstractController
     }
 
     #[Route(
-        '/{parentCategory_slug<[^0-9]+>}/{category_slug<[^0-9]+>}/{product_slug<[^0-9]+>}',
+        '/{parentCategory}/{category}/{product}',
         name: 'product_show',
         methods: ['GET']
     )]
-    #[ParamConverter('product', options: ['mapping' => ['product_slug' => 'slug']])]
-    #[ParamConverter('category', options: ['mapping' => ['category_slug' => 'slug']])]
-    #[ParamConverter('parentCategory', options: ['mapping' => ['parentCategory_slug' => 'slug']])]
-    public function show(Product $product, Category $category, ParentCategory $parentCategory): Response
+    #[ParamConverter('product', options: ['mapping' => ['product' => 'slug']])]
+    #[ParamConverter('category', options: ['mapping' => ['category' => 'slug']])]
+    #[ParamConverter('parentCategory', options: ['mapping' => ['parentCategory' => 'slug']])]
+    public function showProduct(Product $product, Category $category, ParentCategory $parentCategory): Response
     {
         return $this->render('product/show.html.twig', [
             'product' => $product,
