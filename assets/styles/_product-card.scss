@@ -57,3 +57,15 @@
 .middle:hover{
     opacity: 1;
 }
+
+.product-carousel{
+    opacity: 1;
+    display: block;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    object-fit:cover;
+}
+
+.product-carousel:hover{
+    filter: grayscale(100%);
+}
