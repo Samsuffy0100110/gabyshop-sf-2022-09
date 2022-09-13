@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManager;
+use App\Entity\Product;
+use App\Entity\Category;
+use App\Service\fullProducts;
+use App\Entity\ParentCategory;
 use App\Repository\LogoRepository;
-use App\Repository\UserRepository;
 use App\Repository\ThemeRepository;
 use App\Repository\BannerRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ParentCategoryRepository;
 use App\Repository\FeaturedProductsRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,19 +63,24 @@ class FrontController extends AbstractController
         ]);
     }
 
-    public function latestProducts(ProductRepository $productRepository): Response
-    {
+    public function latestProducts(
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository,
+        ParentCategoryRepository $parentCategory
+    ): Response {
+
         return $this->render('includes/latestProducts/index.html.twig', [
             'products' => $productRepository->findBy([], ['createdAt' => 'DESC'], 3),
+            'categories' => $categoryRepository->findAll(),
+            'parentCategories' => $parentCategory->findAll(),
         ]);
     }
 
+
     public function randomProducts(FeaturedProductsRepository $featuredRepository): Response
     {
-        $starProducts = $featuredRepository->findAll();
-
         return $this->render('includes/randomProducts/index.html.twig', [
-            'starProducts' => $starProducts,
+            'starProducts' => $featuredRepository->findAll(),
         ]);
     }
 }

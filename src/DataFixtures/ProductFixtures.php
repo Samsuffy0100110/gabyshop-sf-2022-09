@@ -5,12 +5,19 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use DateTimeImmutable;
 use App\Entity\Product;
+use App\Service\Slugify;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
+    private Slugify $slug;
+
+    public function __construct(Slugify $slugify)
+    {
+        $this->slug = $slugify;
+    }
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
@@ -31,6 +38,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             $product->setReleaseAt($faker->dateTimeBetween('-6 months'));
             $product->setSummary($faker->realText(50));
             $product->setWeight("100");
+            $product->setSlug($this->slug->generate($product->getName()));
             $product->setCategory($this->getReference("category_" . $faker->numberBetween(0, 4)));
             $product->setTaxe($this->getReference("taxe_" . $faker->numberBetween(0, 1)));
             $this->addReference("product_$i", $product);
