@@ -10,6 +10,7 @@ use App\Entity\Theme;
 use App\Entity\Banner;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\FeaturedProducts;
 use App\Entity\NewsLetter;
 use App\Entity\ParentCategory;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +44,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Catégorie', 'fas fa-folder', ParentCategory::class);
         yield MenuItem::linkToCrud('Sous Catégorie', 'fas fa-folder-tree', Category::class);
         yield MenuItem::linkToCrud('Produit', 'fas fa-box', Product::class);
+        yield MenuItem::linkToCrud('Mise en avant', 'fas fa-star', FeaturedProducts::class);
         yield MenuItem::section('');
         yield MenuItem::section('Taxes');
         yield MenuItem::linkToCrud('TVA', 'fas fa-percent', Taxe::class);

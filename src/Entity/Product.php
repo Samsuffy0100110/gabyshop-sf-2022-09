@@ -71,10 +71,14 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: FeaturedProducts::class)]
+    private Collection $featuredProducts;
+
     public function __construct()
     {
         $this->offers = new ArrayCollection();
         $this->rates = new ArrayCollection();
+        $this->featuredProducts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -310,7 +314,6 @@ class Product
     public function removeRate(Rate $rate): self
     {
         if ($this->rates->removeElement($rate)) {
-            // set the owning side to null (unless already changed)
             if ($rate->getProduct() === $this) {
                 $rate->setProduct(null);
             }
@@ -334,5 +337,33 @@ class Product
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection<int, FeaturedProducts>
+     */
+    public function getFeaturedProducts(): Collection
+    {
+        return $this->featuredProducts;
+    }
+
+    public function addFeaturedProduct(FeaturedProducts $featuredProduct): self
+    {
+        if (!$this->featuredProducts->contains($featuredProduct)) {
+            $this->featuredProducts->add($featuredProduct);
+            $featuredProduct->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeaturedProduct(FeaturedProducts $featuredProduct): self
+    {
+        if ($this->featuredProducts->removeElement($featuredProduct)) {
+            if ($featuredProduct->getProduct() === $this) {
+                $featuredProduct->setProduct(null);
+            }
+        }
+        return $this;
     }
 }

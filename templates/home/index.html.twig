@@ -4,9 +4,9 @@
 
 {% block body %}
 {{ render(controller('App\\Controller\\FrontController::banner')) }}
-
-{{ render(controller('App\\Controller\\FrontController::carousel')) }}
 {{ render(controller('App\\Controller\\FrontController::latestProducts')) }}
+{{ render(controller('App\\Controller\\FrontController::carousel')) }}
 {{ render(controller('App\\Controller\\NewsLetterController::subscribeForm')) }}
+{{ render(controller('App\\Controller\\FrontController::randomProducts')) }}
 {{include('includes/aboutus/index.html.twig')}}
 {% endblock %}

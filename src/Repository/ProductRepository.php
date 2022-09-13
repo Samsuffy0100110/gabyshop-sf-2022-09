@@ -39,6 +39,15 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    // public function randomProducts(): array
+    // {
+    //     return $this->createQueryBuilder('p')
+    //         ->orderBy(RAND())
+    //         ->setMaxResults(5)
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    // }
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

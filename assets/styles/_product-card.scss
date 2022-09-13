@@ -36,7 +36,24 @@
 
 .product-text {
     color: white;
+    font-weight: bold;
     font-size: 16px;
     padding: 16px 32px;
     margin-bottom: 3rem;
+}
+
+.featured-image{
+    opacity: 1;
+    display: block;
+    transition: .5s ease;
+    backface-visibility: hidden;
+    object-fit:cover;
+}
+
+.featured-image:hover{
+    filter: grayscale(100%);
+}
+
+.middle:hover{
+    opacity: 1;
 }
