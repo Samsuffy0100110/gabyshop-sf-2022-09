@@ -24,7 +24,10 @@ final class Version20220913102652 extends AbstractMigration
         product_id INT DEFAULT NULL, position INT DEFAULT NULL,
         INDEX IDX_BB76A6674584665A (product_id),
         PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('ALTER TABLE featured_products ADD CONSTRAINT FK_BB76A6674584665A FOREIGN KEY (product_id) REFERENCES product (id)');
+        $this->addSql('ALTER TABLE featured_products 
+                            ADD CONSTRAINT FK_BB76A6674584665A 
+                            FOREIGN KEY (product_id) 
+                            REFERENCES product (id)');
     }
 
     public function down(Schema $schema): void
