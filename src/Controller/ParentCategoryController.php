@@ -24,7 +24,8 @@ class ParentCategoryController extends AbstractController
     #[Route(
         '/{parentCategory}',
         name: 'category_index',
-        methods: ['GET']
+        methods: ['GET'],
+        requirements: ['parentCategory' => '\d+'],
     )]
     #[ParamConverter('parentCategory', options: ['mapping' => ['parentCategory' => 'slug']])]
     public function showProductsByCategoriesAndParentCategories(ParentCategory $parentCategory): Response
