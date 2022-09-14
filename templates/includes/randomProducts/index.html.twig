@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-		{% for starProduct in starProducts|filter(starProduct => starProduct.position == 1) %}
+	{% for starProduct in starProducts|filter(starProduct => starProduct.position == 1) %}
 			<div class="col-lg-6">
 				<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}">
 					<div class="card m-1 h-100">
