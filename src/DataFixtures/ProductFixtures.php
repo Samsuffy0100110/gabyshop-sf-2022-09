@@ -25,11 +25,11 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 40; $i++) {
             $product = new Product();
             $product->setName("Product $i");
-            $product->setImage0("https://picsum.photos/200/300?random=$i");
-            $product->setImage1("https://picsum.photos/200/300?random=1$i");
-            $product->setImage2("https://picsum.photos/200/300?random=2$i");
-            $product->setImage3("https://picsum.photos/200/300?random=3$i");
-            $product->setImage4("https://picsum.photos/200/300?random=4$i");
+            $product->setImage0("https://loremflickr.com/300/300?random=$i");
+            $product->setImage1("https://loremflickr.com/300/300?random=1$i");
+            $product->setImage2("https://loremflickr.com/300/300?random=2$i");
+            $product->setImage3("https://loremflickr.com/300/300?random=3$i");
+            $product->setImage4("https://loremflickr.com/300/300?random=4$i");
             $product->setPrice($faker->randomFloat(2, 0, 100));
             $product->setQuantity($faker->numberBetween(0, 100));
             $product->setDescription($faker->realText(100));
