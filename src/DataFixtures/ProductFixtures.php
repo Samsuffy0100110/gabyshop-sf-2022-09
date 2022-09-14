@@ -24,7 +24,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 40; $i++) {
             $product = new Product();
-            $product->setName($faker->words(1, true));
+            $product->setName("Product $i");
             $product->setImage0("https://picsum.photos/200/300?random=$i");
             $product->setImage1("https://picsum.photos/200/300?random=1$i");
             $product->setImage2("https://picsum.photos/200/300?random=2$i");
