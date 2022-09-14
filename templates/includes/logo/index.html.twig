@@ -1,10 +1,14 @@
 <div class="container">
-	<div class="col">
-		<a href="{{ path('home') }}">
-			{% for logo in logo %}
-				<img class="logo" src="{{ logo.image }}" alt="{{ logo.name }}">
-			{% endfor %}
+	<div class="row mt-2">
+		<div class="col">
+			<a href="{{ path('home') }}">
+				{% for logo in logo %}
+					<img class="logo" src="{{ logo.image }}" alt="{{ logo.name }}">
+				{% endfor %}
 
-		</a>
+			</a>
+		</div>
+		<div class="col"></div>
+		<div class="col"></div>
 	</div>
 </div>
