@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ parentCategory.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<a href="{{ path('home')}}">Home</a>
+				/Categorie/
+				<a href="{{ path('category_index', { parentCategory: parentCategory.slug })}}">{{ parentCategory.name }}</a>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 mt-5 mb-5">
+				<div class="card text-white fw-bold">
+					<img class="img-fluid rounded w-100 banner-image" style="max-height: 400px" src="{{ parentCategory.image }}" alt="{{ parentCategory.name }}">
+					<div class="card-img-overlay d-flex">
+						<h1 class="card-title text-center align-self-center mx-auto">{{ parentCategory.name }}</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-2 mt-5">
+				<div class="card text-center">
+					<div class="card-header">
+						{{ parentCategory.name }}
+					</div>
+					<ul class="list-group list-group-flush">
+						{% for category in parentCategory.categories %}
+							<li class="list-group-item">{{ category.name }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-10 mb-5">
+				<div class="container">
+					<div class="row">
+						{% for category in parentCategory.categories %}
+							<div class="col-lg-6 d-flex justify-content-center mt-5">
+								<div class="card product-card" style="width: 400px;">
+									<div class="grayscale">
+										<figure><img class="card-img-top image-cover" style="height:400px;" src="{{ category.image }}" alt="{{ category.name }}"></figure>
+									</div>
+									<div class="card-body">
+										<h5 class="card-title">{{ category.name }}</h5>
+										<p class="card-text">{{ category.description }}</p>
+										<a href="{{ path('product_index', { parentCategory: parentCategory.slug, category: category.slug })}}" class="btn btn-outline-success">Voir les produits</a>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
