@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<a href="{{ path('home')}}">Home</a>
+				/Categorie/
+				<a href="{{ path('category_index', { parentCategory: parentCategory.slug })}}">{{ parentCategory.name }}</a>
+				/
+				<a class="fw-bold text-decoration-none link-dark">{{ category.name }}</a>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}

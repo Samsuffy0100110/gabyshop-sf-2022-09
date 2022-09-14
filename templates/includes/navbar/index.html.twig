@@ -15,7 +15,7 @@
 								{% for category in categories %}
 									{% if category.parent.id == parentCategory.id %}
 										<li>
-											<a class="dropdown-item" href="#">{{ category.name }}</a>
+											<a class="dropdown-item" href="{{ path('product_index', { parentCategory: parentCategory.slug, category: category.slug })}}">{{ category.name }}</a>
 										</li>
 									{% endif %}
 								{% endfor %}
@@ -24,8 +24,8 @@
 					{% endfor %}
 				</ul>
 				<form class="d-flex">
-					<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-					<button class="btn btn-outline-success" type="submit">Search</button>
+					<input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Recherche">
+					<button class="btn btn-outline-success" type="submit">Recherche</button>
 				</form>
 			</div>
 		</div>
