@@ -22,7 +22,7 @@ class ParentCategoryFixtures extends Fixture
         for ($i = 0; $i < 3; $i++) {
             $parentCategory = new ParentCategory();
             $parentCategory->setName("ParentCategory $i");
-            $parentCategory->setImage("https://picsum.photos/200/300?random=5$i");
+            $parentCategory->setImage("https://loremflickr.com/300/300?random=$i");
             $parentCategory->setSlug($this->slug->generate($parentCategory->getName()));
             $this->addReference("parentCategory_$i", $parentCategory);
             $manager->persist($parentCategory);

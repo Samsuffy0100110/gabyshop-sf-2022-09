@@ -26,7 +26,7 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
             $category = new Category();
             $category->setName("Category $i");
             $category->setDescription($faker->realText(100));
-            $category->setImage("https://picsum.photos/200/300?random=$i");
+            $category->setImage("https://loremflickr.com/300/300?random=$i");
             $category->setSlug($this->slug->generate($category->getName()));
             $this->addReference("category_$i", $category);
             $category->setParent($this->getReference("parentCategory_" . $faker->numberBetween(0, 2)));
