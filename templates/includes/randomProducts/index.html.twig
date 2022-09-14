@@ -3,7 +3,7 @@
 	{% for starProduct in starProducts|filter(starProduct => starProduct.position == 1) %}
 			<div class="col-lg-6">
 				<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}">
-					<div class="card m-1 h-100">
+					<div class="card m-1 h-100 shadow">
 						<img src="{{ starProduct.product.image0 }}" class="card-img-top featured-image" alt="{{ starProduct.product.name }}">
 						<div class="middle">
 							<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
@@ -24,7 +24,7 @@
 				<div class="col-lg-6">
 					{% for starProduct in starProducts|filter(starProduct => starProduct.position == 2) %}
 						<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}">
-							<div class="card m-1 product-card">
+							<div class="card m-1 product-card shadow">
 								<img src="{{ starProduct.product.image0 }}" class="card-img-top featured-image" alt="{{ starProduct.product.name }}">
 								<div class="middle">
 									<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
@@ -43,7 +43,7 @@
 				<div class="col-lg-6">
 					{% for starProduct in starProducts|filter(starProduct => starProduct.position == 3) %}
 						<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}">
-							<div class="card m-1 product-card">
+							<div class="card m-1 product-card shadow">
 								<img src="{{ starProduct.product.image0 }}" class="card-img-top featured-image" alt="{{ starProduct.product.name }}">
 								<div class="middle">
 									<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
@@ -64,7 +64,7 @@
 				<div class="col-lg-6">
 					{% for starProduct in starProducts|filter(starProduct => starProduct.position == 4) %}
 						<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}">
-							<div class="card m-1 product-card">
+							<div class="card m-1 product-card shadow">
 								<img src="{{ starProduct.product.image0 }}" class="card-img-top" alt="{{ starProduct.product.name }}">
 								<div class="middle">
 									<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
@@ -83,7 +83,7 @@
 				<div class="col-lg-6">
 					{% for starProduct in starProducts|filter(starProduct => starProduct.position == 5) %}
 						<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}">
-							<div class="card m-1 product-card">
+							<div class="card m-1 product-card shadow">
 								<img src="{{ starProduct.product.image0 }}" class="card-img-top" alt="{{ starProduct.product.name }}">
 								<div class="middle">
 									<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
