@@ -39,6 +39,18 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
+    public function findLikeName(string $name): string
+    {
+        $query = $this->createQueryBuilder('p')
+            ->where('p.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->orderBy('p.name', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+
     // public function randomProducts(): array
     // {
     //     return $this->createQueryBuilder('p')

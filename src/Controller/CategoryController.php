@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\ParentCategory;
+use App\Form\SearchProductType;
 use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,20 +26,32 @@ class CategoryController extends AbstractController
     #[Route(
         '/{parentCategory}/{category}',
         name: 'product_index',
-        methods: ['GET']
+        methods: ['GET', 'POST']
     )]
     #[ParamConverter('category', options: ['mapping' => ['category' => 'slug']])]
     #[ParamConverter('parentCategory', options: ['mapping' => ['parentCategory' => 'slug']])]
     public function showProductsByCategories(
         Category $category,
         ParentCategory $parentCategory,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        Request $request
     ): Response {
-        $products = $productRepository->findByCategory($category);
+
+        $form = $this->createForm(SearchProductType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData()['search'];
+            $products = $productRepository->findLikeName($search);
+        } else {
+            $products = $productRepository->findByCategory($category);
+        }
+
         return $this->render('category/index.html.twig', [
             'category' => $category,
             'parentCategory' => $parentCategory,
             'products' => $products,
+            'form' => $form->createView(),
         ]);
     }
 }
