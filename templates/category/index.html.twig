@@ -8,13 +8,15 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-			<i><small>
-				<a href="{{ path('home')}}">Home</a>
-				/Categorie/
-				<a href="{{ path('category_index', { parentCategory: parentCategory.slug })}}">{{ parentCategory.name }}</a>
-				/
-				<a class="fw-bold text-decoration-none link-dark">{{ category.name }}</a>
-			</small></i>
+				<i>
+					<small>
+						<a href="{{ path('home')}}">Home</a>
+						/Categorie/
+						<a href="{{ path('category_index', { parentCategory: parentCategory.slug })}}">{{ parentCategory.name }}</a>
+						/
+						<a class="fw-bold text-decoration-none link-dark">{{ category.name }}</a>
+					</small>
+				</i>
 			</div>
 		</div>
 		<div class="row">
@@ -28,14 +30,13 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-lg-12">		                        
-				{% include "includes/searchBar/index.html.twig" %}
-			</div>
-		</div>
-		<div class="row">
 			<div class="col-lg-12">
+				{{ form_start(form) }}
+				{{ form_widget(form) }}
+				<input type="submit" class="btn btn-outline-primary" value="Rechercher">
+				{{ form_end(form) }}
 				<div class="row row-cols-auto">
-					{% for product in category.products %}
+					{% for product in products %}
 						<div class="col mx-auto">
 							<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
 								<div class="card m-2 product-card shadow product-card-image" style="width:18rem;">
@@ -52,4 +53,4 @@
 			</div>
 		</div>
 	</div>
-{% endblock %}
+</div>{% endblock %}
