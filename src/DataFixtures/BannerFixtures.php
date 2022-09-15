@@ -13,7 +13,7 @@ class BannerFixtures extends Fixture
     {
         $banner = new Banner();
         $banner->setName("Bannière 1");
-        $banner->setImage("https://loremflickr.com/300/300?random=1");
+        $banner->setImage("banner-test.jpg");
         $banner->setPosition(1);
         $banner->setIsActive(true);
         $banner->setCreatedAt(new DateTime());

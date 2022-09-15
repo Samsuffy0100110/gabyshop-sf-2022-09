@@ -20,7 +20,7 @@
 		<div class="row">
 			<div class="col-lg-12 mt-5 mb-5">
 				<div class="card text-white fw-bold shadow">
-					<img class="img-fluid rounded w-100 banner-image" style="max-height: 400px" src="{{ parentCategory.image }}" alt="{{ parentCategory.name }}">
+					<img class="img-fluid rounded w-100 banner-image" style="max-height: 400px" src="{{ ('/images/parentCategories/' ~ parentCategory.image) }}" alt="{{ parentCategory.name }}">
 					<div class="card-img-overlay d-flex">
 						<h1 class="card-title text-center align-self-center mx-auto">{{ parentCategory.name }}</h1>
 					</div>

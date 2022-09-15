@@ -22,7 +22,7 @@
 		<div class="row">
 			<div class="col-lg-12 mt-5 mb-5">
 				<div class="card text-white fw-bold">
-					<img class="img-fluid shadow rounded-top w-100 banner-image" style="max-height: 400px" src="{{ category.image }}" alt="{{ category.name }}">
+					<img class="img-fluid shadow rounded-top w-100 banner-image" style="max-height: 400px" src="{{ ('/images/categories/' ~ category.image) }}" alt="{{ category.name }}">
 					<div class="card-img-overlay d-flex">
 						<h1 class="card-title text-center align-self-center mx-auto">{{ category.name }}</h1>
 					</div>

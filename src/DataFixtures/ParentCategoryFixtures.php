@@ -16,16 +16,31 @@ class ParentCategoryFixtures extends Fixture
         $this->slug = $slugify;
     }
 
+    public const PARENTCATEGORIES = [
+        0 => [
+            'name' => 'Maison',
+            'image' => 'maison.jpg',
+        ],
+        1 => [
+            'name' => 'Beauté',
+            'image' => 'beaute.jpg',
+        ],
+        2 => [
+            'name' => 'Vêtements',
+            'image' => 'vetement.jpg',
+        ],
+    ];
+
     public function load(ObjectManager $manager): void
     {
 
-        for ($i = 0; $i < 3; $i++) {
+        foreach (self::PARENTCATEGORIES as $key => $value) {
             $parentCategory = new ParentCategory();
-            $parentCategory->setName("ParentCategory $i");
-            $parentCategory->setImage("https://loremflickr.com/300/300?random=$i");
-            $parentCategory->setSlug($this->slug->generate($parentCategory->getName()));
-            $this->addReference("parentCategory_$i", $parentCategory);
+            $parentCategory->setName($value['name']);
+            $parentCategory->setImage($value['image']);
+            $parentCategory->setSlug($this->slug->generate($value['name']));
             $manager->persist($parentCategory);
+            $this->addReference('parentCategory_' . $key, $parentCategory);
         }
 
         $manager->flush();

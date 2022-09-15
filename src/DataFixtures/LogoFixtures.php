@@ -12,7 +12,7 @@ class LogoFixtures extends Fixture
     {
         $logo = new Logo();
         $logo->setName("Logo 1");
-        $logo->setImage("https://loremflickr.com/300/300?random=1");
+        $logo->setImage("logo.png");
         $logo->setPosition(1);
         $manager->persist($logo);
 

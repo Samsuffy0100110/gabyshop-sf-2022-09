@@ -9,6 +9,7 @@ use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ParentCategoryRepository;
 use App\Repository\FeaturedProductsRepository;
+use App\Repository\ShopRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -28,10 +29,12 @@ class FrontController extends AbstractController
         ]);
     }
 
-    public function logo(LogoRepository $logoRepository): Response
+    public function logo(LogoRepository $logoRepository, ShopRepository $shopRepository): Response
     {
+
         return $this->render('includes/logo/index.html.twig', [
-            'logo' => $logoRepository->findAll(),
+            'logos' => $logoRepository->findAll(),
+            'shops' => $shopRepository->findAll(),
         ]);
     }
 
