@@ -45,7 +45,7 @@
 					{% for product in category.products %}
 						<div class="col mx-auto">
 							<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
-								<div class="card m-2 product-card shadow" style="width:18rem;">
+								<div class="card m-2 product-card shadow product-card-image" style="width:18rem;">
 									<img src="{{ product.image0 }}" class="w-100 card-img-top img-fluid" alt="{{ product.name }}">
 								</a>
 								<div class="card-body">

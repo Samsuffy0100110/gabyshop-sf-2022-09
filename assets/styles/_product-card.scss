@@ -7,7 +7,7 @@
 .product-image{
     opacity: 1;
     display: block;
-    transition: .5s ease;
+    transition: 0.9s ease;
     backface-visibility: hidden;
     width: 400px;
     height: 400px;
@@ -76,4 +76,9 @@
 
 .image-cover {
     object-fit: cover;
+}
+
+.product-card-image:hover{
+    transform: scale(1.2);
+    z-index: 1;
 }
