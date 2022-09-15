@@ -4,7 +4,9 @@
 			<div class="col text-center">
 				<h2>A Propos</h2>
 				<p>
-					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui, exercitationem molestiae quod eum quo porro inventore. Ab sint cum velit, aut, explicabo similique quibusdam necessitatibus incidunt rem a molestias quos.
+				{% for shop in shops %}
+						{{ shop.description }}
+				{% endfor %}
 				</p>
 			</div>
 		</div>

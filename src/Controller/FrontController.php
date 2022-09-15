@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\Repository\LogoRepository;
+use App\Repository\ShopRepository;
 use App\Repository\ThemeRepository;
 use App\Repository\BannerRepository;
+use App\Repository\SocialRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ParentCategoryRepository;
 use App\Repository\FeaturedProductsRepository;
-use App\Repository\ShopRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -75,6 +76,35 @@ class FrontController extends AbstractController
     {
         return $this->render('includes/randomProducts/index.html.twig', [
             'starProducts' => $featuredRepository->findAll(),
+        ]);
+    }
+
+    public function footerMap(ShopRepository $shopRepository): Response
+    {
+        return $this->render('includes/footer/_localisation.html.twig', [
+            'shops' => $shopRepository->findAll(),
+        ]);
+    }
+
+    public function footerShop(ShopRepository $shopRepository): Response
+    {
+        return $this->render('includes/footer/_shop.html.twig', [
+            'shops' => $shopRepository->findAll(),
+        ]);
+    }
+
+    public function footerSocial(SocialRepository $socialRepository, ShopRepository $shopRepository): Response
+    {
+        return $this->render('includes/footer/_socials.html.twig', [
+            'socials' => $socialRepository->findAll(),
+            'shops' => $shopRepository->findAll(),
+        ]);
+    }
+
+    public function aboutUs(ShopRepository $shopRepository): Response
+    {
+        return $this->render('includes/aboutus/index.html.twig', [
+            'shops' => $shopRepository->findAll(),
         ]);
     }
 }
