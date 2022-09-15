@@ -39,7 +39,7 @@ class ProductRepository extends ServiceEntityRepository
         }
     }
 
-    public function findLikeName(string $name): string
+    public function findLikeName(string $name): array
     {
         $query = $this->createQueryBuilder('p')
             ->where('p.name LIKE :name')
