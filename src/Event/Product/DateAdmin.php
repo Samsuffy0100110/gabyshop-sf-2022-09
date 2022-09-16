@@ -3,7 +3,7 @@
 namespace App\Event\Product;
 
 use DateTimeImmutable;
-use App\Entity\Product;
+use App\Entity\Product\Product;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 

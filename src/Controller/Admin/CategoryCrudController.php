@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Product\Category;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -43,6 +44,12 @@ class CategoryCrudController extends AbstractCrudController
                 ->setLabel('Image'),
             AssociationField::new('parent', 'Catégorie')
                 ->setLabel('Catégorie'),
+            SlugField::new('slug')
+                ->setTargetFieldName('name')
+                ->setLabel('Slug')
+                ->setHelp('Le slug est le nom qui apparaîtra dans la barre de navigation, 
+                il est généré automatiquement à partir du nom')
+                ->hideOnIndex(),
         ];
     }
 }

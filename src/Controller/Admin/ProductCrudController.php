@@ -5,8 +5,9 @@ namespace App\Controller\Admin;
 use DateTime;
 use App\Entity\Product\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
@@ -93,6 +94,12 @@ class ProductCrudController extends AbstractCrudController
         NumberField::new('weight')
             ->setLabel('Poids')
             ->setHelp('Poids en grammes'),
+        SlugField::new('slug')
+            ->setTargetFieldName('name')
+            ->setLabel('Slug')
+            ->setHelp('Le slug est le nom qui apparaîtra dans la barre de navigation, 
+            il est généré automatiquement à partir du nom')
+            ->hideOnIndex(),
         ];
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Event\NewsLetter;
 
 use DateTimeImmutable;
-use App\Entity\NewsLetter;
+use App\Entity\Communication\NewsLetter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\BeforeEntityPersistedEvent;
 
