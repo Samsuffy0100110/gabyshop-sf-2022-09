@@ -5,6 +5,13 @@
 body{
     margin: 0;
     padding: 0;
+    min-height: max-content;
+}
+
+.main{
+    height: 500px;
+    
+    
 }
 
 .input-field button{
