@@ -2,19 +2,18 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Logo;
-use App\Entity\Shop;
-use App\Entity\Taxe;
-use App\Entity\Offer;
-use App\Entity\Theme;
-use App\Entity\Banner;
-use App\Entity\Social;
-use App\Entity\Product;
-use App\Entity\Category;
-use App\Entity\NewsLetter;
-use App\Entity\ParentCategory;
-use App\Entity\FeaturedProducts;
-use App\Repository\SocialRepository;
+use App\Entity\Front\Logo;
+use App\Entity\Front\Shop;
+use App\Entity\Product\Taxe;
+use App\Entity\Product\Offer;
+use App\Entity\Front\Theme;
+use App\Entity\Front\Banner;
+use App\Entity\Front\Social;
+use App\Entity\Product\Product;
+use App\Entity\Product\Category;
+use App\Entity\Communication\NewsLetter;
+use App\Entity\Product\ParentCategory;
+use App\Entity\Product\FeaturedProducts;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;

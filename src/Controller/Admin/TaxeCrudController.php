@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Taxe;
+use App\Entity\Product\Taxe;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;

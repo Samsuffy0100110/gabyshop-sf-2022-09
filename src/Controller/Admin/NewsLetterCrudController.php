@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\NewsLetter;
+use App\Entity\Communication\NewsLetter;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;

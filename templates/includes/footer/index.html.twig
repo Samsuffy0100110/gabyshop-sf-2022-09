@@ -2,13 +2,13 @@
 	<div class="container-fluid" style="background-color: {{ theme.footerColor }};">
 		<div class="container">
 			<div class="row text-light text-center p-3">
-			{{ render(controller('App\\Controller\\FrontController::footerMap')) }}
-            {{ render(controller('App\\Controller\\FrontController::footerShop')) }}
+			{{ render(controller('App\\Controller\\Front\\FooterController::footerMap')) }}
+            {{ render(controller('App\\Controller\\Front\\FooterController::footerShop')) }}
             {{ include("includes/footer/_customer_care.html.twig") }}
             {{ include("includes/footer/_payement_methods.html.twig") }}
             </div>
 			<div class="row">
-			{{ render(controller('App\\Controller\\FrontController::footerSocial')) }}
+			{{ render(controller('App\\Controller\\Front\\FooterController::footerSocial')) }}
 			</div>
 		</div>
 	</div>

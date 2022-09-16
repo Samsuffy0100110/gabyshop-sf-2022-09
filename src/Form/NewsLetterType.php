@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\NewsLetterUser;
+use App\Entity\Communication\NewsLetterUser;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
