@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use DateTime;
-use App\Entity\Banner;
+use App\Entity\Front\Banner;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;

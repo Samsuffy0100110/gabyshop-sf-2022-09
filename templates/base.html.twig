@@ -25,12 +25,12 @@
 				</div>
 			{% endfor %}
 		{% endfor %}
-		{% include "includes/navsecurity/index.html.twig" %}
-		{{ render(controller('App\\Controller\\FrontController::logo')) }}
-		{{ render(controller('App\\Controller\\FrontController::navbar')) }}
+			{% include "includes/navsecurity/index.html.twig" %}
+			{{ render(controller('App\\Controller\\Front\\FrontController::logo')) }}
+			{{ render(controller('App\\Controller\\Front\\FrontController::navbar')) }}
 		{% block body %}{% endblock %}
 		{% block footer %}
-		{{ render(controller('App\\Controller\\FrontController::footerColor')) }}
+			{{ render(controller('App\\Controller\\Front\\FooterController::footerColor')) }}
 		{% endblock %}
 	</body>
 </html>

@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use DateTime;
-use App\Entity\Product;
+use App\Entity\Product\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
