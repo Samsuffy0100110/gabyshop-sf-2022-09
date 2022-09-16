@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Product\ParentCategory;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -36,6 +37,13 @@ class ParentCategoryCrudController extends AbstractCrudController
                 ->setUploadedFileNamePattern('[name].[extension]')
                 ->setLabel('Image')
                 ->setHelp('L\'image doit être au format jpg, jpeg, png ou gif et doit faire moins de 2Mo'),
+            SlugField::new('slug')
+                ->setTargetFieldName('name')
+                ->setLabel('Slug')
+                ->setHelp('Le slug est le nom qui apparaîtra dans la barre de navigation, 
+                il est généré automatiquement à partir du nom')
+                ->hideOnIndex()
+                ->setCssClass('display-slug'),
         ];
     }
 }
