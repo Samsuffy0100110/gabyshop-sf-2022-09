@@ -1,8 +1,10 @@
 .product-card{
     position: relative;
-    margin-bottom: 3rem;
-    margin-top: 3rem;
     transition: 0.9s ease;
+}
+
+.card{
+    height:100%;
 }
 
 .product-image{
