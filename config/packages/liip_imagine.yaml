@@ -21,13 +21,38 @@ liip_imagine:
 
                     # set the starting coordinates of the crop
                     start: [ 0, 0 ]
-        home:
+        latest_products:
+            filters:
+                fixed:
+                    width: 400
+                    height: 400
+        carousel_products:
+            filters:
+                fixed:
+                    width: 400
+                    height: 400
+        random_products_maxi:
+            filters:
+                fixed:
+                    width: 600
+                    height: 600
+        random_products_mini:
+            filters:
+                fixed:
+                    width: 200
+                    height: 200
+        category_products:
             filters:
                 fixed:
                     width: 300
                     height: 300
-        home_sm:
+        categories:
             filters:
                 fixed:
-                    width: 336
-                    height: 249
+                    width: 400
+                    height: 400
+        same_products:
+            filters:
+                fixed:
+                    width: 400
+                    height: 400

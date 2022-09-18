@@ -8,11 +8,13 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
-			<i><small>
-				<a href="{{ path('home')}}">Home</a>
-				/Categorie/
-				<a href="{{ path('category_index', { parentCategory: parentCategory.slug })}}">{{ parentCategory.name }}</a>
-			</small></i>
+				<i>
+					<small>
+						<a href="{{ path('home')}}">Home</a>
+						/Categorie/
+						<a href="{{ path('category_index', { parentCategory: parentCategory.slug })}}">{{ parentCategory.name }}</a>
+					</small>
+				</i>
 			</div>
 		</div>
 		<div class="row">
@@ -26,20 +28,20 @@
 			</div>
 		</div>
 		<div class="row mb-5">
-						{% for category in parentCategory.categories %}
-							<div class="col-lg-6 d-flex justify-content-center mt-5">
-								<div class="card product-card shadow" style="width: 400px;">
-									<div class="grayscale">
-										<figure><img class="card-img-top image-cover" style="height:400px;" src="{{ category.image }}" alt="{{ category.name }}"></figure>
-									</div>
-									<div class="card-body">
-										<h5 class="card-title">{{ category.name }}</h5>
-										<p class="card-text">{{ category.description }}</p>
-										<a href="{{ path('product_index', { parentCategory: parentCategory.slug, category: category.slug })}}" class="btn btn-outline-success">Voir les produits</a>
-									</div>
-								</div>
-							</div>
-						{% endfor %}
+			{% for category in parentCategory.categories %}
+				<div class="col-lg-4 d-flex justify-content-center mt-5">
+					<div class="card product-card shadow" style="width: 400px;">
+						<div class="grayscale">
+							<figure><img class="card-img-top image-cover" style="height:400px;" src="{{ ('/images/categories/' ~ category.image)|imagine_filter('categories') }}" alt="{{ category.name }}"></figure>
+						</div>
+						<div class="card-body">
+							<h5 class="card-title">{{ category.name }}</h5>
+							<p class="card-text">{{ category.description }}</p>
+							<a href="{{ path('product_index', { parentCategory: parentCategory.slug, category: category.slug })}}" class="btn btn-outline-success">Voir les produits</a>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
 		</div>
 	</div>
 {% endblock %}

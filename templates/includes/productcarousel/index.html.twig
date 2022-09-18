@@ -10,7 +10,7 @@
 						<div class="col-lg">
 							<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
 								<div class="card product-card shadow">
-									<img src="{{ ('/images/products/' ~ product.image0) }}" class="card-img-top product-carousel" alt="{{ product.name }}">
+									<img src="{{ ('/images/products/' ~ product.image0)|imagine_filter('carousel_products') }}" class="card-img-top product-carousel" alt="{{ product.name }}">
 									<div class="middle">
 										<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
 									</div>
