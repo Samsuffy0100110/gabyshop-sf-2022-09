@@ -15,6 +15,7 @@ class NewsLetterType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'Votre adresse email'
                 ]
@@ -22,7 +23,7 @@ class NewsLetterType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire',
                 'attr' => [
-                    'class' => 'btn btn-primary'
+                    'class' => 'btn btn-success'
                 ]
             ])
         ;

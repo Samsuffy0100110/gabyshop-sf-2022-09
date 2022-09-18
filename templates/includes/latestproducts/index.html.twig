@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-<h2 class="mt-5 text-center">Les derniers Produits</h2>
+<h2 class="mt-5 mb-5 text-center">Les derniers Produits</h2>
 {% for product in products %}
 			<div class="col-lg-4 d-flex justify-content-center">
 				<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
