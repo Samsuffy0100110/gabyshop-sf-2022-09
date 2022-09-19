@@ -2,9 +2,8 @@
     <h4>Service Client</h4>
     <div class="d-flex flex-column mt-3">
         <a class="text-center nav-link" href="{{ path('contact_index') }}">Formulaire de contact</a>
-        <a class="text-center nav-link" href="#">FAQ</a>
-        <a class="text-center nav-link" href="#">Mentions Légales</a>
-        <a class="text-center nav-link" href="#">Crédits</a>
-        <a class="text-center nav-link" href="#">Politique de retour</a>
+        {% for page in pages %}
+        <a class="text-center nav-link" href="{{ path('pages', {'slug': page.slug}) }}">{{ page.name }}</a>
+        {% endfor %}
     </div>
 </div>
