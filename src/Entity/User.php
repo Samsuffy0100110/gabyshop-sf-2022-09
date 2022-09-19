@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Product\Rate;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
@@ -115,7 +116,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(
-        min: 10,
+        min: 3,
         max: 255,
         minMessage: 'Le pays doit faire au moins {{ limit }} caractères',
         maxMessage: 'Le pays doit faire au maximum {{ limit }} caractères',
@@ -134,7 +135,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: 'Le numéro de téléphone doit faire au maximum {{ limit }} caractères',
     )]
     #[Assert\Regex(
-        pattern: '/^[0-9]{10}$/',
+        pattern: '/^(\+33 |0)[1-9]( \d\d){4}$/',
         message: 'Le numéro de téléphone n\'est pas valide',
     )]
     private ?string $phone = null;
@@ -150,7 +151,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: 'Le numéro de SIRET doit faire au maximum {{ limit }} caractères',
     )]
     #[Assert\Regex(
-        pattern: '/^[0-9]{14}$/',
+        pattern: '/^[0-9]([-. ]{14}$/',
         message: 'Le numéro de SIRET n\'est pas valide',
     )]
     private ?string $idpro = null;
@@ -176,6 +177,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $isVerified = false;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $birthday = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $gender = null;
 
     public function __construct()
     {
@@ -441,6 +448,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getBirthday(): ?\DateTimeInterface
+    {
+        return $this->birthday;
+    }
+
+    public function setBirthday(?\DateTimeInterface $birthday): self
+    {
+        $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }

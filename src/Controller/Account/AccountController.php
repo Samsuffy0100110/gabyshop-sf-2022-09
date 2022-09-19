@@ -2,9 +2,12 @@
 
 namespace App\Controller\Account;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\UserRepository;
+use App\Form\ProfileType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/account/', name: 'account_')]
 class AccountController extends AbstractController
@@ -18,10 +21,20 @@ class AccountController extends AbstractController
     }
 
     #[Route('profile', name: 'profile')]
-    public function profile(): Response
+    public function profile(Request $request, UserRepository $userRepository): Response
     {
+        $user = $this->getUser();
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->add($user, true);
+            $this->addFlash('success', 'Votre profil a bien été mis à jour.');
+            return $this->redirectToRoute('account_profile', [], Response::HTTP_SEE_OTHER);
+        }
         return $this->render('account/profile.html.twig', [
-            'controller_name' => 'AccountController',
+            'user' => $userRepository->findOneBy(['id' => $this->getUser()]),
+            'form' => $form->createView(),
         ]);
     }
 
