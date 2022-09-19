@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Mes commandes
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<i>
+					<small>
+						<a href="{{ path('home')}}">Home</a>
+						/
+						<a href="{{ path('account_dashboard')}}">Dashboard</a>
+						/Mes commandes
+					</small>
+				</i>
+			</div>
+		</div>
+		<div class="row mt-5 mb-5">
+			<div class="col-lg-3">
+				{{ include('account/_dashboardLinks.html.twig') }}
+			</div>
+			<div class="col-lg-9 mt-3">
+				<h1>Mes commandes</h1>
+			</div>
+		</div>
+	</div>
+{% endblock %}
