@@ -11,11 +11,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class TwigEventSubscriber implements EventSubscriberInterface
 {
-    private $twig;
+    private Environment $twig;
 
-    private $themeRepository;
+    private ThemeRepository $themeRepository;
 
-    private $shopRepository;
+    private ShopRepository $shopRepository;
 
     public function __construct(Environment $twig, ThemeRepository $themeRepository, ShopRepository $shopRepository)
     {
@@ -24,7 +24,7 @@ class TwigEventSubscriber implements EventSubscriberInterface
         $this->shopRepository = $shopRepository;
     }
 
-    public function onControllerEvent(ControllerEvent $event)
+    public function onControllerEvent(ControllerEvent $event): void
     {
         $this->twig->addGlobal('theme', $this->themeRepository->findOneBy(['isActive' => true]));
         $this->twig->addGlobal('shops', $this->shopRepository->findAll());
