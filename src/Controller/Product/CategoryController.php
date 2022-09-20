@@ -25,7 +25,8 @@ class CategoryController extends AbstractController
     #[Route(
         '/{parentCategory}/{category}',
         name: 'product_index',
-        methods: ['GET', 'POST']
+        methods: ['GET', 'POST'],
+        priority: -1,
     )]
     #[ParamConverter('category', options: ['mapping' => ['category' => 'slug']])]
     #[ParamConverter('parentCategory', options: ['mapping' => ['parentCategory' => 'slug']])]
