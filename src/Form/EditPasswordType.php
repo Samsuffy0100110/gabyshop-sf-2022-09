@@ -62,7 +62,7 @@ class EditPasswordType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Modifier mon mot de passe',
                 'attr' => [
-                    'class' => 'btn btn-primary'
+                    'class' => 'btn btn-success'
                 ]
             ])
         ;
