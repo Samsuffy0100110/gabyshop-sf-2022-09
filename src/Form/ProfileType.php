@@ -55,12 +55,6 @@ class ProfileType extends AbstractType
                     'placeholder' => 'Votre email'
                 ]
             ])
-            ->add('phone', TelType::class, [
-                'label' => 'Téléphone',
-                'attr' => [
-                    'placeholder' => 'Votre numéro de téléphone'
-                ]
-            ])
             ->add('companyname', TextType::class, [
                 'label' => 'Société',
                 'attr' => [
@@ -85,7 +79,7 @@ class ProfileType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Mettre à jour mon profil',
                 'attr' => [
-                    'class' => 'btn btn-primary'
+                    'class' => 'btn btn-success'
                 ]
             ])
         ;
