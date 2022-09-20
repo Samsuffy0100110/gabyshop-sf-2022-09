@@ -3,6 +3,7 @@
 namespace App\Controller\Account;
 
 use App\Form\ProfileType;
+use App\Form\UserAdressType;
 use App\Form\EditPasswordType;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +15,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AccountController extends AbstractController
 {
     #[Route('dashboard', name: 'dashboard')]
-    public function dashboard(): Response
+    public function dashboard(Request $request, UserRepository $userRepository): Response
     {
         return $this->render('account/index.html.twig', [
-            'controller_name' => 'AccountController',
+            'user' => $userRepository->findOneBy(['id' => $this->getUser()]),
         ]);
     }
 
@@ -49,7 +50,7 @@ class AccountController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userRepository->add($user, true);
             $this->addFlash('success', 'Votre profil a bien été mis à jour.');
-            return $this->redirectToRoute('account_profile', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('account_change_password', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('account/change-password.html.twig', [
             'user' => $userRepository->findOneBy(['id' => $this->getUser()]),
@@ -58,10 +59,20 @@ class AccountController extends AbstractController
     }
 
     #[Route('addresses', name: 'addresses')]
-    public function addresses(): Response
+    public function addresses(Request $request, UserRepository $userRepository): Response
     {
+        $user = $this->getUser();
+        $form = $this->createForm(UserAdressType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->add($user, true);
+            $this->addFlash('success', 'Votre profil a bien été mis à jour.');
+            return $this->redirectToRoute('account_addresses', [], Response::HTTP_SEE_OTHER);
+        }
         return $this->render('account/addresses.html.twig', [
-            'controller_name' => 'AccountController',
+            'user' => $userRepository->findOneBy(['id' => $this->getUser()]),
+            'form' => $form->createView(),
         ]);
     }
 
