@@ -2,8 +2,9 @@
 
 namespace App\Controller\Account;
 
-use App\Repository\UserRepository;
 use App\Form\ProfileType;
+use App\Form\EditPasswordType;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,10 +40,20 @@ class AccountController extends AbstractController
     }
 
     #[Route('change-password', name: 'change-password')]
-    public function changePassword(): Response
+    public function changePassword(Request $request, UserRepository $userRepository): Response
     {
+        $user = $this->getUser();
+        $form = $this->createForm(EditPasswordType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userRepository->add($user, true);
+            $this->addFlash('success', 'Votre profil a bien été mis à jour.');
+            return $this->redirectToRoute('account_profile', [], Response::HTTP_SEE_OTHER);
+        }
         return $this->render('account/change-password.html.twig', [
-            'controller_name' => 'AccountController',
+            'user' => $userRepository->findOneBy(['id' => $this->getUser()]),
+            'form' => $form->createView(),
         ]);
     }
 

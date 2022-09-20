@@ -144,12 +144,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $isPro = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(
-        min: 2,
-        max: 255,
-        minMessage: 'Le numéro de SIRET doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le numéro de SIRET doit faire au maximum {{ limit }} caractères',
-    )]
     #[Assert\Regex(
         pattern: '/^[0-9]([-. ]{14}$/',
         message: 'Le numéro de SIRET n\'est pas valide',
@@ -157,12 +151,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $idpro = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(
-        min: 2,
-        max: 255,
-        minMessage: 'Le nom de la société doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le nom de la société doit faire au maximum {{ limit }} caractères',
-    )]
     #[Assert\Regex(
         pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
         message: 'Le nom de la société n\'est pas valide',
