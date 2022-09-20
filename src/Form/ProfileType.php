@@ -61,6 +61,20 @@ class ProfileType extends AbstractType
                     'placeholder' => 'Votre numéro de téléphone'
                 ]
             ])
+            ->add('companyname', TextType::class, [
+                'label' => 'Société',
+                'attr' => [
+                    'placeholder' => 'Votre société'
+                ],
+                'required' => false
+            ])
+            ->add('idPro', TextType::class, [
+                'label' => 'Siret',
+                'attr' => [
+                    'placeholder' => 'Votre siret'
+                ],
+                'required' => false
+            ])
             ->add('isNewsletterOk', CheckboxType::class, [
                 'label' => 'Je souhaite recevoir la newsletter',
                 'required' => false,
