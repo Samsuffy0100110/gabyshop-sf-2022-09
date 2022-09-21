@@ -37,9 +37,9 @@
 				{{ form_end(form) }}
 				<div class="row mb-5">
 					{% for product in products %}
-						<div class="col mx-auto mb-2">
+						<div class="col mx-auto mb-2 d-flex justify-content-center mt-5">
 							<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
-								<div class="card m-2 product-card shadow product-card-image" style="width:18rem;">
+								<div class="card m-2 product-card h-100 shadow product-card-image" style="width:18rem;">
 									<img src="{{ ('/images/products/' ~ product.image0)|imagine_filter('category_products') }}" class="w-100 card-img-top img-fluid" alt="{{ product.name }}">
 								</a>
 								<div class="card-body">
