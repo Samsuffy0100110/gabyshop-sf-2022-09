@@ -20,8 +20,8 @@ class Banner
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $position = null;
+    #[ORM\Column(length:255, nullable: true)]
+    private ?string $position = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $isActive = null;
@@ -64,12 +64,12 @@ class Banner
         return $this;
     }
 
-    public function getPosition(): ?int
+    public function getPosition(): ?string
     {
         return $this->position;
     }
 
-    public function setPosition(?int $position): self
+    public function setPosition(?string $position): self
     {
         $this->position = $position;
 

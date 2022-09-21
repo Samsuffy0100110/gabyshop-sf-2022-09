@@ -4,15 +4,30 @@
 			<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
 				<div class="carousel-inner">
 					{% for banner in banners %}
-						<div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}" data-bs-interval="5000">
-							<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
-							<div class="carousel-caption d-md-block">
-								<h1 class="card-title text-end align-self-center mx-auto">{{ banner.name }}</h1>
-							</div>
-						</div>
+						{% if date(banner.startedAT) < date() and date(banner.endedAT) > date() %}
+							{% if banner.position == 1 %}
+								<div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}" data-bs-interval="5000">
+									<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+									<div class="carousel-caption d-md-block">
+										<h1 class="card-title text-end align-self-center mx-auto">{{ banner.name }}</h1>
+									</div>
+								</div>
+							{% endif %}
+						{% endif %}
 					{% endfor %}
 				</div>
 			</div>
+		</div>
+		<div class="col">
+			{% for banner in banners %}
+				{% if date(banner.startedAT) < date() and date(banner.endedAT) > date() %}
+					{% if banner.position == 2 %}
+						<div class="mb-3">
+							<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+						</div>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
 		</div>
 	</div>
 </div>

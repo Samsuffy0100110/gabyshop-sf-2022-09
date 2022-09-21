@@ -7,8 +7,8 @@ use App\Entity\Front\Banner;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -38,7 +38,13 @@ class BannerCrudController extends AbstractCrudController
                 ->setUploadedFileNamePattern('[name].[extension]')
                 ->setLabel('Banniére')
                 ->setHelp('La banniére doit être au format jpg, jpeg, png ou gif et doit faire moins de 2Mo'),
-            IntegerField::new('position')
+            ChoiceField::new('position')
+                ->setLabel('Position')
+                ->setHelp('La position de la banniére sur la page, banniére du haut = carousel et banniére du bas = banniére fixe')
+                ->setChoices([
+                    'Banniére Carousel' => '1',
+                    'Banniére Fixe' => '2',
+                ])
                 ->setLabel('Position'),
             DateTimeField::new('createdAt')
                 ->setFormTypeOptions([

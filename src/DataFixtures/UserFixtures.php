@@ -32,6 +32,7 @@ class UserFixtures extends Fixture
         $user->setIsPro(true);
         $user->setIdpro("123456789");
         $user->setCompanyname("GABYshop");
+        $user->setGoogleId("123456789");
         $user->setIsNewsletterOk(true);
         $user->setPassword($hashPassword);
         $manager->persist($user);
@@ -50,6 +51,7 @@ class UserFixtures extends Fixture
         $user->setIsPro(false);
         $user->setIdpro("");
         $user->setCompanyname("");
+        $user->setGoogleId("123456789");
         $user->setIsNewsletterOk(true);
         $user->setPassword($hashPassword);
         $manager->persist($user);
