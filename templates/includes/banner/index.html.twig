@@ -1,11 +1,14 @@
 <div class="container">
 	<div class="row">
-		<div class="col-12 mb-3">
+		<div class="col-lg-12 mb-3">
 			<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
 				<div class="carousel-inner">
 					{% for banner in banners %}
 						<div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}" data-bs-interval="5000">
 							<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+							<div class="carousel-caption d-md-block">
+								<h1 class="card-title text-end align-self-center mx-auto">{{ banner.name }}</h1>
+							</div>
 						</div>
 					{% endfor %}
 				</div>

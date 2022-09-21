@@ -24,7 +24,6 @@ class EditPasswordType extends AbstractType
             [
             'type' => PasswordType::class,
             'first_options' => [
-                'attr' => ['autocomplete' => 'Nouveau mot de passe'],
                 'constraints' => [
                     new NotBlank(
                         [
@@ -47,10 +46,10 @@ class EditPasswordType extends AbstractType
                         ]
                     ),
                 ],
-                'label' => 'Nouveau mot de passe',
+                'label' => 'Mot de passe',
             ],
             'second_options' => [
-                'attr' => ['autocomplete' => 'Nouveau mot de passe'],
+                'attr' => ['autocomplete' => 'Mot de passe'],
                 'label' => 'Répéter le mot de passe',
             ],
             'invalid_message' => 'Les mots de passe ne correspondent pas',

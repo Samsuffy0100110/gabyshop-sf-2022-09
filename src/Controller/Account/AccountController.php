@@ -6,10 +6,12 @@ use App\Form\ProfileType;
 use App\Form\UserAdressType;
 use App\Form\EditPasswordType;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[Route('/account/', name: 'account_')]
 class AccountController extends AbstractController
@@ -41,16 +43,28 @@ class AccountController extends AbstractController
     }
 
     #[Route('change-password', name: 'change-password')]
-    public function changePassword(Request $request, UserRepository $userRepository): Response
-    {
+    public function changePassword(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserRepository $userRepository
+    ): Response {
         $user = $this->getUser();
         $form = $this->createForm(EditPasswordType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->add($user, true);
-            $this->addFlash('success', 'Votre profil a bien été mis à jour.');
-            return $this->redirectToRoute('account_change_password', [], Response::HTTP_SEE_OTHER);
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Votre mot de passe à bien été pris en compte.');
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('account/change-password.html.twig', [
             'user' => $userRepository->findOneBy(['id' => $this->getUser()]),

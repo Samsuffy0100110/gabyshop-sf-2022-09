@@ -23,7 +23,8 @@ class ProductController extends AbstractController
     #[Route(
         '/{parentCategory}/{category}/{product}',
         name: 'product_show',
-        methods: ['GET']
+        methods: ['GET'],
+        priority: -3
     )]
     #[ParamConverter('product', options: ['mapping' => ['product' => 'slug']])]
     #[ParamConverter('category', options: ['mapping' => ['category' => 'slug']])]
