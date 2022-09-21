@@ -3,7 +3,6 @@
 namespace App\Controller\Communication;
 
 use App\Form\ContactType;
-use App\Repository\Front\ThemeRepository;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
