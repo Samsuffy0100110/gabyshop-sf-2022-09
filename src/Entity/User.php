@@ -160,6 +160,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isNewsletterOk = null;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $googleId;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $avatar;
+
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rate::class)]
     private Collection $rates;
 
@@ -460,6 +466,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGender(?string $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of googleId
+     */
+    public function getGoogleId(): ?string
+    {
+        return $this->googleId;
+    }
+
+    /**
+     * Set the value of googleId
+     *
+     * @return  self
+     */
+    public function setGoogleId(?string $googleId)
+    {
+        $this->googleId = $googleId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of avatar
+     */
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * Set the value of avatar
+     *
+     * @return  self
+     */
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }

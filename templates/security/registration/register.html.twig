@@ -1,27 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Inscription
+{% endblock %}
 
 {% block body %}
 	{% for flash_error in app.flashes('verify_email_error') %}
 		<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 	{% endfor %}
-
-	
 	<div class="container">
-	<h1 class="text-center m-3">Inscription</h1>
-	<div class="card bg-light p-3 mb-5">
-		{{ form_start(registrationForm) }}
-		{{ form_row(registrationForm.firstName)}}
-		{{ form_row(registrationForm.lastName)}}
-		{{ form_row(registrationForm.email) }}
-		{{ form_row(registrationForm.plainPassword) }}
-		<div class="form-check form-switch">
-			{{ form_row(registrationForm.isNewsletterOk) }}
-			{{ form_row(registrationForm.isPro) }}
+		<h1 class="text-center mt-5 mb-5">Inscription</h1>
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="card bg-light p-3 mb-5">
+					{{ form_start(registrationForm) }}
+					{{ form_row(registrationForm.firstName)}}
+					{{ form_row(registrationForm.lastName)}}
+					{{ form_row(registrationForm.email) }}
+					{{ form_row(registrationForm.plainPassword) }}
+					<div class="form-check form-switch">
+						{{ form_row(registrationForm.isNewsletterOk) }}
+						{{ form_row(registrationForm.isPro) }}
+					</div>
+					{{ form_row(registrationForm.submit)}}
+					{{ form_end(registrationForm) }}
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card bg-light p-5">
+					<h5 class="text-center mb-5">Enregistrez vous avec vos identifiants Google</h5>
+					<a href="{{ path('connect_google') }}" class="btn btn-outline-success btn-lg btn-block">Google</a>
+				</div>
+			</div>
 		</div>
-		{{ form_row(registrationForm.submit)}}
-		{{ form_end(registrationForm) }}
-	</div>
 	</div>
 {% endblock %}
