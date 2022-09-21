@@ -63,8 +63,8 @@ class AccountController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
-            $this->addFlash('success', 'Votre mot de passe à bien été modifié.');
-            return $this->redirectToRoute('account_change-password', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Votre mot de passe à bien été pris en compte.');
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
         return $this->render('account/change-password.html.twig', [
             'user' => $userRepository->findOneBy(['id' => $this->getUser()]),

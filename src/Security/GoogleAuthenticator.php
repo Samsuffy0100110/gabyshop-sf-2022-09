@@ -75,7 +75,7 @@ class GoogleAuthenticator extends OAuth2Authenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
 
-        return new RedirectResponse($this->router->generate('home'));
+        return new RedirectResponse($this->router->generate('account_change-password'));
 // or, on success, let the request continue to be handled by the controller
         //return null;
     }

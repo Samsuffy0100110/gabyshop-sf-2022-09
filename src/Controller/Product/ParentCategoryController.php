@@ -22,7 +22,7 @@ class ParentCategoryController extends AbstractController
         '/{parentCategory}',
         name: 'category_index',
         methods: ['GET'],
-        priority: -1
+        priority: -2
     )]
     #[ParamConverter('parentCategory', options: ['mapping' => ['parentCategory' => 'slug']])]
     public function showProductsByCategoriesAndParentCategories(ParentCategory $parentCategory): Response
