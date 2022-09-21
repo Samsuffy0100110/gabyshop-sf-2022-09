@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Communication\NewsLetterUser;
 use Symfony\Component\Form\AbstractType;
+use App\Entity\Communication\NewsLetterUser;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

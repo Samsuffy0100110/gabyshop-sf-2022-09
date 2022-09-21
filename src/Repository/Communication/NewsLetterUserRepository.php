@@ -2,8 +2,8 @@
 
 namespace App\Repository\Communication;
 
-use App\Entity\Communication\NewsLetterUser;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Communication\NewsLetterUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**

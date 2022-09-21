@@ -25,14 +25,18 @@ class AccountController extends AbstractController
     }
 
     #[Route('profile', name: 'profile')]
-    public function profile(Request $request, UserRepository $userRepository): Response
-    {
+    public function profile(
+        Request $request,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
         $user = $this->getUser();
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->add($user, true);
+            $entityManager->persist($user);
+            $entityManager->flush();
             $this->addFlash('success', 'Votre profil a bien été mis à jour.');
             return $this->redirectToRoute('account_profile', [], Response::HTTP_SEE_OTHER);
         }
@@ -60,7 +64,6 @@ class AccountController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Votre mot de passe à bien été pris en compte.');
@@ -73,14 +76,18 @@ class AccountController extends AbstractController
     }
 
     #[Route('addresses', name: 'addresses')]
-    public function addresses(Request $request, UserRepository $userRepository): Response
-    {
+    public function addresses(
+        Request $request,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
         $user = $this->getUser();
         $form = $this->createForm(UserAdressType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->add($user, true);
+            $entityManager->persist($user);
+            $entityManager->flush();
             $this->addFlash('success', 'Votre profil a bien été mis à jour.');
             return $this->redirectToRoute('account_addresses', [], Response::HTTP_SEE_OTHER);
         }

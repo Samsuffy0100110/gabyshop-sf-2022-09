@@ -2,9 +2,9 @@
 
 namespace App\Entity\Front;
 
-use App\Repository\Front\PagesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\Front\PagesRepository;
 
 #[ORM\Entity(repositoryClass: PagesRepository::class)]
 class Pages
