@@ -17,7 +17,7 @@ class FrontController extends AbstractController
     public function banner(BannerRepository $bannerRepository): Response
     {
         return $this->render('includes/banner/index.html.twig', [
-            'banner' => $bannerRepository->findOneBy(['isActive' => true]),
+            'banners' => $bannerRepository->findBy(['isActive' => true]),
         ]);
     }
 
