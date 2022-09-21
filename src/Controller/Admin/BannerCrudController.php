@@ -40,7 +40,8 @@ class BannerCrudController extends AbstractCrudController
                 ->setHelp('La banniére doit être au format jpg, jpeg, png ou gif et doit faire moins de 2Mo'),
             ChoiceField::new('position')
                 ->setLabel('Position')
-                ->setHelp('La position de la banniére sur la page, banniére du haut = carousel et banniére du bas = banniére fixe')
+                ->setHelp('La position de la banniére sur la page, 
+                banniére du haut = carousel et banniére du bas = banniére fixe')
                 ->setChoices([
                     'Banniére Carousel' => '1',
                     'Banniére Fixe' => '2',
