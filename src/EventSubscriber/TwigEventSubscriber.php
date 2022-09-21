@@ -18,7 +18,7 @@ class TwigEventSubscriber implements EventSubscriberInterface
 
     private ShopRepository $shopRepository;
 
-    private $pagesRepository;
+    private PagesRepository $pagesRepository;
 
     public function __construct(
         Environment $twig,

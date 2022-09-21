@@ -2,7 +2,7 @@
 	<div class="row">
 <h2 class="mt-5 mb-5 text-center">Les derniers Produits</h2>
 {% for product in products %}
-			<div class="col-lg-4 d-flex justify-content-center">
+			<div class="col-lg-4 mb-2 d-flex justify-content-center">
 				<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
 					<div class="card product-card shadow h-100">
 						<img src="{{ ('/images/products/' ~ product.image0)|imagine_filter('latest_products') }}" class="w-100 card-img-top product-image" alt="{{ product.name }}">

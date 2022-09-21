@@ -17,12 +17,7 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
-	<body style="background-color: {{ theme.backgroundColor }};" {{ stimulus_controller({
-		swup: {},
-		'symfony/ux-swup/swup': {
-			containers: ['#swup'],
-		}
-	}) }}>
+	<body style="background-color: {{ theme.backgroundColor }};">
 		{% for label, messages in app.flashes %}
 			{% for message in messages %}
 				<div class="alert alert-{{ label }} alert-dismissible fade show mb-4" role="alert">
