@@ -29,7 +29,7 @@
 		{% include "includes/navsecurity/index.html.twig" %}
 		{{ render(controller('App\\Controller\\Front\\FrontController::logo')) }}
 		{{ render(controller('App\\Controller\\Front\\FrontController::navbar')) }}
-		<div id="swup">{% block body %}{% endblock %}</div>	
+		{% block body %}{% endblock %}
 		{% block footer %}
 			{% include "includes/footer/index.html.twig" %}
 		{% endblock %}
