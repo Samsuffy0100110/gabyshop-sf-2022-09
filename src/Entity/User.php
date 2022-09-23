@@ -23,17 +23,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 5,
-        max: 180,
-        minMessage: 'L\'adresse email doit faire au moins {{ limit }} caractères',
-        maxMessage: 'L\'adresse email doit faire au maximum {{ limit }} caractères',
-    )]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]{2,}\.[a-z]{2,4}$/',
-        message: 'L\'adresse email n\'est pas valide',
-    )]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -48,113 +37,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 2,
-        max: 255,
-        minMessage: 'Le nom doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le nom doit faire au maximum {{ limit }} caractères',
-    )]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
-        message: 'Le nom n\'est pas valide',
-    )]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 2,
-        max: 255,
-        minMessage: 'Le prénom doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le prénom doit faire au maximum {{ limit }} caractères',
-    )]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
-        message: 'Le prénom n\'est pas valide',
-    )]
     private ?string $lastname = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(
-        min: 2,
-        max: 255,
-        minMessage: 'L\'adresse doit faire au moins {{ limit }} caractères',
-        maxMessage: 'L\'adresse doit faire au maximum {{ limit }} caractères',
-    )]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-Z0-9À-ÿ\' -]+$/',
-        message: 'L\'adresse n\'est pas valide',
-    )]
-    private ?string $adress = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(
-        min: 5,
-        max: 255,
-        minMessage: 'Le nom de la ville doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le nom de la ville doit faire au maximum {{ limit }} caractères',
-    )]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
-        message: 'Le nom de la ville n\'est pas valide',
-    )]
-    private ?string $city = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(
-        min: 5,
-        max: 255,
-        minMessage: 'Le code postal doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le code postal doit faire au maximum {{ limit }} caractères',
-    )]
-    #[Assert\Regex(
-        pattern: '/^[0-9]{5}$/',
-        message: 'Le code postal n\'est pas valide',
-    )]
-    private ?string $zipcode = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(
-        min: 3,
-        max: 255,
-        minMessage: 'Le pays doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le pays doit faire au maximum {{ limit }} caractères',
-    )]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
-        message: 'Le pays n\'est pas valide',
-    )]
-    private ?string $country = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Length(
-        min: 10,
-        max: 255,
-        minMessage: 'Le numéro de téléphone doit faire au moins {{ limit }} caractères',
-        maxMessage: 'Le numéro de téléphone doit faire au maximum {{ limit }} caractères',
-    )]
-    #[Assert\Regex(
-        pattern: '/^(\+33 |0)[1-9]( \d\d){4}$/',
-        message: 'Le numéro de téléphone n\'est pas valide',
-    )]
-    private ?string $phone = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $isPro = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Regex(
-        pattern: '/^[0-9]([-. ]{14}$/',
-        message: 'Le numéro de SIRET n\'est pas valide',
-    )]
     private ?string $idpro = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Regex(
-        pattern: '/^[a-zA-ZÀ-ÿ\' -]+$/',
-        message: 'Le nom de la société n\'est pas valide',
-    )]
     private ?string $companyname = null;
 
     #[ORM\Column(nullable: true)]
@@ -178,9 +72,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $gender = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Address::class)]
+    private Collection $addresses;
+
     public function __construct()
     {
         $this->rates = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,66 +190,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getAdress(): ?string
-    {
-        return $this->adress;
-    }
-
-    public function setAdress(?string $adress): self
-    {
-        $this->adress = $adress;
-
-        return $this;
-    }
-
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(?string $city): self
-    {
-        $this->city = $city;
-
-        return $this;
-    }
-
-    public function getZipcode(): ?string
-    {
-        return $this->zipcode;
-    }
-
-    public function setZipcode(?string $zipcode): self
-    {
-        $this->zipcode = $zipcode;
-
-        return $this;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(?string $country): self
-    {
-        $this->country = $country;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): self
-    {
-        $this->phone = $phone;
 
         return $this;
     }
@@ -508,5 +346,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->avatar = $avatar;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Address>
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAddress(Address $address): self
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(Address $address): self
+    {
+        if ($this->addresses->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->email;
     }
 }
