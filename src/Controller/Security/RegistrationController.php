@@ -67,13 +67,6 @@ class RegistrationController extends AbstractController
 
             return $userAuthenticator->authenticateUser($user, $authenticator, $request);
         }
-        if ($form->isSubmitted() && !$form->isValid()) {
-            $this->addFlash('secondary', 'Les mots de passe doivent être identiques
-            et doivent contenir au moins une lettre minuscule,
-            une lettre majuscule, un chiffre et un caractère spécial');
-
-            return $this->redirectToRoute('home');
-        }
         return $this->render('security/registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
