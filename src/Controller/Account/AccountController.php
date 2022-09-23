@@ -3,9 +3,9 @@
 namespace App\Controller\Account;
 
 use App\Form\ProfileType;
-use App\Form\UserAdressType;
-use App\Form\EditPasswordType;
 use App\Repository\UserRepository;
+use App\Form\ChangePasswordFormType;
+use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,21 +49,16 @@ class AccountController extends AbstractController
     #[Route('change-password', name: 'change-password')]
     public function changePassword(
         Request $request,
-        EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $userPasswordHasher,
-        UserRepository $userRepository
+        EntityManagerInterface $entityManager,
+        UserRepository $userRepository,
     ): Response {
         $user = $this->getUser();
-        $form = $this->createForm(EditPasswordType::class, $user);
+        $form = $this->createForm(ChangePasswordFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
+            $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Votre mot de passe à bien été pris en compte.');
@@ -75,25 +70,13 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('addresses', name: 'addresses')]
-    public function addresses(
-        Request $request,
-        UserRepository $userRepository,
-        EntityManagerInterface $entityManager
+    #[Route('address', name: 'address')]
+    public function userAdresses(
+        AddressRepository $addressRepository,
     ): Response {
-        $user = $this->getUser();
-        $form = $this->createForm(UserAdressType::class, $user);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-            $this->addFlash('success', 'Votre profil a bien été mis à jour.');
-            return $this->redirectToRoute('account_addresses', [], Response::HTTP_SEE_OTHER);
-        }
         return $this->render('account/addresses.html.twig', [
-            'user' => $userRepository->findOneBy(['id' => $this->getUser()]),
-            'form' => $form->createView(),
+            'addresses' => $addressRepository->findBy(['user' => $this->getUser()]),
         ]);
     }
 

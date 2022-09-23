@@ -5,6 +5,9 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,9 +24,39 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer un nom',
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le nom doit contenir au maximum {{ limit }} caractères',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres',
+                    ]),
+                ],
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer un prénom',
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le prénom doit contenir au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le prénom doit contenir au maximum {{ limit }} caractères',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z]+$/',
+                        'message' => 'Le prénom ne doit contenir que des lettres',
+                    ]),
+                ],
             ])
             ->add(
                 'email',

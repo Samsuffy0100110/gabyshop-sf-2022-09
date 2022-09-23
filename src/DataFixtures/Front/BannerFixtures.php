@@ -14,7 +14,7 @@ class BannerFixtures extends Fixture
         $banner = new Banner();
         $banner->setName("-15 % pour Noël");
         $banner->setImage("christmas.jpg");
-        $banner->setPosition(1);
+        $banner->setPosition("1");
         $banner->setIsActive(true);
         $banner->setCreatedAt(new DateTime());
         $banner->setStartedAt(new DateTime());
@@ -24,7 +24,7 @@ class BannerFixtures extends Fixture
         $banner = new Banner();
         $banner->setName("Peur sur les prix !");
         $banner->setImage("halloween.jpg");
-        $banner->setPosition(2);
+        $banner->setPosition("2");
         $banner->setIsActive(true);
         $banner->setCreatedAt(new DateTime());
         $banner->setStartedAt(new DateTime());
@@ -34,7 +34,7 @@ class BannerFixtures extends Fixture
         $banner = new Banner();
         $banner->setName("Chassez les promos !");
         $banner->setImage("easter.jpg");
-        $banner->setPosition(3);
+        $banner->setPosition("3");
         $banner->setIsActive(true);
         $banner->setCreatedAt(new DateTime());
         $banner->setStartedAt(new DateTime());

@@ -4,6 +4,8 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -18,6 +20,13 @@ class ResetPasswordRequestFormType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Entrer une adresse email',
+                    ]),
+                    new Email([
+                        'message' => 'Entrer une adresse email valide',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/',
+                        'message' => 'Entrer une adresse email valide',
                     ]),
                 ],
             ])
