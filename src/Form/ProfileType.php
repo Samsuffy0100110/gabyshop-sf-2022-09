@@ -5,8 +5,10 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -21,15 +23,39 @@ class ProfileType extends AbstractType
         $builder
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom',
-                'attr' => [
-                    'placeholder' => 'Votre prénom'
-                ]
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer un prénom',
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le prénom doit contenir au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le prénom doit contenir au maximum {{ limit }} caractères',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z]+$/',
+                        'message' => 'Le prénom ne doit contenir que des lettres',
+                    ]),
+                ],
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
-                'attr' => [
-                    'placeholder' => 'Votre nom'
-                ]
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer un nom',
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le nom doit contenir au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le nom doit contenir au maximum {{ limit }} caractères',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z]+$/',
+                        'message' => 'Le nom ne doit contenir que des lettres',
+                    ]),
+                ],
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'Date de naissance',
@@ -51,21 +77,46 @@ class ProfileType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'attr' => [
-                    'placeholder' => 'Votre email'
-                ]
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer une adresse email',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/',
+                        'message' => 'Entrer une adresse email valide',
+                    ]),
+                ],
             ])
             ->add('companyname', TextType::class, [
                 'label' => 'Société',
-                'attr' => [
-                    'placeholder' => 'Votre société'
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer une société',
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'La société doit contenir au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'La société doit contenir au maximum {{ limit }} caractères',
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9]+$/',
+                        'message' => 'La société ne doit contenir que des lettres et des chiffres',
+                    ]),
                 ],
                 'required' => false
             ])
             ->add('idPro', TextType::class, [
                 'label' => 'Siret',
-                'attr' => [
-                    'placeholder' => 'Votre siret'
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Entrer un siret',
+                    ]),
+
+                    new Regex([
+                        'pattern' => '/^[0-9]+$/',
+                        'message' => 'Le siret ne doit contenir que des chiffres',
+                    ]),
                 ],
                 'required' => false
             ])
