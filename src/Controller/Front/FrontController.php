@@ -59,7 +59,7 @@ class FrontController extends AbstractController
     ): Response {
 
         return $this->render('includes/latestProducts/index.html.twig', [
-            'products' => $productRepository->findBy([], ['createdAt' => 'DESC'], 3),
+            'products' => $productRepository->findBy([], ['createdAt' => 'DESC'], 4),
         ]);
     }
 
