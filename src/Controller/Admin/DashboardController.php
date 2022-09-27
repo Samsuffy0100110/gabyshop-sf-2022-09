@@ -50,10 +50,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Sous Catégorie', 'fas fa-folder-tree', Category::class);
         yield MenuItem::linkToCrud('Produit', 'fas fa-box', Product::class);
         yield MenuItem::linkToCrud('Mise en avant', 'fas fa-star', FeaturedProducts::class);
-        yield MenuItem::linkToCrud('Gestion des Stocks', 'fas fa-boxes', Stock::class);
-        yield MenuItem::section('');
-        yield MenuItem::linkToCrud('Catégories des options', 'fas fa-folder-plus', OptionParent::class);
-        yield MenuItem::linkToCrud('Options', 'fas fa-circle-plus', Option::class);
         yield MenuItem::section('');
         yield MenuItem::section('Taxes');
         yield MenuItem::linkToCrud('TVA', 'fas fa-percent', Taxe::class);
