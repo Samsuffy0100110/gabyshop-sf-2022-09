@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use DateTime;
 use App\Entity\Product\Product;
+use App\Controller\Admin\OptionCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
@@ -11,12 +12,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use App\Controller\Admin\ParentCategoryCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 
 class ProductCrudController extends AbstractCrudController
 {
@@ -33,6 +35,7 @@ class ProductCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Administration des Produits')
             ->setDefaultSort(['id' => 'DESC'])
             ->setPaginatorPageSize(10)
+            ->showEntityActionsInlined()
             ->setSearchFields(['id', 'name', 'description', 'price', 'quantity', 'createdAt', 'updatedAt']);
     }
 
@@ -80,6 +83,14 @@ class ProductCrudController extends AbstractCrudController
             ->setCurrency('EUR'),
         AssociationField::new('taxe', 'TVA')
             ->setLabel('TVA'),
+        AssociationField::new('options', 'Options')
+            ->setLabel('Options')
+            ->setFormTypeOption('by_reference', false)
+            ->setFormTypeOption('multiple', true)
+            ->setFormTypeOption('choice_label', function ($option) {
+                return $option->getOptionParent()->getName() . ' - ' . $option->getName();
+            })
+            ->setRequired(false),
         NumberField::new('quantity')
             ->setLabel('Quantité'),
         DateField::new('createdAt')
