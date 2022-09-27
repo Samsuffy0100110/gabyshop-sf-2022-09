@@ -7,13 +7,11 @@ use App\Entity\Product\Product;
 use App\Controller\Admin\OptionCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
@@ -44,8 +42,11 @@ class ProductCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-        AssociationField::new('category', 'Catégorie')
-            ->setLabel('Catégorie'),
+            AssociationField::new('category', 'Catégorie')
+            ->setCrudController(CategoryCrudController::class)
+            ->setFormTypeOption('choice_label', function ($category) {
+                return $category->getParent()->getName() . ' > ' . $category->getName();
+            }),
         TextField::new('name')
             ->setLabel('Nom'),
         TextareaField::new('summary', 'Résumé')
