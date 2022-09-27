@@ -38,9 +38,6 @@ class Product
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $quantity = null;
-
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $createdAt = null;
 
@@ -77,11 +74,15 @@ class Product
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slug = null;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Attribut::class, cascade: ['persist', 'remove'])]
+    private Collection $attributs;
+
     public function __construct()
     {
         $this->offers = new ArrayCollection();
         $this->rates = new ArrayCollection();
         $this->featuredProducts = new ArrayCollection();
+        $this->attributs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,18 +170,6 @@ class Product
     public function setPrice(float $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getQuantity(): ?int
-    {
-        return $this->quantity;
-    }
-
-    public function setQuantity(?int $quantity): self
-    {
-        $this->quantity = $quantity;
 
         return $this;
     }
@@ -378,6 +367,36 @@ class Product
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Attribut>
+     */
+    public function getAttributs(): Collection
+    {
+        return $this->attributs;
+    }
+
+    public function addAttribut(Attribut $attribut): self
+    {
+        if (!$this->attributs->contains($attribut)) {
+            $this->attributs->add($attribut);
+            $attribut->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAttribut(Attribut $attribut): self
+    {
+        if ($this->attributs->removeElement($attribut)) {
+            // set the owning side to null (unless already changed)
+            if ($attribut->getProduct() === $this) {
+                $attribut->setProduct(null);
+            }
+        }
 
         return $this;
     }
