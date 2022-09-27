@@ -2,28 +2,33 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Product\Stock;
 use App\Entity\Product\Option;
-use App\Repository\Product\ProductRepository;
-use Symfony\Component\HttpFoundation\Response;
+use App\Entity\Product\Product;
+use App\Controller\Admin\OptionCrudController;
+use App\Controller\Admin\ProductCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
-class OptionCrudController extends AbstractCrudController
+class StockCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Option::class;
+
+        return Stock::class;
     }
 
     public function configureCrud(Crud $crud): Crud
     {
         return Crud::new()
-            ->setEntityLabelInSingular('Option')
-            ->setEntityLabelInPlural('Options')
-            ->setPageTitle('index', 'Administration des Options')
+            ->setEntityLabelInSingular('Stock')
+            ->setEntityLabelInPlural('Stocks')
+            ->setPageTitle('index', 'Administration des Stocks')
             ->setSearchFields(['id', 'name'])
             ->setDefaultSort(['id' => 'DESC'])
             ->setPaginatorPageSize(10);
@@ -32,13 +37,8 @@ class OptionCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            TextField::new('name')
-                ->setLabel('Nom'),
-            AssociationField::new('optionParent', 'Catégorie d\'Option')
-                ->setLabel('Catégorie d\'Option'),
-            AssociationField::new('quantity')
-                ->setLabel('Quantité')
-                ->hideOnForm(),
+            Field::new('quantity')
+                ->setLabel('Quantité'),
         ];
     }
 }

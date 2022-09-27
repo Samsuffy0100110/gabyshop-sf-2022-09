@@ -31,6 +31,9 @@ class Option
     #[ORM\Column(nullable: true)]
     private ?bool $isActive = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Stock $quantity = null;
+
     public function __construct()
     {
         $this->product = new ArrayCollection();
@@ -116,5 +119,17 @@ class Option
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getQuantity(): ?Stock
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(?Stock $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
     }
 }

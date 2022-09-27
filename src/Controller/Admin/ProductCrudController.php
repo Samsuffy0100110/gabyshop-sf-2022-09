@@ -90,9 +90,6 @@ class ProductCrudController extends AbstractCrudController
                 return $option->getOptionParent()->getName() . ' - ' . $option->getName();
             })
             ->setRequired(false),
-        AssociationField::new('options'),
-            
-        
         NumberField::new('quantity')
             ->setLabel('Quantité'),
         DateField::new('createdAt')
