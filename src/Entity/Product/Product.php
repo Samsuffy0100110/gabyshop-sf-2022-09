@@ -76,15 +76,12 @@ class Product
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slug = null;
-    #[ORM\ManyToMany(targetEntity: Option::class, mappedBy: 'product')]
-    private Collection $options;
 
     public function __construct()
     {
         $this->offers = new ArrayCollection();
         $this->rates = new ArrayCollection();
         $this->featuredProducts = new ArrayCollection();
-        $this->options = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -381,33 +378,6 @@ class Product
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Option>
-     */
-    public function getOptions(): Collection
-    {
-        return $this->options;
-    }
-
-    public function addOption(Option $option): self
-    {
-        if (!$this->options->contains($option)) {
-            $this->options->add($option);
-            $option->addProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOption(Option $option): self
-    {
-        if ($this->options->removeElement($option)) {
-            $option->removeProduct($this);
-        }
 
         return $this;
     }

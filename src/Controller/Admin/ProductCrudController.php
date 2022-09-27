@@ -83,14 +83,6 @@ class ProductCrudController extends AbstractCrudController
             ->setCurrency('EUR'),
         AssociationField::new('taxe', 'TVA')
             ->setLabel('TVA'),
-        AssociationField::new('options', 'Options')
-            ->setLabel('Options')
-            ->setFormTypeOption('by_reference', false)
-            ->setFormTypeOption('multiple', true)
-            ->setFormTypeOption('choice_label', function ($option) {
-                return $option->getOptionParent()->getName() . ' - ' . $option->getName();
-            })
-            ->setRequired(false),
         NumberField::new('quantity')
             ->setLabel('Quantité'),
         DateField::new('createdAt')
