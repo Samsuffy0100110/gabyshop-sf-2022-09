@@ -2,9 +2,9 @@
 	<div class="row">
 <h2 class="mt-5 mb-5 text-center">Les derniers Produits</h2>
 {% for product in products %}
-			<div class="col-lg-4 mb-2 d-flex justify-content-center">
+			<div class="col-lg-3 col-6 mb-2 d-flex justify-content-center">
 				<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
-					<div class="card product-card shadow h-100">
+					<div class="card product-card shadow">
 						<img src="{{ ('/images/products/' ~ product.image0)|imagine_filter('latest_products') }}" class="w-100 card-img-top product-image" alt="{{ product.name }}">
 						<div class="middle">
 							<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
@@ -12,10 +12,8 @@
 					</a>
 					<div class="card-body">
 						<h5 class="card-title">{{ product.name }}</h5>
-						<p class="card-text">{{ product.summary }}</p>
-					</div>
-					<div class="card-body">
-						<p class="card-link fw-bold">{{ product.price}}€</p>
+						<p class="card-text">{{ product.summary|u.truncate(50, '...', false) }}</p>
+						<p class="card-text fw-bold">{{ product.price }} €</p>
 					</div>
 				</div>
 			</div>
