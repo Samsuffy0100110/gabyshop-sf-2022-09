@@ -4,10 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\Product\Offer;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -35,9 +37,8 @@ class OfferCrudController extends AbstractCrudController
         return [
             TextField::new('name')
                 ->setLabel('Nom'),
-            PercentField::new('percent')
-                ->setLabel('Pourcentage')
-                ->setNumDecimals(2),
+            IntegerField::new('percent')
+                ->setLabel('Pourcentage'),
             MoneyField::new('reduce')
                 ->setLabel('Réduction')
                 ->setCurrency('EUR')
