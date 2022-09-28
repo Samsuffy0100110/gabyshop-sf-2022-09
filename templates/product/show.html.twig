@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+	{% for attribut in attributs %}{% endfor %}
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12 ms-2 mb-5">
@@ -30,6 +31,7 @@
 					<div class="card-header">
 						<h2 class="card-title">{{ product.name }}</h2>
 					</div>
+					{% include "product/_rating.html.twig" %}
 					<div class="card-body">
 						<i class="fa fa-star" aria-hidden="true"></i>
 						<i class="fa fa-star" aria-hidden="true"></i>
@@ -37,9 +39,34 @@
 						<p class="card-text mt-1">{{ product.summary }}</p>
 						<h3 class="fs-bold">{{ product.price }}
 							€</h3>
+						{% for attribut in attributs %}
+							{% if attribut.quantity > 0 %}
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+									<label class="form-check-label" for="exampleRadios1">
+										{{ attribut.name }}
+									</label>
+									<label for="quantity">
+										<select name="quantity" id="quantity">
+											{% for i in 1..attribut.quantity %}
+												<option value="{{ i }}">{{ i }}</option>
+											{% endfor %}
+										</select>
+									</label>
+								</div>
+							{% else %}
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
+									<label class="form-check-label" for="exampleRadios3">
+										{{ attribut.name }}
+									</label>
+								</div>
+							{% endif %}
+						{% endfor %}
 					</div>
 					<div class="card-footer">
-						<a href="#" class="card-link">Ajouter au panier</a>
+						<a href="#" class="card-link btn btn-primary">Ajouter au panier</a>
+						<h5 class="mt-2 text-center">Produit victime de son succés !</h5>
 					</div>
 				</div>
 			</div>

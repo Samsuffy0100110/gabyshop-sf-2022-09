@@ -5,6 +5,7 @@ namespace App\Controller\Product;
 use App\Entity\Product\Product;
 use App\Entity\Product\Category;
 use App\Entity\Product\ParentCategory;
+use App\Repository\Product\AttributRepository;
 use App\Repository\Product\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,14 +34,23 @@ class ProductController extends AbstractController
         Product $product,
         Category $category,
         ParentCategory $parentCategory,
-        ProductRepository $productRepository
+        ProductRepository $productRepository,
+        AttributRepository $attributRepository
     ): Response {
+        $attributs = $attributRepository->createQueryBuilder('a')
+            ->select('a')
+            ->join('a.product', 'p')
+            ->where('p.id = :id')
+            ->setParameter('id', $product->getId())
+            ->getQuery()
+            ->getResult();
         $products = $productRepository->findByCategory($category);
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'category' => $category,
             'parentCategory' => $parentCategory,
             'products' => $products,
+            'attributs' => $attributs,
         ]);
     }
 }
