@@ -16,6 +16,7 @@
         "easycorp/easyadmin-bundle": "^4.3",
         "fakerphp/faker": "^1.20",
         "friendsofsymfony/ckeditor-bundle": "^2.4",
+        "kartik-v/bootstrap-star-rating": "^4.1",
         "knpuniversity/oauth2-client-bundle": "^2.10",
         "league/oauth2-google": "^4.0",
         "liip/imagine-bundle": "^2.8",
