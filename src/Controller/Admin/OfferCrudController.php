@@ -44,8 +44,8 @@ class OfferCrudController extends AbstractCrudController
             ChoiceField::new('typeReduce')
                 ->setLabel('Type')
                 ->setChoices([
-                    'Pourcentage' => 'percent',
-                    'Euro' => 'amount',
+                    'Pourcentage' => '%',
+                    'Euro' => '€',
                 ]),
             BooleanField::new('isActive')
                 ->setLabel('Actif'),
