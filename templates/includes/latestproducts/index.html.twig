@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-<h2 class="mt-5 mb-5 text-center">Les derniers Produits</h2>
+    <h2 class="mt-5 mb-5 text-center">Les derniers Produits</h2>
 		{% for product in products %}
 			<div class="col-lg-3 col-6 mb-2 d-flex justify-content-center">
 				<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
@@ -13,18 +13,24 @@
 					<div class="card-body">
 						<h5 class="card-title">{{ product.name }}</h5>
 						<p class="card-text">{{ product.summary|u.truncate(50, '...', false) }}</p>
-							{% for offer in product.offers %}
-								{% if offer.isActive == true and date(offer.startedAT) < date() and date(offer.endedAT) > date() %}
-									<span class="badge bg-danger">{{ offer.name }}</span>
-									<p class="card-text fw-bold">{{ offer.reduce }} €</p>
-									<p class="card-text fw-bold text-decoration-line-through">{{ product.price }} €</p>
+						{% set offers = product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
+						{% if offers is not empty %}
+							{% set offer = offers|first %}
+								<p class="card-text fw-bold text-decoration-line-through">{{ product.price }} €</p>
+								{% for o in offers %}
+								{% set offer = o %}
+								<span class="badge bg-danger">{{ offer.name }}</span>
+								{% if offer.typeReduce == "%" %}
+									<p class="card-text fw-bold"> - {{ offer.reduce }} {{ offer.typeReduce }}</p>
+									<p class="card-text fw-bold">{{ product.price * (1 - offer.reduce / 100) }} €</p>
 								{% else %}
-									<p class="card-text fw-bold">{{ product.price }} €</p>
+									<p class="card-text fw-bold"> - {{ offer.reduce }} {{ offer.typeReduce }}</p>
+									<p class="card-text fw-bold">{{ product.price - offer.reduce }} €</p>
 								{% endif %}
 							{% endfor %}
-							{% for item in items %}
-								
-							{% endfor %}
+						{% else %}
+							<p class="card-text fw-bold">{{ product.price }} €</p>
+						{% endif %}
 					</div>
 				</div>
 			</div>
