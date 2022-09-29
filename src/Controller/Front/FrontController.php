@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Repository\Product\CategoryRepository;
 use App\Repository\Product\ParentCategoryRepository;
 use App\Repository\Product\FeaturedProductsRepository;
+use App\Repository\Product\OfferRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FrontController extends AbstractController
@@ -57,7 +58,6 @@ class FrontController extends AbstractController
     public function latestProducts(
         ProductRepository $productRepository,
     ): Response {
-
         return $this->render('includes/latestProducts/index.html.twig', [
             'products' => $productRepository->findBy([], ['createdAt' => 'DESC'], 4),
         ]);
