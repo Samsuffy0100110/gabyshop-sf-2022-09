@@ -3,14 +3,18 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product\Offer;
+use DateTime;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\PercentField;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 
 class OfferCrudController extends AbstractCrudController
 {
@@ -35,19 +39,20 @@ class OfferCrudController extends AbstractCrudController
         return [
             TextField::new('name')
                 ->setLabel('Nom'),
-            PercentField::new('percent')
-                ->setLabel('Pourcentage')
-                ->setNumDecimals(2),
-            MoneyField::new('reduce')
-                ->setLabel('Réduction')
-                ->setCurrency('EUR')
-                ->setNumDecimals(2)
-                ->setFormType(MoneyType::class)
-                ->setFormTypeOptions([
-                    'divisor' => 100,
+            IntegerField::new('reduce')
+                ->setLabel('Réduction'),
+            ChoiceField::new('typeReduce')
+                ->setLabel('Type')
+                ->setChoices([
+                    'Pourcentage' => 'percent',
+                    'Euro' => 'amount',
                 ]),
             BooleanField::new('isActive')
                 ->setLabel('Actif'),
+            DateTimeField::new('startedAt')
+                ->setLabel('Début de l\'offre'),
+            DateTimeField::new('endedAt')
+                ->setLabel('Fin de l\'offre'),
             AssociationField::new('product', 'Produit')
                 ->setLabel('Produit'),
         ];

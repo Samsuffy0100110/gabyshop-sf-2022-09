@@ -1246,7 +1246,6 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             $product = new Product();
             $product->setName($value['name']);
             $product->setPrice($value['price']);
-            $product->setQuantity($value['quantity']);
             $product->setSummary($value['summary']);
             $product->setDescription($value['description']);
             $product->setWeight(strval($value['weight']));
