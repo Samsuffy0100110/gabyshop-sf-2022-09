@@ -6,6 +6,7 @@ use Twig\Environment;
 use App\Repository\Front\ShopRepository;
 use App\Repository\Front\ThemeRepository;
 use App\Repository\Front\PagesRepository;
+use App\Repository\Product\OfferRepository;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -20,16 +21,20 @@ class TwigEventSubscriber implements EventSubscriberInterface
 
     private PagesRepository $pagesRepository;
 
+    private OfferRepository $offerRepository;
+
     public function __construct(
         Environment $twig,
         ThemeRepository $themeRepository,
         ShopRepository $shopRepository,
-        PagesRepository $pagesRepository
+        PagesRepository $pagesRepository,
+        OfferRepository $offerRepository
     ) {
         $this->twig = $twig;
         $this->themeRepository = $themeRepository;
         $this->shopRepository = $shopRepository;
         $this->pagesRepository = $pagesRepository;
+        $this->offerRepository = $offerRepository;
     }
 
     public function onControllerEvent(ControllerEvent $event): void
@@ -37,6 +42,7 @@ class TwigEventSubscriber implements EventSubscriberInterface
         $this->twig->addGlobal('theme', $this->themeRepository->findOneBy(['isActive' => true]));
         $this->twig->addGlobal('shops', $this->shopRepository->findAll());
         $this->twig->addGlobal('pages', $this->pagesRepository->findAll());
+        $this->twig->addGlobal('offers', $this->offerRepository->findAll());
     }
 
     public static function getSubscribedEvents()
