@@ -33,7 +33,7 @@ class ProductCrudController extends AbstractCrudController
             ->setDefaultSort(['id' => 'DESC'])
             ->setPaginatorPageSize(10)
             ->showEntityActionsInlined()
-            ->setSearchFields(['id', 'name', 'description', 'price', 'quantity', 'createdAt', 'updatedAt']);
+            ->setSearchFields(['id', 'name', 'description', 'price', 'createdAt', 'updatedAt']);
     }
 
     public function configureFields(string $pageName): iterable
