@@ -41,7 +41,7 @@ class SocialCrudController extends AbstractCrudController
                     'Snapchat' => 'snapchat',
                     'Twitch' => 'twitch',
                     'Discord' => 'discord',
-                    'Autre' => 'arobase',
+                    'Autre' => 'earlybirds',
                 ]),
             TextField::new('link')
                 ->setLabel('Lien'),
