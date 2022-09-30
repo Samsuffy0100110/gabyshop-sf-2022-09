@@ -14,56 +14,39 @@
 						<h5 class="card-title">{{ product.name }}</h5>
 						<p class="card-text">{{ product.summary|u.truncate(50, '...', false) }}</p>
 						{% set offers = product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
-						{% if offers is not empty %}
-							{% set offer = offers|first %}
+						{% for offer in offers %}
+						{% if loop.index0 == 0 %}
 								<p class="card-text fw-bold text-decoration-line-through">{{ product.price }} €</p>
-								{# {% for o in offers %}
-									{% set offer = o %}
+						{% endif %}
+						{% endfor %}
+						{% for offer in offers %}
+								{% if offer.typeReduce == "percent" %}
 									<span class="badge bg-danger">{{ offer.name }}</span>
-									{% if offer.typeReduce == "%" %}
-										<p class="card-text fw-bold"> - {{ offer.reduce }} {{ offer.typeReduce }}</p>
-										<p class="card-text fw-bold">{{ product.price * (1 - offer.reduce / 100) }} €</p>
-									{% else %}
-										<p class="card-text fw-bold"> - {{ offer.reduce }} {{ offer.typeReduce }}</p>
-										<p class="card-text fw-bold">{{ product.price - offer.reduce }} €</p>
+										<p class="card-text fw-bold"> - {{ offer.reduce }} %</p>
+								{% endif %}
+									{% if offer.typeReduce == "euro" %}
+									<span class="badge bg-danger">{{ offer.name }}</span>
+										<p class="card-text fw-bold"> - {{ offer.reduce }} €</p>
 									{% endif %}
-								{% endfor %} #}
-								{% for key, o in offers %}
-									{% if key == 0 %}
-										{% set offer = o %}
-										<span class="badge bg-danger">{{ offer.name }}</span>
-										{% if offer.typeReduce == "%" %}
-											<p class="card-text fw-bold"> - {{ offer.reduce }} {{ offer.typeReduce }}</p>
-											{# <p class="card-text fw-bold">{{ product.price * (1 - offer.reduce / 100) }} €</p> #}
-										{% else %}
-											<p class="card-text fw-bold"> - {{ offer.reduce }} {{ offer.typeReduce }}</p>
-											{# <p class="card-text fw-bold">{{ product.price - offer.reduce }} €</p> #}
-										{% endif %}
-									{% endif %}
-									{% if key > 0 %}
-										{% set offer = o %}
-										<span class="badge bg-danger">{{ offer.name }}</span>
-										{% if offer.typeReduce == "%" %}
-											<p class="card-text fw-bold"> - {{ offer.reduce }} {{ offer.typeReduce }}</p>
-											{# <p class="card-text fw-bold">{{ product.price * (1 - offer.reduce / 100) }} €</p> #}
-											{# {% set calcul = product.price * (1 - offer.reduce / 100) %} #}
-										{% else %}
-											<p class="card-text fw-bold"> - {{ offer.reduce }} {{ offer.typeReduce }}</p>
-											{# <p class="card-text fw-bold">{{ product.price - offer.reduce }} €</p> #}
-											{# {% set calcul = product.price - offer.reduce %} #}
-										{% endif %}
-									{% endif %}
-									{% if key > 0 %}
-										{% for key, o in offers %}
-												<pre>
-													{{ dump(key) }}
-												</pre>
-										{% endfor %}
-									{% endif %}
-								{% endfor %}
 						{% else %}
 							<p class="card-text fw-bold">{{ product.price }} €</p>
-						{% endif %}
+						{% endfor %}
+						{% for offer in offers %}
+								{% if offer.typeReduce == "percent" %}
+								{% set price = product.price * (1 - offer.reduce / 100) %}
+								{% endif %}
+								{% if offer.typeReduce == "euro" %}
+								{% set price = product.price - offer.reduce %}
+								{% endif %}
+						{% endfor %}
+					{% for offer in offers|filter (o => o.typeReduce == "percent") %}
+						{% set price = product.price * (1 - offer.reduce / 100) %}
+						{{ price}}
+					{% endfor %}
+					{% for offer in offers|filter (o => o.typeReduce == "euro") %}
+						{% set price = product.price - offer.reduce %}
+							{{ price}}
+					{% endfor %}
 					</div>
 				</div>
 			</div>
