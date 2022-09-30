@@ -35,29 +35,43 @@
 					<div class="card-body">
 						{% include "product/_rating.html.twig" %}
 						<p class="card-text mt-1">{{ product.summary }}</p>
-						<h3 class="fs-bold">{{ product.price }}
+						<h3 class="fs-bold text-end">{{ product.price }}
 							€</h3>
 						{% for attribut in attributs|sort((a,b)=>a.position <=> b.position) %}
 							{% if attribut.quantity > 0 %}
-								<div class="form-check">
-									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-									<label class="form-check-label" for="exampleRadios1">
-										{{ attribut.name }}
-									</label>
-									<label for="quantity">
-										<select name="quantity" id="quantity">
-											{% for i in 1..attribut.quantity %}
-												<option value="{{ i }}">{{ i }}</option>
-											{% endfor %}
+								<div class="row mb-2">
+									<div class="col-auto">
+										<div class="input-group-text">
+											<input class="form-check-input m-1" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+										</div>
+									</div>
+									<div class="col-auto">
+									<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
+									</div>
+									<div class="col-auto">
+										<select for="quantity" class="form-select" aria-label="Default select">
+											<option selected>0</option>
+											<option select name="quantity" id="quantity">
+												{% for i in 1..attribut.quantity %}
+													<option value="{{ i }}">{{ i }}</option>
+												{% endfor %}
+											</option>
 										</select>
-									</label>
+									</div>
 								</div>
 							{% else %}
-								<div class="form-check">
-									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
-									<label class="form-check-label" for="exampleRadios3">
-										{{ attribut.name }}
-									</label>
+								<div class="row mb-2">
+									<div class="col-auto">
+										<div class="input-group-text">
+											<input class="form-check-input m-1" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
+										</div>
+									</div>
+									<div class="col-auto">
+									<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
+								</div>
+									<div class="col-auto">
+										<input class="form-control text-center" type="text" value="Rupture" aria-label="Produit en rupture" readonly>
+									</div>
 								</div>
 							{% endif %}
 						{% endfor %}
