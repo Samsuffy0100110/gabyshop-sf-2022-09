@@ -5,12 +5,12 @@ namespace App\Controller\Front;
 use App\Repository\Front\LogoRepository;
 use App\Repository\Front\ShopRepository;
 use App\Repository\Front\BannerRepository;
+use App\Repository\Product\OfferRepository;
 use App\Repository\Product\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\Product\CategoryRepository;
 use App\Repository\Product\ParentCategoryRepository;
 use App\Repository\Product\FeaturedProductsRepository;
-use App\Repository\Product\OfferRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FrontController extends AbstractController
@@ -26,7 +26,7 @@ class FrontController extends AbstractController
     {
 
         return $this->render('includes/logo/index.html.twig', [
-            'logos' => $logoRepository->findAll(),
+            'logo' => $logoRepository->findOneBy(['position' => 1]),
             'shops' => $shopRepository->findAll(),
         ]);
     }

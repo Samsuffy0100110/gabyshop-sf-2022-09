@@ -9,22 +9,4 @@ $font-family-base: "Roboto", sans-serif;
         max-height: 4rem;
 }
 
-.zoom-image {
-    overflow:hidden;
-}
-
-.zoom-image img {
-    width:100%;
-    height:auto;
-}
-
-.zoom-image img:hover{
-    width:100%;
-    -webkit-transform:scale(1.3);
-    transform:scale(1.3);
-    -webkit-transition:.5s ease-in-out;
-    transition:.5s ease-in-out;
-    
-}
-
 

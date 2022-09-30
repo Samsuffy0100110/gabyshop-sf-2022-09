@@ -23,194 +23,118 @@
 		</div>
 		<div class="row">
 			<div class="col-lg mb-3">
-				<div>
-					<div class="row">
-						<div class="col-12 mb-1">
-							<div id="carouselshowproduct" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="false">
-								<div class="carousel-inner">
-									<div class="carousel-item active">
-										<div class="zoom-image rounded">
-											{% if product.image0 == null %}
-												<p>Pas plus d'images</p>
-											{% else %}
-												<img src="{{ ('/images/products/' ~ product.image0)}}" alt="{{ product.name }}" class=" rounded">
-											{% endif %}
-										</div>
-									</div>
-									<div class="carousel-item">
-										{% if product.image1 == null %}
-											{% else %}
-												<img src="{{ product.image1 }}" alt="{{ product.name }}" class="w-100 rounded">
-										{% endif %}
-									</div>
-									<div class="carousel-item">
-										{% if product.image2 == null %}
-											{% else %}
-												<img src="{{ product.image2 }}" alt="{{ product.name }}" class="w-100 rounded">
-										{% endif %}
-									</div>
-									<div class="carousel-item">
-										{% if product.image3 == null %}
-											{% else %}
-												<img src="{{ product.image3 }}" alt="{{ product.name }}" class="w-100 rounded">
-										{% endif %}
-										<div class="carousel-item">
-
-											{% if product.image4 == null %}
-												{% else %}
-													<img src="{{ product.image4 }}" alt="{{ product.name }}" class="w-100 rounded">
-											{% endif %}
-										</div>
-									</div>
-									<button class="carousel-control-prev" type="button" data-bs-target="#carouselshowproduct" data-bs-slide="prev">
-										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-										<span class="visually-hidden">Previous</span>
-									</button>
-									<button class="carousel-control-next" type="button" data-bs-target="#carouselshowproduct" data-bs-slide="next">
-										<span class="carousel-control-next-icon" aria-hidden="true"></span>
-										<span class="visually-hidden">Next</span>
-									</button>
-								</div>
-							</div>
-						</div>
-							<div class="col-3 mt-1">
-								{% if product.image1 == null %}
-									{% else %}
-										<img src="{{ product.image1 }}" alt="{{ product.name }}" class="w-100 rounded">
-								{% endif %}
-							</div>
-							<div class="col-3 mt-1">
-								{% if product.image2 == null %}
-									{% else %}
-										<img src="{{ product.image2 }}" alt="{{ product.name }}" class="w-100 rounded">
-								{% endif %}
-							</div>
-							<div class="col-3 mt-1">
-								{% if product.image3 == null %}
-									{% else %}
-										<img src="{{ product.image3 }}" alt="{{ product.name }}" class="w-100 rounded">
-								{% endif %}
-							</div>
-							<div class="col-3 mt-1">
-								{% if product.image4 == null %}
-									{% else %}
-										<img src="{{ product.image4 }}" alt="{{ product.name }}" class="w-100 rounded">
-								{% endif %}
-							</div>
-						</div>
-					</div>
+				<div class="row">
+					{% include "product/_gallery.html.twig" %}
 				</div>
-						<div class="col-lg mb-3">
-							<div class="card h-100">
-								<div class="card-header">
-									<h2 class="card-title">{{ product.name }}</h2>
-								</div>
-
-								<div class="card-body">
-									{% include "product/_rating.html.twig" %}
-									<p class="card-text mt-1">{{ product.summary }}</p>
-									<h3 class="fs-bold">{{ product.price }}
-										€</h3>
-									{% for attribut in attributs|sort((a,b)=>a.position <=> b.position) %}
-										{% if attribut.quantity > 0 %}
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-												<label class="form-check-label" for="exampleRadios1">
-													{{ attribut.name }}
-												</label>
-												<label for="quantity">
-													<select name="quantity" id="quantity">
-														{% for i in 1..attribut.quantity %}
-															<option value="{{ i }}">{{ i }}</option>
-														{% endfor %}
-													</select>
-												</label>
-											</div>
-										{% else %}
-											<div class="form-check">
-												<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
-												<label class="form-check-label" for="exampleRadios3">
-													{{ attribut.name }}
-												</label>
-											</div>
-										{% endif %}
-									{% endfor %}
-								</div>
-								<div class="card-footer">
-									{% if attributs is not empty and attributs|filter((a)=>a.quantity > 0) is not empty %}
-										<a href="#" class="card-link btn btn-primary">Ajouter au panier</a>
-									{% else %}
-										<h5 class="mt-2 text-center">Produit victime de son succés !</h5>
-									{% endif %}
-								</div>
-							</div>
-						</div>
+			</div>
+			<div class="col-lg mb-3">
+				<div class="card h-100">
+					<div class="card-header">
+						<h2 class="card-title">{{ product.name }}</h2>
 					</div>
-					<div class="row mb-3">
-						<div class="col-12">
-							<div class="card text-center mt-3 mb-5">
-								<div class="card-header">
-									<ul class="nav nav-tabs card-header-tabs">
-										<li class="nav-item">
-											<a class="nav-link active" aria-current="true" href="#">Details</a>
-										</li>
-										<li class="nav-item">
-											<a class="nav-link" href="#">Commentaires</a>
-										</li>
-									</ul>
+					<div class="card-body">
+						{% include "product/_rating.html.twig" %}
+						<p class="card-text mt-1">{{ product.summary }}</p>
+						<h3 class="fs-bold">{{ product.price }}
+							€</h3>
+						{% for attribut in attributs|sort((a,b)=>a.position <=> b.position) %}
+							{% if attribut.quantity > 0 %}
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+									<label class="form-check-label" for="exampleRadios1">
+										{{ attribut.name }}
+									</label>
+									<label for="quantity">
+										<select name="quantity" id="quantity">
+											{% for i in 1..attribut.quantity %}
+												<option value="{{ i }}">{{ i }}</option>
+											{% endfor %}
+										</select>
+									</label>
 								</div>
-								<div class="card-body">
-									<h5 class="card-title">{{ product.name }}</h5>
-									<p class="card-text">{{ product.description }}</p>
+							{% else %}
+								<div class="form-check">
+									<input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" disabled>
+									<label class="form-check-label" for="exampleRadios3">
+										{{ attribut.name }}
+									</label>
 								</div>
-							</div>
-						</div>
+							{% endif %}
+						{% endfor %}
 					</div>
-					<div class="row mb-3">
-						<div class="col-12 mt-5 mb-5">
-							<h2 class="text-center">Produits similaires</h2>
-						</div>
-						<div id="carouselProductControls" class="carousel slide" data-ride="carousel">
-							<div class="carousel-inner">
-								{% for product in products %}
-									{% if loop.index0 % 3 == 0 %}
-										<div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
-											<div class="row">
-											{% endif %}
-											<div class="col-lg">
-												<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
-													<div class="card product-card h-100">
-														<img src="{{ ('/images/products/' ~ product.image0)|imagine_filter('same_products') }}" class="card-img-top product-carousel" alt="{{ product.name }}">
-														<div class="middle">
-															<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
-														</div>
-													</a>
-													<div class="card-body">
-														<h5 class="card-title">{{ product.name }}</h5>
-														<p class="card-text">{{ product.summary }}</p>
-													</div>
-													<div class="card-body">
-														<p class="card-link fw-bold">{{ product.price}}€</p>
-													</div>
-												</div>
-											</div>
-											{% if loop.index0 % 3 == 2 %}
-											</div>
-										</div>
-									{% endif %}
-								{% endfor %}
-							</div>
-						</div>
-						<a class="carousel-control-prev" href="#carouselProductControls" role="button" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="sr-only">Previous</span>
-						</a>
-						<a class="carousel-control-next" href="#carouselProductControls" role="button" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="sr-only">Next</span>
-						</a>
+					<div class="card-footer">
+						{% if attributs is not empty and attributs|filter((a)=>a.quantity > 0) is not empty %}
+							<a href="#" class="card-link btn btn-primary">Ajouter au panier</a>
+						{% else %}
+							<h5 class="mt-2 text-center">Produit victime de son succés !</h5>
+						{% endif %}
 					</div>
 				</div>
 			</div>
 		</div>
-	{% endblock %}
+		<div class="row mb-3">
+			<div class="col-12">
+				<div class="card text-center mt-3 mb-5">
+					<div class="card-header">
+						<ul class="nav nav-tabs card-header-tabs">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="true" href="#">Details</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Commentaires</a>
+							</li>
+						</ul>
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">{{ product.name }}</h5>
+						<p class="card-text">{{ product.description }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-3">
+			<div class="col-12 mt-5 mb-5">
+				<h2 class="text-center">Produits similaires</h2>
+			</div>
+			<div id="carouselProductControls" class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner">
+					{% for product in products %}
+						{% if loop.index0 % 3 == 0 %}
+							<div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
+								<div class="row">
+								{% endif %}
+								<div class="col-lg">
+									<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
+										<div class="card product-card h-100">
+											<img src="{{ ('/images/products/' ~ product.image0)|imagine_filter('same_products') }}" class="card-img-top product-carousel" alt="{{ product.name }}">
+											<div class="middle">
+												<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
+											</div>
+										</a>
+										<div class="card-body">
+											<h5 class="card-title">{{ product.name }}</h5>
+											<p class="card-text">{{ product.summary }}</p>
+										</div>
+										<div class="card-body">
+											<p class="card-link fw-bold">{{ product.price}}€</p>
+										</div>
+									</div>
+								</div>
+								{% if loop.index0 % 3 == 2 %}
+								</div>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#carouselProductControls" role="button" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#carouselProductControls" role="button" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+		</div>
+	</div>
+</div></div>{% endblock %}

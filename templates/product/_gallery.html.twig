@@ -1,0 +1,86 @@
+    <div class="col-lg-12">
+        <img src="{{ ('/images/products/' ~ product.image0)}}" alt="{{ product.name }}" class="image0 w-100 rounded mb-2">
+    </div>
+    <div class="col-lg-3">
+        {% if product.image1 == null %}
+        <div class="text-center mt-4">
+            <i class="fa-solid fa-camera-retro fa-4x"></i>
+        </div>
+        {% else %}
+            <div class="img-gallery">
+                <img src="{{ ('/images/products/' ~ product.image1)}}" alt="{{ product.name }}" class="w-100 rounded img-gallery">
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3">
+        {% if product.image2 == null %}
+        <div class="text-center mt-4">
+            <i class="fa-solid fa-camera-retro fa-4x"></i>
+        </div>
+        {% else %}
+            <div class="img-gallery">
+                <img src="{{ ('/images/products/' ~ product.image2)}}" alt="{{ product.name }}" class="w-100 rounded img-gallery">
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3">
+        {% if product.image3 == null %}
+            <div class="text-center mt-4">
+                <i class="fa-solid fa-camera-retro fa-4x"></i>
+            </div>
+        {% else %}
+            <div class="img-gallery">
+                <img src="{{ ('/images/products/' ~ product.image3)}}" alt="{{ product.name }}" class="w-100 rounded img-gallery">
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-3">
+        {% if product.image4 == null %}
+        <div class="text-center mt-4">
+            <i class="fa-solid fa-camera-retro fa-4x"></i>
+        </div>
+        {% else %}
+            <div class="img-gallery">
+                <img src="{{ ('/images/products/' ~ product.image4)}}" alt="{{ product.name }}" class="w-100 rounded img-gallery">
+            </div>
+        {% endif %}
+    </div>
+
+<div class="clearfix"></div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <span class="close">×</span>
+        <img class="modal-content" id="img01">
+    <div id="caption"></div>
+</div>
+
+<script>
+    
+// Get the modal
+let modal = document.getElementById('myModal');
+
+// Get the <span> element that closes the modal
+let span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+    modal.style.display = "none";
+}
+
+// Get all images and insert the clicked image inside the modal
+// Get the content of the image description and insert it inside the modal image caption
+let images = document.getElementsByTagName('img');
+let modalImg = document.getElementById("img01");
+let captionText = document.getElementById("caption");
+let i;
+for (i = 0; i < images.length; i++) {
+    images[i].onclick = function(){
+        modal.style.display = "block";
+        modalImg.src = this.src;
+        modalImg.alt = this.alt;
+        captionText.innerHTML = this.nextElementSibling.innerHTML;
+    }
+}
+</script>
+
