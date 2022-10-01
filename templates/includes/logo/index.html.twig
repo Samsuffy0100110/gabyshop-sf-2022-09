@@ -1,15 +1,15 @@
 <div class="container">
 	<div class="row mt-2">
 		<div class="col">
-			<a class="text-decoration-none" href="{{ path('home') }}">
 				{% if logo %}
-					<img class="logo" src="{{ '/images/logos/' ~ logo.image }}" alt="{{ logo.name }}">
+					<a href="{{ path('home') }}"><img class="logo" src="{{ '/images/logos/' ~ logo.image }}" alt="{{ logo.name }}"></a>
 				{% else %}
 					{% for shop in shops %}
+					<a class="text-decoration-none" href="{{ path('home') }}">
 						<p class="text-dark m-2 fw-bold">{{ shop.name }}</p>
+						</a>
 					{% endfor %}
 				{% endif %}
-			</a>
 		</div>
 		<div class="col">
 			{% for shop in shops %}

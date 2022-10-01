@@ -1,8 +1,9 @@
 
 
 .img-gallery:hover {
-    box-shadow: 0 0 0 3px #4c4145;
-    border-radius: 0.5rem;
+    -ms-transform: translate(5px); /* IE 9 */
+    -webkit-transform: translate(5px); /* Safari 3-8 */
+    transform: translate(5px);
 }
 
 /* The Image */
