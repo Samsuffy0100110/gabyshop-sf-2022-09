@@ -59,6 +59,7 @@ class FrontController extends AbstractController
         ProductRepository $productRepository,
         OfferRepository $offerRepository,
     ): Response {
+
         return $this->render('includes/latestProducts/index.html.twig', [
             'products' => $productRepository->findBy([], ['createdAt' => 'DESC'], 4),
             'offers' => $offerRepository->findAll(),
