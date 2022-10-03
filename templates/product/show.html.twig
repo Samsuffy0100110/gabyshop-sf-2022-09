@@ -46,7 +46,7 @@
 										</div>
 									</div>
 									<div class="col-auto">
-									<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
+										<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
 									</div>
 									<div class="col-auto">
 										<select for="quantity" class="form-select" aria-label="Default select">
@@ -58,8 +58,6 @@
 											</option>
 										</select>
 									</div>
-
-									
 								</div>
 							{% else %}
 								<div class="row m-2">
@@ -69,8 +67,8 @@
 										</div>
 									</div>
 									<div class="col-auto">
-									<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
-								</div>
+										<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
+									</div>
 									<div class="col-auto">
 										<input class="form-control text-center" type="text" value="Rupture" aria-label="Produit en rupture" readonly>
 									</div>
@@ -109,46 +107,7 @@
 			</div>
 		</div>
 		<div class="row mb-3">
-			<div class="col-12 mb-3">
-				<h2 class="text-center">Produits similaires</h2>
-			</div>
-			<div class="col-12 mb-3">
-			<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" wrap: "false">
-		<div class="carousel-inner">
-			{% for product in products %}
-				<div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
-					<div class="row">
-						{% for product in products|slice (loop.index0*4, 4)|reverse %}
-							<div class="col-lg-3 col-6 mb-2 d-flex justify-content-center">
-								<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
-									<div class="card product-card shadow">
-										<img src="{{ ('/images/products/' ~ product.image0)|imagine_filter('latest_products') }}" class="w-100 card-img-top product-image" alt="{{ product.name }}">
-										<div class="middle">
-											<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
-										</div>
-									</a>
-									<div class="card-body">
-										<h5 class="card-title">{{ product.name }}</h5>
-										<p class="card-text">{{ product.summary|u.truncate(50, '...', false) }}</p>
-										<p class="card-text fw-bold">{{ product.price }}
-											€</p>
-									</div>
-								</div>
-							</div>
-						{% endfor %}
-					</div>
-				</div>
-			{% endfor %}
-		</div>
-		<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
-			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-			<span class="sr-only">Previous</span>
-		</a>
-		<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
-			<span class="carousel-control-next-icon" aria-hidden="true"></span>
-			<span class="sr-only">Next</span>
-		</a>
+			{% include "product/_similar-products.html.twig" %}
 		</div>
 	</div>
-	</div>
-</div></div>{% endblock %}
+{% endblock %}
