@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use App\Entity\Product\Product;
 use App\Entity\Product\Attribut;
 use Doctrine\ORM\EntityManagerInterface;
+use SessionIdInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService
