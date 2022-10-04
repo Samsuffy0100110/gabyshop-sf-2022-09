@@ -11,27 +11,27 @@
 			{% if attribut.quantity > 0 %}
 				<div class="row m-2">
 					<div class="col-auto">
-                    {% if attribut.name is not null %}
-						<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
-                    {% else %}
-                    {# pas d'affichage de l'attribut name #}
-                    {% endif %}
+						{% if attribut.name is not null %}
+							<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
+							{% else %}
+							{# pas d'affichage de l'attribut name #}
+						{% endif %}
 					</div>
 					<div class="col-auto">
 						{% if attributs is not empty and attributs|filter((a)=>a.quantity > 0) is not empty and attribut.name is not null %}
 							<a href="{{ path('cart_add', { id:attribut.id }) }}" class="card-link btn btn-primary">Ajouter au panier</a>
-                        {% else %}
-                            <a href="{{ path('cart_add', { id:attribut.id }) }}" class="card-link btn btn-primary">Ajouter au panier</a>
-                        {% endif %}
+						{% else %}
+							<a href="{{ path('cart_add', { id:attribut.id }) }}" class="card-link btn btn-primary">Ajouter au panier</a>
+						{% endif %}
 					</div>
 				</div>
 			{% else %}
 				<div class="row m-2">
-                    <div class="col-auto">
+					<div class="col-auto">
 						<input class="form-control text-center" type="text" value="{{ attribut.name }} (en rupture)" aria-label="{{ attribut.name }}" readonly>
 					</div>
 				</div>
 			{% endif %}
-        {% endfor %}
-        </div>
+		{% endfor %}
+	</div>
 </div>

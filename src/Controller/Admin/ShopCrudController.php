@@ -19,6 +19,7 @@ class ShopCrudController extends AbstractCrudController
         return Crud::new()
             ->setEntityLabelInPlural('Boutiques')
             ->setEntityLabelInSingular('Boutique')
+            ->showEntityActionsInlined()
             ->setPageTitle('index', 'Administration des Boutiques');
     }
 

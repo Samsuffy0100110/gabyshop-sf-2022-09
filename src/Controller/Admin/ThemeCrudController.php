@@ -21,6 +21,7 @@ class ThemeCrudController extends AbstractCrudController
         return Crud::new()
             ->setEntityLabelInPlural('Thémes')
             ->setEntityLabelInSingular('Théme')
+            ->showEntityActionsInlined()
             ->setPageTitle('index', 'Administration des Thémes');
     }
 

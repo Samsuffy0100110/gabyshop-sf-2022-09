@@ -25,6 +25,7 @@ class NewsLetterCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Administration des Newsletters')
             ->setDefaultSort(['id' => 'DESC'])
             ->setPaginatorPageSize(10)
+            ->showEntityActionsInlined()
             ->setSearchFields(['id', 'email'])
             ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
