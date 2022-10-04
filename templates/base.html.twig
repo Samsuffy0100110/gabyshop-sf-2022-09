@@ -24,17 +24,19 @@
 		{% endblock %}
 	</head>
 	<body style="background-color: {{ theme.backgroundColor }};">
-		{% for label, messages in app.flashes %}
-			{% for message in messages %}
-				<div class="alert alert-{{ label }} alert-dismissible fade show mb-4" role="alert">
-					{{ message|raw }}
-					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				</div>
-			{% endfor %}
-		{% endfor %}
 		{% include "includes/navsecurity/index.html.twig" %}
 		{{ render(controller('App\\Controller\\Front\\FrontController::logo')) }}
 		{{ render(controller('App\\Controller\\Front\\FrontController::navbar')) }}
+		<div class="container">
+		{% for label, messages in app.flashes %}
+		{% for message in messages %}
+			<div class="alert alert-{{ label }} alert-dismissible fade show mb-4" role="alert">
+				{{ message|raw }}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			{% endfor %}
+		{% endfor %}
+		</div>
 		{% block body %}{% endblock %}
 		{% block footer %}
 			{% include "includes/footer/index.html.twig" %}

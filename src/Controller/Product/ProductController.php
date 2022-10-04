@@ -35,7 +35,7 @@ class ProductController extends AbstractController
         Category $category,
         ParentCategory $parentCategory,
         ProductRepository $productRepository,
-        AttributRepository $attributRepository
+        AttributRepository $attributRepository,
     ): Response {
         $attributs = $attributRepository->createQueryBuilder('a')
             ->select('a')
@@ -51,6 +51,7 @@ class ProductController extends AbstractController
             'parentCategory' => $parentCategory,
             'products' => $products,
             'attributs' => $attributs,
+            'attribut' => $attributRepository->findByProduct($product),
         ]);
     }
 }

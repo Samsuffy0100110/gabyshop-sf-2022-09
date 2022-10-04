@@ -1,0 +1,37 @@
+<div class="card h-100">
+	<div class="card-header">
+		<h2 class="card-title">{{ product.name }}</h2>
+	</div>
+	<div class="card-body">
+		{% include "product/_rating.html.twig" %}
+		<p class="card-text mt-1">{{ product.summary }}</p>
+		<h3 class="fs-bold text-end">{{ product.price }}
+			€</h3>
+		{% for attribut in attributs|sort((a,b)=>a.position <=> b.position) %}
+			{% if attribut.quantity > 0 %}
+				<div class="row m-2">
+					<div class="col-auto">
+                    {% if attribut.name is not null %}
+						<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
+                    {% else %}
+                    {# pas d'affichage de l'attribut name #}
+                    {% endif %}
+					</div>
+					<div class="col-auto">
+						{% if attributs is not empty and attributs|filter((a)=>a.quantity > 0) is not empty and attribut.name is not null %}
+							<a href="{{ path('cart_add', { id:attribut.id }) }}" class="card-link btn btn-primary">Ajouter au panier</a>
+                        {% else %}
+                            <a href="{{ path('cart_add', { id:attribut.id }) }}" class="card-link btn btn-primary">Ajouter au panier</a>
+                        {% endif %}
+					</div>
+				</div>
+			{% else %}
+				<div class="row m-2">
+                    <div class="col-auto">
+						<input class="form-control text-center" type="text" value="{{ attribut.name }} (en rupture)" aria-label="{{ attribut.name }}" readonly>
+					</div>
+				</div>
+			{% endif %}
+        {% endfor %}
+        </div>
+</div>
