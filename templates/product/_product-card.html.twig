@@ -21,10 +21,8 @@
 						{% if attributs is not empty and attributs|filter((a)=>a.quantity > 0) is not empty and attribut.name is not null %}
 							<a href="#" class="card-link btn btn-primary">Ajouter au panier</a>
                         {% else %}
-                        <div class="card-footer">
                         <a href="#" class="card-link btn btn-primary">Ajouter au panier</a>
-                        </div>
-						{% endif %}
+    						{% endif %}
 					</div>
 				</div>
 			{% else %}
@@ -35,4 +33,5 @@
 				</div>
 			{% endif %}
         {% endfor %}
-	</div>
+        </div>
+</div>
