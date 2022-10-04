@@ -60,7 +60,6 @@ class CartService
                 // $product_object = $this->em->getRepository(Product::class)->findOneById($id);
                 // $attributs = $this->em->getRepository(Attribut::class)->findByProduct($product_object);
                 $attribut = $this->entityManager->getRepository(Attribut::class)->find($id);
-                $product = $this->entityManager->getRepository(Product::class)->find($attribut->getProduct());
                 // $products = $this->em->getRepository(Product::class)->find($attribut->getProduct());
                 if (!$attribut) {
                     $this->delete($id);
@@ -69,7 +68,6 @@ class CartService
                 $cartComplete[] = [
                     'attribut' => $attribut,
                     'quantity' => $quantity,
-                    'product' => $product,
                 ];
             }
         }
