@@ -20,6 +20,7 @@ class FeaturedProductsCrudController extends AbstractCrudController
         return Crud::new()
             ->setEntityLabelInPlural('Produits mis en avant')
             ->setEntityLabelInSingular('Produit mis en avant')
+            ->showEntityActionsInlined()
             ->setPageTitle('index', 'Administration des produits mis en avant');
     }
 

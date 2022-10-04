@@ -1,12 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}
+    Accueil
+{% endblock %}
 
 {% block body %}
-{{ render(controller('App\\Controller\\Front\\FrontController::banner')) }}
-{{ render(controller('App\\Controller\\Front\\FrontController::latestProducts')) }}
-{{ render(controller('App\\Controller\\Front\\FrontController::carousel')) }}
-{{ render(controller('App\\Controller\\Communication\\NewsLetterController::subscribeForm')) }}
-{{ render(controller('App\\Controller\\Front\\FrontController::randomProducts')) }}
-{{ render(controller('App\\Controller\\Front\\FrontController::aboutUs')) }}
+	{{ render(controller('App\\Controller\\Front\\FrontController::banner')) }}
+	{{ render(controller('App\\Controller\\Front\\FrontController::latestProducts')) }}
+	{{ render(controller('App\\Controller\\Front\\FrontController::carousel')) }}
+	{{ render(controller('App\\Controller\\Communication\\NewsLetterController::subscribeForm')) }}
+	{{ render(controller('App\\Controller\\Front\\FrontController::randomProducts')) }}
+	{{ render(controller('App\\Controller\\Front\\FrontController::aboutUs')) }}
 {% endblock %}

@@ -1,8 +1,10 @@
 <div class="col-12 col-sm mb-3 text-center">
-{% for social in socials %}
-        <a class="text-white me-2" target="_blank" href="{{ social.link }}"><i class="fab fa-{{ social.name }} fa-2x"></i></a>
-{% endfor %}
-{% for shop in shops %}
-        <p class="text-white m-2">{{ shop.name }} &copy; {{ "now"|date("Y")}}</p>
+	{% for social in socials %}
+		<a class="text-white me-2" target="_blank" href="{{ social.link }}">
+			<i class="fab fa-{{ social.name }} fa-2x"></i>
+		</a>
+	{% endfor %}
+	{% for shop in shops %}
+		<p class="text-white m-2">{{ shop.name }}&copy;{{ "now"|date("Y") }}</p>
+	{% endfor %}
 </div>
-{% endfor %}

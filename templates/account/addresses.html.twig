@@ -10,9 +10,9 @@
 			<div class="col-lg-12">
 				<i>
 					<small>
-						<a href="{{ path('home')}}">Home</a>
+						<a href="{{ path('home') }}">Home</a>
 						/
-						<a href="{{ path('account_dashboard')}}">Dashboard</a>
+						<a href="{{ path('account_dashboard') }}">Dashboard</a>
 						/Mes adresses
 					</small>
 				</i>
@@ -25,7 +25,7 @@
 			<div class="col-lg-9 border rounded p-5">
 				<h1>Mes adresses</h1>
 				<hr>
-				<a class="nav-link mb-3 mt-3 text-success text-end fw-bold fs-5" href="{{ path('user_address_new')}}"><img src="{{ asset('images/others/greenCross.png')}}" width="20px" alt="Green Cross"> Ajouter</a>
+				<a class="nav-link mb-3 mt-3 text-success text-end fw-bold fs-5" href="{{ path('user_address_new') }}"><img src="{{ asset('images/others/greenCross.png') }}" width="20px" alt="Green Cross"> Ajouter</a>
 				{% for address in addresses %}
 					<div class="container">
 						<div class="row">
@@ -44,10 +44,10 @@
 										<p class="card-text">{{ address.country }}</p>
 										<p class="card-text">{{ address.phone }}</p>
 										<div class="d-flex justify-content-end align-items-center">
-											<a class="nav-link" href="{{ path('user_address_edit', {'id': address.id})}}"><img src="{{ asset('images/others/edit.png')}}" width="20px" alt="edit"></a>
+											<a class="nav-link" href="{{ path('user_address_edit', {'id': address.id}) }}"><img src="{{ asset('images/others/edit.png') }}" width="20px" alt="edit"></a>
 											<form method="post" action="{{ path('user_address_delete', {'id': address.id}) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer cette adresse ?')">
 												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ address.id) }}">
-												<button class="btn"><img src="{{ asset('images/others/redCross.png')}}" width="20px" alt="Red Cross"></button>
+												<button class="btn"><img src="{{ asset('images/others/redCross.png') }}" width="20px" alt="Red Cross"></button>
 											</form>
 										</div>
 									</div>

@@ -23,6 +23,7 @@ class TaxeCrudController extends AbstractCrudController
             ->setPageTitle('index', 'Administration des Taxes')
             ->setSearchFields(['id', 'name'])
             ->setDefaultSort(['id' => 'DESC'])
+            ->showEntityActionsInlined()
             ->setPaginatorPageSize(10);
     }
 

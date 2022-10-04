@@ -24,6 +24,7 @@ class BannerCrudController extends AbstractCrudController
         return Crud::new()
             ->setEntityLabelInPlural('Bannières')
             ->setEntityLabelInSingular('Bannière')
+            ->showEntityActionsInlined()
             ->setPageTitle('index', 'Administration des Banniéres');
     }
 
