@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Connexion
+{% block title %}Connexion |
+	{{ parent() }}
 {% endblock %}
 
 {% block body %}
@@ -26,7 +27,7 @@
 						</div>
 						<button class="btn btn-success mx-auto m-2" type="submit">Connection</button>
 					</form>
-					<a class="btn btn-primary mx-auto m-2" href="{{ path('forgot_password_request')}}">Mot de passe oublié ?</a>
+					<a class="btn btn-primary mx-auto m-2" href="{{ path('forgot_password_request') }}">Mot de passe oublié ?</a>
 				</div>
 			</div>
 			<div class="col">
