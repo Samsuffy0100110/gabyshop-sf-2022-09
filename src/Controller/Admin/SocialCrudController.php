@@ -22,6 +22,7 @@ class SocialCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Réseaux sociaux')
             ->setSearchFields(['id', 'name', 'link'])
             ->setDefaultSort(['id' => 'DESC'])
+            ->showEntityActionsInlined()
             ->setPageTitle('index', 'Administration des réseaux sociaux');
     }
 

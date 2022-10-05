@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Product\Attribut;
 use Doctrine\ORM\EntityManagerInterface;
-use SessionIdInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService
@@ -57,10 +56,7 @@ class CartService
         $cartComplete = [];
         if ($this->get()) {
             foreach ($this->get() as $id => $quantity) {
-                // $product_object = $this->em->getRepository(Product::class)->findOneById($id);
-                // $attributs = $this->em->getRepository(Attribut::class)->findByProduct($product_object);
                 $attribut = $this->entityManager->getRepository(Attribut::class)->find($id);
-                // $products = $this->em->getRepository(Product::class)->find($attribut->getProduct());
                 if (!$attribut) {
                     $this->delete($id);
                     continue;

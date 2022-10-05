@@ -3,8 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Address;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class AddressFixtures extends Fixture implements DependentFixtureInterface

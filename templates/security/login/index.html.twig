@@ -9,7 +9,7 @@
 	{% endif %}
 	<div class="container">
 		<div class="row text-center">
-        <h1 class="mb-5" >Bienvenue dans votre espace client</h1>
+			<h1 class="mb-5">Bienvenue dans votre espace client</h1>
 			<div class="col">
 				<div class="card p-5 mb-5 bg-light">
 					<h2>Connexion</h2>
@@ -24,9 +24,6 @@
 							<input class="form-control m-2" type="password" id="password" name="_password"/>
 							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 						</div>
-						{# If you want to control the URL the user is redirected to on success
-						<input type="hidden" name="_target_path" value="/account"/> #}
-
 						<button class="btn btn-success mx-auto m-2" type="submit">Connection</button>
 					</form>
 					<a class="btn btn-primary mx-auto m-2" href="{{ path('forgot_password_request')}}">Mot de passe oublié ?</a>

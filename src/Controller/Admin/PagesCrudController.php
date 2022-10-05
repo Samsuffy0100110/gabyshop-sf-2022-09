@@ -24,6 +24,7 @@ class PagesCrudController extends AbstractCrudController
         return Crud::new()
             ->setEntityLabelInPlural('Pages')
             ->setEntityLabelInSingular('Page')
+            ->showEntityActionsInlined()
             ->setPageTitle('index', 'Administration des Pages')
             ->addFormTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }

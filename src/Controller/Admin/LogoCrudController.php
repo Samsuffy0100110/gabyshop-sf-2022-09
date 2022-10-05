@@ -21,6 +21,7 @@ class LogoCrudController extends AbstractCrudController
         return Crud::new()
             ->setEntityLabelInPlural('Logos')
             ->setEntityLabelInSingular('Logo')
+            ->showEntityActionsInlined()
             ->setPageTitle('index', 'Administration des Logos');
     }
 

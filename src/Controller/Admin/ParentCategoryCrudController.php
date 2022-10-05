@@ -21,6 +21,7 @@ class ParentCategoryCrudController extends AbstractCrudController
         return Crud::new()
             ->setEntityLabelInSingular('Catégorie')
             ->setEntityLabelInPlural('Catégories')
+            ->showEntityActionsInlined()
             ->setPageTitle('index', 'Administration des Catégories')
             ->setSearchFields(['id', 'name', 'slug', 'description', 'image', 'createdAt', 'updatedAt'])
             ->setPaginatorPageSize(10);

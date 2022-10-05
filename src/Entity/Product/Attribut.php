@@ -2,8 +2,8 @@
 
 namespace App\Entity\Product;
 
-use App\Repository\Product\AttributRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\Product\AttributRepository;
 
 #[ORM\Entity(repositoryClass: AttributRepository::class)]
 class Attribut
