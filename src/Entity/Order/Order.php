@@ -34,6 +34,9 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeSessionId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,6 +110,18 @@ class Order
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getStripeSessionId(): ?string
+    {
+        return $this->stripeSessionId;
+    }
+
+    public function setStripeSessionId(?string $stripeSessionId): self
+    {
+        $this->stripeSessionId = $stripeSessionId;
 
         return $this;
     }
