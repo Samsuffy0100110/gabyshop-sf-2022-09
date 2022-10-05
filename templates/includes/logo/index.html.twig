@@ -18,7 +18,7 @@
 		</div>
 		<div class="col">
 			{% if app.session.get('cart') %}
-			 {% for element in app.session.get('cart') %}
+				{% for element in app.session.get('cart') %}
 				<a class="text-decoration-none" href="{{ path('cart_index') }}">
 					<div class="text-center">
 						<i class="fas fa-shopping-cart fa-3x position-relative">
