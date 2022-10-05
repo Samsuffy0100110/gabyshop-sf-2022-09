@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
-use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\AddressRepository;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 class Address
@@ -39,6 +39,7 @@ class Address
     private ?bool $isActive = null;
 
     #[ORM\ManyToOne(inversedBy: 'addresses')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     public function getId(): ?int
@@ -152,5 +153,10 @@ class Address
         $this->user = $user;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }
