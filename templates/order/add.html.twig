@@ -61,7 +61,6 @@
 				{% set total = (totalProducts + (shipping.price / 100)) | number_format(2, ',', '.')  %}
 				<strong>Total :</strong>
 				{{ total}}&euro;
-				{# <a class="btn btn-success btn-block mt-3" id="checkout-button">Payer{{total}}&euro;</a> #}
 				<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
 					<input type='hidden' name='stripeToken' id='stripe-token-id'>
 					<label for="card-element" class="mb-5">Checkout Forms</label>
@@ -71,9 +70,6 @@
 						{{total}}&euro;</button>
 				</button>
 				<form></div>
-					<pre>
-						{{ dump(total) }}
-					</pre>
 			</div>
 		</div>
 		<script src="https://js.stripe.com/v3/"></script>
