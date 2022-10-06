@@ -2,15 +2,22 @@
 
 namespace App\Controller\Order;
 
+use Stripe;
 use DateTime;
 use App\Form\OrderType;
 use App\Entity\Order\Order;
 use App\Entity\OrderDetails;
 use App\Service\CartService;
+use App\Entity\Order\Shipping;
+use Symfony\Component\Dotenv\Dotenv;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Order\OrderRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class OrderController extends AbstractController
 {
@@ -82,14 +89,33 @@ class OrderController extends AbstractController
             // }
 
             $this->entityManager->flush();
-
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
                 'shipping' => $shipping,
                 'delivery_address' => $deliveryAddress,
-                'reference' => $order->getReference()
+                'reference' => $order->getReference(),
+                'stripe_key' => $_ENV["STRIPE_KEY"],
+                'total' => $cart->getTotal()
             ]);
         }
         return $this->redirectToRoute('cart');
+    }
+
+    #[Route('/stripe/create-charge/', name: 'stripe_charge', methods: ['POST'])]
+    public function createCharge(Request $request, CartService $cart)
+    {
+        $cart->getTotal();
+        Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
+        Stripe\Charge::create([
+            'amount' => $cart,
+            "currency" => "eur",
+            "source" => $request->request->get('stripeToken'),
+        ]);
+        $this->addFlash(
+            'success',
+            'Paiement Réussi!'
+        );
+        $cart->remove();
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }
 }
