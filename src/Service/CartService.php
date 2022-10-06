@@ -57,6 +57,7 @@ class CartService
         if ($this->get()) {
             foreach ($this->get() as $id => $quantity) {
                 $attribut = $this->entityManager->getRepository(Attribut::class)->find($id);
+                $product = $attribut->getProduct();
                 if (!$attribut) {
                     $this->delete($id);
                     continue;
@@ -64,6 +65,7 @@ class CartService
                 $cartComplete[] = [
                     'attribut' => $attribut,
                     'quantity' => $quantity,
+                    'product' => $product
                 ];
             }
         }
@@ -82,5 +84,10 @@ class CartService
             $total += $item['product']->getPrice() * $item['quantity'];
         }
         return $total;
+    }
+
+    public function __toString()
+    {
+        return $this->getTotal();
     }
 }
