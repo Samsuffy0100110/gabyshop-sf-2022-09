@@ -26,17 +26,24 @@
 				<div class="bg-light p-3 rounded-shadow">
 					{% for key, attribut in cart %}
 						<div class="row {% if key > 0 %}mt-2{% endif %}">
-							<div class="col-2">
+							<div class="col-auto">
 								<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
 							</div>
-							<div class="col-8 my-auto">
+							<div class="col-auto my-auto">
 								<p class="fw-bold">{{ attribut.attribut.product.name }}</p><br>
 								<p>{{ attribut.attribut.name }}</p>
 							</div>
-							<div class="col-2 my-auto">
+							<div class="col-auto my-auto">
 								<p>x
 									{{ attribut.quantity }}</p>
 							</div>
+							<div class="col-auto">
+							<p>prix HT</p>
+								<p>{{ (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+							</div>
+							<div class="col-auto">
+							<p>prix TTC</p>
+								<p>{{ ((attribut.attribut.product.price * attribut.quantity) / 100) | number_format(2, ',', '.') }}&euro;</p>
 						</div>
 					{% endfor %}
 				</div>
