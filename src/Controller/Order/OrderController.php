@@ -6,18 +6,12 @@ use Stripe;
 use DateTime;
 use App\Form\OrderType;
 use App\Entity\Order\Order;
-use App\Entity\OrderDetails;
 use App\Service\CartService;
-use App\Entity\Order\Shipping;
-use Symfony\Component\Dotenv\Dotenv;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\Order\OrderRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class OrderController extends AbstractController
 {

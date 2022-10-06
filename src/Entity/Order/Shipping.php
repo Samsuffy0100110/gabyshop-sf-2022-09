@@ -2,9 +2,9 @@
 
 namespace App\Entity\Order;
 
-use App\Repository\Order\ShippingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\Order\ShippingRepository;
 
 #[ORM\Entity(repositoryClass: ShippingRepository::class)]
 class Shipping

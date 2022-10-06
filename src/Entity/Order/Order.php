@@ -3,9 +3,9 @@
 namespace App\Entity\Order;
 
 use App\Entity\User;
-use App\Repository\Order\OrderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\Order\OrderRepository;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -33,9 +33,6 @@ class Order
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $stripeSessionId = null;
 
     public function getId(): ?int
     {
@@ -110,18 +107,6 @@ class Order
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getStripeSessionId(): ?string
-    {
-        return $this->stripeSessionId;
-    }
-
-    public function setStripeSessionId(?string $stripeSessionId): self
-    {
-        $this->stripeSessionId = $stripeSessionId;
 
         return $this;
     }
