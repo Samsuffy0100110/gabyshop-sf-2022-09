@@ -39,32 +39,25 @@
 							<p class="card-text fw-bold">{{ product.price }}
 								€</p>
 						{% endfor %}
-						{% for offer in offers %}
-							{% if offer.typeReduce == "percent" %}
+						{% if offers| length > 0 %}
+							{% set number = 0 %}
+							{% set reduce = 0 %}
+							{% set total = 0 %}
+							{% for offer in offers %}
 								{% if offer.typeReduce == "percent" %}
-									{% set percent = product.price * (1 - offer.reduce / 100) %}
-									{% if percent %}
-										{% set total = 0 %}
-										{% set total = total + percent %}
-									{% endif %}
-									<p class="card-text fw-bold">
-										{{ total }}
-										€</p>
+									{% set number = product.price * offer.reduce / 100 %}
+									{% set reduce = reduce + number %}
+									{% set total = product.price - reduce %}
 								{% endif %}
-							{% endif %}
-							{% if offer.typeReduce == "euro" %}
 								{% if offer.typeReduce == "euro" %}
-									{% set euro = product.price - offer.reduce %}
-									{% if euro %}
-										{% set total = 0 %}
-										{% set total = total + euro %}
-									{% endif %}
-									<p class="card-text fw-bold">
-										{{ total }}
-										€</p>
+									{% set number = offer.reduce %}
+									{% set reduce = reduce + number %}
+									{% set total = product.price - reduce %}
 								{% endif %}
-							{% endif %}
-						{% endfor %}
+							{% endfor %}
+							<p class="card-text fw-bold">{{ total }}
+								€</p>
+						{% endif %}
 					</div>
 				</div>
 			</div>
