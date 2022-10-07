@@ -2,9 +2,9 @@
 
 namespace App\Controller\Product;
 
-use App\Form\SearchProductType;
 use App\Entity\Product\Category;
 use App\Entity\Product\ParentCategory;
+use App\Form\Product\SearchProductType;
 use App\Repository\Product\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

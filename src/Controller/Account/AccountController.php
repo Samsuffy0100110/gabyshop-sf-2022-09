@@ -2,7 +2,7 @@
 
 namespace App\Controller\Account;
 
-use App\Form\ProfileType;
+use App\Form\User\ProfileType;
 use App\Security\EmailVerifier;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;

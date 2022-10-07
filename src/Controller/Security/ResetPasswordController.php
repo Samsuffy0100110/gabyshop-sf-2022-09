@@ -4,14 +4,14 @@ namespace App\Controller\Security;
 
 use App\Entity\User;
 use Symfony\Component\Mime\Address;
-use App\Form\ChangePasswordFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\ResetPasswordRequestFormType;
+use App\Form\User\ChangePasswordFormType;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\User\ResetPasswordRequestFormType;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

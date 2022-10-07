@@ -25,8 +25,8 @@
 	</head>
 	<body style="background-color: {{ theme.backgroundColor }};">
 		{% include "includes/navsecurity/index.html.twig" %}
-		{{ render(controller('App\\Controller\\Front\\FrontController::logo')) }}
-		{{ render(controller('App\\Controller\\Front\\FrontController::navbar')) }}
+		{{ render(controller('App\\Controller\\Shop\\FrontController::logo')) }}
+		{{ render(controller('App\\Controller\\Shop\\FrontController::navbar')) }}
 		<div class="container">
 		{% for label, messages in app.flashes %}
 		{% for message in messages %}

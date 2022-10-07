@@ -4,8 +4,8 @@ namespace App\Controller\Security;
 
 use App\Entity\User;
 use App\Security\EmailVerifier;
-use App\Form\RegistrationFormType;
 use Symfony\Component\Mime\Address;
+use App\Form\User\RegistrationFormType;
 use App\Security\SecurityAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;

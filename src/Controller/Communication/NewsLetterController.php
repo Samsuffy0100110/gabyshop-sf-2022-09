@@ -2,9 +2,9 @@
 
 namespace App\Controller\Communication;
 
-use App\Form\NewsLetterType;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Mime\Address;
+use App\Form\Communication\NewsLetterType;
 use App\Entity\Communication\NewsLetterUser;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;

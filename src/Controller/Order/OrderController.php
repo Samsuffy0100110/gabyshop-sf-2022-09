@@ -4,9 +4,9 @@ namespace App\Controller\Order;
 
 use Stripe;
 use DateTime;
-use App\Form\OrderType;
 use App\Entity\Order\Order;
 use App\Service\CartService;
+use App\Form\Order\OrderType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

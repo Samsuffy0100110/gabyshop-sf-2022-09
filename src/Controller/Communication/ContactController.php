@@ -2,8 +2,8 @@
 
 namespace App\Controller\Communication;
 
-use App\Form\ContactType;
 use Symfony\Component\Mime\Email;
+use App\Form\Communication\ContactType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;

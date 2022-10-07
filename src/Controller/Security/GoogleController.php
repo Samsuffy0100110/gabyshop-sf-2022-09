@@ -2,8 +2,8 @@
 
 namespace App\Controller\Security;
 
-use App\Form\ChangePasswordType;
 use App\Repository\UserRepository;
+use App\Form\User\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -3,7 +3,7 @@
 namespace App\Controller\User;
 
 use App\Entity\Address;
-use App\Form\AddressType;
+use App\Form\User\AddressType;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
