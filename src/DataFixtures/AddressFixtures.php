@@ -1,8 +1,9 @@
 <?php
 
-namespace App\DataFixtures\User;
+namespace App\DataFixtures;
 
 use App\Entity\Address;
+use App\DataFixtures\UserFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;

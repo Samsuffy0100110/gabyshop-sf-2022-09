@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures\User;
+namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
