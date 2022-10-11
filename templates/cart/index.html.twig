@@ -22,7 +22,6 @@
 		</div>
 		{% endif %}
 		{% if cart|length > 0 %}
-
 			<table class="table table-striped borde rounded shadow">
 				<thead>
 					<tr>
@@ -76,11 +75,7 @@
 					{{ total | number_format(2, ',', '.') }}
 					&euro;</b>
 				<br>
-				{% if app.user %}
 					<a href="{{ path('order') }}" class="btn btn-success mt-2">Valider mon panier</a>  
-				{% else %}
-					<a href="{{ path('login') }}" class="btn btn-success mt-2">Connexion</a>
-				{% endif %}
 			</div>
 		{% else %}
 			<hr>

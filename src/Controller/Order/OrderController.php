@@ -8,6 +8,8 @@ use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
 use App\Entity\Order\OrderDetails;
+use App\Repository\Order\ShippingRepository;
+use App\Service\MondialRelayService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,8 +27,11 @@ class OrderController extends AbstractController
     }
 
     #[Route('/commande', name: 'order')]
-    public function index(CartService $cart)
-    {
+    public function index(
+        CartService $cart,
+        MondialRelayService $mondialRelayService,
+        ShippingRepository $shippingRepository
+    ) {
         if ($this->getUser() == null) {
             $this->addFlash('warning', 'Vous devez être connecté pour passer une commande.');
             return $this->redirectToRoute('login');
@@ -39,7 +44,10 @@ class OrderController extends AbstractController
 
         return $this->render('order/index.html.twig', [
             'form' => $form->createView(),
-            'cart' => $cart->getFull()
+            'cart' => $cart->getFull(),
+            'totalWeight' => $cart->getTotalWeight(),
+            'shippingMethod' => $mondialRelayService->getShippingByTotalWheight($cart),
+            'shippings' => $shippingRepository->findBy(['name' => $mondialRelayService->getShippingByTotalWheight($cart)])
         ]);
     }
 
@@ -91,7 +99,8 @@ class OrderController extends AbstractController
                 'delivery_address' => $deliveryAddress,
                 'reference' => $order->getReference(),
                 'stripe_key' => $_ENV["STRIPE_KEY"],
-                'total' => $cart->getTotal()
+                'total' => $cart->getTotal(),
+
             ]);
         }
         return $this->redirectToRoute('cart');

@@ -86,6 +86,15 @@ class CartService
         return $total;
     }
 
+    public function getTotalWeight()
+    {
+        $totalWeight = 0;
+        foreach ($this->getFull() as $item) {
+            $totalWeight += $item['product']->getWeight() * $item['quantity'];
+        }
+        return $totalWeight;
+    }
+
     public function __toString()
     {
         return $this->getTotal();
