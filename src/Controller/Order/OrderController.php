@@ -7,6 +7,7 @@ use DateTime;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
+use App\Entity\Order\OrderDetails;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,20 +68,21 @@ class OrderController extends AbstractController
             $order->setReference(sprintf('%s-%s', $dayDate->format('dmY'), uniqid()))
                 ->setUser($this->getUser())
                 ->setCreatedAt($dayDate)
-                ->setState(0);
+                ->setShipping($shipping)
+                ->setState(1);
 
             $this->entityManager->persist($order);
 
-            // foreach ($cart->getFull() as $product) {
-            //     $orderDetails = new OrderDetails();
-            //     $orderDetails->setMyOrder($order)
-            //         ->setProduct($product['product']->getName())
-            //         ->setQuantity($product['quantity'])
-            //         ->setPrice($product['product']->getPrice())
-            //         ->setTotal($product['product']->getPrice() * $product['quantity']);
+            foreach ($cart->getFull() as $product) {
+                $orderDetails = new OrderDetails();
+                $orderDetails->setMyOrder($order)
+                    ->setProduct($product['product']->getName())
+                    ->setQuantity($product['quantity'])
+                    ->setPrice($product['product']->getPrice())
+                    ->setTotal($product['product']->getPrice() * $product['quantity']);
 
-            //     $this->entityManager->persist($orderDetails);
-            // }
+                $this->entityManager->persist($orderDetails);
+            }
 
             $this->entityManager->flush();
             return $this->render('order/add.html.twig', [
