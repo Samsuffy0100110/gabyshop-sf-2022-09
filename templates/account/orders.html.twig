@@ -41,7 +41,7 @@
 						<tbody>
 							{% for order in orders %}	
 								<tr>
-									<td>{{order.reference}}</td>						
+									<td>{{ order.reference }}</td>						
 									<td>
 										{% if order.state == 1 %}							
 											Payée
@@ -51,9 +51,9 @@
 											Livraison en cours					
 										{% endif %}
 									</td>
-									<td>{{order.createdAt |date('d-m-Y')}}</td>
-									<td class="text-left">{{order.orderDetails|length}}</td>
-									<td>{{((order.shipping.price) + order.getTotal / 100)|number_format(2, ',', '.', ' ')}} &euro;</td>
+									<td>{{ order.createdAt |date('d-m-Y') }}</td>
+									<td class="text-left">{{ order.orderDetails|length }}</td>
+									<td>{{ ((order.shipping.price) + order.getTotal / 100)|number_format(2, ',', '.', ' ') }} &euro;</td>
 									<td class="text-right"><a href="{{ path('account_order', {'id': order.id}) }}">Détail de votre commande</a></td>
 								</tr>
 							{% endfor %}

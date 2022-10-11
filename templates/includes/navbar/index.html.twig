@@ -15,7 +15,7 @@
 								{% for category in categories %}
 									{% if category.parent.id == parentCategory.id %}
 										<li>
-											<a class="dropdown-item" href="{{ path('product_index', { parentCategory: parentCategory.slug, category: category.slug })}}">{{ category.name }}</a>
+											<a class="dropdown-item" href="{{ path('category_show', { parentCategory: parentCategory.slug, category: category.slug })}}">{{ category.name }}</a>
 										</li>
 									{% endif %}
 								{% endfor %}
