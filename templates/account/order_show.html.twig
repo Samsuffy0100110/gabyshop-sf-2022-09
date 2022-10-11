@@ -33,7 +33,8 @@
 				<tr>
 					<th scope="col">Produit</th>
 					<th scope="col">Quantité</th>
-					<th scope="col">Prix unitaire</th>
+					<th scope="col">Prix unitaire HT</th>
+					<th scope="col">Prix unitaire TTC</th>
 					<th scope="col">Total</th>
 				</tr>
 			</thead>
@@ -42,6 +43,15 @@
 					<tr>
 						<td>{{ product.product }}</td>
 						<td>{{ product.quantity }}</td>
+						{% if product.taxe == "TVA 20%" %}
+							<td>{{ (product.price * 0.8 / 100)|number_format(2, ',', '.', ' ') }}
+								&euro;
+							</td>
+						{% else %}
+							<td>{{ (product.price * 0.9 / 100)|number_format(2, ',', '.', ' ') }}
+								&euro;
+							</td>
+						{% endif %}
 						<td>{{ (product.price / 100)|number_format(2, ',', '.', ' ') }}
 							&euro;
 						</td>

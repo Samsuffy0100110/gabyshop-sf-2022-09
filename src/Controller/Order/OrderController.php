@@ -70,7 +70,6 @@ class OrderController extends AbstractController
                 ->setCreatedAt($dayDate)
                 ->setShipping($shipping)
                 ->setState(1);
-
             $this->entityManager->persist($order);
 
             foreach ($cart->getFull() as $product) {
@@ -79,6 +78,7 @@ class OrderController extends AbstractController
                     ->setProduct($product['product']->getName())
                     ->setQuantity($product['quantity'])
                     ->setPrice($product['product']->getPrice())
+                    ->setTaxe($product['product']->getTaxe())
                     ->setTotal($product['product']->getPrice() * $product['quantity']);
 
                 $this->entityManager->persist($orderDetails);
