@@ -10,19 +10,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class ParentCategoryController extends AbstractController
 {
-    #[Route('/parent_category', name: 'parent_category')]
-    public function index(): Response
-    {
-        return $this->render('parent_category/index.html.twig', [
-            'controller_name' => 'ParentCategoryController',
-        ]);
-    }
-
     #[Route(
-        '/{parentCategory}',
-        name: 'category_index',
+        'categorie/{parentCategory}',
+        name: 'category_show',
         methods: ['GET'],
-        priority: -2
     )]
     #[ParamConverter('parentCategory', options: ['mapping' => ['parentCategory' => 'slug']])]
     public function showProductsByCategoriesAndParentCategories(ParentCategory $parentCategory): Response

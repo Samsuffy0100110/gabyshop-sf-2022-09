@@ -12,10 +12,10 @@
 				<i>
 					<small>
 						<a href="{{ path('home')}}">Home</a>
-						/Categorie/
-						<a href="{{ path('category_index', { parentCategory: parentCategory.slug })}}">{{ parentCategory.name }}</a>
 						/
-						<a href="{{ path('product_index', { parentCategory: parentCategory.slug, category: category.slug })}}">{{ category.name }}</a>
+						<a href="{{ path('category_show', { parentCategory: parentCategory.slug })}}">{{ parentCategory.name }}</a>
+						/
+						<a href="{{ path('sub-category_show', { parentCategory: parentCategory.slug, category: category.slug })}}">{{ category.name }}</a>
 						/
 						<a class="fw-bold text-decoration-none link-dark">{{ product.name }}</a>
 					</small>

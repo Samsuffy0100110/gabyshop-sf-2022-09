@@ -14,19 +14,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class CategoryController extends AbstractController
 {
-    #[Route('/category', name: 'index')]
-    public function index(): Response
-    {
-        return $this->render('category/index.html.twig', [
-            'controller_name' => 'CategoryController',
-        ]);
-    }
-
     #[Route(
-        '/{parentCategory}/{category}',
-        name: 'product_index',
+        'categorie/{parentCategory}/sous-categorie/{category}',
+        name: 'sub-category_show',
         methods: ['GET', 'POST'],
-        priority: -1
     )]
     #[ParamConverter('category', options: ['mapping' => ['category' => 'slug']])]
     #[ParamConverter('parentCategory', options: ['mapping' => ['parentCategory' => 'slug']])]

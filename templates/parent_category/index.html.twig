@@ -11,8 +11,8 @@
 				<i>
 					<small>
 						<a href="{{ path('home')}}">Home</a>
-						/Categorie/
-						<a href="{{ path('category_index', { parentCategory: parentCategory.slug }) }}">{{ parentCategory.name }}</a>
+						/
+					<a class="fw-bold text-decoration-none link-dark">{{ parentCategory.name }}</a>
 					</small>
 				</i>
 			</div>
@@ -37,7 +37,7 @@
 						<div class="card-body">
 							<h5 class="card-title">{{ category.name }}</h5>
 							<p class="card-text">{{ category.description }}</p>
-							<a href="{{ path('product_index', { parentCategory: parentCategory.slug, category: category.slug }) }}" class="btn btn-outline-success">Voir les produits</a>
+							<a href="{{ path('sub-category_show', { parentCategory: parentCategory.slug, category: category.slug }) }}" class="btn btn-outline-success">Voir les produits</a>
 						</div>
 					</div>
 				</div>

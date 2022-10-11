@@ -100,16 +100,12 @@ class AccountController extends AbstractController
     #[Route('order/{id}', name: 'order')]
     #[ParamConverter('order', options: ['mapping' => ['id' => 'id']])]
     public function userOrder(
-        Order $order,
-        Product $product,
+        Order $order
     ): Response {
-
-        $taxe = $product->getTaxe();
         $shipping = $order->getShipping();
         return $this->render('account/order_show.html.twig', [
             'order' => $order,
             'shipping' => $shipping,
-            'taxe' => $taxe,
         ]);
     }
 
