@@ -26,13 +26,13 @@ class OrderType extends AbstractType
                 'multiple' => false,
                 'expanded' => true
             ])
-            ->add('shipping', EntityType::class, [
-                'label' => 'Choisissez votre transporteur',
-                'required' => true,
-                'class' => Shipping::class,
-                'multiple' => false,
-                'expanded' => true
-            ])
+            // ->add('shipping', EntityType::class, [
+            //     'label' => 'Choisissez votre transporteur',
+            //     'required' => true,
+            //     'class' => Shipping::class,
+            //     'multiple' => false,
+            //     'expanded' => true
+            // ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider ma commande',
                 'attr' => [
