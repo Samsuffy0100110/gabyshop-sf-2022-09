@@ -2,17 +2,24 @@
 
 namespace App\Controller\Account;
 
+use App\Entity\Order\Order;
 use App\Form\User\ProfileType;
+use App\Entity\Product\Product;
 use App\Security\EmailVerifier;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Order\OrderRepository;
+use App\Repository\Product\TaxeRepository;
+use App\Repository\Order\ShippingRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\Repository\Product\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 #[Route('/account/', name: 'account_')]
 class AccountController extends AbstractController
@@ -82,10 +89,27 @@ class AccountController extends AbstractController
     }
 
     #[Route('orders', name: 'orders')]
-    public function orders(): Response
-    {
+    public function userOrders(
+        OrderRepository $orderRepository,
+    ): Response {
         return $this->render('account/orders.html.twig', [
-            'controller_name' => 'AccountController',
+            'orders' => $orderRepository->findBy(['user' => $this->getUser()]),
+        ]);
+    }
+
+    #[Route('order/{id}', name: 'order')]
+    #[ParamConverter('order', options: ['mapping' => ['id' => 'id']])]
+    public function userOrder(
+        Order $order,
+        Product $product,
+    ): Response {
+
+        $taxe = $product->getTaxe();
+        $shipping = $order->getShipping();
+        return $this->render('account/order_show.html.twig', [
+            'order' => $order,
+            'shipping' => $shipping,
+            'taxe' => $taxe,
         ]);
     }
 
