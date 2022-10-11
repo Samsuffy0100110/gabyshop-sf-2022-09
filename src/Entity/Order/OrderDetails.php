@@ -28,6 +28,9 @@ class OrderDetails
     #[ORM\Column(nullable: true)]
     private ?float $total = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $taxe = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -96,5 +99,17 @@ class OrderDetails
     public function __toString()
     {
         return sprintf('%s x%s', $this->getProduct(), $this->getQuantity());
+    }
+
+    public function getTaxe(): ?string
+    {
+        return $this->taxe;
+    }
+
+    public function setTaxe(string $taxe): self
+    {
+        $this->taxe = $taxe;
+
+        return $this;
     }
 }
