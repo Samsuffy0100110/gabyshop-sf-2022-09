@@ -26,10 +26,10 @@ class OrderController extends AbstractController
     #[Route('/commande', name: 'order')]
     public function index(CartService $cart)
     {
-
-        // if(!$this->getUser()->getAddresses()->getValues()){
-        //     return $this->redirectToRoute('account_address_add');
-        // }
+        if ($this->getUser() == null) {
+            $this->addFlash('warning', 'Vous devez être connecté pour passer une commande.');
+            return $this->redirectToRoute('login');
+        }
 
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()

@@ -17,19 +17,19 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
         [
             'reference' => '123456789',
             'user' => 'User',
-            'shipping' => 'Chronopost',
+            'shipping' => 'Mondial Relay 0.5kg',
             'state' => 1,
         ],
         [
             'reference' => '987654321',
             'user' => 'User',
-            'shipping' => 'Colissimo',
+            'shipping' => 'Mondial Relay 1kg',
             'state' => 1,
         ],
         [
             'reference' => '1234567898',
             'user' => 'User',
-            'shipping' => 'Mondial Relay',
+            'shipping' => 'Livraison gratuite',
             'state' => 1,
         ],
     ];
