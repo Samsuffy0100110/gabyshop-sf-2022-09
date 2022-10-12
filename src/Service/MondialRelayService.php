@@ -6,7 +6,7 @@ use App\Service\CartService;
 
 class MondialRelayService
 {
-    public function getShippingByTotalWheight(CartService $cartService)
+    public function shipByTotWeight(CartService $cartService)
     {
         $totalWeight = $cartService->getTotalWeight();
 
@@ -34,6 +34,8 @@ class MondialRelayService
             return 'Mondial Relay 20kg';
         } elseif ($totalWeight > 20001 && $totalWeight <= 30000) {
             return 'Mondial Relay 30kg';
+        } else {
+            return 'pas de livraison possible';
         }
     }
 }
