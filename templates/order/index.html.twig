@@ -11,10 +11,11 @@
 		<hr>
 		<div class="row">
 			<div class="col-md-6">
-			{% for shippings in shippings %}
-			<div class="text fw-bold">{{ shippings.name}}</div>
-			<div>{{ shippings.description }}</div>
-			<div>Prix: {{ shippings.price | number_format(2, ',', ' ') }} €</div
+
+			{% for shipping in shippings %}
+			<div class="text fw-bold">{{ shipping.name}}</div>
+			<div>{{ shipping.description }}</div>
+			<div>Prix: {{ shipping.price | number_format(2, ',', ' ') }} €</div
 			{% endfor %}
 			{% if shippingMethod == 'Livraison gratuite' %}
 			{% set formHTML  %}

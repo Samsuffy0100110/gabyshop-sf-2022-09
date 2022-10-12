@@ -47,7 +47,8 @@ class OrderController extends AbstractController
             'cart' => $cart->getFull(),
             'totalWeight' => $cart->getTotalWeight(),
             'shippingMethod' => $mondialRelayService->getShippingByTotalWheight($cart),
-            'shippings' => $shippingRepository->findBy(['name' => $mondialRelayService->getShippingByTotalWheight($cart)])
+            'shippings' => $shippingRepository->
+            findBy(['name' => $mondialRelayService->getShippingByTotalWheight($cart)])
         ]);
     }
 
@@ -61,7 +62,7 @@ class OrderController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $shipping = $form->get('shipping')->getData();
+            // $shipping = $form->get('shipping')->getData();
             $delivery = $form->get('addresses')->getData();
             $deliveryAddress = sprintf(
                 '%s %s <br> %s <br> %s %s',
@@ -76,7 +77,7 @@ class OrderController extends AbstractController
             $order->setReference(sprintf('%s-%s', $dayDate->format('dmY'), uniqid()))
                 ->setUser($this->getUser())
                 ->setCreatedAt($dayDate)
-                ->setShipping($shipping)
+                // ->setShipping($shipping)
                 ->setState(1);
             $this->entityManager->persist($order);
 
@@ -95,7 +96,7 @@ class OrderController extends AbstractController
             $this->entityManager->flush();
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
-                'shipping' => $shipping,
+                // 'shipping' => $shipping,
                 'delivery_address' => $deliveryAddress,
                 'reference' => $order->getReference(),
                 'stripe_key' => $_ENV["STRIPE_KEY"],

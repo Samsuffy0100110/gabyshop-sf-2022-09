@@ -18,18 +18,33 @@
 			<hr>
 			<p class="text-decoration-none fw-bold">{{ comment.user.firstname }}</p>
 			<i>{{ comment.createdAt|format_datetime('full', 'short', locale='fr', timezone='Europe/Paris') }}</i>
-				<div class="container">
-			<div class="card shadow text-dark bg-light p-1 mt-3 mb-3">
-				<p>{{ comment.comment|raw }}</p>
+			<div class="container">
+				<div class="card shadow text-dark bg-light p-1 mt-3 mb-3">
+					<p>{{ comment.comment|raw }}</p>
+				</div>
 			</div>
-		</div>
-		<hr>
+			<hr>
 		{% endfor %}
 		{% if app.user %}
-			{{ form(form) }}
-				{% else %}
-					<hr>
-					<a class="nav-link text-dark btn btn-success mb-5 mt-5 w-50" href="{{ path('login')}}">Connecte toi pour laisser un message</a>
-			{% endif %}
-		</div>
+			{{ form_start(form) }}
+			{{ form_row(form.comment) }}
+			{{ form_row(form.rating) }}
+			<button type="submit" class="btn btn-success">Envoyer</button>
+			{{ form_end(form) }}
+		{% else %}
+			<hr>
+			<a class="nav-link text-dark btn btn-success mb-5 mt-5 w-50" href="{{ path('login')}}">Connecte toi pour laisser un message</a>
+		{% endif %}
 	</div>
+</div>
+
+{# <form class="d-flex mb-3" action="#basic-example-9" method="post">
+	<label for="input-7-xs" class="control-label">Note le produit</label>
+	<input id="input-7-xs" class="rating rating-loading" data-show-clear="false" data-show-caption="false" value="1" data-min="0" data-max="5" data-step="0.5" data-size="xs">
+	<button type="submit" class="btn btn-primary">Mon&nbspvote</button>&nbsp;
+</form> #}
+<script>
+	$(document).ready(function () {
+$('#input-7-xs').rating();
+});
+</script>

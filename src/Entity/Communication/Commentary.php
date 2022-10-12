@@ -31,6 +31,9 @@ class Commentary
     #[ORM\Column(nullable: true)]
     private ?bool $isPublished = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $rating = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class Commentary
     public function setIsPublished(?bool $isPublished): self
     {
         $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    public function getRating(): ?int
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?int $rating): self
+    {
+        $this->rating = $rating;
 
         return $this;
     }
