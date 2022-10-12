@@ -28,6 +28,7 @@
 		{% if app.user %}
 			{{ form_start(form) }}
 			{{ form_row(form.comment) }}
+			<h5>Note le produit</h5>
 			{{ form_row(form.rating) }}
 			<button type="submit" class="btn btn-success">Envoyer</button>
 			{{ form_end(form) }}
@@ -38,13 +39,3 @@
 	</div>
 </div>
 
-{# <form class="d-flex mb-3" action="#basic-example-9" method="post">
-	<label for="input-7-xs" class="control-label">Note le produit</label>
-	<input id="input-7-xs" class="rating rating-loading" data-show-clear="false" data-show-caption="false" value="1" data-min="0" data-max="5" data-step="0.5" data-size="xs">
-	<button type="submit" class="btn btn-primary">Mon&nbspvote</button>&nbsp;
-</form> #}
-<script>
-	$(document).ready(function () {
-$('#input-7-xs').rating();
-});
-</script>

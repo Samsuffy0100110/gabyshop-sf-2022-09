@@ -5,11 +5,8 @@ namespace App\Form\Communication;
 use App\Entity\Communication\Commentary;
 use Symfony\Component\Form\AbstractType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\RangeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class CommentType extends AbstractType
 {
@@ -18,6 +15,14 @@ class CommentType extends AbstractType
         $builder
             ->add('rating', null, [
                 'label' => false,
+                'attr' => [
+                    'class' => 'rating rating-loading',
+                    'data-show-clear' => 'false',
+                    'data-show-caption' => 'false',
+                    'value' => '3',
+                    'data-min' => '0',
+                    'data-max' => '5',
+                ],
             ])
             ->add(
                 'comment',
