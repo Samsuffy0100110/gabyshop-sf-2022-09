@@ -2,6 +2,7 @@
 
 namespace App\Entity\Product;
 
+use App\Entity\Communication\Commentary;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -77,12 +78,16 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Attribut::class, cascade: ['persist', 'remove'])]
     private Collection $attributs;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Commentary::class)]
+    private Collection $commentaries;
+
     public function __construct()
     {
         $this->offers = new ArrayCollection();
         $this->rates = new ArrayCollection();
         $this->featuredProducts = new ArrayCollection();
         $this->attributs = new ArrayCollection();
+        $this->commentaries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -395,6 +400,36 @@ class Product
             // set the owning side to null (unless already changed)
             if ($attribut->getProduct() === $this) {
                 $attribut->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Commentary>
+     */
+    public function getCommentaries(): Collection
+    {
+        return $this->commentaries;
+    }
+
+    public function addCommentary(Commentary $commentary): self
+    {
+        if (!$this->commentaries->contains($commentary)) {
+            $this->commentaries->add($commentary);
+            $commentary->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentary(Commentary $commentary): self
+    {
+        if ($this->commentaries->removeElement($commentary)) {
+            // set the owning side to null (unless already changed)
+            if ($commentary->getProduct() === $this) {
+                $commentary->setProduct(null);
             }
         }
 

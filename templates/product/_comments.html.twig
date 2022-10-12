@@ -14,6 +14,22 @@
 		</div>
 	</div>
 	<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-		fuck
+		{% for comment in product.commentaries %}
+			<hr>
+			<p class="text-decoration-none fw-bold">{{ comment.user.firstname }}</p>
+			<i>{{ comment.createdAt|format_datetime('full', 'short', locale='fr', timezone='Europe/Paris') }}</i>
+				<div class="container">
+			<div class="card shadow text-dark bg-light p-1 mt-3 mb-3">
+				<p>{{ comment.comment|raw }}</p>
+			</div>
+		</div>
+		<hr>
+		{% endfor %}
+		{% if app.user %}
+			{{ form(form) }}
+				{% else %}
+					<hr>
+					<a class="nav-link text-dark btn btn-success mb-5 mt-5 w-50" href="{{ path('login')}}">Connecte toi pour laisser un message</a>
+			{% endif %}
+		</div>
 	</div>
-</div>
