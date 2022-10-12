@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Détail
-	{{ product.name }} |
+	{{ product.name }}
+	|
 	{{ parent() }}
 {% endblock %}
 
@@ -36,18 +37,7 @@
 			<div class="col-12">
 				<div class="card text-center mt-2 mb-2">
 					<div class="card-header">
-						<ul class="nav nav-tabs card-header-tabs">
-							<li class="nav-item">
-								<a class="nav-link active" aria-current="true" href="#">Details</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">Commentaires</a>
-							</li>
-						</ul>
-					</div>
-					<div class="card-body">
-						<h5 class="card-title">{{ product.name }}</h5>
-						<p class="card-text">{{ product.description }}</p>
+						{% include "product/_comments.html.twig" %}
 					</div>
 				</div>
 			</div>
