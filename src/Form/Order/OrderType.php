@@ -31,7 +31,6 @@ class OrderType extends AbstractType
 
         if ($this->mondialRelayService->shipByTotWeight($this->cartService) == 'Livraison gratuite') {
             $builder
-
             ->add('addresses', EntityType::class, [
                 'label' => false,
                 'required' => true,
@@ -40,7 +39,6 @@ class OrderType extends AbstractType
                 'multiple' => false,
                 'expanded' => true
             ])
-
             ->add('shipping', EntityType::class, [
                 'label' => 'Livraison gratuite',
                 'required' => true,
@@ -50,7 +48,6 @@ class OrderType extends AbstractType
                     'value' => 'Livraison gratuite'
                 ]
             ])
-
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider ma commande',
                 'attr' => [
@@ -60,7 +57,6 @@ class OrderType extends AbstractType
             ;
         } else {
             $builder
-
             ->add('addresses', EntityType::class, [
                 'label' => false,
                 'required' => true,
@@ -70,7 +66,6 @@ class OrderType extends AbstractType
                     'class' => 'd-none',
                 ]
             ])
-
             ->add('shipping', EntityType::class, [
                 'label' => $this->mondialRelayService->shipByTotWeight($this->cartService),
                 'required' => true,
@@ -80,7 +75,6 @@ class OrderType extends AbstractType
                 shipByTotWeight($this->cartService)]),
                 'attr' => [
                     'class' => 'd-none',
-
                 ]
             ])
 
