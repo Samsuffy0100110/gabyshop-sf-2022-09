@@ -8,7 +8,6 @@ use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
 use App\Entity\Order\OrderDetails;
-use App\Repository\Order\ShippingRepository;
 use App\Service\MondialRelayService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +19,6 @@ class OrderController extends AbstractController
 {
     private $entityManager;
 
-
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
@@ -29,8 +27,7 @@ class OrderController extends AbstractController
     #[Route('/commande', name: 'order')]
     public function index(
         CartService $cart,
-        MondialRelayService $mondialRelayService,
-        ShippingRepository $shippingRepository
+        MondialRelayService $mondialRelayService
     ) {
         if ($this->getUser() == null) {
             $this->addFlash('warning', 'Vous devez être connecté pour passer une commande.');
@@ -41,14 +38,11 @@ class OrderController extends AbstractController
             'user' => $this->getUser()
         ]);
 
-
         return $this->render('order/index.html.twig', [
-            'form' => $form->createView(),
-            'cart' => $cart->getFull(),
             'totalWeight' => $cart->getTotalWeight(),
-            'shippingMethod' => $mondialRelayService->getShippingByTotalWheight($cart),
-            'shippings' => $shippingRepository->
-            findBy(['name' => $mondialRelayService->getShippingByTotalWheight($cart)])
+            'shippingMethod' => $mondialRelayService->shipByTotWeight($cart),
+            'form' => $form->createView(),
+            'cart' => $cart->getFull()
         ]);
     }
 
