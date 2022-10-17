@@ -71,7 +71,7 @@ class OrderController extends AbstractController
             $order->setReference(sprintf('%s-%s', $dayDate->format('dmY'), uniqid()))
                 ->setUser($this->getUser())
                 ->setCreatedAt($dayDate)
-                ->setShipping($shipping)
+                ->addShipping($shipping)
                 ->setState(1);
             $this->entityManager->persist($order);
 

@@ -23,6 +23,9 @@ class Shipping
     #[ORM\Column(nullable: true)]
     private ?float $price = null;
 
+    #[ORM\ManyToOne(inversedBy: 'shipping')]
+    private ?Order $orderShipping = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -67,5 +70,17 @@ class Shipping
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getOrderShipping(): ?Order
+    {
+        return $this->orderShipping;
+    }
+
+    public function setOrderShipping(?Order $orderShipping): self
+    {
+        $this->orderShipping = $orderShipping;
+
+        return $this;
     }
 }
