@@ -24,8 +24,6 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Shipping $shipping = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reference = null;
@@ -39,9 +37,13 @@ class Order
     #[ORM\OneToMany(mappedBy: 'myOrder', targetEntity: OrderDetails::class)]
     private Collection $orderDetails;
 
+    #[ORM\OneToMany(mappedBy: 'orderShipping', targetEntity: Shipping::class)]
+    private Collection $shipping;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
+        $this->shipping = new ArrayCollection();
     }
 
     public function getTotal()
@@ -78,18 +80,6 @@ class Order
     public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getShipping(): ?Shipping
-    {
-        return $this->shipping;
-    }
-
-    public function setShipping(?Shipping $shipping): self
-    {
-        $this->shipping = $shipping;
 
         return $this;
     }
@@ -154,6 +144,36 @@ class Order
             // set the owning side to null (unless already changed)
             if ($orderDetail->getMyOrder() === $this) {
                 $orderDetail->setMyOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Shipping>
+     */
+    public function getShipping(): Collection
+    {
+        return $this->shipping;
+    }
+
+    public function addShipping(Shipping $shipping): self
+    {
+        if (!$this->shipping->contains($shipping)) {
+            $this->shipping->add($shipping);
+            $shipping->setOrderShipping($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShipping(Shipping $shipping): self
+    {
+        if ($this->shipping->removeElement($shipping)) {
+            // set the owning side to null (unless already changed)
+            if ($shipping->getOrderShipping() === $this) {
+                $shipping->setOrderShipping(null);
             }
         }
 

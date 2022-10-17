@@ -39,7 +39,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $order = new Order();
             $order->setReference($orderData['reference']);
             $order->setUser($this->getReference($orderData['user']));
-            $order->setShipping($this->getReference($orderData['shipping']));
+            $order->addShipping($this->getReference($orderData['shipping']));
             $order->setState($orderData['state']);
             $order->setCreatedAt(new DateTime());
             $order->setUpdatedAt(new DateTime());
