@@ -24,7 +24,10 @@
 			</div>
 			<div class="col-lg-9 border rounded p-5">
 				<h1>Ma liste d'envie</h1>
+				{% if wishlists is not empty %}
+				{% else %}
+					<p>Vous n'avez pas encore de produits dans votre liste d'envie.</p>
+				{% endif %}
 			</div>
-		</div>
 	</div>
 {% endblock %}

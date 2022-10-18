@@ -81,6 +81,9 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Commentary::class)]
     private Collection $commentaries;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Wishlist::class)]
+    private Collection $wishlists;
+
     public function __construct()
     {
         $this->offers = new ArrayCollection();
@@ -88,6 +91,7 @@ class Product
         $this->featuredProducts = new ArrayCollection();
         $this->attributs = new ArrayCollection();
         $this->commentaries = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -430,6 +434,36 @@ class Product
             // set the owning side to null (unless already changed)
             if ($commentary->getProduct() === $this) {
                 $commentary->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Wishlist>
+     */
+    public function getWishlists(): Collection
+    {
+        return $this->wishlists;
+    }
+
+    public function addWishlist(Wishlist $wishlist): self
+    {
+        if (!$this->wishlists->contains($wishlist)) {
+            $this->wishlists->add($wishlist);
+            $wishlist->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWishlist(Wishlist $wishlist): self
+    {
+        if ($this->wishlists->removeElement($wishlist)) {
+            // set the owning side to null (unless already changed)
+            if ($wishlist->getProduct() === $this) {
+                $wishlist->setProduct(null);
             }
         }
 
