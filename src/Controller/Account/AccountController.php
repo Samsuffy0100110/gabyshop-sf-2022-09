@@ -2,21 +2,16 @@
 
 namespace App\Controller\Account;
 
-use App\Classe\Cart;
 use App\Entity\Order\Order;
 use App\Form\User\ProfileType;
-use App\Entity\Product\Product;
 use App\Security\EmailVerifier;
 use App\Repository\UserRepository;
 use Symfony\Component\Mime\Address;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Order\OrderRepository;
-use App\Repository\Product\TaxeRepository;
-use App\Repository\Order\ShippingRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use App\Repository\Product\ProductRepository;
-use App\Service\CartService;
+use App\Repository\Product\WishlistRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -112,10 +107,10 @@ class AccountController extends AbstractController
     }
 
     #[Route('wishlist', name: 'wishlist')]
-    public function wishlist(): Response
+    public function wishlist(WishlistRepository $wishlistRepository): Response
     {
         return $this->render('account/wishlist.html.twig', [
-            'controller_name' => 'AccountController',
+            'wishlists' => $wishlistRepository->findBy(['user' => $this->getUser()]),
         ]);
     }
 }
