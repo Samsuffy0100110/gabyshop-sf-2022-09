@@ -25,9 +25,31 @@
 			<div class="col-lg-9 border rounded p-5">
 				<h1>Ma liste d'envie</h1>
 				{% if wishlists is not empty %}
+					{% for wishlist in wishlists %}
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-lg-3">
+										<img src="{{ ('/images/products/' ~ wishlist.product.image0)|imagine_filter('random_products_mini') }}" alt="" class="img-fluid">
+									</div>
+									<div class="col-lg-9">
+										<h5>{{ wishlist.product.name }}</h5>
+										<p>{{ wishlist.product.description }}</p>
+										<p>{{ wishlist.product.price }}€</p>
+										<a href="{{ path('product_show', { parentCategory: wishlist.product.category.parent.slug, category: wishlist.product.category.slug, product: wishlist.product.slug }) }}" class="product-text nav-link rounded btn btn-success fw-bold">Voir</a>
+										<form method="post" action="{{ path('wishlist_delete', {'id': wishlist.id}) }}">
+											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ wishlist.id) }}">
+											<button class="btn"><img src="{{ asset('images/others/redCross.png') }}" width="20px" alt="Red Cross"><p class="text-danger fw-bold">supprimer</p>
+											</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
 				{% else %}
 					<p>Vous n'avez pas encore de produits dans votre liste d'envie.</p>
 				{% endif %}
 			</div>
-	</div>
-{% endblock %}
+		</div>
+	{% endblock %}

@@ -2,10 +2,10 @@
 
 namespace App\Entity\Product;
 
-use App\Entity\Communication\Commentary;
 use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Communication\Commentary;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\Product\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;

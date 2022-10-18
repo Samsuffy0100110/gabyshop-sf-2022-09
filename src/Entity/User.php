@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Entity\Communication\Commentary;
 use App\Entity\Order\Order;
 use App\Entity\Product\Rate;
-use App\Entity\Product\Wishlist;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Product\Wishlist;
 use App\Repository\UserRepository;
+use App\Entity\Communication\Commentary;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
