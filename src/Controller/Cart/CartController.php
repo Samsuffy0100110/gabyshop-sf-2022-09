@@ -2,7 +2,9 @@
 
 namespace App\Controller\Cart;
 
+use App\Repository\Product\OfferRepository;
 use App\Service\CartService;
+use App\Service\OfferService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +16,7 @@ class CartController extends AbstractController
     public function index(CartService $cart): Response
     {
         return $this->render('cart/index.html.twig', [
-            'cart' => $cart->getFull()
+            'cart' => $cart->getFull(),
         ]);
     }
 

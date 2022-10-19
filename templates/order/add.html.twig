@@ -19,12 +19,12 @@
 				<hr>
 				<strong>Mon transporteur</strong>
 				<br>
-				<div class="form-check">
+				<div class="form-check mt-4">
 					{{ shipping.name }}
 					<br>
 					{{ shipping.description }}
 					<br>
-					{{ (shipping.price / 100)| number_format(2, ',', '.') }}
+					Montant de Livraison : {{ (shipping.price)| number_format(2, ',', '.') }}
 					&euro;
 				</div>
 			</div>
@@ -62,17 +62,17 @@
 				<strong>Sous-total TTC :</strong>
 				{{ totalProducts | number_format(2, ',', '.') }}&euro;<br>
 				<strong>Livraison :</strong>
-				{{ (shipping.price / 100) | number_format(2, ',', '.') }}&euro;
+				{{ (shipping.price ) | number_format(2, ',', '.') }}&euro;
 				<hr>
-				{% set total = (totalProducts + (shipping.price / 100)) | number_format(2, ',', '.')  %}
+				{% set total = (totalProducts + (shipping.price)) | number_format(2, ',', '.')  %}
 				<strong>Total :</strong>
 				{{ total}}&euro;
 				<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
 					<input type='hidden' name='stripeToken' id='stripe-token-id'>
-					<label for="card-element" class="mb-5">Fais péter la CB</label>
+					<label for="card-element" class="mb-2 mt-3">Veuillez remplir vos coordonnées bancaires</label>
 					<br>
 					<div id="card-element" class="form-control"></div>
-					<button id='pay-btn' class="btn btn-success mt-3 mb-3" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
+					<button id='pay-btn' class="btn btn-success mt-3 mb-5" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
 						{{total}}&euro;</button>
 				</button>
 				<form></div>
