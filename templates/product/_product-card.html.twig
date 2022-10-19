@@ -5,6 +5,50 @@
 	<div class="card-body">
 		{% include "product/_rating.html.twig" %}
 		<p class="card-text mt-1">{{ product.summary }}</p>
+		{% set offers = product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
+						{% for offer in offers %}
+							{% if loop.index0 == 0 %}
+								<p class="card-text fw-bold text-decoration-line-through">{{ product.price / 100 }}
+									€</p>
+							{% endif %}
+						{% endfor %}
+						{% for offer in offers %}
+							{% if offer.typeReduce == "percent" %}
+								<span class="badge bg-danger">{{ offer.name }}</span>
+								<p class="card-text fw-bold">
+									-
+									{{ offer.reduce }}
+									%</p>
+							{% endif %}
+							{% if offer.typeReduce == "euro" %}
+								<span class="badge bg-danger">{{ offer.name }}</span>
+								<p class="card-text fw-bold">
+									-
+									{{ offer.reduce }}
+									€</p>
+							{% endif %}
+						{% else %}
+							<p class="card-text fw-bold">{{ product.price }}
+								€</p>
+						{% endfor %}
+						{% if offers| length > 0 %}
+							{% set number = 0 %}
+							{% set reduce = 0 %}
+							{% set total = 0 %}
+							{% for offer in offers %}
+								{% if offer.typeReduce == "percent" %}
+									{% set number = product.price * offer.reduce / 100 %}
+									{% set reduce = reduce + number %}
+									{% set total = product.price - reduce %}
+								{% endif %}
+								{% if offer.typeReduce == "euro" %}
+									{% set number = offer.reduce %}
+									{% set reduce = reduce + number %}
+									{% set total = product.price - (reduce * 100) %}
+								{% endif %}
+							{% endfor %}
+							<h3 class="fs-bold text-end">{{ total / 100 }}€</h3>
+						{% endif %}
 		<h3 class="fs-bold text-end">{{ product.price }}€</h3>
 		{% if app.user %}
 			<a href="{{ path('wishlist_new', { product: product.slug }) }}">Ajouter à ma liste d'envie</a>
