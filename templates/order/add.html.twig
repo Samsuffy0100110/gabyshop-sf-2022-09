@@ -36,55 +36,68 @@
 					{% set totalProducts = 0 %}
 					{% set totalProductsHT = 0 %}
 					{% for key, attribut in cart %}
-						<div class="row {% if key > 0 %}mt-2{% endif %}">
-							<div class="col-2">
-								<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
-							</div>
-							<div class="col-6">
-								{{ attribut.attribut.product.name }}<br>
-								{{ attribut.attribut.name }}
-								x
-								{{ attribut.quantity }}
-							</div>
-							<div class="col-2">
-								<p>{{ (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+					<div class="row {% if key > 0 %}mt-2{% endif %}">
+						<div class="col-2">
+							<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
+						</div>
+						<div class="col-6">
+							{{ attribut.attribut.product.name }}<br>
+							{{ attribut.attribut.name }}
+							x
+							{{ attribut.quantity }}
+						</div>
+						<div class="col-2">
+							<p>{{ (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 							<div class="col-2">
 								<p>{{ ((attribut.attribut.product.price * attribut.quantity) / 100) | number_format(2, ',', '.') }}&euro;</p>
 							</div>
 						</div>
-						{% set totalProducts = totalProducts + ((attribut.attribut.product.price * attribut.quantity) / 100) %}
-						{% set totalProductsHT = totalProductsHT + (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) %}
-					{% endfor %}
+							{% set totalProducts = totalProducts + ((attribut.attribut.product.price * attribut.quantity) / 100) %}
+							{% set totalProductsHT = totalProductsHT + (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) %}
+						{% endfor %}
+					</div>
+					<hr>
+					<strong>Sous-total HT :</strong>
+					{{ totalProductsHT | number_format(2, ',', '.') }}&euro;<br>
+					<strong>Sous-total TTC :</strong>
+					{{ totalProducts | number_format(2, ',', '.') }}&euro;<br>
+					<strong>Livraison :</strong>
+					{{ (shipping.price / 100) | number_format(2, ',', '.') }}&euro;
+					<hr>
+					{% set total = (totalProducts + (shipping.price / 100)) | number_format(2, ',', '.')  %}
+					<strong>Total :</strong>
+					{{ total}}&euro;
+					<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
+						<input type='hidden' name='stripeToken' id='stripe-token-id'>
+						<label for="card-element" class="mb-5">Fais péter la CB</label>
+						<br>
+						<div id="card-element" class="form-control"></div>
+						<button id='pay-btn' class="btn btn-success mt-3 mb-3" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer{{total}}&euro;</button>
+					<form>
 				</div>
-				<hr>
-				<strong>Sous-total HT :</strong>
-				{{ totalProductsHT | number_format(2, ',', '.') }}&euro;<br>
-				<strong>Sous-total TTC :</strong>
-				{{ totalProducts | number_format(2, ',', '.') }}&euro;<br>
-				<strong>Livraison :</strong>
-				{{ (shipping.price / 100) | number_format(2, ',', '.') }}&euro;
-				<hr>
-				{% set total = (totalProducts + (shipping.price / 100)) | number_format(2, ',', '.')  %}
-				<strong>Total :</strong>
-				{{ total}}&euro;
-				<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
-					<input type='hidden' name='stripeToken' id='stripe-token-id'>
-					<label for="card-element" class="mb-5">Fais péter la CB</label>
-					<br>
-					<div id="card-element" class="form-control"></div>
-					<button id='pay-btn' class="btn btn-success mt-3 mb-3" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
-						{{total}}&euro;</button>
-				</button>
-				<form></div>
-			</div>
 			</div>
 		</div>
 	</div>
-		<script src="https://js.stripe.com/v3/"></script>
+		
 		<script>
 			var stripe = Stripe("{{ stripe_key }}");
 var elements = stripe.elements();
-var cardElement = elements.create('card');
+var cardElement = elements.create('card', {
+hidePostalCode: true,
+style: {
+base: {
+iconColor: '#666EE8',
+color: '#4e6ec3',
+lineHeight: '40px',
+fontWeight: 600,
+fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+fontSize: '15px',
+'::placeholder': {
+color: '#CFD7E0'
+}
+}
+}
+});
 cardElement.mount('#card-element');
 
 function createToken() {

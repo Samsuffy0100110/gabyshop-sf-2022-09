@@ -109,6 +109,7 @@ class OrderController extends AbstractController
         Stripe\Charge::create([
             'amount' => $cart,
             "currency" => "eur",
+            'description' => 'Commande sur gabyShop',
             "source" => $request->request->get('stripeToken'),
         ]);
         $this->addFlash(
