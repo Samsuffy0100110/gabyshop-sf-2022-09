@@ -10,6 +10,7 @@ use Symfony\Component\Mime\Address;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Order\OrderRepository;
+use App\Repository\Order\ShippingRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use App\Repository\Product\WishlistRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,9 +89,13 @@ class AccountController extends AbstractController
     #[Route('orders', name: 'orders')]
     public function userOrders(
         OrderRepository $orderRepository,
+        ShippingRepository $shippingRepository
     ): Response {
         return $this->render('account/orders.html.twig', [
             'orders' => $orderRepository->findBy(['user' => $this->getUser()]),
+            'shipping' => $shippingRepository->
+            findOneBy(['orderShipping' => $orderRepository->
+            findBy(['user' => $this->getUser()])]),
         ]);
     }
 

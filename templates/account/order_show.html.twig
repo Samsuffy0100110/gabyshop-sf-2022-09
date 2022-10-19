@@ -24,7 +24,9 @@
 		<strong>Référence de ma commande :</strong>
 		{{ order.reference }}<br>
 		<strong>Transporteur choisi :</strong>
-		{{ shipping.name }}
+			{% for ship in shipping %}
+				{{ ship.name }}
+			{% endfor %}
 		<br>
 		<hr>
 		<strong>Détails</strong>
@@ -77,13 +79,17 @@
 					<hr>
 					<strong>Livraison :
 					</strong>
-					{{ ((shipping.price))|number_format(2, ',', '.', ' ') }}
+					{% for ship in shipping %}
+						{{ ((ship.price))|number_format(2, ',', '.', ' ') }}
+					{% endfor %}
 					&euro;
 					<hr>
 					<strong>Total :
 					</strong>
-					{{ ((order.getTotal) / 100 + shipping.price)|number_format(2, ',', '.', ' ') }}
-					&euro;
+					{% for ship in shipping %}
+						{{ ((order.getTotal) / 100 + ship.price)|number_format(2, ',', '.', ' ') }}
+						&euro;
+				{% endfor %}
 				</div>
 			</div>
 		</div>
