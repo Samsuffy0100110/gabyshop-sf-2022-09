@@ -49,8 +49,10 @@
 							{% endfor %}
 							<h3 class="fs-bold text-end">{{ total / 100 }}€</h3>
 						{% endif %}
-		
-			
+		<h3 class="fs-bold text-end">{{ product.price }}€</h3>
+		{% if app.user %}
+			<a href="{{ path('wishlist_new', { product: product.slug }) }}">Ajouter à ma liste d'envie</a>
+		{% endif %}
 		{% for attribut in attributs|sort((a,b)=>a.position <=> b.position) %}
 			{% if attribut.quantity > 0 %}
 				<div class="row m-2">

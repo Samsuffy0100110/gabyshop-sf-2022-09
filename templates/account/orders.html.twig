@@ -53,7 +53,9 @@
 									</td>
 									<td>{{ order.createdAt |date('d-m-Y') }}</td>
 									<td class="text-left">{{ order.orderDetails|length }}</td>
-									<td>{{ ((order.shipping.price) + order.getTotal / 100)|number_format(2, ',', '.', ' ') }} &euro;</td>
+									{% for shipping in order.shipping %}
+										<td>{{ ((shipping.price) + order.getTotal / 100)|number_format(2, ',', '.', ' ') }} &euro;</td>
+									{% endfor %}
 									<td class="text-right"><a href="{{ path('account_order', {'id': order.id}) }}">Détail de votre commande</a></td>
 								</tr>
 							{% endfor %}

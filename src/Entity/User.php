@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
-use App\Entity\Communication\Commentary;
 use App\Entity\Order\Order;
 use App\Entity\Product\Rate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Product\Wishlist;
 use App\Repository\UserRepository;
+use App\Entity\Communication\Commentary;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -82,12 +83,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Commentary::class)]
     private Collection $commentaries;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Wishlist::class)]
+    private Collection $wishlists;
+
     public function __construct()
     {
         $this->rates = new ArrayCollection();
         $this->addresses = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->commentaries = new ArrayCollection();
+        $this->wishlists = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -451,6 +456,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($commentary->getUser() === $this) {
                 $commentary->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Wishlist>
+     */
+    public function getWishlists(): Collection
+    {
+        return $this->wishlists;
+    }
+
+    public function addWishlist(Wishlist $wishlist): self
+    {
+        if (!$this->wishlists->contains($wishlist)) {
+            $this->wishlists->add($wishlist);
+            $wishlist->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWishlist(Wishlist $wishlist): self
+    {
+        if ($this->wishlists->removeElement($wishlist)) {
+            // set the owning side to null (unless already changed)
+            if ($wishlist->getUser() === $this) {
+                $wishlist->setUser(null);
             }
         }
 
