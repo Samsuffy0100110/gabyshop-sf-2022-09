@@ -82,7 +82,7 @@
 	</div>
 		
 		<script>
-			var stripe = Stripe("{{ stripe_key }}");
+var stripe = Stripe("{{ stripe_key }}");
 var elements = stripe.elements();
 var cardElement = elements.create('card', {
 hidePostalCode: true,
