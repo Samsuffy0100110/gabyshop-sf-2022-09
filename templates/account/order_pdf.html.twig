@@ -1,14 +1,13 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}
-	Ma commande |
-	{{ parent() }}
-{% endblock %}
-
 {% block body %}
 	<div class="container">
+    {% for shop in shops %}
+        <h2>{{ shop.name }}</h2>
+		<p>{{ shop.adress }}</p>
+		<p>{{ shop.zipcode }}</p>
+		<p>{{ shop.city }}</p>
+		<p>{{ shop.phone }}</p>
+    {% endfor %}
 		<h1>Commande n°{{ order.reference }}</h1>
-		<a href="{{ path('account_orders') }}">Retour</a>
 		<hr>
 		<strong>Statut de la commande :
 		</strong>
@@ -69,7 +68,7 @@
 			<div class="col-lg-2 bg-light rounded mt-2 mb-5 p-3">
 				<div class="text-end">
 					<strong>Sous Total HT:</strong>
-					{{ ( order.getTotal - (order.getTotal / 100)) / 100 }}
+					{{ (order.getTotal / 100) - order.getTotal }}
 					&euro;
 					<hr>
 					<strong>Sous-total TTC:
@@ -93,6 +92,5 @@
 				</div>
 			</div>
 		</div>
-		<a href="{{ path('account_order_pdf', { id: order.id }) }}">Télécharger votre facture au format pdf</a>
 	</div>
 {% endblock %}

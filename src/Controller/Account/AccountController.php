@@ -3,6 +3,7 @@
 namespace App\Controller\Account;
 
 use App\Entity\Order\Order;
+use App\Service\PdfService;
 use App\Form\User\ProfileType;
 use App\Security\EmailVerifier;
 use App\Repository\UserRepository;
@@ -12,8 +13,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Order\ShippingRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use App\Repository\Product\WishlistRepository;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\Product\WishlistRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -102,10 +103,28 @@ class AccountController extends AbstractController
     #[Route('order/{id}', name: 'order')]
     #[ParamConverter('order', options: ['mapping' => ['id' => 'id']])]
     public function userOrder(
-        Order $order
+        Order $order,
     ): Response {
         $shipping = $order->getShipping();
         return $this->render('account/order_show.html.twig', [
+            'order' => $order,
+            'shipping' => $shipping,
+        ]);
+    }
+
+    #[Route('order/{id}/pdf/', name: 'order_pdf', methods: ['GET'])]
+    #[ParamConverter('order', options: ['mapping' => ['id' => 'id']])]
+    public function userOrderPdf(
+        Order $order,
+        PdfService $pdfService
+    ): Response {
+        $shipping = $order->getShipping();
+        $html = $this->renderView('account/order_pdf.html.twig', [
+            'order' => $order,
+            'shipping' => $shipping,
+        ]);
+        $pdfService->showPdfFile($html);
+        return $this->render('account/order_pdf.html.twig', [
             'order' => $order,
             'shipping' => $shipping,
         ]);

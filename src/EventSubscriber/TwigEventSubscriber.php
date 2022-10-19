@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Repository\Front\LogoRepository;
 use Twig\Environment;
 use App\Repository\Front\ShopRepository;
 use App\Repository\Front\ThemeRepository;
@@ -23,18 +24,22 @@ class TwigEventSubscriber implements EventSubscriberInterface
 
     private OfferRepository $offerRepository;
 
+    private LogoRepository $logoRepository;
+
     public function __construct(
         Environment $twig,
         ThemeRepository $themeRepository,
         ShopRepository $shopRepository,
         PagesRepository $pagesRepository,
-        OfferRepository $offerRepository
+        OfferRepository $offerRepository,
+        LogoRepository $logoRepository,
     ) {
         $this->twig = $twig;
         $this->themeRepository = $themeRepository;
         $this->shopRepository = $shopRepository;
         $this->pagesRepository = $pagesRepository;
         $this->offerRepository = $offerRepository;
+        $this->logoRepository = $logoRepository;
     }
 
     public function onControllerEvent(ControllerEvent $event): void
@@ -43,6 +48,7 @@ class TwigEventSubscriber implements EventSubscriberInterface
         $this->twig->addGlobal('shops', $this->shopRepository->findAll());
         $this->twig->addGlobal('pages', $this->pagesRepository->findAll());
         $this->twig->addGlobal('offers', $this->offerRepository->findAll());
+        $this->twig->addGlobal('logo', $this->logoRepository->findOneBy(['position' => 1]));
     }
 
     public static function getSubscribedEvents()
