@@ -46,6 +46,12 @@ class OrderCrudController extends AbstractCrudController
         return $actions->add('index', 'detail')
             ->add('detail', $updatePreparation)
             ->add('detail', $updateDelivery)
+            ->update(Crud::PAGE_INDEX, 'detail', function (Action $action) {
+                return $action->setIcon('fa fa-eye')->setLabel('voir')->setCssClass('btn btn-info');
+            })
+            ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action) {
+                return $action->setIcon('fa fa-arrow-left')->setLabel('retour');
+            })
             ->remove(Crud::PAGE_DETAIL, Action::EDIT)
             ->remove(Crud::PAGE_DETAIL, Action::DELETE)
             ->remove(Crud::PAGE_INDEX, Action::NEW)
@@ -132,7 +138,8 @@ class OrderCrudController extends AbstractCrudController
 
     public function configureCrud(Crud $crud): Crud
     {
-        return $crud->setDefaultSort(['id' => 'DESC']);
+        return $crud->setDefaultSort(['id' => 'DESC'])
+        ->showEntityActionsInlined();
     }
 
 
