@@ -30,7 +30,7 @@ class NewsLetterType extends AbstractType
                         'message' => 'Entrer une adresse email valide',
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/',
+                        'pattern' => '/^[a-zA-Z._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/',
                         'message' => 'Entrer une adresse email valide',
                     ]),
                 ],
