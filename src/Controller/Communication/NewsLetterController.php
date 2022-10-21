@@ -45,7 +45,8 @@ class NewsLetterController extends AbstractController
             $this->addFlash('success', 'Votre adresse e-mail a  bien été enregistrée, merci !');
             return $this->redirectToRoute('home');
         } else {
-            $this->addFlash('danger', 'Une erreur est survenue, merci de réessayer !');
+            $this->addFlash('danger', 'Une erreur est survenue, merci de réessayer ! 
+            l\'adresse e-mail est peut-être déjà enregistrée où contient des caratéres interdits.');
             return $this->redirectToRoute('home');
         }
     }
