@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class NewsLetterCrudController extends AbstractCrudController
 {
@@ -41,6 +42,12 @@ class NewsLetterCrudController extends AbstractCrudController
                 ->setLabel('Titre'),
             TextField::new('summary')
                 ->setLabel('Résumé'),
+            ImageField::new('image', 'Image')
+                ->setBasePath('/images/newsletter')
+                ->setUploadDir('public/images/newsletter')
+                ->setUploadedFileNamePattern('[randomhash].[extension]')
+                ->setRequired(false)
+                ->setLabel('Image'),
             TextEditorField::new('description')
                 ->hideOnIndex()
                 ->setFormType(CKEditorType::class),
@@ -53,6 +60,16 @@ class NewsLetterCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        $previewNewsletter = Action::new('previewNewsletter', 'Prévisualiser', 'fa fa-eye')
+            ->addCssClass('btn btn-info')
+            ->linkToRoute('newsletter_preview', function (NewsLetter $newsLetter) {
+                return [
+                    'id' => $newsLetter->getId(),
+                ];
+            })
+            ->displayIf(function (NewsLetter $newsLetter) {
+                return $newsLetter->getId() !== null;
+            });
         return $actions
             ->add(Crud::PAGE_INDEX, 'detail')
             ->update(Crud::PAGE_INDEX, 'detail', function (Action $action) {
@@ -64,6 +81,7 @@ class NewsLetterCrudController extends AbstractCrudController
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
                 return $action->setIcon('fa fa-trash')->setLabel('supprimer');
             })
+            ->add('detail', $previewNewsletter)
             ->update(Crud::PAGE_DETAIL, Action::DELETE, function (Action $action) {
                 return $action->setIcon('fa fa-trash')->setLabel('supprimer')
                     ->setCssClass('btn btn-danger');

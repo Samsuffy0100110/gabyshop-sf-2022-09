@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>{{ newsletter.name }}</title>
+</head>
+<body>
+	<h1>{{ newsletter.title }}</h1>
+	<div class="container">
+			<h2>{{ newsletter.title }}</h2>
+				<p class="created-at" >Créer le : {{ newsletter.createdAt|date('d/m/Y') }}</p>
+				<img src="{{ ('/images/newsletter/' ~ newsletter.image) }}" alt="{{ newsletter.title }}">
+			<section class="content-body">{{ newsletter.description|raw }}</section>
+	</div>
+	</div>
+	<footer>
+		<p class="unsubscribe">
+			Vous pouvez vous désinscrire de la newsletter en <a href="{{ url('unsubscribe', {'uuid': uuid}) }}">cliquant sur ce lien</a>.
+		</p>
+	</footer>
+</body>
+</html>

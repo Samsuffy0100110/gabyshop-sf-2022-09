@@ -33,18 +33,19 @@ class NewsLetterController extends AbstractController
             $newsLetterRepository->add($newsLetter, true);
 
             $email = (new TemplatedEmail())
-            ->from(new Address('gabyshop@noreply.com', 'GabyShop'))
+            ->from(new Address($this->getParameter('mailer_address'), 'GabyShop'))
             ->to($newsLetter->getEmail())
             ->subject('Insciption Newsletter Gaby Shop !')
             ->htmlTemplate('mailer/sub-email.html.twig')
-            ->context(['uuid' => $uuid]);
-
+            ->context([
+                'uuid' => $uuid,
+            ]);
             $mailer->send($email);
 
             $this->addFlash('success', 'Votre adresse e-mail a  bien été enregistrée, merci !');
             return $this->redirectToRoute('home');
         } else {
-            $this->addFlash('error', 'Une erreur est survenue, merci de réessayer !');
+            $this->addFlash('danger', 'Une erreur est survenue, merci de réessayer !');
             return $this->redirectToRoute('home');
         }
     }

@@ -2,11 +2,11 @@
 
 namespace App\Entity\Communication;
 
-use App\Entity\Product\Product;
 use App\Entity\User;
-use App\Repository\Communication\CommentaryRepository;
+use App\Entity\Product\Product;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\Communication\CommentaryRepository;
 
 #[ORM\Entity(repositoryClass: CommentaryRepository::class)]
 class Commentary
