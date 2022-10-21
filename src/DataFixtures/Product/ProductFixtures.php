@@ -1245,7 +1245,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         foreach (self::PRODUCTS as $key => $value) {
             $product = new Product();
             $product->setName($value['name']);
-            $product->setPrice($value['price']);
+            $product->setPrice($value['price'] * 100);
             $product->setSummary($value['summary']);
             $product->setDescription($value['description']);
             $product->setWeight(strval($value['weight']));
