@@ -22,8 +22,8 @@ class ContactController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $contactFormData = $form->getData();
             $email = (new Email())
-            ->from(('sam@gmail.com'))
-            ->to(('yo@gmail.com'))
+            ->from($contactFormData['email'])
+            ->to($this->getParameter('mailer_address'))
             ->subject('Nouveau Message de ' .
             $contactFormData['firstname'] . ' ' .
             $contactFormData['lastname'] . ' à propos de ' .

@@ -6,6 +6,7 @@
 parameters:
     timezone: '%env(APP_TIMEZONE)%'
     locale: fr
+    mailer_address: '%env(resolve:MAILER_ADDRESS)%'
 
 services:
     # default configuration for services in *this* file
