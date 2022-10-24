@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}404 |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="mt-5 mb-5 text-warning fw-bold">Page non trouvé</h1>
+		<p class="mb-5 fw-bold">
+			La page demandé n'a pas été trouvé.
+			Vous pouvez retourner à la page d'accueil en cliquant sur le lien ci-dessous.
+			<a href="{{ path('home') }}">Retour à l'accueil</a>
+		</p>
+	</div>
+{% endblock %}
