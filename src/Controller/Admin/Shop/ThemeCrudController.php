@@ -38,6 +38,8 @@ class ThemeCrudController extends AbstractCrudController
                 ->setLabel('Couleur de fond'),
             ColorField::new('footerColor')
                 ->setLabel('Couleur du pied de page'),
+            ColorField::new('fontColor')
+                ->setLabel('Couleur de la police'),
             BooleanField::new('isActive')
                 ->setLabel('Actif')
                 ->hideOnForm(),

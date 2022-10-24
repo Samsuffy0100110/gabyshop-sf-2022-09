@@ -28,6 +28,9 @@ class Theme
     #[ORM\Column(nullable: true)]
     private ?bool $isActive = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $fontColor = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +92,18 @@ class Theme
     public function setIsActive(?bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getFontColor(): ?string
+    {
+        return $this->fontColor;
+    }
+
+    public function setFontColor(?string $fontColor): self
+    {
+        $this->fontColor = $fontColor;
 
         return $this;
     }
