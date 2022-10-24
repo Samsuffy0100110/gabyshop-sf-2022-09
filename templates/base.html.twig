@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="h-100">
 	<head>
 		<meta charset="UTF-8">
 		<title>
@@ -22,7 +22,7 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
-	<body style="background-color: {{ theme.backgroundColor }};">
+	<body class="d-flex flex-column h-100" style="background-color: {{ theme.backgroundColor }};">
 		{% include "includes/navsecurity/index.html.twig" %}
 		{{ render(controller('App\\Controller\\Shop\\FrontController::logo')) }}
 		{{ render(controller('App\\Controller\\Shop\\FrontController::navbar')) }}
