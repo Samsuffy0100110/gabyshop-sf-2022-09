@@ -4,6 +4,7 @@ namespace App\Form\User;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
@@ -112,7 +113,6 @@ class ProfileType extends AbstractType
                     new NotBlank([
                         'message' => 'Entrer un siret',
                     ]),
-
                     new Regex([
                         'pattern' => '/^[0-9]+$/',
                         'message' => 'Le siret ne doit contenir que des chiffres',
@@ -120,6 +120,16 @@ class ProfileType extends AbstractType
                 ],
                 'required' => false
             ])
+            ->add(
+                'avatarFile',
+                DropzoneType::class,
+                [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Glissez ici pour uploader votre avatar',
+                ],
+                ]
+            )
             ->add('isNewsletterOk', CheckboxType::class, [
                 'label' => 'Je souhaite recevoir la newsletter',
                 'required' => false,

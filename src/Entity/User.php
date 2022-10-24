@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTime;
+use Serializable;
 use App\Entity\Order\Order;
 use App\Entity\Product\Rate;
 use Doctrine\DBAL\Types\Types;
@@ -10,14 +12,18 @@ use App\Entity\Product\Wishlist;
 use App\Repository\UserRepository;
 use App\Entity\Communication\Commentary;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Cette adresse email est déjà utilisée')]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+#[Vich\Uploadable]
+class User implements UserInterface, PasswordAuthenticatedUserInterface, Serializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -60,7 +66,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $googleId;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $avatar;
+    private ?string $avatar = 'default.png';
+
+    #[Vich\UploadableField(mapping: 'pictures', fileNameProperty: 'avatar')]
+    #[Assert\Image(
+        mimeTypes: ["image/jpeg", "image/png"],
+        maxSize: "2M",
+        maxSizeMessage: "L'image ne doit pas dépasser 2Mo"
+    )]
+    private ?File $avatarFile = null;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTime $updatedAt = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rate::class)]
     private Collection $rates;
@@ -347,24 +364,82 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * Get the value of avatar
-     */
     public function getAvatar(): ?string
     {
         return $this->avatar;
     }
 
-    /**
-     * Set the value of avatar
-     *
-     * @return  self
-     */
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
-
         return $this;
+    }
+
+    /**
+     * Get the value of imageFile
+     */
+    public function getAvatarFile(): ?File
+    {
+        return $this->avatarFile;
+    }
+
+    /**
+     * Set the value of imageFile
+     *
+     * @return self
+     */
+    public function setAvatarFile(File $avatar = null)
+    {
+        $this->avatarFile = $avatar;
+        if ($avatar) {
+            $this->updatedAt = new DateTime('now');
+        }
+        return $this;
+    }
+
+        /**
+     * Get the value of updatedAt
+     */
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * Set the value of updatedAt
+     *
+     * @return self
+     */
+    public function setUpdatedAt(DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize(
+            array(
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->avatar,
+            // see section on salt below
+            // $this->salt,
+            )
+        );
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+            $this->avatar,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized);
     }
 
     /**
