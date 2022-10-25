@@ -1,42 +1,58 @@
 {% if app.user %}
-	<div class="container-fluid g-0 fw-bold" style="background-color:{{ theme.colorMenu }}; color:{{ theme.fontColor }}">
+	<div class="container-fluid g-0 fw-bold" style="background-color: {{ theme.colorMenu }}; color: {{ theme.fontColor }};">
 		<div class="row g-0 d-flex align-items-center">
 			{% if is_granted('ROLE_ADMIN') %}
 				<div class="col-lg-7"></div>
 				<div class="col-lg-1 text-center">
-					<a class="nav-link nav-security p-2" href="{{ path('admin') }}">Administration</a>
+					<a class="p-2 nav-link navHover" href="{{ path('admin') }}">Administration</a>
 				</div>
 			{% else %}
 				<div class="col-lg-8"></div>
 			{% endif %}
 			<div class="col-lg-1 d-flex justify-content-end">
 				{% if app.user.avatar == null %}
+					<img src="{{ ('/images/others/default.png') }}" class="user-avatar d-none d-lg-flex" alt="avatar par défaut">
 				{% else %}
 					<img src="{{ ('/images/pictures/' ~ app.user.avatar) }}" class="user-avatar d-none d-lg-flex" alt="{{ app.user.firstname }}">
 				{% endif %}
 			</div>
 			<div class="col-lg-1 text-center">
-				<a class="nav-link p-2">Bonjour
+				<a class="nav-link navHover p-2">Bonjour
 					{{ app.user.firstname }}</a>
 			</div>
 			<div class="col-lg-1 text-center">
-				<a class="nav-link nav-security p-2" href="{{ path('account_dashboard') }}">Mon Compte</a>
+				<a class="nav-link navHover p-2" href="{{ path('account_dashboard') }}">Mon Compte</a>
 			</div>
 			<div class="col-lg-1 text-center">
-				<a class="nav-link nav-security p-2" href="{{ path('logout') }}">Déconnexion</a>
+				<a class="nav-link navHover p-2" href="{{ path('logout') }}">Déconnexion</a>
 			</div>
 		</div>
 	</div>
 {% else %}
-	<div class="container-fluid g-0" style="background-color: {{ theme.colorMenu }};">
+	<div class="container-fluid g-0 fw-bold" style="background-color: {{ theme.colorMenu }}; color: {{ theme.fontColor }};">
 		<div class="row g-0">
 			<div class="col-lg-10"></div>
 			<div class="col-lg-1 text-center">
-				<a class="nav-link nav-security p-2" href="{{ path('login') }}">Connexion</a>
+				<a class="p-2 nav-link navHover" href="{{ path('login') }}">Connexion</a>
 			</div>
 			<div class="col-lg-1 text-center">
-				<a class="nav-link nav-security p-2" href="{{ path('register') }}">Inscription</a>
+				<a class="p-2 nav-link navHover" href="{{ path('register') }}">Inscription</a>
 			</div>
 		</div>
 	</div>
 {% endif %}
+{% block javascripts %}
+<script>
+	let hover = document.getElementsByClassName('navHover');
+for (let i = 0; i < hover.length; i++) {
+    hover[i].addEventListener("mouseover", (event) => {
+        event.target.style.background = "linear-gradient(180deg, {{ theme.fontColor }} 0%, {{ theme.colorMenu }} 50%, {{ theme.fontColor }} 100%)";
+        event.target.style.color = "{{ theme.fontColor }}";
+    });
+    hover[i].addEventListener("mouseout", (event) => {
+        event.target.style.color = "{{ theme.fontColor }}";
+        event.target.style.background = "none";
+    });
+}
+</script>
+{% endblock %}
