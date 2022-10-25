@@ -15,6 +15,7 @@ class ThemeFixtures extends Fixture
         $theme->setColorMenu("#000000");
         $theme->setBackgroundColor("#FFFFFF");
         $theme->setFooterColor("#212529");
+        $theme->setFontColor("#FFFFFF");
         $theme->setIsActive(true);
         $manager->persist($theme);
 
@@ -23,6 +24,7 @@ class ThemeFixtures extends Fixture
         $theme->setColorMenu("#FFFFFF");
         $theme->setBackgroundColor("#000000");
         $theme->setFooterColor("#FFFFAF");
+        $theme->setFontColor("#000000");
         $theme->setIsActive(false);
         $manager->persist($theme);
 
