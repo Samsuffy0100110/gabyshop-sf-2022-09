@@ -1,5 +1,5 @@
 {% if app.user %}
-	<div class="container-fluid g-0 fw-bold" style="background-color: {{ theme.colorMenu }}; color: {{ theme.fontColor }};">
+	<div class="container-fluid g-0" style="background-color: {{ theme.colorMenu }}; color: {{ theme.fontColor }};">
 		<div class="row g-0 d-flex align-items-center">
 			{% if is_granted('ROLE_ADMIN') %}
 				<div class="col-lg-7"></div>
@@ -29,7 +29,7 @@
 		</div>
 	</div>
 {% else %}
-	<div class="container-fluid g-0 fw-bold" style="background-color: {{ theme.colorMenu }}; color: {{ theme.fontColor }};">
+	<div class="container-fluid g-0" style="background-color: {{ theme.colorMenu }}; color: {{ theme.fontColor }};">
 		<div class="row g-0">
 			<div class="col-lg-10"></div>
 			<div class="col-lg-1 text-center">

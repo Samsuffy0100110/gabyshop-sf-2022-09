@@ -66,7 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     private ?string $googleId;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    private ?string $avatar = 'default.png';
+    private ?string $avatar = null;
 
     #[Vich\UploadableField(mapping: 'pictures', fileNameProperty: 'avatar')]
     #[Assert\Image(
