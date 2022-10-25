@@ -23,11 +23,43 @@
 						</li>
 					{% endfor %}
 				</ul>
-				<form class="d-flex">
-					<input class="form-control me-2" type="search" placeholder="Recherche" aria-label="Recherche">
-					<button class="btn btn-outline-success" type="submit">Recherche</button>
-				</form>
+				<div class="dropdown">
+					<button onclick="myFunction()" class="btn btn-success">Recherche</button>
+					<div id="myDropdown" class="dropdown-content">
+						<input type="text" placeholder="Taper le nom d'un produit" id="myInput" onkeyup="filterFunction()">
+						{% for product in products %}
+							<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">{{ product.name }}</a>
+						{% endfor %}
+					</div>
+				</div>
 			</div>
 		</div>
 	</nav>
 </div>
+
+<script>
+function myFunction() {
+document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function filterFunction() {
+var input,
+filter,
+ul,
+li,
+a,
+i;
+input = document.getElementById("myInput");
+filter = input.value.toUpperCase();
+div = document.getElementById("myDropdown");
+a = div.getElementsByTagName("a");
+for (i = 0; i < a.length; i++) {
+txtValue = a[i].textContent || a[i].innerText;
+if (txtValue.toUpperCase().indexOf(filter) > -1) {
+a[i].style.display = "";
+} else {
+a[i].style.display = "none";
+}
+}
+}
+</script>
