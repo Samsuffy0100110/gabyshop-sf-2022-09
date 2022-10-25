@@ -8,13 +8,22 @@
 	<h1 class="text-center mt-5">Contactez Nous</h1>
 	<div class="container mt-5 mb-5">
 		<div class="row">
-			<div class="col-lg-3"></div>
-			<div class="col-lg-6">
+			<div class="col-6">
+			{% if logo %}
+				<a href="{{ path('home') }}"><img class="img-fluid" src="{{ '/images/logos/' ~ logo.image }}" alt="{{ logo.name }}"></a>
+			{% else %}
+				{% for shop in shops %}
+					<a class="text-decoration-none" href="{{ path('home') }}">
+						<p class="text-dark m-2 fw-bold">{{ shop.name }}</p>
+					</a>
+				{% endfor %}
+			{% endif %}
+			</div>
+			<div class="col-6">
 				<div class="card p-5 bg-light">
 					{{ form(form) }}
 					</div>
 				</div>
-				<div class="col-lg-3"></div>
 			</div>
 		</div>
 {% endblock %}
