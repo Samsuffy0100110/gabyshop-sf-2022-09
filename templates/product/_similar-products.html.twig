@@ -19,8 +19,7 @@
 									<div class="card-body">
 										<h5 class="card-title">{{ product.name }}</h5>
 										<p class="card-text">{{ product.summary|u.truncate(50, '...', false) }}</p>
-										<p class="card-text fw-bold">{{ product.price }}
-											€</p>
+										{% include "includes/productprice/index.html.twig" %}
 									</div>
 								</div>
 							</div>
