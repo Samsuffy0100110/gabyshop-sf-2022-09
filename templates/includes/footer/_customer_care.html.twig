@@ -1,9 +1,24 @@
 <div class="col-lg mb-3">
     <h4>Service Client</h4>
     <div class="d-flex flex-column mt-3">
-        <a class="text-center nav-link" href="{{ path('contact_index') }}">Formulaire de contact</a>
+        <a class="text-center nav-link navHover" href="{{ path('contact_index') }}">Formulaire de contact</a>
         {% for page in pages %}
-        <a class="text-center nav-link" href="{{ path('pages', {'slug': page.slug}) }}">{{ page.name }}</a>
+        <a class="text-center nav-link navHover" href="{{ path('pages', {'slug': page.slug}) }}">{{ page.name }}</a>
         {% endfor %}
     </div>
 </div>
+{% block javascripts %}
+<script>
+	let hoverFooter = document.getElementsByClassName('navHover');
+for (let i = 0; i < hover.length; i++) {
+    hoverFooter[i].addEventListener("mouseover", (event) => {
+        event.target.style.background = "linear-gradient(180deg, {{ theme.fontColor }} 0%, {{ theme.colorMenu }} 50%, {{ theme.fontColor }} 100%)";
+        event.target.style.color = "{{ theme.fontColor }}";
+    });
+    hoverFooter[i].addEventListener("mouseout", (event) => {
+        event.target.style.color = "{{ theme.fontColor }}";
+        event.target.style.background = "none";
+    });
+}
+</script>
+{% endblock %}
