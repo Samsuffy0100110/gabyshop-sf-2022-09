@@ -4,7 +4,6 @@ namespace App\Controller\Cart;
 
 use App\Repository\Product\OfferRepository;
 use App\Service\CartService;
-use App\Service\OfferService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

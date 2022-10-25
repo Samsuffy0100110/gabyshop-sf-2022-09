@@ -1,0 +1,48 @@
+{% set offers = product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
+{% for offer in offers %}
+	{% if loop.index0 == 0 %}
+		<p class="card-text fw-bold text-decoration-line-through">{{ product.price / 100 }}
+			€</p>
+	{% endif %}
+{% endfor %}
+{% for offer in offers %}
+	{% if offer.typeReduce == "percent" %}
+		<span class="badge bg-danger">{{ offer.name }}</span>
+		<p class="card-text fw-bold">
+			-
+			{{ offer.reduce }}
+			%</p>
+	{% endif %}
+	{% if offer.typeReduce == "euro" %}
+		<span class="badge bg-danger">{{ offer.name }}</span>
+		<p class="card-text fw-bold">
+			-
+			{{ offer.reduce }}
+			€</p>
+	{% endif %}
+{% else %}
+	<p class="card-text fw-bold">{{ product.price / 100}}
+		€</p>
+{% endfor %}
+{% if offers| length > 0 %}
+	{% set number = 0 %}
+	{% set reduce = 0 %}
+	{% set total = 0 %}
+	{% set totalEuro = 0 %}
+	{% set totalPercent = 0 %}
+	{% for offer in offers %}
+		{% if offer.typeReduce == "percent" %}
+			{% set number = product.price * (offer.reduce / 100) %}
+			{% set reduce = number %}
+			{% set totalPercent = reduce %}
+		{% endif %}
+		{% if offer.typeReduce == "euro" %}
+			{% set number = offer.reduce %}
+			{% set reduce = reduce + number %}
+			{% set totalEuro = (reduce * 100) %}
+		{% endif %}
+	{% endfor %}
+	{% set total = product.price - totalEuro - totalPercent %}
+	<p class="card-text fw-bold">{{ total / 100 }}
+		€</p>
+{% endif %}
