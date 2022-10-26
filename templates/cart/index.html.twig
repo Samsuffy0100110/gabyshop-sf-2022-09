@@ -65,6 +65,7 @@
 							{% if offers| length > 0 %}
 								{% set number = 0 %}
 								{% set reduce = 0 %}
+								{% set reduceEuro = 0 %}
 								{% set totalWhitOffers = 0 %}
 								{% set totalEuro = 0 %}
 								{% set totalPercent = 0 %}
@@ -76,8 +77,8 @@
 									{% endif %}
 									{% if offer.typeReduce == "euro" %}
 										{% set number = offer.reduce %}
-										{% set reduce = reduce + number %}
-										{% set totalEuro = (reduce * 100) %}
+										{% set reduce = reduceEuro + number %}
+										{% set totalEuro = (reduceEuro * 100) %}
 									{% endif %}
 								{% endfor %}
 								{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent %}
