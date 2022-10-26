@@ -41,6 +41,9 @@ class Shop
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isActive = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -150,6 +153,18 @@ class Shop
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(?bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

@@ -30,16 +30,19 @@ class FeaturedProductsCrudController extends AbstractCrudController
     {
         return [
             AssociationField::new('product')
-                ->setLabel('Produit'),
+                ->setLabel('Produit')
+                ->setRequired(true),
             ChoiceField::new('position')
                 ->setLabel('Position')
                 ->setChoices([
-                    '1' => 1,
+                    '1 -> position de la plus grande card' => 1,
                     '2' => 2,
                     '3' => 3,
                     '4' => 4,
                     '5' => 5,
-                ]),
+                ])
+                ->setRequired(true)
+                ->setHelp('Veillez à ne pas mettre deux produits à la même position'),
         ];
     }
 

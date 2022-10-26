@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -40,6 +41,9 @@ class LogoCrudController extends AbstractCrudController
                 ->setHelp('Le logo doit être au format jpg, jpeg, png ou gif et doit faire moins de 2Mo'),
             IntegerField::new('position')
                 ->setLabel('Position'),
+            BooleanField::new('isActive')
+                ->setLabel('Actif')
+                ->hideOnForm(),
         ];
     }
 

@@ -14,6 +14,7 @@ class LogoFixtures extends Fixture
         $logo->setName("Logo 1");
         $logo->setImage("logo.png");
         $logo->setPosition(1);
+        $logo->setIsActive(true);
         $manager->persist($logo);
 
         $manager->flush();

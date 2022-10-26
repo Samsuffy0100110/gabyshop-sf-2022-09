@@ -20,6 +20,7 @@ class ShopFixtures extends Fixture
         $shop->setPhone("06 23 45 67 89");
         $shop->setmail("admin@admin.fr");
         $shop->setDescription("GABYshop est une boutique en ligne de vente de produits de beauté et de bien-être.");
+        $shop->setIsActive(true);
         $manager->persist($shop);
 
         $manager->flush();
