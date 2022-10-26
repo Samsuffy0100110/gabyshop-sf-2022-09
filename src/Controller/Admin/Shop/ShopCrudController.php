@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ShopCrudController extends AbstractCrudController
@@ -46,6 +47,9 @@ class ShopCrudController extends AbstractCrudController
                 ->setLabel('Description'),
             TextField::new('shopNumberPro')
                 ->setLabel('Numéro de boutique PRO'),
+            BooleanField::new('isActive')
+                ->setLabel('Actif')
+                ->hideOnForm(),
         ];
     }
 
