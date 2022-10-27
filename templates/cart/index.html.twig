@@ -77,7 +77,7 @@
 									{% endif %}
 									{% if offer.typeReduce == "euro" %}
 										{% set number = offer.reduce %}
-										{% set reduce = reduceEuro + number %}
+										{% set reduceEuro = reduceEuro + number %}
 										{% set totalEuro = (reduceEuro * 100) %}
 									{% endif %}
 								{% endfor %}
