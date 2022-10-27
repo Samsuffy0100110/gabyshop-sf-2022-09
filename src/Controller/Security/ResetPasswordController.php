@@ -4,16 +4,19 @@ namespace App\Controller\Security;
 
 use App\Entity\User;
 use Symfony\Component\Mime\Address;
+use App\Repository\Front\LogoRepository;
+use App\Repository\Front\ShopRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\User\ChangePasswordFormType;
+use App\Repository\Front\ThemeRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Form\User\ResetPasswordRequestFormType;
-use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -35,15 +38,22 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('', name: 'forgot_password_request')]
-    public function request(Request $request, MailerInterface $mailer): Response
-    {
+    public function request(
+        Request $request,
+        MailerInterface $mailer,
+        ShopRepository $shopRepository,
+        LogoRepository $logoRepository,
+        ThemeRepository $themeRepository,
+    ): Response {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processSendingPasswordResetEmail(
                 $form->get('email')->getData(),
-                $mailer
+                $mailer,
+                $shopRepository,
+                $logoRepository,
+                $themeRepository
             );
         }
 
@@ -139,8 +149,14 @@ class ResetPasswordController extends AbstractController
 
     private function processSendingPasswordResetEmail(
         string $emailFormData,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        ShopRepository $shopRepository,
+        LogoRepository $logoRepository,
+        ThemeRepository $themeRepository,
     ): RedirectResponse {
+        $shop = $shopRepository->findOneBy(['isActive' => true]);
+        $logo = $logoRepository->findOneBy(['isActive' => true]);
+        $theme = $themeRepository->findOneBy(['isActive' => true]);
         $user = $this->entityManager->getRepository(User::class)->findOneBy([
             'email' => $emailFormData,
         ]);
@@ -174,6 +190,10 @@ class ResetPasswordController extends AbstractController
             ->htmlTemplate('security/reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
+                'shop' => $shop,
+                'logo' => $logo,
+                'theme' => $theme,
+                'user' => $user,
             ])
         ;
 

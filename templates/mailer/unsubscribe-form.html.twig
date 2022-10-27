@@ -13,8 +13,8 @@
 			padding: 0;
 			font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 			line-height: 1.6;
-			color: #353535;
-			background-color: rgba(53, 53, 53, 0.1);
+			color: {{ theme.colorMenu }};
+			background-color: {{ theme.backgroundColor }};
 		}
 		.container {
 			display: flex;
@@ -23,8 +23,8 @@
 			align-items: center;
 		}
 		h1 {
-			background-color: #353535;
-			color: #fff;
+			background-color: {{ theme.colorMenu }};
+			color: {{ theme.fontColor }};
 			font-size: 2rem;
 			margin-top: 0;
 			padding: 1rem;
@@ -34,8 +34,8 @@
 			text-align: center;
 		}
 		button {
-			background-color: #353535;
-			color: #fff;
+			background-color: {{ theme.colorMenu }};
+			color: {{ theme.fontColor }};
 			font-size: 1.2rem;
 			padding: 1rem;
 			border: none;
@@ -52,7 +52,7 @@
 	<body>
 		<div class="container">
 			<h1>Bonjour
-				{{newsLetter.email}}
+				{{ newsLetter.email }}
 				!</h1>
 			<p>Voulez-vous confirmer la désinscription à la newsletter ?</p>
 			<form method="post" action="{{ path('validate-unsubscribe', {'uuid': uuid}) }}">

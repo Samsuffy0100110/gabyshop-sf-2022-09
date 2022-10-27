@@ -4,6 +4,9 @@ namespace App\Controller\Communication;
 
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Mime\Address;
+use App\Repository\Front\LogoRepository;
+use App\Repository\Front\ShopRepository;
+use App\Repository\Front\ThemeRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,9 +33,15 @@ class SendNewsController extends AbstractController
         MailerInterface $mailer,
         NewsLetterUserRepository $user,
         NewsLetterRepository $newsLetter,
+        ShopRepository $shopRepository,
+        LogoRepository $logoRepository,
+        ThemeRepository $themeRepository,
         int $id
     ): Response {
-            $users = $user->findAll();
+        $shop = $shopRepository->findOneBy(['isActive' => true]);
+        $logo = $logoRepository->findOneBy(['isActive' => true]);
+        $theme = $themeRepository->findOneBy(['isActive' => true]);
+        $users = $user->findAll();
         foreach ($users as $user) {
             $email = (new TemplatedEmail())
             ->from(new Address($this->getParameter('mailer_address'), 'GabyShop'))
@@ -42,6 +51,9 @@ class SendNewsController extends AbstractController
             ->context([
                 'newsletter' => $newsLetter->find($id),
                 'uuid' => Uuid::v4(),
+                'shop' => $shop,
+                'logo' => $logo,
+                'theme' => $theme,
             ]);
             $mailer->send($email);
         }
