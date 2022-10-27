@@ -24,7 +24,8 @@
 					<br>
 					{{ shipping.description }}
 					<br>
-					Montant de Livraison : {{ (shipping.price)| number_format(2, ',', '.') }}
+					Montant de Livraison :
+					{{ (shipping.price)| number_format(2, ',', '.') }}
 					&euro;
 				</div>
 			</div>
@@ -35,53 +36,87 @@
 				<div class="order-summary">
 					{% set totalProducts = 0 %}
 					{% set totalProductsHT = 0 %}
+					{% set Total = 0 %}
+					{% set TOTAL = 0 %}
 					{% for key, attribut in cart %}
-					<div class="row {% if key > 0 %}mt-2{% endif %}">
-						<div class="col-2">
-							<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
-						</div>
-						<div class="col-6">
-							{{ attribut.attribut.product.name }}<br>
-							{{ attribut.attribut.name }}
-							x
-							{{ attribut.quantity }}
-						</div>
-						<div class="col-2">
-							<p>{{ (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+						<div class="row {% if key > 0 %}mt-2{% endif %}">
 							<div class="col-2">
-								<p>{{ ((attribut.attribut.product.price * attribut.quantity) / 100) | number_format(2, ',', '.') }}&euro;</p>
+								<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
 							</div>
+							<div class="col-6">
+								{{ attribut.attribut.product.name }}<br>
+								{{ attribut.attribut.name }}
+								x
+								{{ attribut.quantity }}
+							</div>
+							<div class="col-2">
+								{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
+								{% if offers| length > 0 %}
+									{% set number = 0 %}
+									{% set reduce = 0 %}
+									{% set reduceEuro = 0 %}
+									{% set totalWhitOffers = 0 %}
+									{% set totalEuro = 0 %}
+									{% set totalPercent = 0 %}
+									{% for offer in offers %}
+										{% if offer.typeReduce == "percent" %}
+											{% set number = attribut.attribut.product.price * (offer.reduce / 100) %}
+											{% set reduce = number %}
+											{% set totalPercent = reduce %}
+										{% endif %}
+										{% if offer.typeReduce == "euro" %}
+											{% set number = offer.reduce %}
+											{% set reduce = reduceEuro + number %}
+											{% set totalEuro = (reduceEuro * 100) %}
+										{% endif %}
+										{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent %}
+										{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100)) %}
+
+										<p>HT :
+											{{ ((( totalWhitOffers / 100) - (( totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+									</div>
+									<div class="col-2">
+										<p>TTC :{{ (( totalWhitOffers * attribut.quantity) / 100) | number_format(2, ',', '.') }}&euro;</p>
+									</div>
+
+								{% else %}
+									<p>HT :{{ (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+								</div>
+								<div class="col-2">
+									<p>
+										TTC :{{ ((attribut.attribut.product.price * attribut.quantity) / 100) | number_format(2, ',', '.') }}&euro;</p>
+								</div>
+
+							{% endfor %}
 						</div>
-							{% set totalProducts = totalProducts + ((attribut.attribut.product.price * attribut.quantity) / 100) %}
-							{% set totalProductsHT = totalProductsHT + (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) %}
-						{% endfor %}
-					</div>
-				<hr>
-				<strong>Sous-total HT :</strong>
-				{{ totalProductsHT | number_format(2, ',', '.') }}&euro;<br>
-				<strong>Sous-total TTC :</strong>
-				{{ totalProducts | number_format(2, ',', '.') }}&euro;<br>
-				<strong>Livraison :</strong>
-				{{ (shipping.price ) | number_format(2, ',', '.') }}&euro;
-				<hr>
-				{% set total = (totalProducts + (shipping.price)) | number_format(2, ',', '.')  %}
-				<strong>Total :</strong>
-				{{ total}}&euro;
-				<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
-					<input type='hidden' name='stripeToken' id='stripe-token-id'>
-					<label for="card-element" class="mb-2 mt-3">Veuillez remplir vos coordonnées bancaires</label>
-					<br>
-					<div id="card-element" class="form-control"></div>
-					<button id='pay-btn' class="btn btn-success mt-3 mb-5" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
-						{{total}}&euro;</button>
-				</button>
-				<form></div>
-			</div>
-			</div>
+					{% endif %}
+				</div>
+				{% set totalProducts = totalProducts + ((attribut.attribut.product.price * attribut.quantity) / 100) %}
+				{% set totalProductsHT = totalProductsHT + (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) %}
+			{% endfor %}
+			<hr>
+			<strong>Sous-total HT :</strong>
+			{{ totalProductsHT | number_format(2, ',', '.') }}&euro;<br>
+			<strong>Sous-total TTC :</strong>
+			{{ totalProducts | number_format(2, ',', '.') }}&euro;<br>
+			<strong>Livraison :</strong>
+			{{ (shipping.price ) | number_format(2, ',', '.') }}&euro;
+			<hr>
+			{% set total = (totalProducts + (shipping.price)) | number_format(2, ',', '.')  %}
+			<strong>Total :</strong>
+			{{ total}}&euro;
+			<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
+				<input type='hidden' name='stripeToken' id='stripe-token-id'>
+				<label for="card-element" class="mb-2 mt-3">Veuillez remplir vos coordonnées bancaires</label>
+				<br>
+				<div id="card-element" class="form-control"></div>
+				<button id='pay-btn' class="btn btn-success mt-3 mb-5" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
+					{{total}}&euro;</button>
+			</button>
+			<form></div>
 		</div>
 	</div>
-		
-		<script>
+</div></div><script>
 var stripe = Stripe("{{ stripe_key }}");
 var elements = stripe.elements();
 var cardElement = elements.create('card', {
@@ -118,6 +153,4 @@ document.getElementById("stripe-token-id").value = result.token.id;
 document.getElementById('checkout-form').submit();
 }
 });
-}
-		</script>
-	{% endblock %}
+}</script>{% endblock %}
