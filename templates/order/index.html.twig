@@ -59,7 +59,7 @@
 				<div class="text-center">
 					<h4>Récapitulatif de votre commande</h4>
 				</div>
-				<div class="bg-light p-3 rounded-shadow">
+			<div class="bg-light p-3 rounded-shadow">
 					{% set Total = 0 %}
 					{% set totalWhitOffers = 0 %}
 					{% set total = 0 %}
@@ -76,29 +76,29 @@
 							<div class="col-auto my-auto">
 								<p>x
 									{{ attribut.quantity }}</p>
-							</div>
-							<div class="col-auto">
+						</div>
+						<div class="col-auto">
 								{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
-								{% if offers| length > 0 %}
-									{% set number = 0 %}
-									{% set reduce = 0 %}
-									{% set reduceEuro = 0 %}
-									{% set totalWhitOffers = 0 %}
-									{% set totalEuro = 0 %}
-									{% set totalPercent = 0 %}
-									{% for offer in offers %}
-										{% if offer.typeReduce == "percent" %}
-											{% set number = attribut.attribut.product.price * (offer.reduce / 100) %}
-											{% set reduce = number %}
-											{% set totalPercent = reduce %}
-										{% endif %}
-										{% if offer.typeReduce == "euro" %}
-											{% set number = offer.reduce %}
-											{% set reduceEuro = reduceEuro + number %}
-											{% set totalEuro = (reduceEuro * 100) %}
-										{% endif %}
-									{% endfor %}
-									{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent %}
+									{% if offers| length > 0 %}
+										{% set number = 0 %}
+										{% set reduce = 0 %}
+										{% set reduceEuro = 0 %}
+										{% set totalWhitOffers = 0 %}
+										{% set totalEuro = 0 %}
+										{% set totalPercent = 0 %}
+											{% for offer in offers %}
+												{% if offer.typeReduce == "percent" %}
+													{% set number = attribut.attribut.product.price * (offer.reduce / 100) %}
+													{% set reduce = number %}
+													{% set totalPercent = reduce %}
+												{% endif %}
+												{% if offer.typeReduce == "euro" %}
+													{% set number = offer.reduce %}
+													{% set reduceEuro = reduceEuro + number %}
+													{% set totalEuro = (reduceEuro * 100) %}
+												{% endif %}
+											{% endfor %}
+										{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent %}
 									<p>prix HT</p>
 									<p>{{ ((( totalWhitOffers / 100) - (( totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 								</div>
