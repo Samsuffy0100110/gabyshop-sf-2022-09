@@ -8,6 +8,9 @@ use Symfony\Component\Mime\Address;
 use App\Form\User\RegistrationFormType;
 use App\Security\SecurityAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Front\LogoRepository;
+use App\Repository\Front\ShopRepository;
+use App\Repository\Front\ThemeRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +36,14 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
         SecurityAuthenticator $authenticator,
-        UserAuthenticatorInterface $userAuthenticator
+        UserAuthenticatorInterface $userAuthenticator,
+        ShopRepository $shopRepository,
+        LogoRepository $logoRepository,
+        ThemeRepository $themeRepository,
     ): Response {
+        $shop = $shopRepository->findOneBy(['isActive' => true]);
+        $logo = $logoRepository->findOneBy(['isActive' => true]);
+        $theme = $themeRepository->findOneBy(['isActive' => true]);
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -61,6 +70,12 @@ class RegistrationController extends AbstractController
                     ->to($user->getEmail())
                     ->subject('Merci de confirmer votre adresse email')
                     ->htmlTemplate('security/registration/confirmation_email.html.twig')
+                    ->context([
+                        'user' => $user,
+                        'shop' => $shop,
+                        'logo' => $logo,
+                        'theme' => $theme,
+                    ])
             );
             // do anything else you need here, like send an email
             $this->addFlash('success', 'Bienvenue ! Un email de confirmation vous a été envoyé.');

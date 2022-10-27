@@ -24,7 +24,7 @@ class AddressType extends AbstractType
                         'message' => 'Entrer un nom pour l\'adresse',
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9._-]+$/',
+                        'pattern' => '/^[a-zA-Z0-9._ -]+$/',
                         'message' => 'Entrer un nom valide',
                     ]),
                 ],
@@ -36,7 +36,7 @@ class AddressType extends AbstractType
                         'message' => 'Entrer une adresse',
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9._-]+$/',
+                        'pattern' => '/^[a-zA-Z0-9._ -]+$/',
                         'message' => 'Entrer une adresse valide',
                     ]),
                 ],
@@ -46,7 +46,7 @@ class AddressType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^[a-zA-Z0-9._-]+$/',
+                        'pattern' => '/^[a-zA-Z0-9._ -]+$/',
                         'message' => 'Entrer un complément d\'adresse valide',
                     ]),
                 ],
@@ -70,7 +70,7 @@ class AddressType extends AbstractType
                         'message' => 'Entrer une ville',
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z._-]+$/',
+                        'pattern' => '/^[a-zA-Z._ -]+$/',
                         'message' => 'Entrer une ville valide',
                     ]),
                 ],
@@ -90,8 +90,7 @@ class AddressType extends AbstractType
                         'message' => 'Entrer un numéro de téléphone',
                     ]),
                     new Regex([
-                        'pattern' => '/^(?:(?:\+|00)33[\s.-]{0,3}(?:\(0\)[\s.-]{0,3})?|0)[1-9](?:(?:[\s.-]
-                        ?\d{2}){4}|\d{2}(?:[\s.-]?\d{3}){2})$/',
+                        'pattern' => "`^0[0-9]([-. ]?\d{2}){4}[-. ]?$`",
                         'message' => 'Entrer un numéro de téléphone valide',
                     ]),
                 ],

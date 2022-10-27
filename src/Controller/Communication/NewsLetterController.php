@@ -4,6 +4,9 @@ namespace App\Controller\Communication;
 
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Mime\Address;
+use App\Repository\Front\LogoRepository;
+use App\Repository\Front\ShopRepository;
+use App\Repository\Front\ThemeRepository;
 use App\Form\Communication\NewsLetterType;
 use App\Entity\Communication\NewsLetterUser;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -20,9 +23,14 @@ class NewsLetterController extends AbstractController
     public function new(
         Request $request,
         NewsLetterUserRepository $newsLetterRepository,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        LogoRepository $logoRepository,
+        ThemeRepository $themeRepository,
+        ShopRepository $shopRepository
     ): Response {
-
+        $shop = $shopRepository->findOneBy(['isActive' => true]);
+        $logo = $logoRepository->findOneBy(['isActive' => true]);
+        $theme = $themeRepository->findOneBy(['isActive' => true]);
         $newsLetter = new NewsLetterUser();
         $form = $this->createForm(NewsLetterType::class, $newsLetter);
         $form->handleRequest($request);
@@ -39,6 +47,9 @@ class NewsLetterController extends AbstractController
             ->htmlTemplate('mailer/sub-email.html.twig')
             ->context([
                 'uuid' => $uuid,
+                'shop' => $shop,
+                'logo' => $logo,
+                'theme' => $theme,
             ]);
             $mailer->send($email);
 
