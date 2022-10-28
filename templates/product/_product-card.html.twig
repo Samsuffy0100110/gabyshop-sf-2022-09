@@ -8,32 +8,45 @@
 		{% if app.user %}
 			<a href="{{ path('wishlist_new', { product: product.slug }) }}">Ajouter à ma liste d'envie</a>
 		{% endif %}
-		{% for attribut in attributs|sort((a,b)=>a.position <=> b.position) %}
-			{% if attribut.quantity > 0 %}
-				<div class="row m-2">
-					<div class="col-auto">
-						{% if attribut.name is not null %}
-							<input class="form-control text-center" type="text" value="{{ attribut.name }}" aria-label="{{ attribut.name }}" readonly>
-							{% else %}
-							{# pas d'affichage de l'attribut name #}
-						{% endif %}
-					</div>
-					<div class="col-auto">
-						{% if attributs is not empty and attributs|filter((a)=>a.quantity > 0) is not empty and attribut.name is not null %}
-							<a href="{{ path('cart_add', { id:attribut.id }) }}" class="card-link btn btn-primary">Ajouter au panier</a>
-						{% else %}
-							<a href="{{ path('cart_add', { id:attribut.id }) }}" class="card-link btn btn-primary">Ajouter au panier</a>
-						{% endif %}
+		<div class="row">
+			<div class="col-md-6 mb-3">
+				{% for attribut in attributs %}
+					<form action="{{ path('cart_add', { id:attribut.id }) }}" method="post">
+					{% endfor %}
+					<label for="attribut">Attribut :</label>
+					<select class="form-control form-control-lg" name="attribut" id="attribut" onchange="Changequantity()" required>
+						<option value="">Choisissez un attribut...</option>
+						{% for attribut in attributs %}
+							<option value="{{ attribut.id }}">{{ attribut.name }}</option>
+						{% endfor %}
+					</select>
+					<div class="invalid-feedback">
+						Merci de choisir un attribut.
 					</div>
 				</div>
-			{% else %}
-				<div class="row m-2">
-					<div class="col-auto">
-						<input class="form-control text-center" type="text" value="{{ attribut.name }} (en rupture)" aria-label="{{ attribut.name }}" readonly>
+				<div class="col-md-6 mb-3">
+					<label for="quantity">Quantité :</label>
+					<select class="form-control form-control-lg" id="quantity" name="quantity" required></select>
+					<div class="invalid-feedback">
+						Merci de choisir une quantité.
 					</div>
 				</div>
-			{% endif %}
-		{% endfor %}
+			</div>
+			<button class="btn btn-outline-success btn-lg btn-block" type="submit">Ajouter au panier</button>
+		</form>
 		{% include "includes/productprice/index.html.twig" %}
 	</div>
 </div>
+<script>
+	let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}function Changequantity() {
+let select = document.getElementById('quantity');
+let attribut = document.getElementById('attribut').value;
+select.innerHTML = '';
+for (let i = 1; i <= quantities[attribut]; i++) {
+let option = document.createElement('option');
+option.value = i;
+option.innerHTML = i;
+select.appendChild(option);
+}
+}
+</script>
