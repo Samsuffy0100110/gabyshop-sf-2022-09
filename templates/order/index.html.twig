@@ -32,21 +32,23 @@
 						<div class="d-none">data.ID =
 							<span id="cb_ID"></span>
 						</div>
-						<div>Nom =
+						<div>
 							<span id="cb_Nom"></span>
 						</div>
-						<div>Adresse =
+						<div>
 							<span id="cb_Adresse"></span>
 						</div>
-						<div>CP =
+						<div>
 							<span id="cb_CP"></span>
 						</div>
-						<div>Ville =
+						<div>
 							<span id="cb_Ville"></span>
 						</div>
-						<div>Pays =
-							<span id="cb_Pays"></span>
-						</div>
+							<input type="hidden" name="id">
+							<input type="hidden" name="nom" id="cb_Nom">
+							<input type="hidden" name="adresse" id="cb_Adresse">
+							<input type="hidden" name="cp" id="cb_CP">
+							<input type="hidden" name="ville" id="cb_Ville">
 					</div>
 				{% endif %}
 				<div class="fw-bold">Montant de la Livraison :
@@ -143,15 +145,15 @@ Target: "#Target_Widget",
 //
 // Code given by Mondial Relay, 8 characters (padding right with spaces)
 // BDTEST is used for development only => a warning appears
-Brand: "BDTEST  ",
+Brand: "CC22KKW2",
 // Default Country (2 letters) used for search at loading
 Country: "FR",
 // Default postal Code used for search at loading
-PostCode: "",
+PostCode: "17100",
 // Delivery mode (Standard [24R], XL [24L], XXL [24X], Drive [DRI])
 ColLivMod: "24R",
 // Number of parcelshops requested (must be less than 20)
-NbResults: "7",
+NbResults: "5",
 //
 // Display settings
 //
@@ -173,8 +175,13 @@ $("#cb_Adresse").html(data.Adresse1 + ' ' + data.Adresse2);
 $("#cb_CP").html(data.CP);
 $("#cb_Ville").html(data.Ville);
 $("#cb_Pays").html(data.Pays);
+$("[name='id']").val(data.ID);
+$("[name='nom']").val(data.Nom);
+$("[name='adresse']").val(data.Adresse1 + ' ' + data.Adresse2);
+$("[name='cp']").val(data.CP);
+$("[name='ville']").val(data.Ville);
 }
 });
 });
-	</script>
+</script>
 {% endblock %}
