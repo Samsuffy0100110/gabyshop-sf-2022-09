@@ -11,11 +11,20 @@
 		<hr>
 		<div class="row">
 			<div class="col-md-6">
+				{% if shipping.name is same as 'Livraison gratuite' %}
 				<strong>Mon adresse de livraison</strong>
 				<br>
 				<div class="form-check mt-4">
 					{{ delivery_address|raw }}
 				</div>
+				{% else %}	
+				<strong>Votre Point Mondial Relay</strong>
+				<br>
+				<div>{{ app.request.request.get("nom") }}</div>
+				<div>{{ app.request.request.get("addresse") }}</div>
+				<div>{{ app.request.request.get("cp") }}</div>
+				<div>{{ app.request.request.get("ville") }}</div>
+				{% endif %}
 				<hr>
 				<strong>Mon transporteur</strong>
 				<br>
