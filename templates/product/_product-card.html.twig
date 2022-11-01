@@ -11,7 +11,6 @@
 		<div class="row">
 			<div class="col-md-6 mb-3">
 				{% for attribut in attributs %}
-					<form action="{{ path('cart_add', { id:attribut.id }) }}" method="post">
 					{% endfor %}
 					<label for="attribut">Attribut :</label>
 					<select class="form-control form-control-lg" name="attribut" id="attribut" onchange="Changequantity()" required>
@@ -26,19 +25,18 @@
 				</div>
 				<div class="col-md-6 mb-3">
 					<label for="quantity">Quantité :</label>
-					<select class="form-control form-control-lg" id="quantity" name="quantity" required></select>
+					<select class="form-control form-control-lg" id="quantity" name="quantity" onchange="setQuantity()" required></select>
 					<div class="invalid-feedback">
 						Merci de choisir une quantité.
 					</div>
 				</div>
+				<div id="add-to-cart"></div>
 			</div>
-			<button class="btn btn-outline-success btn-lg btn-block" type="submit">Ajouter au panier</button>
-		</form>
 		{% include "includes/productprice/index.html.twig" %}
 	</div>
 </div>
 <script>
-	let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}function Changequantity() {
+let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}function Changequantity() {
 let select = document.getElementById('quantity');
 let attribut = document.getElementById('attribut').value;
 select.innerHTML = '';
@@ -48,5 +46,15 @@ option.value = i;
 option.innerHTML = i;
 select.appendChild(option);
 }
+}
+function setQuantity() {
+let quantity = document.getElementById('quantity').value;
+let attribut = document.getElementById('attribut').value;
+let addtocart = document.getElementById('add-to-cart');
+q = parseInt(quantity);
+{% for attribut in attributs %}
+addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', { id:attribut.id, quantity:"q" }) }}" class="btn btn-primary btn-lg btn-block">Ajouter au panier</a>`;
+addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
+{% endfor %}
 }
 </script>

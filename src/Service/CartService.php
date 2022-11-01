@@ -28,6 +28,17 @@ class CartService
         $this->session->set('cart', $cart);
     }
 
+    public function addIdAndQuantity($id, $quantity)
+    {
+        $cart = $this->session->get('cart', []);
+        if (!empty($cart[$id])) {
+            $cart[$id] += $quantity;
+        } else {
+            $cart[$id] = $quantity;
+        }
+        $this->session->set('cart', $cart);
+    }
+
     public function remove()
     {
         return $this->session->remove('cart');
