@@ -1,25 +1,25 @@
-
+// create references to the modal...
 let modal = document.getElementById('myModal');
-
-
-let span = document.getElementsByClassName("close")[0];
-    
-// When the user clicks on <span> (x), close the modal
-span.onclick = function () {
-    modal.style.display = "none";
-}
-    
-// Get all images and insert the clicked image inside the modal
-// Get the content of the image description and insert it inside the modal image caption
-let images = document.getElementsByTagName('img');
-let modalImg = document.getElementById("imgModal");
+// to all images -- note I'm using a class!
+let images = document.getElementsByClassName('myImages');
+// the image in the modal
+let modalImg = document.getElementById("img01");
+// and the caption in the modal
 let captionText = document.getElementById("caption");
-let i;
-for (i = 0; i < images.length; i++) {
-    images[i].onclick = function () {
+
+// Go through all of the images with our custom class
+for (let i = 0; i < images.length; i++) {
+    let img = images[i];
+    // and attach our click listener for this image.
+    img.onclick = function(evt) {
         modal.style.display = "block";
         modalImg.src = this.src;
-        modalImg.alt = this.alt;
-        captionText.innerHTML = this.nextElementSibling.innerHTML;
+        captionText.innerHTML = this.alt;
     }
+}
+
+let span = document.getElementsByClassName("close")[0];
+
+span.onclick = function() {
+    modal.style.display = "none";
 }

@@ -1,5 +1,5 @@
 <div class="col-lg-12">
-	<img src="{{ ('/images/products/' ~ product.image0) }}" alt="{{ product.name }}" class="image0 w-100 rounded mb-2 img-gallery">
+	<img src="{{ ('/images/products/' ~ product.image0) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded mb-2 img-gallery">
 </div>
 <div class="col-lg-3">
 	{% if product.image1 == null %}
@@ -8,7 +8,7 @@
 		</div>
 	{% else %}
 		<div class="img-gallery">
-			<img src="{{ ('/images/products/' ~ product.image1) }}" alt="{{ product.name }}" class="w-100 rounded img-gallery">
+			<img src="{{ ('/images/products/' ~ product.image1) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded img-gallery">
 		</div>
 	{% endif %}
 </div>
@@ -19,7 +19,7 @@
 		</div>
 	{% else %}
 		<div class="img-gallery">
-			<img src="{{ ('/images/products/' ~ product.image2) }}" alt="{{ product.name }}" class="w-100 rounded img-gallery">
+			<img src="{{ ('/images/products/' ~ product.image2) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded img-gallery">
 		</div>
 	{% endif %}
 </div>
@@ -30,7 +30,7 @@
 		</div>
 	{% else %}
 		<div class="img-gallery">
-			<img src="{{ ('/images/products/' ~ product.image3) }}" alt="{{ product.name }}" class="w-100 rounded img-gallery">
+			<img src="{{ ('/images/products/' ~ product.image3) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded img-gallery">
 		</div>
 	{% endif %}
 </div>
@@ -41,7 +41,7 @@
 		</div>
 	{% else %}
 		<div class="img-gallery">
-			<img src="{{ ('/images/products/' ~ product.image4) }}" alt="{{ product.name }}" class="w-100 rounded img-gallery">
+			<img src="{{ ('/images/products/' ~ product.image4) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded img-gallery">
 		</div>
 	{% endif %}
 </div>
@@ -50,7 +50,7 @@
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
-	<span class="close">×</span>
-	<img class="modal-content" id="imgModal">
-	<div id="caption"></div>
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div id="caption"></div>
 </div>
