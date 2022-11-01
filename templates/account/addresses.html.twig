@@ -24,12 +24,13 @@
 			</div>
 			<div class="col-lg-9 border rounded p-5">
 				<h1>Mes adresses</h1>
-				<hr>
-				<a class="nav-link mb-3 mt-3 text-success text-end fw-bold fs-5" href="{{ path('user_address_new') }}"><img src="{{ asset('images/others/greenCross.png') }}" width="20px" alt="Green Cross"> Ajouter</a>
+				<div class="text-end">
+				<a class="btn btn-outline-success mb-4" href="{{ path('user_address_new') }}">Ajouter</a>
+				</div>
 				{% for address in addresses %}
 					<div class="container">
 						<div class="row">
-							<div class="col-lg-8 mb-3">
+							<div class="col mb-3">
 								<div class="card shadow">
 									<div class="card-body">
 										{% if address.isActive ==true %}
@@ -44,11 +45,13 @@
 										<p class="card-text">{{ address.country }}</p>
 										<p class="card-text">{{ address.phone }}</p>
 										<div class="d-flex justify-content-end align-items-center">
-											<a class="nav-link" href="{{ path('user_address_edit', {'id': address.id}) }}"><img src="{{ asset('images/others/edit.png') }}" width="20px" alt="edit"></a>
+											<a class="btn btn-outline-info m-1" href="{{ path('user_address_edit', {'id': address.id}) }}">Modifier</a>
+											<div class="text-end">
 											<form method="post" action="{{ path('user_address_delete', {'id': address.id}) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer cette adresse ?')">
 												<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ address.id) }}">
-												<button class="btn"><img src="{{ asset('images/others/redCross.png') }}" width="20px" alt="Red Cross"></button>
+												<button class="btn btn-outline-danger m-1">Suppimer</button>
 											</form>
+											</div>
 										</div>
 									</div>
 								</div>
