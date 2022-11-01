@@ -1,6 +1,6 @@
 <div class="container">
 	<h2 class="mt-5 mb-5 text-center">Nos Produits</h2>
-	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-wrap="false">
+	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-wrap="true" data-bs-interval="4000" data-nextWhenVisible="true" >
 		<div class="carousel-inner">
 			{% for product in products %}
 				<div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
@@ -34,5 +34,6 @@
 			<span class="carousel-control-next-icon" aria-hidden="true"></span>
 			<span class="sr-only">Next</span>
 		</a>
+
 	</div>
 </div>
