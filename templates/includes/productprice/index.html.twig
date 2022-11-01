@@ -7,14 +7,14 @@
 {% endfor %}
 {% for offer in offers %}
 	{% if offer.typeReduce == "percent" %}
-		<span class="badge bg-danger">{{ offer.name }}</span>
+		<span class="badge bg-danger ms-auto">{{ offer.name }}</span>
 		<p class="card-text fw-bold text-end fs-5">
 			-
 			{{ offer.reduce }}
 			%</p>
 	{% endif %}
 	{% if offer.typeReduce == "euro" %}
-		<span class="badge bg-danger">{{ offer.name }}</span>
+		<span class="badge bg-danger ms-auto">{{ offer.name }}</span>
 		<p class="card-text fw-bold text-end fs-5">
 			-
 			{{ offer.reduce }}
@@ -44,6 +44,6 @@
 		{% endif %}
 	{% endfor %}
 	{% set total = product.price - totalEuro - totalPercent %}
-	<p class="card-text fw-bold text-end fs-5">{{ total / 100 }}
+	<p class="card-text fw-bold text-end fs-5 mt-auto">{{ total / 100 }}
 		€</p>
 {% endif %}
