@@ -140,7 +140,7 @@ class ProfileType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Mettre à jour mon profil',
                 'attr' => [
-                    'class' => 'btn btn-success'
+                    'class' => 'btn btn-outline-success'
                 ]
             ])
         ;
