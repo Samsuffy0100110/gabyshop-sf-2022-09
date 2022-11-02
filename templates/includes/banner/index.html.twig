@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-lg-12 mb-3">
 			<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-				<div class="carousel-inner">
+				<div class="carousel-inner rounded">
 					{% for banner in banners %}
 						{% if date(banner.startedAT) < date() and date(banner.endedAT) > date() %}
 						{% if banner.position == 2 and loop.index0 == 0 %}

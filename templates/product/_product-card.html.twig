@@ -10,17 +10,16 @@
 		{% endif %}
 		<div class="row">
 			<div class="col-md-6 mb-3">
-				{% for attribut in attributs %}
-					{% endfor %}
-					<label for="attribut">Attribut :</label>
+			{% if attributs | length > 0 %}
+					<label for="attribut">Options :</label>
 					<select class="form-control form-control-lg" name="attribut" id="attribut" onchange="Changequantity()" required>
-						<option value="">Choisissez un attribut...</option>
+						<option value="">Choisissez une option</option>
 						{% for attribut in attributs %}
-							<option value="{{ attribut.id }}">{{ attribut.name }}</option>
+							<option value="{{ attribut.id }}">{{ attribut.name }}</option>		
 						{% endfor %}
 					</select>
 					<div class="invalid-feedback">
-						Merci de choisir un attribut.
+						Merci de choisir votre option
 					</div>
 				</div>
 				<div class="col-md-6 mb-3">
@@ -30,11 +29,24 @@
 						Merci de choisir une quantité.
 					</div>
 				</div>
+			{% else %}
+					<div class=" fw-bold">Désolé produit victime de son succès, en attente de réapprovisionnement.</div>
+					</div>
+			{% endif %}
 				<div id="add-to-cart"></div>
 			</div>
 		{% include "includes/productprice/index.html.twig" %}
 	</div>
 </div>
+{# {% if attribut.persoIsEnable == true %}
+				<div class="col-md-6 mb-3 ">
+					<label for="perso">Personnalisation :</label>
+					<input type="text" class="form-control form-control-lg mt-2" id="perso" name="perso" placeholder="Personnalisation" required>
+					<div class="invalid-feedback">
+						Merci de choisir une personnalisation.
+					</div>
+				</div>
+{% endif %} #}
 <script>
 let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}function Changequantity() {
 let select = document.getElementById('quantity');
