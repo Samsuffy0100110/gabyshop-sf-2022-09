@@ -25,6 +25,15 @@ class Attribut
     #[ORM\ManyToOne(inversedBy: 'attributs', targetEntity: Product::class, cascade: ['persist'])]
     private ?Product $product = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $price = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $perso = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $persoIsEnable = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,5 +90,41 @@ class Attribut
     public function __toString(): string
     {
         return $this->name ?? '';
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getPerso(): ?string
+    {
+        return $this->perso;
+    }
+
+    public function setPerso(?string $perso): self
+    {
+        $this->perso = $perso;
+
+        return $this;
+    }
+
+    public function isPersoIsEnable(): ?bool
+    {
+        return $this->persoIsEnable;
+    }
+
+    public function setPersoIsEnable(?bool $persoIsEnable): self
+    {
+        $this->persoIsEnable = $persoIsEnable;
+
+        return $this;
     }
 }

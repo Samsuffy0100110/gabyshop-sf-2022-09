@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class AttributCrudController extends AbstractCrudController
 {
@@ -40,6 +41,13 @@ class AttributCrudController extends AbstractCrudController
             AssociationField::new('product')
                 ->setLabel('Produit')
                 ->hideOnForm(),
+            IntegerField::new('price')
+                ->setLabel('Prix'),
+            TextField::new('perso')
+                ->setLabel('Personnalisation')
+                ->hideOnForm(),
+            BooleanField::new('persoIsEnable')
+                ->setLabel('Personnalisation activée'),
         ];
     }
 
