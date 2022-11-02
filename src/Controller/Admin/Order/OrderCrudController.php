@@ -8,6 +8,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
@@ -142,14 +144,13 @@ class OrderCrudController extends AbstractCrudController
         ->showEntityActionsInlined();
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('reference', 'Référence'),
             DateTimeField::new('createdAt', 'créée le'),
             DateTimeField::new('updatedAt', 'modifiée le'),
-            // TextField::new('user.fullname', 'Utilisateur'),
+            TextField::new('user.fullname', 'Nom')->hideOnIndex(),
             AssociationField::new('user', 'Utilisateur'),
             TextEditorField::new('delivery', 'Adresse de livraison')->onlyOnDetail(),
             AssociationField::new('shipping', 'Transporteur'),
@@ -159,8 +160,7 @@ class OrderCrudController extends AbstractCrudController
                 'Préparation en cours' => '2',
                 'Livraison en cours' => '3',
             ]),
-            // ArrayField::new('orderDetails', 'Produits achetés')->hideOnIndex()
-
+            ArrayField::new('orderDetails', 'Produits achetés')->hideOnIndex(),
         ];
     }
 }
