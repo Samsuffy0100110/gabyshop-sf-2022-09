@@ -14,28 +14,20 @@
 									{% set offers = starProduct.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
 						{% for offer in offers %}
 							{% if loop.index0 == 0 %}
-								<p class="card-text fw-bold text-decoration-line-through text-end">{{ starProduct.product.price / 100 }}
-									€</p>
+								<p class="card-text fw-bold text-decoration-line-through text-end fs-5 mt-auto">{{ starProduct.product.price / 100 }}&nbsp€</p>
 							{% endif %}
 						{% endfor %}
 						{% for offer in offers %}
 							{% if offer.typeReduce == "percent" %}
-								<span class="badge bg-danger ms-auto">{{ offer.name }}</span>
-								<p class="card-text fw-bold text-end">
-									-
-									{{ offer.reduce }}
-									%</p>
+								<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold mb-1" style="font-size: 0.75rem">{{ offer.name }}
+									: - {{ offer.reduce }}&nbsp%</div>
 							{% endif %}
 							{% if offer.typeReduce == "euro" %}
-								<span class="badge bg-danger ms-auto">{{ offer.name }}</span>
-								<p class="card-text fw-bold text-end">
-									-
-									{{ offer.reduce }}
-									€</p>
+								<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold mb-1" style="font-size: 0.75rem">{{ offer.name }}
+									: - {{ offer.reduce }}&nbsp€</div>
 							{% endif %}
 						{% else %}
-							<p class="card-text fw-bold text-end fs-5 mt-auto">{{ starProduct.product.price / 100}}
-								€</p>
+							<p class="card-text fw-bold text-end fs-5 mt-auto">{{ starProduct.product.price / 100}}&nbsp€</p>
 						{% endfor %}
 						{% if offers| length > 0 %}
 								{% set number = 0 %}

@@ -28,7 +28,7 @@
 						<input type="hidden" id="Target_Widget"/>
 						<span id="TargetDisplayInfoPR_Widget"></span>
 						<!-- Balises HTML utilisées dans la fonction de CallBack pour reçevoir des données à afficher -->
-						<div style="font-weight:bold;text-decoration:underline;">Point de livraison choisi :</div><br/>
+						<div class="mt-2" style="font-weight:bold;text-decoration:underline;">Point de livraison choisi :</div><br/>
 						<div class="d-none">data.ID =
 							<span id="cb_ID"></span>
 						</div>
@@ -61,7 +61,7 @@
 				<div class="text-center">
 					<h4>Récapitulatif de votre commande</h4>
 				</div>
-			<div class="bg-light p-3 rounded-shadow">
+			<div class="bg-light p-3 rounded shadow">
 					{% set Total = 0 %}
 					{% set totalWhitOffers = 0 %}
 					{% set total = 0 %}
@@ -161,6 +161,8 @@ NbResults: "5",
 Responsive: true,
 // Show the results on Leaflet map usng OpenStreetMap.
 ShowResultsOnMap: true,
+// class of the HTML element receiving the map
+class: "rounded",
 
 DisplayMapInfo: true,
 // Fonction de callback déclenché lors de la selection d'un Point Relais
