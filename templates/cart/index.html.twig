@@ -82,8 +82,7 @@
 									{% endif %}
 								{% endfor %}
 								{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent %}
-							<p class="card-text fw-bold">{{ totalWhitOffers / 100 }}
-								€</p>
+							<p class="card-text fw-bold">{{ totalWhitOffers / 100 }}&nbsp€</p>
 						</td>
 						<td>{{ (( totalWhitOffers * attribut.quantity) / 100) | number_format(2, ',', '.') }}
 							&euro;</td>
