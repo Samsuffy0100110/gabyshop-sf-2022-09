@@ -10,12 +10,12 @@
 		{% endif %}
 		<div class="row">
 			<div class="col-md-6 mb-3">
-			{% if attributs | length > 0 %}
+				{% if attributs | length > 0 %}
 					<label for="attribut">Options :</label>
 					<select class="form-control form-control-lg" name="attribut" id="attribut" onchange="Changequantity()" required>
 						<option value="">Choisissez une option</option>
 						{% for attribut in attributs %}
-							<option value="{{ attribut.id }}">{{ attribut.name }}</option>		
+							<option value="{{ attribut.id }}">{{ attribut.name }}</option>
 						{% endfor %}
 					</select>
 					<div class="invalid-feedback">
@@ -30,24 +30,23 @@
 					</div>
 				</div>
 			{% else %}
-					<div class=" fw-bold">Désolé produit victime de son succès, en attente de réapprovisionnement.</div>
-					</div>
-			{% endif %}
-				<div id="add-to-cart"></div>
+				<div class=" fw-bold">Désolé produit victime de son succès, en attente de réapprovisionnement.</div>
 			</div>
-		{% include "includes/productprice/index.html.twig" %}
-	</div>
-</div>
-{# {% if attribut.persoIsEnable == true %}
-				<div class="col-md-6 mb-3 ">
+		{% endif %}
+		{% for attribut in attributs %}
+			{% if attribut.persoIsEnable == true %}
+				<div class="mb-2">
 					<label for="perso">Personnalisation :</label>
-					<input type="text" class="form-control form-control-lg mt-2" id="perso" name="perso" placeholder="Personnalisation" required>
-					<div class="invalid-feedback">
-						Merci de choisir une personnalisation.
-					</div>
+					<input type="text" class="form-control form-control-lg" id="perso" name="perso" placeholder="Prénom ou texte" required>
+					<div class="invalid-feedback">Merci de personnaliser votre produit.</div>
 				</div>
-{% endif %} #}
-<script>
+			{% endif %}
+		{% endfor %}
+
+		<div id="add-to-cart"></div>
+	</div>
+	{% include "includes/productprice/index.html.twig" %}
+</div></div><script>
 let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}function Changequantity() {
 let select = document.getElementById('quantity');
 let attribut = document.getElementById('attribut').value;
@@ -63,10 +62,6 @@ function setQuantity() {
 let quantity = document.getElementById('quantity').value;
 let attribut = document.getElementById('attribut').value;
 let addtocart = document.getElementById('add-to-cart');
-q = parseInt(quantity);
-{% for attribut in attributs %}
-addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', { id:attribut.id, quantity:"q" }) }}" class="btn btn-primary btn-lg btn-block">Ajouter au panier</a>`;
-addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
-{% endfor %}
-}
-</script>
+q = parseInt(quantity);{% for attribut in attributs %}addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', { id:attribut.id, quantity:"q" }) }}" class="btn btn-primary btn-lg btn-block">Ajouter au panier</a>`;
+addtocart.innerHTML = addtocart.innerHTML.replace("q", q);{% endfor %}
+}</script>
