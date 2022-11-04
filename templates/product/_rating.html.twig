@@ -1,5 +1,6 @@
 <div class="mb-3">
 	<h5 class="mb-3 mt-3">Note moyenne des utilisateurs</h5>
+	{% if rates is not empty %}
 		{% set sum = 0 %}
 		{% for rate in rates %}
 			{% set sum = sum + rate.stars %}
@@ -12,4 +13,7 @@
 				<i class="far fa-star"></i>
 			{% endif %}
 		{% endfor %}
+	{% else %}
+		<p class="text-muted">Aucune note pour le moment</p>
+	{% endif %}
 </div>
