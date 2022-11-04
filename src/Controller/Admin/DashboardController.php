@@ -27,8 +27,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use GuzzleHttp\Psr7\Response as Psr7Response;
-use PhpParser\Node\Stmt\Return_;
 
 class DashboardController extends AbstractDashboardController
 {
