@@ -50,9 +50,11 @@
 								<img src="{{ ('/images/others/minus.png') }}" alt="supprimer un produit" height="20">
 							</a>
 							&nbsp;{{ attribut.quantity }}&nbsp;
+						{% if attribut.quantity < attribut.attribut.quantity %}
 							<a href="{{ path('cart_add',{ id:attribut.attribut.id }) }}">
 								<img src="{{ ('/images/others/plus.png') }}" alt="ajouter un produit" height="20">
 							</a>
+						{% endif %}
 						</td>
 						<td>
 							{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
@@ -109,9 +111,9 @@
 </tbody>
 </table>
 <div class="text-end">
-<b>Nombre de produits :{{ nbProducts }}</b>
+<b>Nombre de produits : {{ nbProducts }}</b>
 <br>
-<b>Total de mon panier :{{ ( Total + total)  | number_format(2, ',', '.') }}&euro;</b>
+<b>Total de mon panier : {{ ( Total + total)  | number_format(2, ',', '.') }}&euro;</b>
 <br>
 <a href="{{ path('order') }}" class="btn btn-success mt-2">Valider mon panier</a>
 </div>
@@ -119,4 +121,7 @@
 <hr><p>Votre panier est vide.</p>
 {% endif %}
 </div>
+<script>
+let attribut = document.querySelectorAll('.attribut');
+</script>
 {% endblock %}
