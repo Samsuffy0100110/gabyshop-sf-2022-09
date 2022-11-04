@@ -2,6 +2,7 @@
 
 namespace App\Entity\Order;
 
+use App\Entity\Address;
 use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -39,6 +40,9 @@ class Order
 
     #[ORM\OneToMany(mappedBy: 'orderShipping', targetEntity: Shipping::class)]
     private Collection $shipping;
+
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    private ?Address $adress = null;
 
     public function __construct()
     {
@@ -176,6 +180,18 @@ class Order
                 $shipping->setOrderShipping(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAdress(): ?Address
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(?Address $adress): self
+    {
+        $this->adress = $adress;
 
         return $this;
     }
