@@ -7,11 +7,14 @@ use DateTime;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
+use Symfony\Component\Mime\Email;
 use App\Entity\Order\OrderDetails;
-use App\Repository\Order\ShippingRepository;
 use App\Service\MondialRelayService;
+use App\Repository\Front\ShopRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Order\ShippingRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -98,15 +101,19 @@ class OrderController extends AbstractController
                 'reference' => $order->getReference(),
                 'stripe_key' => $_ENV["STRIPE_KEY"],
                 'total' => $cart->getTotal(),
-
+                'order' => $order
             ]);
         }
         return $this->redirectToRoute('cart');
     }
 
     #[Route('/stripe/create-charge/', name: 'stripe_charge', methods: ['POST'])]
-    public function createCharge(Request $request, CartService $cart)
-    {
+    public function createCharge(
+        Request $request,
+        CartService $cart,
+        MailerInterface $mailer,
+        ShopRepository $shopRepository,
+    ) {
         $cart->getTotal();
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
         Stripe\Charge::create([
@@ -115,10 +122,38 @@ class OrderController extends AbstractController
             'description' => 'Commande sur gabyShop',
             "source" => $request->request->get('stripeToken'),
         ]);
-        $this->addFlash(
-            'success',
-            'Paiement Réussi!'
-        );
+        $shop = $shopRepository->findOneBy(['isActive' => true]);
+        $order = $this->entityManager->getRepository(Order::class)
+        ->findOneBy(['user' => $this->getUser()], ['createdAt' => 'DESC']);
+        $getEmail = $this->entityManager->getRepository(Order::class)->findOneBy(['user' => $this->getUser()]);
+        $email = (new Email())
+            ->to($this->getParameter('mailer_address'))
+            ->from('noreply@gmail.com')
+            ->subject('Nouvelle commande')
+            ->html($this->renderView('mailer/order.html.twig', [
+                'cart' => $cart->getFull(),
+                'total' => $cart->getTotal(),
+                'shop' => $shop,
+                'order' => $order,
+            ]));
+            $mailer->send($email);
+
+            $emailClient = (new Email())
+            ->to($getEmail->getUser()->getEmail())
+            ->from($this->getParameter('mailer_address'))
+            ->subject('Confirmation de commande')
+            ->html($this->renderView('mailer/recap.html.twig', [
+                'cart' => $cart->getFull(),
+                'total' => $cart->getTotal(),
+                'shop' => $shop,
+                'order' => $order,
+            ]));
+            $mailer->send($emailClient);
+
+            $this->addFlash(
+                'success',
+                'Paiement Réussi!'
+            );
         $cart->remove();
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }
