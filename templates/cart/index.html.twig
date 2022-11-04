@@ -18,7 +18,7 @@
 	{% if cart is empty %}
 		{% else %}
 			<div class="text-end">
-				<a href="{{ path('cart_remove') }}" class="btn btn-danger m-2">Vider mon panier</a>
+				<a href="{{ path('cart_remove') }}" class="btn btn-outline-danger m-2">Vider mon panier</a>
 			</div>
 	{% endif %}
 	{% if cart|length > 0 %}
@@ -115,7 +115,7 @@
 <br>
 <b>Total de mon panier : {{ ( Total + total)  | number_format(2, ',', '.') }}&euro;</b>
 <br>
-<a href="{{ path('order') }}" class="btn btn-success mt-2">Valider mon panier</a>
+<a href="{{ path('order') }}" class="btn btn-outline-success mt-2">Valider mon panier</a>
 </div>
 {% else %}
 <hr><p>Votre panier est vide.</p>

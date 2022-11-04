@@ -18,6 +18,9 @@ use App\Entity\Product\Category;
 use App\Entity\Product\ParentCategory;
 use App\Entity\Communication\NewsLetter;
 use App\Entity\Product\FeaturedProducts;
+use App\Repository\Order\OrderRepository;
+use App\Repository\Product\ProductRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -27,17 +30,32 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
+    private $orderRepository;
+
+    public function __construct(
+        OrderRepository $orderRepository,
+        ProductRepository $productRepository,
+        UserRepository $userRepository
+    ) {
+        $this->orderRepository = $orderRepository;
+        $this->productRepository = $productRepository;
+        $this->userRepository = $userRepository;
+    }
+
     #[Route('/admin', name: 'admin')]
     #[IsGranted('ROLE_ADMIN')]
     public function index(): Response
     {
-        return $this->render('admin/dashboard.html.twig');
+        return $this->render('admin/dashboard.html.twig', [
+            'orders' => $this->orderRepository->findAll(),
+            'products' => $this->productRepository->findAll(),
+            'users' => $this->userRepository->findAll()]);
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('gabyShop - Administration')
+            ->setTitle('Administration')
             ->renderContentMaximized();
     }
 
