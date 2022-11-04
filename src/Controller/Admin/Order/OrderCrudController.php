@@ -3,6 +3,8 @@
 namespace App\Controller\Admin\Order;
 
 use App\Entity\Order\Order;
+use App\Service\CartService;
+use App\Service\MondialRelayService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -13,10 +15,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
 class OrderCrudController extends AbstractCrudController
 {
@@ -151,9 +153,7 @@ class OrderCrudController extends AbstractCrudController
             DateTimeField::new('createdAt', 'créée le'),
             DateTimeField::new('updatedAt', 'modifiée le'),
             TextField::new('user.fullname', 'Nom')->hideOnIndex(),
-            AssociationField::new('user', 'Utilisateur'),
-            TextEditorField::new('delivery', 'Adresse de livraison')->onlyOnDetail(),
-            AssociationField::new('shipping', 'Transporteur'),
+            AssociationField::new('user', 'Email')->hideOnIndex(),
             ChoiceField::new('state', 'Etat commande')->setChoices([
                 'Non payée' => '0',
                 'Payée' => '1',

@@ -109,9 +109,9 @@
 					{% endfor %}
 					
 									<hr>
-									<strong>Sous-total HT :</strong>
+									<strong>Sous-total HT : </strong>
 									{{ ( totalHT + totalWhitOffersHT ) | number_format(2, ',', '.') }}&euro;<br>
-									<strong>Sous-total TTC :</strong>
+									<strong>Sous-total TTC : </strong>
 									{{ (total + Total) | number_format(2, ',', '.') }}&euro;<br>
 									<strong>Livraison :</strong>
 									{{ (shipping.price ) | number_format(2, ',', '.') }}&euro;
@@ -123,7 +123,7 @@
 									<label for="card-element" class="mb-2 mt-3">Veuillez remplir vos coordonnées bancaires</label>
 									<br>
 									<div id="card-element" class="form-control"></div>
-									<button id='pay-btn' class="btn btn-success mt-3 mb-5" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
+									<button id='pay-btn' class="btn btn-success mt-3 mb-5 ms-auto" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
 										{{ (Total + total + shipping.price) }}&euro;</button>
 								</form>
 					</div>

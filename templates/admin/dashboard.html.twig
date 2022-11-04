@@ -3,15 +3,64 @@
 {% block content %}
 
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col">
-				<h1 class="text-center mt-5">Bienvenue sur l'administration de GABY Shop</h1>
+		<div class="row mb-3">
+			<div class="col-2 d-flex align-items-center justify-content-center">
+				<img src="{{ '/images/logos/' ~ logo.image }}" alt="Logo" class="img-fluid">
 			</div>
-			<div class="row">
-				<div class="col d-flex align-items-center justify-content-center">
-					<img src="{{ '/images/logos/' ~ logo.image }}" alt="Logo" class="w100 m-5"/>
-				</div>
+			<div class="col-8">
+				<h1 class="text-center mt-5 ">Bienvenue sur l'administration</h1>
+			</div>
+			<div class="col-2">
 			</div>
 		</div>
-	</div>
-{% endblock %}
+		<div class="row">
+			<div class="col text-center">
+				<h2>Stripe</h2>
+				<p>Acces à la console Stripe</p>
+				<a href="https://dashboard.stripe.com/login" class="btn btn-primary" target="_blank">Accéder à la console</a>
+			</div>
+			<div class="col text-center">
+				<h2>Mondial Relay</h2>
+				<p>Acces à la console Mondial Relay</p>
+				<a href="https://www.mondialrelay.fr/" class="btn btn-primary" target="_blank">Mondial Relay</a>
+			</div>
+			<div class="col text-center">
+				<h2>Google Analytics</h2>
+				<p>Acces à la console Google Analytics</p>
+				<a href="https://analytics.google.com/analytics/web/" class="btn btn-primary" target="_blank">Google Analytics</a>
+			</div>
+		</div>
+		<div class="row mt-5 text-center">
+			<div class="col">
+				<div class="card m-3">
+				<div class="card-header fw-bold fs-4">Dashboard Produits</div>
+					<div class="card-body">
+						<p class="card-text fs-4">Nombre de Produits</p>
+						<p class="fw-bold fs-3">
+							{{ products|length }}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="card m-3">
+					<div class="card-header fw-bold fs-4">Dashboard Commandes</div>
+					<div class="card-body">
+						<p class="card-text fs-4">Nombre de commandes</p>
+						<p class="fw-bold fs-3">
+							{{ orders|length }}
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+			<div class="card m-3">
+			<div class="card-header fw-bold fs-4">Dashboard Utilisateurs</div>
+			<div class ="card-body">
+				<p class="card-text fs-4">Nombre d'utilisateurs</p>
+				<p class="fw-bold fs-3">
+					{{ users|length }}
+				</p>
+			</div>
+		</div>
+	{% endblock %}
