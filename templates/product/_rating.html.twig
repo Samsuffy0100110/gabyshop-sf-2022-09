@@ -1,10 +1,15 @@
-<form class="d-flex mb-3" action="#basic-example-9" method="post">
-	<label for="input-7-xs" class="control-label">Note le produit</label>
-	<input id="input-7-xs" class="rating rating-loading" data-show-clear="false" data-show-caption="false" value="1" data-min="0" data-max="5" data-step="0.5" data-size="xs">
-	<button type="submit" class="btn btn-primary">Mon&nbspvote</button>&nbsp;
-</form>
-<script>
-	$(document).ready(function () {
-$('#input-7-xs').rating();
-});
-</script>
+<div class="mb-3">
+	<h5 class="mb-3 mt-3">Note moyenne des utilisateurs</h5>
+		{% set sum = 0 %}
+		{% for rate in rates %}
+			{% set sum = sum + rate.stars %}
+		{% endfor %}
+		{% set total = sum / rates|length %}
+		{% for i in 1..5 %}
+			{% if i <= total %}
+				<i class="fas fa-star text-warning"></i>
+			{% else %}
+				<i class="far fa-star"></i>
+			{% endif %}
+		{% endfor %}
+</div>
