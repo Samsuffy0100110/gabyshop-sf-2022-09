@@ -12,6 +12,7 @@ use App\Entity\Order\OrderDetails;
 use App\Service\MondialRelayService;
 use App\Repository\Front\ShopRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Order\OrderRepository;
 use App\Repository\Order\ShippingRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -65,19 +66,22 @@ class OrderController extends AbstractController
             $shipping = $form->get('shipping')->getData();
             $delivery = $form->get('addresses')->getData();
             $deliveryAddress = sprintf(
-                '%s %s <br> %s <br> %s %s',
+                '%s %s <br> %s <br> %s %s <br> %s',
                 $delivery->getUser()->getFirstname(),
                 $delivery->getUser()->getLastname(),
                 $delivery->getAdresse(),
                 $delivery->getZipcode(),
-                $delivery->getCity()
+                $delivery->getCity(),
+                $delivery->getCountry()
             );
+            $adress = $form->get('addresses')->getData();
             $dayDate = new DateTime();
             $order = new Order();
             $order->setReference(sprintf('%s-%s', $dayDate->format('dmY'), uniqid()))
                 ->setUser($this->getUser())
                 ->setCreatedAt($dayDate)
                 ->addShipping($shipping)
+                ->setAdress($adress)
                 ->setState(1);
             $this->entityManager->persist($order);
 
@@ -135,6 +139,7 @@ class OrderController extends AbstractController
                 'total' => $cart->getTotal(),
                 'shop' => $shop,
                 'order' => $order,
+                'address' => $order->getAdress(),
             ]));
             $mailer->send($email);
 
@@ -147,6 +152,7 @@ class OrderController extends AbstractController
                 'total' => $cart->getTotal(),
                 'shop' => $shop,
                 'order' => $order,
+                'address' => $order->getAdress(),
             ]));
             $mailer->send($emailClient);
 
