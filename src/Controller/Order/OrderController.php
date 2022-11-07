@@ -7,6 +7,8 @@ use DateTime;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
+use App\Entity\Product\Custom;
+use App\Entity\Product\Attribut;
 use Symfony\Component\Mime\Email;
 use App\Entity\Order\OrderDetails;
 use App\Service\MondialRelayService;
@@ -14,11 +16,13 @@ use App\Repository\Front\ShopRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Order\ShippingRepository;
+use App\Repository\Product\CustomRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class OrderController extends AbstractController
 {
@@ -54,12 +58,11 @@ class OrderController extends AbstractController
     }
 
     #[Route('/commande/recapitulatif', name: 'order_recap', methods: ['POST'])]
-    public function add(CartService $cart, Request $request)
+    public function add(CartService $cart, Request $request, CustomRepository $customRepository)
     {
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
         ]);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -84,6 +87,13 @@ class OrderController extends AbstractController
                 ->setAdress($adress)
                 ->setState(1);
             $this->entityManager->persist($order);
+            
+            // $customs = $customRepository->findBy(['id' => $cart->getFull()]);
+            // if (!$customs) {
+            //     $custom = new Custom();
+            //     $custom->setCustomOrder($order);
+            //     $customRepository->save($custom, true);
+            // }
 
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();

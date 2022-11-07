@@ -21,6 +21,9 @@ class Custom
     #[ORM\ManyToOne(inversedBy: 'customs')]
     private ?Attribut $attribut = null;
 
+    #[ORM\ManyToOne(inversedBy: 'customs')]
+    private ?Order $customOrder = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class Custom
     public function setAttribut(?Attribut $attribut): self
     {
         $this->attribut = $attribut;
+
+        return $this;
+    }
+
+    public function getCustomOrder(): ?Order
+    {
+        return $this->customOrder;
+    }
+
+    public function setCustomOrder(?Order $customOrder): self
+    {
+        $this->customOrder = $customOrder;
 
         return $this;
     }

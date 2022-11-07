@@ -5,7 +5,6 @@ namespace App\Controller\Shop;
 use App\Repository\Front\LogoRepository;
 use App\Repository\Front\ShopRepository;
 use App\Repository\Front\BannerRepository;
-use App\Repository\Front\ThemeRepository;
 use App\Repository\Product\OfferRepository;
 use App\Repository\Product\ProductRepository;
 use App\Repository\Product\CategoryRepository;

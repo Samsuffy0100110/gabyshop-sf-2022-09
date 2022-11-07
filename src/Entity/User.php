@@ -79,9 +79,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTime $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Rate::class)]
-    private Collection $rates;
-
     #[ORM\Column(type: 'boolean')]
     private ?bool $isVerified = false;
 
@@ -105,7 +102,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
 
     public function __construct()
     {
-        $this->rates = new ArrayCollection();
         $this->addresses = new ArrayCollection();
         $this->orders = new ArrayCollection();
         $this->commentaries = new ArrayCollection();
@@ -274,36 +270,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     public function setIsNewsletterOk(?bool $isNewsletterOk): self
     {
         $this->isNewsletterOk = $isNewsletterOk;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Rate>
-     */
-    public function getRates(): Collection
-    {
-        return $this->rates;
-    }
-
-    public function addRate(Rate $rate): self
-    {
-        if (!$this->rates->contains($rate)) {
-            $this->rates->add($rate);
-            $rate->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRate(Rate $rate): self
-    {
-        if ($this->rates->removeElement($rate)) {
-            // set the owning side to null (unless already changed)
-            if ($rate->getUser() === $this) {
-                $rate->setUser(null);
-            }
-        }
 
         return $this;
     }
