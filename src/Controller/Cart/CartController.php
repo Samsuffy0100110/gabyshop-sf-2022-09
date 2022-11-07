@@ -30,15 +30,15 @@ class CartController extends AbstractController
 
     #[Route('/add-to-cart/{id}/{quantity}/{attribut}', name: 'add-to-cart')]
     public function addQuantity(
-        CartService $cart, 
-        int $id, 
-        int $quantity, 
-        Attribut $attribut, 
+        CartService $cart,
+        int $id,
+        int $quantity,
+        Attribut $attribut,
         CustomRepository $customRepository
-        ): Response {
+    ): Response {
         $custom = new Custom();
         $custom->setAttribut($attribut);
-        $custom->setDescription($custom->getDescription());
+        $custom->setDescription('test');
         $customRepository->save($custom, true);
         $cart->addIdAndQuantity($id, $quantity);
         return $this->redirectToRoute('cart_index');

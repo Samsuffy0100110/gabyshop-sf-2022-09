@@ -8,7 +8,6 @@ use App\Entity\Product\Category;
 use App\Entity\Product\ParentCategory;
 use App\Form\Communication\CommentType;
 use App\Entity\Communication\Commentary;
-use App\Repository\Product\RateRepository;
 use App\Repository\Product\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\Product\AttributRepository;

@@ -3,6 +3,7 @@
 namespace App\Entity\Order;
 
 use App\Entity\Address;
+use App\Entity\Product\Custom;
 use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,10 +45,14 @@ class Order
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?Address $adress = null;
 
+    #[ORM\OneToMany(mappedBy: 'customOrder', targetEntity: Custom::class)]
+    private Collection $customs;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
         $this->shipping = new ArrayCollection();
+        $this->customs = new ArrayCollection();
     }
 
     public function getTotal()
@@ -192,6 +197,36 @@ class Order
     public function setAdress(?Address $adress): self
     {
         $this->adress = $adress;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Custom>
+     */
+    public function getCustoms(): Collection
+    {
+        return $this->customs;
+    }
+
+    public function addCustom(Custom $custom): self
+    {
+        if (!$this->customs->contains($custom)) {
+            $this->customs->add($custom);
+            $custom->setCustomOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustom(Custom $custom): self
+    {
+        if ($this->customs->removeElement($custom)) {
+            // set the owning side to null (unless already changed)
+            if ($custom->getCustomOrder() === $this) {
+                $custom->setCustomOrder(null);
+            }
+        }
 
         return $this;
     }

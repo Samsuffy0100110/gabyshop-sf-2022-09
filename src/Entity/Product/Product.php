@@ -63,9 +63,6 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'product')]
     private ?Taxe $taxe = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Rate::class)]
-    private Collection $rates;
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     private ?Category $category = null;
 
@@ -87,7 +84,6 @@ class Product
     public function __construct()
     {
         $this->offers = new ArrayCollection();
-        $this->rates = new ArrayCollection();
         $this->featuredProducts = new ArrayCollection();
         $this->attributs = new ArrayCollection();
         $this->commentaries = new ArrayCollection();
@@ -290,35 +286,6 @@ class Product
     public function setTaxe(?Taxe $taxe): self
     {
         $this->taxe = $taxe;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Rate>
-     */
-    public function getRates(): Collection
-    {
-        return $this->rates;
-    }
-
-    public function addRate(Rate $rate): self
-    {
-        if (!$this->rates->contains($rate)) {
-            $this->rates->add($rate);
-            $rate->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRate(Rate $rate): self
-    {
-        if ($this->rates->removeElement($rate)) {
-            if ($rate->getProduct() === $this) {
-                $rate->setProduct(null);
-            }
-        }
 
         return $this;
     }
