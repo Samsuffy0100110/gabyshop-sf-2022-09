@@ -33,20 +33,18 @@
 				<div class=" fw-bold">Désolé produit victime de son succès, en attente de réapprovisionnement.</div>
 			</div>
 		{% endif %}
-		{% for attribut in attributs %}
-			{% if attribut.persoIsEnable == true %}
-				<div class="mb-2">
-					<label for="perso">Personnalisation :</label>
-					<input type="text" class="form-control form-control-lg" id="perso" name="perso" placeholder="Prénom ou texte" required>
-					<div class="invalid-feedback">Merci de personnaliser votre produit.</div>
-				</div>
-			{% endif %}
-		{% endfor %}
+		<div id="customForm" class="d-flex flex-column align-items-end"></div>
 		<div id="add-to-cart"></div>
+	<div id="output"></div>
 	</div>
 	{% include "includes/productprice/index.html.twig" %}
-</div></div><script>
-let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}function Changequantity() {
+</div></div>
+<script>
+let quantities = {};
+{% for attribut in attributs %}
+quantities[{{ attribut.id }}] = {{ attribut.quantity }};
+{% endfor %}
+function Changequantity() {
 let select = document.getElementById('quantity');
 let attribut = document.getElementById('attribut').value;
 select.innerHTML = '';
@@ -57,10 +55,34 @@ option.innerHTML = i;
 select.appendChild(option);
 }
 }
+
 function setQuantity() {
 let quantity = document.getElementById('quantity').value;
 let attribut = document.getElementById('attribut').value;
 let addtocart = document.getElementById('add-to-cart');
-q = parseInt(quantity);{% for attribut in attributs %}addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', { id:attribut.id, quantity:"q" }) }}" class="btn btn-primary btn-lg btn-block">Ajouter au panier</a>`;
-addtocart.innerHTML = addtocart.innerHTML.replace("q", q);{% endfor %}
-}</script>
+q = parseInt(quantity);
+{% for attribut in attributs %}
+if (attribut == {{ attribut.id }}) {
+addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', { id:attribut.id, quantity:"q", attribut:attribut.id }) }}" class="btn btn-outline-primary btn-lg btn-block">Ajouter au panier</a>`;
+addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
+}
+{% endfor %}
+
+{% for attribut in attributs|filter(a => a.persoIsEnable) %}
+if (attribut == {{ attribut.id }}) {
+	let customForm = document.getElementById('customForm');
+	let input = document.createElement('input');
+	let button = document.createElement('a');
+	input.type = 'text';
+	input.name = 'custom';
+	input.id = 'custom';
+	input.placeholder = 'Personnalisation';
+	input.classList.add('form-control');
+	input.classList.add('form-control-lg');
+	input.classList.add('mb-2');
+	input.classList.add('mt-2');
+	customForm.appendChild(input);
+}
+{% endfor %}
+}
+</script>

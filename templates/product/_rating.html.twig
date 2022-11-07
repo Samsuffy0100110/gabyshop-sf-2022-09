@@ -3,7 +3,7 @@
 	{% if rates is not empty %}
 		{% set sum = 0 %}
 		{% for rate in rates %}
-			{% set sum = sum + rate.stars %}
+			{% set sum = sum + rate.rating %}
 		{% endfor %}
 		{% set total = sum / rates|length %}
 		{% for i in 1..5 %}
