@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Product\Attribut;
+use App\Entity\Product\Custom;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -69,6 +70,7 @@ class CartService
             foreach ($this->get() as $id => $quantity) {
                 $attribut = $this->entityManager->getRepository(Attribut::class)->find($id);
                 $product = $attribut->getProduct();
+                $custom = $this->entityManager->getRepository(Custom::class)->findOneBy(['attribut' => $id]);
                 if (!$attribut) {
                     $this->delete($id);
                     continue;
@@ -76,7 +78,8 @@ class CartService
                 $cartComplete[] = [
                     'attribut' => $attribut,
                     'quantity' => $quantity,
-                    'product' => $product
+                    'product' => $product,
+                    'custom' => $custom,
                 ];
             }
         }

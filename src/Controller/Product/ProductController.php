@@ -8,13 +8,13 @@ use App\Entity\Product\Category;
 use App\Entity\Product\ParentCategory;
 use App\Form\Communication\CommentType;
 use App\Entity\Communication\Commentary;
+use App\Repository\Product\RateRepository;
 use App\Repository\Product\ProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\Product\AttributRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\Communication\CommentaryRepository;
-use App\Repository\Product\RateRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
@@ -32,7 +32,6 @@ class ProductController extends AbstractController
         Product $product,
         Request $request,
         Category $category,
-        RateRepository $rateRepository,
         ParentCategory $parentCategory,
         ProductRepository $productRepository,
         AttributRepository $attributRepository,
@@ -73,7 +72,7 @@ class ProductController extends AbstractController
             'products' => $products,
             'attributs' => $attributs,
             'attribut' => $attributRepository->findByProduct($product),
-            'rates' => $rateRepository->findByProduct($product),
+            'rates' => $commentaryRepository->findByProduct($product),
             'form' => $form->createView(),
             'comment' => $comment,
         ]);

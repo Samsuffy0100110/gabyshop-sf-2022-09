@@ -2,8 +2,10 @@
 
 namespace App\Controller\Cart;
 
-use App\Repository\Product\OfferRepository;
 use App\Service\CartService;
+use App\Entity\Product\Custom;
+use App\Entity\Product\Attribut;
+use App\Repository\Product\CustomRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,9 +28,18 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart_index');
     }
 
-    #[Route('/add-to-cart/{id}/{quantity}', name: 'add-to-cart')]
-    public function addQuantity(CartService $cart, int $id, int $quantity): Response
-    {
+    #[Route('/add-to-cart/{id}/{quantity}/{attribut}', name: 'add-to-cart')]
+    public function addQuantity(
+        CartService $cart, 
+        int $id, 
+        int $quantity, 
+        Attribut $attribut, 
+        CustomRepository $customRepository
+        ): Response {
+        $custom = new Custom();
+        $custom->setAttribut($attribut);
+        $custom->setDescription($custom->getDescription());
+        $customRepository->save($custom, true);
         $cart->addIdAndQuantity($id, $quantity);
         return $this->redirectToRoute('cart_index');
     }
