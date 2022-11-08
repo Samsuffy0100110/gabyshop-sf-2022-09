@@ -88,13 +88,15 @@ if (attribut == {{ attribut.id }}) {
 	textArea.setAttribute('cols', '50');
 	textArea.setAttribute('onchange', 'setCustom()');
 	customForm.appendChild(h3);
+	customForm.replaceChild(h3, customForm.childNodes[0]);
 	customForm.appendChild(p);
+	customForm.replaceChild(p, customForm.childNodes[1]);
 	customForm.appendChild(textArea);
+	customForm.replaceChild(textArea, customForm.childNodes[2]);
 }
 {% endfor %}
 }
 function setCustom() {
-e.preventDefault();
 let custom = document.getElementById('custom').value;
 let addtocart = document.getElementById('add-to-cart');
 let description = custom;
