@@ -87,13 +87,6 @@ class OrderController extends AbstractController
                 ->setAdress($adress)
                 ->setState(1);
             $this->entityManager->persist($order);
-            
-            // $customs = $customRepository->findBy(['id' => $cart->getFull()]);
-            // if (!$customs) {
-            //     $custom = new Custom();
-            //     $custom->setCustomOrder($order);
-            //     $customRepository->save($custom, true);
-            // }
 
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
@@ -108,6 +101,15 @@ class OrderController extends AbstractController
             }
 
             $this->entityManager->flush();
+
+            $customRepository->createQueryBuilder('c')
+                ->update()
+                ->set('c.customOrder', ':order')
+                ->where('c.customOrder IS NULL')
+                ->setParameter('order', $order)
+                ->getQuery()
+                ->execute();
+
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
                 'shipping' => $shipping,
