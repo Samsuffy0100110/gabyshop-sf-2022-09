@@ -2,6 +2,8 @@
 
 namespace App\Entity\Product;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Product\AttributRepository;
 
@@ -30,6 +32,14 @@ class Attribut
 
     #[ORM\Column(nullable: true)]
     private ?bool $persoIsEnable = null;
+
+    #[ORM\OneToMany(mappedBy: 'attribut', targetEntity: Custom::class)]
+    private Collection $customs;
+
+    public function __construct()
+    {
+        $this->customs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -109,6 +119,36 @@ class Attribut
     public function setPersoIsEnable(?bool $persoIsEnable): self
     {
         $this->persoIsEnable = $persoIsEnable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Custom>
+     */
+    public function getCustoms(): Collection
+    {
+        return $this->customs;
+    }
+
+    public function addCustom(Custom $custom): self
+    {
+        if (!$this->customs->contains($custom)) {
+            $this->customs->add($custom);
+            $custom->setAttribut($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustom(Custom $custom): self
+    {
+        if ($this->customs->removeElement($custom)) {
+            // set the owning side to null (unless already changed)
+            if ($custom->getAttribut() === $this) {
+                $custom->setAttribut(null);
+            }
+        }
 
         return $this;
     }
