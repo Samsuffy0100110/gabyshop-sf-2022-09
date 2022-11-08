@@ -79,4 +79,11 @@ class Custom
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->attribut . ' / ' . 
+        'Déscription : ' . '  ' . $this->description . ' / ' . 
+        'Quantité x' . '  ' . $this->quantity;
+    }
 }

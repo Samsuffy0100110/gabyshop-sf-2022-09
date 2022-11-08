@@ -43,6 +43,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             $order->setState($orderData['state']);
             $order->setCreatedAt(new DateTime());
             $order->setUpdatedAt(new DateTime());
+            $this->addReference($orderData['reference'], $order);
             $manager->persist($order);
         }
 

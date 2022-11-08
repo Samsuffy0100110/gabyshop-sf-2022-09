@@ -3,8 +3,6 @@
 namespace App\Controller\Admin\Order;
 
 use App\Entity\Order\Order;
-use App\Service\CartService;
-use App\Service\MondialRelayService;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -18,7 +16,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use Symfony\Component\Form\Extension\Core\Type\UrlType;
 
 class OrderCrudController extends AbstractCrudController
 {
@@ -161,6 +158,7 @@ class OrderCrudController extends AbstractCrudController
                 'Livraison en cours' => '3',
             ]),
             ArrayField::new('orderDetails', 'Produits achetés')->hideOnIndex(),
+            ArrayField::new('customs', 'Personnalisation')->hideOnIndex(),
         ];
     }
 }
