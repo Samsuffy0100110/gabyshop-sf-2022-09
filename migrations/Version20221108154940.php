@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20221107152517 extends AbstractMigration
+final class Version20221108154940 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -25,7 +25,7 @@ final class Version20221107152517 extends AbstractMigration
         $this->addSql('CREATE TABLE banner (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) DEFAULT NULL, image VARCHAR(255) DEFAULT NULL, position VARCHAR(255) DEFAULT NULL, is_active TINYINT(1) DEFAULT NULL, created_at DATETIME DEFAULT NULL, started_at DATETIME DEFAULT NULL, ended_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE category (id INT AUTO_INCREMENT NOT NULL, parent_id INT DEFAULT NULL, name VARCHAR(255) DEFAULT NULL, description LONGTEXT DEFAULT NULL, image VARCHAR(255) DEFAULT NULL, slug VARCHAR(255) DEFAULT NULL, INDEX IDX_64C19C1727ACA70 (parent_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE commentary (id INT AUTO_INCREMENT NOT NULL, user_id INT DEFAULT NULL, product_id INT DEFAULT NULL, comment LONGTEXT DEFAULT NULL, created_at DATETIME DEFAULT NULL, is_published TINYINT(1) DEFAULT NULL, rating INT DEFAULT NULL, INDEX IDX_1CAC12CAA76ED395 (user_id), INDEX IDX_1CAC12CA4584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE custom (id INT AUTO_INCREMENT NOT NULL, attribut_id INT DEFAULT NULL, description LONGTEXT DEFAULT NULL, INDEX IDX_F584169B51383AF3 (attribut_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE custom (id INT AUTO_INCREMENT NOT NULL, custom_order_id INT DEFAULT NULL, attribut_id INT DEFAULT NULL, description LONGTEXT DEFAULT NULL, quantity INT DEFAULT NULL, INDEX IDX_F584169B684D8A5C (custom_order_id), INDEX IDX_F584169B51383AF3 (attribut_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE featured_products (id INT AUTO_INCREMENT NOT NULL, product_id INT DEFAULT NULL, position INT DEFAULT NULL, INDEX IDX_BB76A6674584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE logo (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) DEFAULT NULL, image VARCHAR(255) DEFAULT NULL, position INT DEFAULT NULL, is_active TINYINT(1) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE news_letter (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) DEFAULT NULL, title VARCHAR(255) DEFAULT NULL, description LONGTEXT DEFAULT NULL, created_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', summary LONGTEXT DEFAULT NULL, image VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -51,6 +51,7 @@ final class Version20221107152517 extends AbstractMigration
         $this->addSql('ALTER TABLE category ADD CONSTRAINT FK_64C19C1727ACA70 FOREIGN KEY (parent_id) REFERENCES parent_category (id)');
         $this->addSql('ALTER TABLE commentary ADD CONSTRAINT FK_1CAC12CAA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE commentary ADD CONSTRAINT FK_1CAC12CA4584665A FOREIGN KEY (product_id) REFERENCES product (id)');
+        $this->addSql('ALTER TABLE custom ADD CONSTRAINT FK_F584169B684D8A5C FOREIGN KEY (custom_order_id) REFERENCES `order` (id)');
         $this->addSql('ALTER TABLE custom ADD CONSTRAINT FK_F584169B51383AF3 FOREIGN KEY (attribut_id) REFERENCES attribut (id)');
         $this->addSql('ALTER TABLE featured_products ADD CONSTRAINT FK_BB76A6674584665A FOREIGN KEY (product_id) REFERENCES product (id)');
         $this->addSql('ALTER TABLE offer_product ADD CONSTRAINT FK_7242C2A453C674EE FOREIGN KEY (offer_id) REFERENCES offer (id) ON DELETE CASCADE');
@@ -74,6 +75,7 @@ final class Version20221107152517 extends AbstractMigration
         $this->addSql('ALTER TABLE category DROP FOREIGN KEY FK_64C19C1727ACA70');
         $this->addSql('ALTER TABLE commentary DROP FOREIGN KEY FK_1CAC12CAA76ED395');
         $this->addSql('ALTER TABLE commentary DROP FOREIGN KEY FK_1CAC12CA4584665A');
+        $this->addSql('ALTER TABLE custom DROP FOREIGN KEY FK_F584169B684D8A5C');
         $this->addSql('ALTER TABLE custom DROP FOREIGN KEY FK_F584169B51383AF3');
         $this->addSql('ALTER TABLE featured_products DROP FOREIGN KEY FK_BB76A6674584665A');
         $this->addSql('ALTER TABLE offer_product DROP FOREIGN KEY FK_7242C2A453C674EE');
