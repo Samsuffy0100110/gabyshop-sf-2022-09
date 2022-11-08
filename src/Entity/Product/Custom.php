@@ -24,6 +24,9 @@ class Custom
     #[ORM\ManyToOne(inversedBy: 'customs')]
     private ?Order $customOrder = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $quantity = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -61,6 +64,18 @@ class Custom
     public function setCustomOrder(?Order $customOrder): self
     {
         $this->customOrder = $customOrder;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(?int $quantity): self
+    {
+        $this->quantity = $quantity;
 
         return $this;
     }

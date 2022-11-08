@@ -40,6 +40,7 @@ class CartController extends AbstractController
         $custom = new Custom();
         $custom->setAttribut($attribut);
         $custom->setDescription($description);
+        $custom->setQuantity($quantity);
         $customRepository->save($custom, true);
         $cart->addIdAndQuantity($id, $quantity);
         return $this->redirectToRoute('cart_index');
