@@ -166,11 +166,6 @@ class Address
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->name;
-    }
-
     /**
      * @return Collection<int, Order>
      */
@@ -199,5 +194,15 @@ class Address
         }
 
         return $this;
+    }
+
+    public function getFullAddress(): string
+    {
+        return $this->adresse . ' ' . $this->zipcode . ' ' . $this->city . ' ' . $this->country;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getFullAddress();
     }
 }
