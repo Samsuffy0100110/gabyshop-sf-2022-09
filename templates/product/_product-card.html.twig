@@ -33,9 +33,8 @@
 				<div class=" fw-bold">Désolé produit victime de son succès, en attente de réapprovisionnement.</div>
 			</div>
 		{% endif %}
-		<div id="customForm" class="d-flex flex-column align-items-end"></div>
+		<div id="customForm"></div>
 		<div id="add-to-cart"></div>
-	<div id="output"></div>
 	</div>
 	{% include "includes/productprice/index.html.twig" %}
 </div></div>
@@ -71,17 +70,23 @@ addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
 {% for attribut in attributs|filter(a => a.persoIsEnable) %}
 if (attribut == {{ attribut.id }}) {
 	let customForm = document.getElementById('customForm');
-	let input = document.createElement('input');
-	let button = document.createElement('a');
-	input.type = 'text';
-	input.name = 'custom';
-	input.id = 'custom';
-	input.placeholder = 'Personnalisation';
-	input.classList.add('form-control');
-	input.classList.add('form-control-lg');
-	input.classList.add('mb-2');
-	input.classList.add('mt-2');
-	customForm.appendChild(input);
+	let h3 = document.createElement('h3');
+	let p = document.createElement('p');
+	let textArea = document.createElement('textarea');
+	h3.innerHTML = 'Personnalisation';
+	h3.setAttribute('class', 'mt-2 mb-2');
+	p.innerHTML = 'Vous pouvez personnaliser votre produit en écrivant votre message ci-dessous.';
+	textArea.setAttribute('type', 'text');
+	textArea.setAttribute('name', 'custom');
+	textArea.setAttribute('id', 'custom');
+	textArea.setAttribute('class', 'form-control form-control-lg mb-5 mt-2');
+	textArea.setAttribute('placeholder', 'Votre texte');
+	textArea.setAttribute('required', 'required');
+	textArea.setAttribute('rows', '4');
+	textArea.setAttribute('cols', '50');
+	customForm.appendChild(h3);
+	customForm.appendChild(p);
+	customForm.appendChild(textArea);
 }
 {% endfor %}
 }
