@@ -20,7 +20,6 @@ class AddressFixtures extends Fixture implements DependentFixtureInterface
         $address->setZipcode('99999');
         $address->setCity('Nulle part');
         $address->setCountry('ici bas');
-        $address->setPhone('0642963217');
         $this->addReference('Chez moi', $address);
         $address->setIsActive(true);
         $manager->persist($address);
@@ -33,7 +32,6 @@ class AddressFixtures extends Fixture implements DependentFixtureInterface
         $address->setZipcode('99999');
         $address->setCity('Nulle part');
         $address->setCountry('pas loin');
-        $address->setPhone('0642963217');
         $address->setIsActive(false);
         $this->addReference('Taf', $address);
         $manager->persist($address);
@@ -46,7 +44,6 @@ class AddressFixtures extends Fixture implements DependentFixtureInterface
         $address->setZipcode('99999');
         $address->setCity('Nulle part');
         $address->setCountry('ici bas');
-        $address->setPhone('0642963217');
         $address->setIsActive(true);
         $this->addReference('Domicile', $address);
         $manager->persist($address);
@@ -59,7 +56,6 @@ class AddressFixtures extends Fixture implements DependentFixtureInterface
         $address->setZipcode('99999');
         $address->setCity('Nulle part');
         $address->setCountry('pas loin');
-        $address->setPhone('0642963217');
         $address->setIsActive(false);
         $this->addReference('Boulot', $address);
         $manager->persist($address);

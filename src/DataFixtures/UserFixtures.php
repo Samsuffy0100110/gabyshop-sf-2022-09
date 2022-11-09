@@ -32,6 +32,7 @@ class UserFixtures extends Fixture
         $user->setIsNewsletterOk(true);
         $user->setBirthday(new DateTimeImmutable());
         $user->setGender("Femme");
+        $user->setPhone("0631896524");
         $this->addReference("Admin", $user);
         $user->setPassword($hashPassword);
         $manager->persist($user);
@@ -49,6 +50,7 @@ class UserFixtures extends Fixture
         $user->setIsNewsletterOk(true);
         $user->setBirthday(new DateTimeImmutable());
         $user->setGender("Femme");
+        $user->setPhone("0631896585");
         $user->setPassword($hashPassword);
         $this->addReference("User", $user);
         $manager->persist($user);

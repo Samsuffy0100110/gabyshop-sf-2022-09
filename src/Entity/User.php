@@ -99,6 +99,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Wishlist::class)]
     private Collection $wishlists;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Phone = null;
+
     public function __construct()
     {
         $this->addresses = new ArrayCollection();
@@ -528,6 +531,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
                 $wishlist->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->Phone;
+    }
+
+    public function setPhone(?string $Phone): self
+    {
+        $this->Phone = $Phone;
 
         return $this;
     }

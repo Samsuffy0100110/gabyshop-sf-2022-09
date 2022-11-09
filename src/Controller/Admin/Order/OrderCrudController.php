@@ -155,7 +155,7 @@ class OrderCrudController extends AbstractCrudController
             TextField::new('adress.city', 'Ville')->hideOnIndex(),
             TextField::new('adress.zipCode', 'Code postal')->hideOnIndex(),
             TextField::new('adress.country', 'Pays')->hideOnIndex(),
-            TextField::new('adress.phone', 'Téléphone')->hideOnIndex(),
+            TextField::new('user.phone', 'Téléphone')->hideOnIndex(),
             AssociationField::new('user', 'Email')->hideOnIndex(),
             ChoiceField::new('state', 'Etat commande')->setChoices([
                 'Non payée' => '0',
