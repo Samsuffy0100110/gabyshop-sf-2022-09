@@ -75,24 +75,29 @@ if (attribut == {{ attribut.id }}) {
 	let h3 = document.createElement('h3');
 	let p = document.createElement('p');
 	let textArea = document.createElement('textarea');
+	let span = document.createElement('span');
 	h3.innerHTML = 'Personnalisation';
 	h3.setAttribute('class', 'mt-2 mb-2');
 	p.innerHTML = 'Vous pouvez personnaliser votre produit en écrivant votre message ci-dessous.';
 	textArea.setAttribute('type', 'text');
 	textArea.setAttribute('name', 'custom');
 	textArea.setAttribute('id', 'custom');
-	textArea.setAttribute('class', 'form-control form-control-lg mb-5 mt-2');
+	textArea.setAttribute('class', 'form-control form-control-lg mb-3 mt-2');
 	textArea.setAttribute('placeholder', 'Votre texte');
 	textArea.setAttribute('required', 'required');
 	textArea.setAttribute('rows', '4');
 	textArea.setAttribute('cols', '50');
 	textArea.setAttribute('onchange', 'setCustom()');
+	span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
+	span.setAttribute('class', 'badge bg-info mb-3');
 	customForm.appendChild(h3);
 	customForm.replaceChild(h3, customForm.childNodes[0]);
 	customForm.appendChild(p);
 	customForm.replaceChild(p, customForm.childNodes[1]);
 	customForm.appendChild(textArea);
 	customForm.replaceChild(textArea, customForm.childNodes[2]);
+	customForm.appendChild(span);
+	customForm.replaceChild(span, customForm.childNodes[3]);
 }
 {% endfor %}
 }

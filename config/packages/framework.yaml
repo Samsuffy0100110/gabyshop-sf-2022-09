@@ -10,10 +10,9 @@ framework:
     session:
         handler_id: session.handler.native_file
         cookie_secure: auto
-        cookie_samesite: lax
         storage_factory_id: session.storage.factory.native
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
-        cookie_lifetime: 1200
+        cookie_lifetime: 12000
 
     #esi: true
     #fragments: true
