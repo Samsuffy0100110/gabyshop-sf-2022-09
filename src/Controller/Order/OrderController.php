@@ -4,11 +4,10 @@ namespace App\Controller\Order;
 
 use Stripe;
 use DateTime;
+use App\Entity\Address;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
-use App\Entity\Product\Custom;
-use App\Entity\Product\Attribut;
 use Symfony\Component\Mime\Email;
 use App\Entity\Order\OrderDetails;
 use App\Service\MondialRelayService;
@@ -23,7 +22,6 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class OrderController extends AbstractController
 {
@@ -62,8 +60,11 @@ class OrderController extends AbstractController
     public function add(
         CartService $cart,
         Request $request,
+
         CustomRepository $customRepository,
         PromoCodeRepository $promoCodeRepository
+        OrderRepository $orderRepository,
+       
     ) {
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
@@ -73,6 +74,11 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $shipping = $form->get('shipping')->getData();
             $delivery = $form->get('addresses')->getData();
+            $name = $form->get('name')->getData();
+            $adresse = $form->get('adresse')->getData();
+            $zipCode = $form->get('zipCode')->getData();
+            $city = $form->get('city')->getData();
+            $country = $form->get('country')->getData();
             $deliveryAddress = sprintf(
                 '%s %s <br> %s <br> %s %s <br> %s',
                 $delivery->getUser()->getFirstname(),
@@ -89,9 +95,17 @@ class OrderController extends AbstractController
                 ->setUser($this->getUser())
                 ->setCreatedAt($dayDate)
                 ->addShipping($shipping)
-                ->setAdress($adress)
-                ->setState(1);
+                ->setState(0);
             $this->entityManager->persist($order);
+
+            $adress = new Address();
+            $adress->setUser($this->getUser())
+                ->setName($name)
+                ->setAdresse($adresse)
+                ->setZipcode($zipCode)
+                ->setCity($city)
+                ->setCountry($country);
+            $this->entityManager->persist($adress);
 
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
@@ -115,6 +129,14 @@ class OrderController extends AbstractController
                 ->getQuery()
                 ->execute();
 
+            $orderRepository->createQueryBuilder('o')
+                ->update()
+                ->set('o.adress', ':adress')
+                ->where('o.adress IS NULL')
+                ->setParameter('adress', $adress)
+                ->getQuery()
+                ->execute();
+
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
                 'shipping' => $shipping,
@@ -124,6 +146,8 @@ class OrderController extends AbstractController
                 'total' => $cart->getTotal(),
                 'order' => $order,
                 'promo_codes' => $promoCodeRepository->findByIsValidated()
+                'country' => $country,
+                'adress' => $adresse
             ]);
         }
         return $this->redirectToRoute('cart');
@@ -135,6 +159,7 @@ class OrderController extends AbstractController
         CartService $cart,
         MailerInterface $mailer,
         ShopRepository $shopRepository,
+        OrderRepository $orderRepository
     ) {
         $cart->getTotal();
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
@@ -160,6 +185,14 @@ class OrderController extends AbstractController
                 'address' => $order->getAdress(),
             ]));
             $mailer->send($email);
+
+            $orderRepository->createQueryBuilder('o')
+            ->update()
+            ->set('o.state', ':state')
+            ->where('o.state = 0')
+            ->setParameter('state', 1)
+            ->getQuery()
+            ->execute();
 
             $emailClient = (new Email())
             ->to($getEmail->getUser()->getEmail())

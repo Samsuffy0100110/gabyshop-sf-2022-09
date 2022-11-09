@@ -22,10 +22,10 @@ class CategoryController extends AbstractController
     #[ParamConverter('category', options: ['mapping' => ['category' => 'slug']])]
     #[ParamConverter('parentCategory', options: ['mapping' => ['parentCategory' => 'slug']])]
     public function showProductsByCategories(
+        Request $request,
         Category $category,
         ParentCategory $parentCategory,
-        ProductRepository $productRepository,
-        Request $request
+        ProductRepository $productRepository
     ): Response {
 
         $form = $this->createForm(SearchProductType::class);

@@ -150,11 +150,12 @@ class OrderCrudController extends AbstractCrudController
             DateTimeField::new('createdAt', 'créée le'),
             DateTimeField::new('updatedAt', 'modifiée le'),
             TextField::new('user.fullname', 'Nom')->hideOnIndex(),
+            TextField::new('adress.name', 'Nom')->hideOnIndex(),
             TextField::new('adress.adresse', 'Adresse de livraison')->hideOnIndex(),
             TextField::new('adress.city', 'Ville')->hideOnIndex(),
             TextField::new('adress.zipCode', 'Code postal')->hideOnIndex(),
             TextField::new('adress.country', 'Pays')->hideOnIndex(),
-            TextField::new('adress.phone', 'Téléphone')->hideOnIndex(),
+            TextField::new('user.phone', 'Téléphone')->hideOnIndex(),
             AssociationField::new('user', 'Email')->hideOnIndex(),
             ChoiceField::new('state', 'Etat commande')->setChoices([
                 'Non payée' => '0',

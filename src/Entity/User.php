@@ -5,7 +5,6 @@ namespace App\Entity;
 use DateTime;
 use Serializable;
 use App\Entity\Order\Order;
-use App\Entity\Product\Rate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Product\Wishlist;
@@ -99,6 +98,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Wishlist::class)]
     private Collection $wishlists;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Phone = null;
 
     public function __construct()
     {
@@ -529,6 +531,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
                 $wishlist->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->Phone;
+    }
+
+    public function setPhone(?string $Phone): self
+    {
+        $this->Phone = $Phone;
 
         return $this;
     }
