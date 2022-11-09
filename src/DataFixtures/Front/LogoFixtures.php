@@ -12,7 +12,7 @@ class LogoFixtures extends Fixture
     {
         $logo = new Logo();
         $logo->setName("Logo 1");
-        $logo->setImage("logo.png");
+        $logo->setImage("https://zupimages.net/up/22/45/vv64.png");
         $logo->setPosition(1);
         $logo->setIsActive(true);
         $manager->persist($logo);
