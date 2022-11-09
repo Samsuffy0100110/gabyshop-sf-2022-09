@@ -21,9 +21,10 @@
 					<strong>Votre Point Mondial Relay</strong>
 					<br>
 					<div>{{ app.request.request.get("nom") }}</div>
-					<div>{{ app.request.request.get("addresse") }}</div>
+					<div>{{ adress }}</div>
 					<div>{{ app.request.request.get("cp") }}</div>
 					<div>{{ app.request.request.get("ville") }}</div>
+					<div>{{ country }}</div>
 				{% endif %}
 				<hr>
 				<strong>Mon transporteur</strong>

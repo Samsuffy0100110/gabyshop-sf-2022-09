@@ -66,6 +66,11 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $shipping = $form->get('shipping')->getData();
             $delivery = $form->get('addresses')->getData();
+            $name = $form->get('name')->getData();
+            $adresse = $form->get('adresse')->getData();
+            $zipCode = $form->get('zipCode')->getData();
+            $city = $form->get('city')->getData();
+            $country = $form->get('country')->getData();
             $deliveryAddress = sprintf(
                 '%s %s <br> %s <br> %s %s <br> %s',
                 $delivery->getUser()->getFirstname(),
@@ -86,14 +91,14 @@ class OrderController extends AbstractController
                 ->setState(0);
             $this->entityManager->persist($order);
 
-            // $adress = new Address();
-            // $adress->setUser($this->getUser())
-            //     ->setAdresse($delivery->getAdresse())
-            //     ->setZipcode($delivery->getZipcode())
-            //     ->setCity($delivery->getCity())
-            //     ->setCountry($delivery->getCountry())
-            //     ->setName('Livraison');
-            // $this->entityManager->persist($adress);
+            $adress = new Address();
+            $adress->setUser($this->getUser())
+                ->setName($name)
+                ->setAdresse($adresse)
+                ->setZipcode($zipCode)
+                ->setCity($city)
+                ->setCountry($country);
+            $this->entityManager->persist($adress);
 
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
@@ -125,6 +130,8 @@ class OrderController extends AbstractController
                 'stripe_key' => $_ENV["STRIPE_KEY"],
                 'total' => $cart->getTotal(),
                 'order' => $order,
+                'country' => $country,
+                'adress' => $adresse
             ]);
         }
         return $this->redirectToRoute('cart');

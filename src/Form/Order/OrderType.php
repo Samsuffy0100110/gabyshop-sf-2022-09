@@ -15,6 +15,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class OrderType extends AbstractType
 {
+    private $cartService;
+    private $shippingRepository;
+    private $mondialRelayService;
+
     public function __construct(
         MondialRelayService $mondialRelayService,
         CartService $cartService,
@@ -66,6 +70,11 @@ class OrderType extends AbstractType
                     'class' => 'd-none',
                 ]
             ])
+            ->add('name')
+            ->add('adresse')
+            ->add('zipCode')
+            ->add('city')
+            ->add('country')
             ->add('shipping', EntityType::class, [
                 'label' => $this->mondialRelayService->shipByTotWeight($this->cartService),
                 'required' => true,

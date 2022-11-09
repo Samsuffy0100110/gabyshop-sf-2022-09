@@ -5,7 +5,6 @@ namespace App\Entity;
 use DateTime;
 use Serializable;
 use App\Entity\Order\Order;
-use App\Entity\Product\Rate;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Product\Wishlist;
