@@ -5,22 +5,14 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<ul
+					class="navbar-nav me-auto mb-2 mb-lg-0">
 					{% for parentCategory in parentCategories %}
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								{{ parentCategory.name }}
-							</a>
-							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-								{% for category in categories %}
-									{% if category.parent.id == parentCategory.id %}
-										<li>
-											<a class="dropdown-item" href="{{ path('category_show', { parentCategory: parentCategory.slug, category: category.slug })}}">{{ category.name }}</a>
-										</li>
-									{% endif %}
-								{% endfor %}
-							</ul>
-						</li>
+					<li class="nav-item">
+						<a class="nav-link" href="{{ path('category_show', { parentCategory: parentCategory.slug }) }}">
+							{{ parentCategory.name }}
+						</a>
+					</li>
 					{% endfor %}
 				</ul>
 				<div class="dropdown">
@@ -38,7 +30,7 @@
 </div>
 
 <script>
-function myFunction() {
+	function myFunction() {
 document.getElementById("myDropdown").classList.toggle("show");
 }
 

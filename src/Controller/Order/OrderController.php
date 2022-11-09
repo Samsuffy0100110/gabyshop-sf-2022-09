@@ -4,11 +4,10 @@ namespace App\Controller\Order;
 
 use Stripe;
 use DateTime;
+use App\Entity\Address;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
-use App\Entity\Product\Custom;
-use App\Entity\Product\Attribut;
 use Symfony\Component\Mime\Email;
 use App\Entity\Order\OrderDetails;
 use App\Service\MondialRelayService;
@@ -22,7 +21,6 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class OrderController extends AbstractController
 {
@@ -85,8 +83,17 @@ class OrderController extends AbstractController
                 ->setCreatedAt($dayDate)
                 ->addShipping($shipping)
                 ->setAdress($adress)
-                ->setState(1);
+                ->setState(0);
             $this->entityManager->persist($order);
+
+            // $adress = new Address();
+            // $adress->setUser($this->getUser())
+            //     ->setAdresse($delivery->getAdresse())
+            //     ->setZipcode($delivery->getZipcode())
+            //     ->setCity($delivery->getCity())
+            //     ->setCountry($delivery->getCountry())
+            //     ->setName('Livraison');
+            // $this->entityManager->persist($adress);
 
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
@@ -117,7 +124,7 @@ class OrderController extends AbstractController
                 'reference' => $order->getReference(),
                 'stripe_key' => $_ENV["STRIPE_KEY"],
                 'total' => $cart->getTotal(),
-                'order' => $order
+                'order' => $order,
             ]);
         }
         return $this->redirectToRoute('cart');
@@ -129,6 +136,7 @@ class OrderController extends AbstractController
         CartService $cart,
         MailerInterface $mailer,
         ShopRepository $shopRepository,
+        OrderRepository $orderRepository
     ) {
         $cart->getTotal();
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
@@ -154,6 +162,14 @@ class OrderController extends AbstractController
                 'address' => $order->getAdress(),
             ]));
             $mailer->send($email);
+
+            $orderRepository->createQueryBuilder('o')
+            ->update()
+            ->set('o.state', ':state')
+            ->where('o.state = 0')
+            ->setParameter('state', 1)
+            ->getQuery()
+            ->execute();
 
             $emailClient = (new Email())
             ->to($getEmail->getUser()->getEmail())
