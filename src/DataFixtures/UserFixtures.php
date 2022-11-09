@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -29,6 +30,8 @@ class UserFixtures extends Fixture
         $user->setCompanyname("GABYshop");
         $user->setGoogleId("123456789");
         $user->setIsNewsletterOk(true);
+        $user->setBirthday(new DateTimeImmutable());
+        $user->setGender("Femme");
         $this->addReference("Admin", $user);
         $user->setPassword($hashPassword);
         $manager->persist($user);
@@ -44,6 +47,8 @@ class UserFixtures extends Fixture
         $user->setCompanyname("");
         $user->setGoogleId("123456789");
         $user->setIsNewsletterOk(true);
+        $user->setBirthday(new DateTimeImmutable());
+        $user->setGender("Femme");
         $user->setPassword($hashPassword);
         $this->addReference("User", $user);
         $manager->persist($user);
