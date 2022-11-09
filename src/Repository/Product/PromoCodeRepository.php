@@ -2,9 +2,10 @@
 
 namespace App\Repository\Product;
 
+use DateTime;
 use App\Entity\Product\PromoCode;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<PromoCode>
@@ -37,6 +38,19 @@ class PromoCodeRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByIsValidated(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.isActive = :val')
+            ->andWhere('p.startedAt <= :now')
+            ->andWhere('p.endedAt >= :now')
+            ->setParameter('val', true)
+            ->setParameter('now', new DateTime())
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    /**
