@@ -35,9 +35,6 @@ class Address
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $country = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $phone = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $isActive = null;
 
@@ -126,18 +123,6 @@ class Address
     public function setCountry(?string $country): self
     {
         $this->country = $country;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): self
-    {
-        $this->phone = $phone;
 
         return $this;
     }

@@ -88,6 +88,16 @@ class ProfileType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('phone', TextType::class, [
+                'label' => 'Téléphone',
+                'required' => false,
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^[0-9]{10}$/',
+                        'message' => 'Entrer un numéro de téléphone valide',
+                    ]),
+                ],
+            ])
             ->add('companyname', TextType::class, [
                 'label' => 'Société',
                 'constraints' => [
