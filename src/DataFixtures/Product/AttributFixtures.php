@@ -17,6 +17,7 @@ class AttributFixtures extends Fixture implements DependentFixtureInterface
         $attribut->setPosition(1);
         $attribut->setQuantity(15);
         $attribut->setProduct($this->getReference('product_1'));
+        $this->addReference('attribut 1', $attribut);
         $manager->persist($attribut);
 
         $attribut = new Attribut();
@@ -24,6 +25,7 @@ class AttributFixtures extends Fixture implements DependentFixtureInterface
         $attribut->setPosition(2);
         $attribut->setQuantity(24);
         $attribut->setProduct($this->getReference('product_1'));
+        $this->addReference('attribut 2', $attribut);
         $manager->persist($attribut);
 
         $attribut = new Attribut();
@@ -31,6 +33,7 @@ class AttributFixtures extends Fixture implements DependentFixtureInterface
         $attribut->setPosition(1);
         $attribut->setQuantity(18);
         $attribut->setProduct($this->getReference('product_2'));
+        $this->addReference('attribut 3', $attribut);
         $manager->persist($attribut);
 
         $attribut = new Attribut();
@@ -38,6 +41,7 @@ class AttributFixtures extends Fixture implements DependentFixtureInterface
         $attribut->setPosition(2);
         $attribut->setQuantity(6);
         $attribut->setProduct($this->getReference('product_2'));
+        $this->addReference('attribut 4', $attribut);
         $manager->persist($attribut);
 
         $manager->flush();

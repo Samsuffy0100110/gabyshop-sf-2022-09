@@ -28,17 +28,19 @@ class CartController extends AbstractController
         return $this->redirectToRoute('cart_index');
     }
 
-    #[Route('/add-to-cart/{id}/{quantity}/{attribut}', name: 'add-to-cart')]
+    #[Route('/add-to-cart/{id}/{quantity}/{attribut}/{description}', name: 'add-to-cart')]
     public function addQuantity(
         CartService $cart,
         int $id,
         int $quantity,
         Attribut $attribut,
+        string $description,
         CustomRepository $customRepository
     ): Response {
         $custom = new Custom();
         $custom->setAttribut($attribut);
-        $custom->setDescription('test');
+        $custom->setDescription($description);
+        $custom->setQuantity($quantity);
         $customRepository->save($custom, true);
         $cart->addIdAndQuantity($id, $quantity);
         return $this->redirectToRoute('cart_index');

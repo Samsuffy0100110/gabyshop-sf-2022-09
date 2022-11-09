@@ -19,10 +19,13 @@ class Custom
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'customs')]
-    private ?Attribut $attribut = null;
+    private ?Order $customOrder = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $quantity = null;
 
     #[ORM\ManyToOne(inversedBy: 'customs')]
-    private ?Order $customOrder = null;
+    private ?Attribut $attribut = null;
 
     public function getId(): ?int
     {
@@ -41,18 +44,6 @@ class Custom
         return $this;
     }
 
-    public function getAttribut(): ?Attribut
-    {
-        return $this->attribut;
-    }
-
-    public function setAttribut(?Attribut $attribut): self
-    {
-        $this->attribut = $attribut;
-
-        return $this;
-    }
-
     public function getCustomOrder(): ?Order
     {
         return $this->customOrder;
@@ -61,6 +52,37 @@ class Custom
     public function setCustomOrder(?Order $customOrder): self
     {
         $this->customOrder = $customOrder;
+
+        return $this;
+    }
+
+    public function getQuantity(): ?int
+    {
+        return $this->quantity;
+    }
+
+    public function setQuantity(?int $quantity): self
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->attribut . ' / ' .
+        'Déscription : ' . '  ' . $this->description . ' / ' .
+        'Quantité x' . '  ' . $this->quantity;
+    }
+
+    public function getAttribut(): ?Attribut
+    {
+        return $this->attribut;
+    }
+
+    public function setAttribut(?Attribut $attribut): self
+    {
+        $this->attribut = $attribut;
 
         return $this;
     }

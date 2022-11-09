@@ -62,7 +62,9 @@ let addtocart = document.getElementById('add-to-cart');
 q = parseInt(quantity);
 {% for attribut in attributs %}
 if (attribut == {{ attribut.id }}) {
-addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', { id:attribut.id, quantity:"q", attribut:attribut.id }) }}" class="btn btn-outline-primary btn-lg btn-block">Ajouter au panier</a>`;
+addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', 
+{ id:attribut.id, quantity:"q", attribut:attribut.id, description:"aucune" }) }}" 
+class="btn btn-outline-primary btn-lg btn-block">Ajouter au panier</a>`;
 addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
 }
 {% endfor %}
@@ -84,10 +86,20 @@ if (attribut == {{ attribut.id }}) {
 	textArea.setAttribute('required', 'required');
 	textArea.setAttribute('rows', '4');
 	textArea.setAttribute('cols', '50');
+	textArea.setAttribute('onchange', 'setCustom()');
 	customForm.appendChild(h3);
+	customForm.replaceChild(h3, customForm.childNodes[0]);
 	customForm.appendChild(p);
+	customForm.replaceChild(p, customForm.childNodes[1]);
 	customForm.appendChild(textArea);
+	customForm.replaceChild(textArea, customForm.childNodes[2]);
 }
 {% endfor %}
+}
+function setCustom() {
+let custom = document.getElementById('custom').value;
+let addtocart = document.getElementById('add-to-cart');
+let description = custom;
+addtocart.innerHTML = addtocart.innerHTML.replace("aucune", description);
 }
 </script>
