@@ -37,6 +37,42 @@
 					{{ (shipping.price)| number_format(2, ',', '.') }}
 					&euro;
 				</div>
+			
+				{% for promo_code in promo_codes %}
+				{% if promo_code is not empty %}
+					<hr>
+				<strong>Code Promo</strong>
+						<div class="form-group">
+							<input id="code" type="text" class="form-control mt-2" name="code" placeholder="Entrez votre code Promo">
+						</div>
+						<div id="message"></div>
+						<div id="validatecode"></div>
+				<script>
+				let code = document.getElementById('code');
+				let message = document.getElementById('message');
+				let validatecode = document.getElementById('validatecode');
+				code.addEventListener('keyup', function(){
+				let code = document.getElementById('code').value;
+				validatecode.innerHTML = '<button type="submit" class="btn btn-primary mt-2">Valider</button>';
+				});
+				validatecode.addEventListener('click', function(){
+				let code = document.getElementById('code').value;
+				let codepromo = "{{ promo_code.code }}";
+				if(code == codepromo){
+				message.innerHTML = '<div class="alert alert-success mt-2" role="alert">Code Promo Valide</div>';
+				let promo = document.getElementById('promo');
+				promo.innerHTML = '{% set promo = 50 %}';
+				
+				}else{
+				message.innerHTML = '<div class="alert alert-danger mt-2" role="alert">Code Promo Invalide</div>';
+				setTimeout(function(){
+   				window.location.reload(1);
+				}, 3000);
+				}
+				});
+				</script>
+				{% endif %}
+				{% endfor %}
 			</div>
 			<div class="col-md-6">
 				<div class="text-center">
@@ -116,6 +152,9 @@
 						{{ (shipping.price ) | number_format(2, ',', '.') }}&euro;
 						<hr>
 						<strong>Total :</strong>
+						<div id="promo">{% set promo = 0 %}</div>
+						<div id="changePromo">
+						{% set promo = (((Total + total) * promo ) / 100) %}
 						{{ (Total + total + shipping.price) }}&euro;
 						<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
 							<input type='hidden' name='stripeToken' id='stripe-token-id'>
@@ -123,9 +162,9 @@
 							<br>
 							<div id="card-element" class="form-control"></div>
 							<button id='pay-btn' class="btn btn-success mt-3 mb-5" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
-								{{ (Total + total + shipping.price) }}&euro;</button>
+								{{ (Total + total + shipping.price) - promo }}&euro;</button>
 						</form>
-					</div>
+					</div></div>
 				</div>
 			</div>
 		</div>
@@ -168,5 +207,5 @@ document.getElementById('checkout-form').submit();
 }
 });
 }
-	</script>
+</script>
 {% endblock %}
