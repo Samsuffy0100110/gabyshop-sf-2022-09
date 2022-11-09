@@ -60,11 +60,9 @@ class OrderController extends AbstractController
     public function add(
         CartService $cart,
         Request $request,
-
         CustomRepository $customRepository,
-        PromoCodeRepository $promoCodeRepository
+        PromoCodeRepository $promoCodeRepository,
         OrderRepository $orderRepository,
-       
     ) {
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
@@ -145,7 +143,7 @@ class OrderController extends AbstractController
                 'stripe_key' => $_ENV["STRIPE_KEY"],
                 'total' => $cart->getTotal(),
                 'order' => $order,
-                'promo_codes' => $promoCodeRepository->findByIsValidated()
+                'promo_codes' => $promoCodeRepository->findByIsValidated(),
                 'country' => $country,
                 'adress' => $adresse
             ]);
