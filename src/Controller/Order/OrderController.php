@@ -56,8 +56,12 @@ class OrderController extends AbstractController
     }
 
     #[Route('/commande/recapitulatif', name: 'order_recap', methods: ['POST'])]
-    public function add(CartService $cart, Request $request, CustomRepository $customRepository)
-    {
+    public function add(
+        CartService $cart,
+        Request $request,
+        OrderRepository $orderRepository,
+        CustomRepository $customRepository
+    ) {
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
         ]);
@@ -87,7 +91,6 @@ class OrderController extends AbstractController
                 ->setUser($this->getUser())
                 ->setCreatedAt($dayDate)
                 ->addShipping($shipping)
-                ->setAdress($adress)
                 ->setState(0);
             $this->entityManager->persist($order);
 
@@ -119,6 +122,14 @@ class OrderController extends AbstractController
                 ->set('c.customOrder', ':order')
                 ->where('c.customOrder IS NULL')
                 ->setParameter('order', $order)
+                ->getQuery()
+                ->execute();
+
+            $orderRepository->createQueryBuilder('o')
+                ->update()
+                ->set('o.adress', ':adress')
+                ->where('o.adress IS NULL')
+                ->setParameter('adress', $adress)
                 ->getQuery()
                 ->execute();
 
