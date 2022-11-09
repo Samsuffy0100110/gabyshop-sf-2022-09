@@ -52,7 +52,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             de verre, de plastique, etc. Elle peut être recouverte de tissu, 
             de cuir, de velours, etc. 
             Elle peut être équipée de tiroirs, de portes, de tablettes, etc.',
-            'weight' => 5,
+            'weight' => 500,
             'image0' => 'table_basse52.jpg',
             'category' => 'category_0',
         ],
