@@ -3,9 +3,9 @@
 namespace App\Entity\Product;
 
 use App\Entity\Order\Order;
-use App\Repository\Product\CustomRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\Product\CustomRepository;
 
 #[ORM\Entity(repositoryClass: CustomRepository::class)]
 class Custom

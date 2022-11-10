@@ -2,9 +2,9 @@
 
 namespace App\Entity\Product;
 
-use App\Repository\Product\PromoCodeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\Product\PromoCodeRepository;
 
 #[ORM\Entity(repositoryClass: PromoCodeRepository::class)]
 class PromoCode

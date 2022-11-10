@@ -2,9 +2,9 @@
 
 namespace App\Entity\Order;
 
+use App\Entity\User;
 use App\Entity\Address;
 use App\Entity\Product\Custom;
-use App\Entity\User;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Order\OrderRepository;
