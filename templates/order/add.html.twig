@@ -38,17 +38,18 @@
 					{{ (shipping.price)| number_format(2, ',', '.') }}
 					&euro;
 				</div>
-			
 				{% for promo_code in promo_codes %}
 				{% if promo_code is not empty %}
 					<hr>
 				<strong>Code Promo</strong>
+				<div class="mt-2 mb-2">Attention les codes promotionnels ne sont pas cumulables avec les promotions en cours.</div>
 						<div class="form-group">
 							<input id="code" type="text" class="form-control mt-2" name="code" placeholder="Entrez votre code Promo">
 						</div>
 						<div id="message"></div>
 						<div id="validatecode"></div>
 				<script>
+
 				let code = document.getElementById('code');
 				let message = document.getElementById('message');
 				let validatecode = document.getElementById('validatecode');
@@ -61,9 +62,14 @@
 				let codepromo = "{{ promo_code.code }}";
 				if(code == codepromo){
 				message.innerHTML = '<div class="alert alert-success mt-2" role="alert">Code Promo Valide</div>';
-				let promo = document.getElementById('promo');
-				promo.innerHTML = '{% set promo = 50 %}';
-				
+				let promo = "{{ promo_code.reduce }}";
+				let promototal = ( ({{total }} / 100)  * promo ) / 100 ;
+				let changePromo = document.getElementById('changePromo');
+				let pay = document.getElementById('pay-btn');
+				let total = {{ total }} / 100;
+				let shipping = {{ shipping.price }};
+				changePromo.innerHTML = total + shipping - promototal;
+				pay.innerHTML =  total + shipping - promototal;
 				}else{
 				message.innerHTML = '<div class="alert alert-danger mt-2" role="alert">Code Promo Invalide</div>';
 				setTimeout(function(){
@@ -79,7 +85,7 @@
 				<div class="text-center">
 					<h4>Ma commande</h4>
 				</div>
-				<div class="order-summary">
+				<div class="order-summary mb-5">
 					<div class="bg-light p-3 rounded shadow">
 						{% set Total = 0 %}
 						{% set totalHT = 0 %}
@@ -153,19 +159,16 @@
 						{{ (shipping.price ) | number_format(2, ',', '.') }}&euro;
 						<hr>
 						<strong>Total :</strong>
-						<div id="promo">{% set promo = 0 %}</div>
-						<div id="changePromo">
-						{% set promo = (((Total + total) * promo ) / 100) %}
-						{{ (Total + total + shipping.price) }}&euro;
+						<div id="changePromo">{{ (Total + total + shipping.price) }}&euro;</div>
 						<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
 							<input type='hidden' name='stripeToken' id='stripe-token-id'>
 							<label for="card-element" class="mb-2 mt-3">Veuillez remplir vos coordonnées bancaires</label>
 							<br>
 							<div id="card-element" class="form-control"></div>
 							<button id='pay-btn' class="btn btn-success mt-3 mb-5" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
-								{{ (Total + total + shipping.price) - promo }}&euro;</button>
+								{{ (Total + total + shipping.price) }}&euro;</button>
 						</form>
-					</div></div>
+					</div>
 				</div>
 			</div>
 		</div>
