@@ -3,8 +3,8 @@
 namespace App\Repository\Communication;
 
 use App\Entity\Communication\Commentary;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Commentary>

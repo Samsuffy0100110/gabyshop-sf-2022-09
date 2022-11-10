@@ -2,8 +2,8 @@
 
 namespace App\EventSubscriber;
 
-use App\Repository\Front\LogoRepository;
 use Twig\Environment;
+use App\Repository\Front\LogoRepository;
 use App\Repository\Front\ShopRepository;
 use App\Repository\Front\ThemeRepository;
 use App\Repository\Front\PagesRepository;
