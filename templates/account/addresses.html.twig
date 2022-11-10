@@ -33,17 +33,11 @@
 							<div class="col mb-3">
 								<div class="card shadow">
 									<div class="card-body">
-										{% if address.isActive ==true %}
-											<div class="d-flex justify-content-end">
-												<span class="badge bg-success">Adresse de livraison par défaut</span>
-											</div>
-										{% endif %}
 										<h5 class="card-title">{{ address.name }}</h5>
 										<p class="card-text">{{ address.adresse }}</p>
 										<p class="card-text">{{ address.zipCode }}
 											{{ address.city }}</p>
 										<p class="card-text">{{ address.country }}</p>
-										<p class="card-text">{{ address.phone }}</p>
 										<div class="d-flex justify-content-end align-items-center">
 											<a class="btn btn-outline-info m-1" href="{{ path('user_address_edit', {'id': address.id}) }}">Modifier</a>
 											<div class="text-end">

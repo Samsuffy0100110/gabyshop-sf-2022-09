@@ -6,6 +6,7 @@ use App\Entity\Address;
 use App\Service\CartService;
 use App\Entity\Order\Shipping;
 use App\Service\MondialRelayService;
+use App\Repository\AddressRepository;
 use Symfony\Component\Form\AbstractType;
 use App\Repository\Order\ShippingRepository;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,20 +19,24 @@ class OrderType extends AbstractType
     private $cartService;
     private $shippingRepository;
     private $mondialRelayService;
+    private $addressRepository;
 
     public function __construct(
         MondialRelayService $mondialRelayService,
         CartService $cartService,
-        ShippingRepository $shipping
+        ShippingRepository $shipping,
+        AddressRepository $addressRepository
     ) {
         $this->mondialRelayService = $mondialRelayService;
         $this->cartService = $cartService;
         $this->shippingRepository = $shipping;
+        $this->addressRepository = $addressRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $user = $options['user'];
+        $address = $this->addressRepository->findBy(['isActive' => 1, 'user' => $user]);
 
         if ($this->mondialRelayService->shipByTotWeight($this->cartService) == 'Livraison gratuite') {
             $builder
@@ -39,9 +44,9 @@ class OrderType extends AbstractType
                 'label' => false,
                 'required' => true,
                 'class' => Address::class,
-                'choices' => $user->getAddresses(),
+                'choices' => $address,
                 'multiple' => false,
-                'expanded' => true
+                'expanded' => true,
             ])
             ->add('shipping', EntityType::class, [
                 'label' => 'Livraison gratuite',
