@@ -100,7 +100,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
     private Collection $wishlists;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Phone = null;
+    private ?string $phone = null;
 
     public function __construct()
     {
@@ -537,12 +537,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Seriali
 
     public function getPhone(): ?string
     {
-        return $this->Phone;
+        return $this->phone;
     }
 
-    public function setPhone(?string $Phone): self
+    public function setPhone(?string $phone): self
     {
-        $this->Phone = $Phone;
+        $this->phone = $phone;
 
         return $this;
     }

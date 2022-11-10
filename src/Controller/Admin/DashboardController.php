@@ -33,6 +33,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 class DashboardController extends AbstractDashboardController
 {
     private $orderRepository;
+    private $userRepository;
+    private $productRepository;
 
     public function __construct(
         OrderRepository $orderRepository,

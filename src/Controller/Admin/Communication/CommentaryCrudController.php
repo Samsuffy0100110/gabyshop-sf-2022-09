@@ -49,9 +49,7 @@ class CommentaryCrudController extends AbstractCrudController
             ->update(Crud::PAGE_INDEX, 'detail', function (Action $action) {
                 return $action->setIcon('fa fa-eye')->setLabel('voir')->setCssClass('text-info');
             })
-            ->remove(Crud::PAGE_INDEX, Action::EDIT, function (Action $action) {
-                return $action->setIcon('fa fa-edit')->setLabel('modifier');
-            })
+            ->remove(Crud::PAGE_INDEX, Action::EDIT)
             ->update(Crud::PAGE_INDEX, Action::DELETE, function (Action $action) {
                 return $action->setIcon('fa fa-trash')->setLabel('supprimer');
             })
@@ -59,9 +57,7 @@ class CommentaryCrudController extends AbstractCrudController
                 return $action->setIcon('fa fa-trash')->setLabel('supprimer')
                     ->setCssClass('btn btn-danger');
             })
-            ->remove(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
-                return $action->setIcon('fa fa-edit')->setLabel('modifier');
-            })
+            ->remove(Crud::PAGE_DETAIL, Action::EDIT)
             ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action) {
                 return $action->setIcon('fa fa-arrow-left')->setLabel('retour');
             });
