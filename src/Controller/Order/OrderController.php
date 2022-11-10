@@ -61,6 +61,7 @@ class OrderController extends AbstractController
         CartService $cart,
         Request $request,
         CustomRepository $customRepository,
+        MondialRelayService $mondialRelayService,
         PromoCodeRepository $promoCodeRepository,
         OrderRepository $orderRepository,
     ) {
@@ -72,11 +73,6 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $shipping = $form->get('shipping')->getData();
             $delivery = $form->get('addresses')->getData();
-            $name = $form->get('name')->getData();
-            $adresse = $form->get('adresse')->getData();
-            $zipCode = $form->get('zipCode')->getData();
-            $city = $form->get('city')->getData();
-            $country = $form->get('country')->getData();
             $deliveryAddress = sprintf(
                 '%s %s <br> %s <br> %s %s <br> %s',
                 $delivery->getUser()->getFirstname(),
@@ -86,7 +82,7 @@ class OrderController extends AbstractController
                 $delivery->getCity(),
                 $delivery->getCountry()
             );
-            $adress = $form->get('addresses')->getData();
+
             $dayDate = new DateTime();
             $order = new Order();
             $order->setReference(sprintf('%s-%s', $dayDate->format('dmY'), uniqid()))
@@ -96,14 +92,16 @@ class OrderController extends AbstractController
                 ->setState(0);
             $this->entityManager->persist($order);
 
-            $adress = new Address();
-            $adress->setUser($this->getUser())
-                ->setName($name)
-                ->setAdresse($adresse)
-                ->setZipcode($zipCode)
-                ->setCity($city)
-                ->setCountry($country);
-            $this->entityManager->persist($adress);
+            if ($mondialRelayService->shipByTotWeight($cart) != 'Livraison gratuite') {
+                $adress = new Address();
+                $adress->setUser($this->getUser())
+                    ->setName($form->get('name')->getData())
+                    ->setAdresse($form->get('adresse')->getData())
+                    ->setZipcode($form->get('zipCode')->getData())
+                    ->setCity($form->get('city')->getData())
+                    ->setCountry($form->get('country')->getData());
+                $this->entityManager->persist($adress);
+            }
 
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
@@ -113,28 +111,38 @@ class OrderController extends AbstractController
                     ->setPrice($product['product']->getPrice())
                     ->setTaxe($product['product']->getTaxe())
                     ->setTotal($product['product']->getPrice() * $product['quantity']);
-
                 $this->entityManager->persist($orderDetails);
             }
 
             $this->entityManager->flush();
 
             $customRepository->createQueryBuilder('c')
-                ->update()
-                ->set('c.customOrder', ':order')
-                ->where('c.customOrder IS NULL')
-                ->setParameter('order', $order)
-                ->getQuery()
-                ->execute();
+            ->update()
+            ->set('c.customOrder', ':order')
+            ->where('c.customOrder IS NULL')
+            ->setParameter('order', $order)
+            ->getQuery()
+            ->execute();
 
-            $orderRepository->createQueryBuilder('o')
+            $adress = $form->get('addresses')->getData();
+            
+            if ($mondialRelayService->shipByTotWeight($cart) != 'Livraison gratuite') {
+                $orderRepository->createQueryBuilder('o')
                 ->update()
                 ->set('o.adress', ':adress')
                 ->where('o.adress IS NULL')
                 ->setParameter('adress', $adress)
                 ->getQuery()
                 ->execute();
-
+            } else {
+                $orderRepository->createQueryBuilder('o')
+                ->update()
+                ->set('o.adress', ':adress')
+                ->where('o.adress IS NULL')
+                ->setParameter('adress', $delivery)
+                ->getQuery()
+                ->execute();
+            }
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
                 'shipping' => $shipping,
@@ -144,8 +152,6 @@ class OrderController extends AbstractController
                 'total' => $cart->getTotal(),
                 'order' => $order,
                 'promo_codes' => $promoCodeRepository->findByIsValidated(),
-                'country' => $country,
-                'adress' => $adresse
             ]);
         }
         return $this->redirectToRoute('cart');
