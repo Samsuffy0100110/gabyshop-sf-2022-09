@@ -124,8 +124,6 @@ class OrderController extends AbstractController
             ->getQuery()
             ->execute();
 
-            $adress = $form->get('addresses')->getData();
-            
             if ($mondialRelayService->shipByTotWeight($cart) != 'Livraison gratuite') {
                 $orderRepository->createQueryBuilder('o')
                 ->update()
