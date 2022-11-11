@@ -5,10 +5,20 @@
 {% endblock %}
 
 {% block body %}
+{% for maintenance in maintenance %}
+	{% if maintenance.isActive == true %}
+	{{ render(controller('App\\Controller\\Shop\\FrontController::banner')) }}
+	{% include "maintenance/maintenance.html.twig" %}
+	{{ render(controller('App\\Controller\\Communication\\NewsLetterController::subscribeForm')) }}
+	{{ render(controller('App\\Controller\\Shop\\FrontController::aboutUs')) }}
+
+	{% else %}
 	{{ render(controller('App\\Controller\\Shop\\FrontController::banner')) }}
 	{{ render(controller('App\\Controller\\Shop\\FrontController::latestProducts')) }}
 	{{ render(controller('App\\Controller\\Shop\\FrontController::carousel')) }}
 	{{ render(controller('App\\Controller\\Communication\\NewsLetterController::subscribeForm')) }}
 	{{ render(controller('App\\Controller\\Shop\\FrontController::randomProducts')) }}
 	{{ render(controller('App\\Controller\\Shop\\FrontController::aboutUs')) }}
+	{% endif %}
+{% endfor %}
 {% endblock %}
