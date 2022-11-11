@@ -9,8 +9,8 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class AddressType extends AbstractType
 {
@@ -83,24 +83,8 @@ class AddressType extends AbstractType
                     'Suisse' => 'Suisse',
                 ],
             ])
-            ->add('phone', TextType::class, [
-                'label' => 'Téléphone',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Entrer un numéro de téléphone',
-                    ]),
-                    new Regex([
-                        'pattern' => "`^0[0-9]([-. ]?\d{2}){4}[-. ]?$`",
-                        'message' => 'Entrer un numéro de téléphone valide',
-                    ]),
-                ],
-            ])
-            ->add('isActive', CheckboxType::class, [
-                'label' => 'Adresse par défaut',
-                'required' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
+            ->add('isActive', HiddenType::class, [
+                'data' => true,
             ])
         ;
     }

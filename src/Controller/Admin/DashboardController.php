@@ -20,6 +20,7 @@ use App\Entity\Product\PromoCode;
 use App\Repository\UserRepository;
 use App\Entity\Product\ParentCategory;
 use App\Entity\Communication\NewsLetter;
+use App\Entity\Communication\Commentary;
 use App\Entity\Product\FeaturedProducts;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Product\ProductRepository;
@@ -33,6 +34,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 class DashboardController extends AbstractDashboardController
 {
     private $orderRepository;
+    private $userRepository;
+    private $productRepository;
 
     public function __construct(
         OrderRepository $orderRepository,
@@ -96,6 +99,9 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Banniére', 'fas fa-image', Banner::class);
         yield MenuItem::linkToCrud('Thémes', 'fas fa-droplet', Theme::class);
         yield MenuItem::linkToCrud('Maintenance', 'fas fa-tools', Maintenance::class);
+        yield MenuItem::section('');
+        yield MenuItem::section('Commentaires');
+        yield MenuItem::linkToCrud('Commentaires', 'fas fa-comments', Commentary::class);
         yield MenuItem::section('');
         yield MenuItem::linkToRoute('Retour sur le site', 'fas fa-home', 'home');
     }
