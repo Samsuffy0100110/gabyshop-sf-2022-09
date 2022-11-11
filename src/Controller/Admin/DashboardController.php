@@ -6,6 +6,7 @@ use App\Entity\Front\Logo;
 use App\Entity\Front\Shop;
 use App\Entity\Front\Pages;
 use App\Entity\Front\Theme;
+use App\Entity\Maintenance;
 use App\Entity\Order\Order;
 use App\Entity\Front\Banner;
 use App\Entity\Front\Social;
@@ -97,6 +98,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Réseaux sociaux', 'fas fa-share-alt', Social::class);
         yield MenuItem::linkToCrud('Banniére', 'fas fa-image', Banner::class);
         yield MenuItem::linkToCrud('Thémes', 'fas fa-droplet', Theme::class);
+        yield MenuItem::linkToCrud('Maintenance', 'fas fa-tools', Maintenance::class);
         yield MenuItem::section('');
         yield MenuItem::section('Commentaires');
         yield MenuItem::linkToCrud('Commentaires', 'fas fa-comments', Commentary::class);

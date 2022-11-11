@@ -18,8 +18,14 @@
 	</head>
 	<body class="d-flex flex-column h-100" style="background-color: {{ theme.backgroundColor }};">
 		{% include "includes/navsecurity/index.html.twig" %}
-		{{ render(controller('App\\Controller\\Shop\\FrontController::logo')) }}
-		{{ render(controller('App\\Controller\\Shop\\FrontController::navbar')) }}
+		{% for maintenance in maintenance %}
+			{% if maintenance.isActive == true %}
+				{% else %}
+					{{ render(controller('App\\Controller\\Shop\\FrontController::logo')) }}
+					{{ render(controller('App\\Controller\\Shop\\FrontController::navbar')) }}
+			{% endif %}
+		{% endfor %}
+
 		<div class="container">
 			{% for label, messages in app.flashes %}
 				{% for message in messages %}
