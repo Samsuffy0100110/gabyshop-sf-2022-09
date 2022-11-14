@@ -60,7 +60,7 @@
 							{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
 							{% for offer in offers %}
 								{% if loop.index0 == 0 %}
-									<p class="card-text fw-bold text-decoration-line-through">{{ attribut.attribut.product.price / 100 }}
+									<p class="card-text fw-bold text-decoration-line-through">{{ ((attribut.attribut.price * 100) + attribut.attribut.product.price) / 100 }}
 										€</p>
 								{% endif %}
 							{% endfor %}
@@ -83,8 +83,8 @@
 										{% set totalEuro = (reduceEuro * 100) %}
 									{% endif %}
 								{% endfor %}
-								{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent %}
-							<p class="card-text fw-bold">{{ totalWhitOffers / 100 }}&nbsp€</p>
+								{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent + (attribut.attribut.price * 100) %}
+							<p class="card-text fw-bold">{{ (totalWhitOffers / 100) }}&nbsp€</p>
 						</td>
 						<td>{{ (( totalWhitOffers * attribut.quantity) / 100) | number_format(2, ',', '.') }}
 							&euro;</td>
@@ -101,13 +101,16 @@
 						<a href="{{ path('cart_delete', { id:attribut.attribut.id }) }}">
 							<img src="{{ ('/images/others/trash-can.png') }}" alt="supprimer mon produit" height="20"></a>
 					</td>
-					{% set total = total + ( (attribut.attribut.product.price * attribut.quantity) / 100) %}
+					{% set total = total + ((attribut.attribut.product.price) * attribut.quantity / 100) %}
 				{% endif %}
 			</tbody>
 		</tr>
 	</td>
 </tbody>
-</tr>{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100)) %}{% set nbProducts = nbProducts + attribut.quantity %}{% endfor %}
+</tr>
+{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100)) %}
+{% set nbProducts = nbProducts + attribut.quantity %}
+{% endfor %}
 </tbody>
 </table>
 <div class="text-end">
