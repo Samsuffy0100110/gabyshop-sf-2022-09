@@ -36,7 +36,7 @@
 		<div id="customForm"></div>
 		<div id="add-to-cart"></div>
 	</div>
-
+	{% set total = 0 %}
 	{% set offers = product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
 {% for offer in offers %}
 	{% if loop.index0 == 0 %}
