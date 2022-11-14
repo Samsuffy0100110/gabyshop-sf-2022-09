@@ -90,7 +90,6 @@ if (attribut == {{ attribut.id }}) {
 	textArea.setAttribute('required', 'required');
 	textArea.setAttribute('rows', '4');
 	textArea.setAttribute('cols', '50');
-	textArea.setAttribute('onchange', 'setCustom()');
 	span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
 	span.setAttribute('class', 'badge bg-info mb-3');
 	price.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }})+ '€';
@@ -104,6 +103,19 @@ if (attribut == {{ attribut.id }}) {
 	customForm.replaceChild(span, customForm.childNodes[3]);
 	customForm.appendChild(price);
 	customForm.replaceChild(price, customForm.childNodes[4]);
+	let custom = document.getElementById('custom').value;
+	let addtocart = document.getElementById('add-to-cart');
+	let description = custom;
+	textArea.addEventListener('input', function () {
+		let custom = document.getElementById('custom').value;
+		let addtocart = document.getElementById('add-to-cart');
+		let description = custom;
+		addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', 
+		{ id:attribut.id, quantity:"q", attribut:attribut.id, description:"description" }) }}"
+		class="btn btn-outline-primary btn-lg btn-block">Ajouter au panier</a>`;
+		addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
+		addtocart.innerHTML = addtocart.innerHTML.replace("description", description);
+	});
 } else {
 	let customForm = document.getElementById('customForm');
 	customForm.innerHTML = '';
@@ -112,12 +124,5 @@ if (attribut == {{ attribut.id }}) {
 	customForm.appendChild(p);
 }
 {% endfor %}
-}
-
-function setCustom() {
-	let custom = document.getElementById('custom').value;
-	let addtocart = document.getElementById('add-to-cart');
-	let description = custom;
-	addtocart.innerHTML = addtocart.innerHTML.replace("aucune", description);
 }
 </script>
