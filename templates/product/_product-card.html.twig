@@ -72,10 +72,13 @@ addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
 {% for attribut in attributs|filter(a => a.persoIsEnable) %}
 if (attribut == {{ attribut.id }}) {
 	let customForm = document.getElementById('customForm');
+	let quantity = document.getElementById('quantity').value;
+	let attribut = document.getElementById('attribut').value;
 	let h3 = document.createElement('h3');
 	let p = document.createElement('p');
 	let textArea = document.createElement('textarea');
 	let span = document.createElement('span');
+	let price = document.createElement('p');
 	h3.innerHTML = 'Personnalisation';
 	h3.setAttribute('class', 'mt-2 mb-2');
 	p.innerHTML = 'Vous pouvez personnaliser votre produit en écrivant votre message ci-dessous.';
@@ -90,6 +93,7 @@ if (attribut == {{ attribut.id }}) {
 	textArea.setAttribute('onchange', 'setCustom()');
 	span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
 	span.setAttribute('class', 'badge bg-info mb-3');
+	price.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }})+ '€';
 	customForm.appendChild(h3);
 	customForm.replaceChild(h3, customForm.childNodes[0]);
 	customForm.appendChild(p);
@@ -98,13 +102,22 @@ if (attribut == {{ attribut.id }}) {
 	customForm.replaceChild(textArea, customForm.childNodes[2]);
 	customForm.appendChild(span);
 	customForm.replaceChild(span, customForm.childNodes[3]);
+	customForm.appendChild(price);
+	customForm.replaceChild(price, customForm.childNodes[4]);
+} else {
+	let customForm = document.getElementById('customForm');
+	customForm.innerHTML = '';
+	let p = document.createElement('p');
+	p.innerHTML = (quantity) * {{ product.price / 100 }} + '€';
+	customForm.appendChild(p);
 }
 {% endfor %}
 }
+
 function setCustom() {
-let custom = document.getElementById('custom').value;
-let addtocart = document.getElementById('add-to-cart');
-let description = custom;
-addtocart.innerHTML = addtocart.innerHTML.replace("aucune", description);
+	let custom = document.getElementById('custom').value;
+	let addtocart = document.getElementById('add-to-cart');
+	let description = custom;
+	addtocart.innerHTML = addtocart.innerHTML.replace("aucune", description);
 }
 </script>
