@@ -36,7 +36,46 @@
 		<div id="customForm"></div>
 		<div id="add-to-cart"></div>
 	</div>
-	{% include "includes/productprice/index.html.twig" %}
+
+	{% set offers = product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
+{% for offer in offers %}
+	{% if loop.index0 == 0 %}
+		<p id="totalWithoutOffers" class="card-text fw-bold text-decoration-line-through text-end"></p>
+	{% endif %}
+{% endfor %}
+{% for offer in offers %}
+	{% if offer.typeReduce == "percent" %}
+		<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }} : - {{ offer.reduce }}&nbsp%</div>
+	{% endif %}
+	{% if offer.typeReduce == "euro" %}
+		<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }} : - {{ offer.reduce }}&nbsp€</div>
+	{% endif %}
+{% else %}
+	<p class="card-text fw-bold text-end fs-5 mt-auto">{{ product.price / 100}}&nbsp€</p>
+{% endfor %}
+{% if offers| length > 0 %}
+	{% set number = 0 %}
+	{% set reduce = 0 %}
+	{% set reduceEuro = 0 %}
+	{% set total = 0 %}
+	{% set totalEuro = 0 %}
+	{% set totalPercent = 0 %}
+	{% for offer in offers %}
+		{% if offer.typeReduce == "percent" %}
+			{% set number = product.price * (offer.reduce / 100) %}
+			{% set reduce = number %}
+			{% set totalPercent = reduce %}
+		{% endif %}
+		{% if offer.typeReduce == "euro" %}
+			{% set number = offer.reduce %}
+			{% set reduceEuro = reduceEuro + number %}
+			{% set totalEuro = (reduceEuro * 100) %}
+		{% endif %}
+	{% endfor %}
+	{% set total = product.price - totalEuro - totalPercent %}
+	<p id="totalWithOffers" class="card-text fw-bold text-end fs-5 mt-auto">{{ total / 100 }}€</p>
+{% endif %}
+
 </div></div>
 <script>
 let quantities = {};
@@ -59,6 +98,7 @@ function setQuantity() {
 let quantity = document.getElementById('quantity').value;
 let attribut = document.getElementById('attribut').value;
 let addtocart = document.getElementById('add-to-cart');
+let total = {{ total }};
 q = parseInt(quantity);
 {% for attribut in attributs %}
 if (attribut == {{ attribut.id }}) {
@@ -78,7 +118,8 @@ if (attribut == {{ attribut.id }}) {
 	let p = document.createElement('p');
 	let textArea = document.createElement('textarea');
 	let span = document.createElement('span');
-	let price = document.createElement('p');
+	let totalWithOffers = document.getElementById('totalWithOffers');
+	let totalWithoutOffers = document.getElementById('totalWithoutOffers');
 	h3.innerHTML = 'Personnalisation';
 	h3.setAttribute('class', 'mt-2 mb-2');
 	p.innerHTML = 'Vous pouvez personnaliser votre produit en écrivant votre message ci-dessous.';
@@ -92,7 +133,8 @@ if (attribut == {{ attribut.id }}) {
 	textArea.setAttribute('cols', '50');
 	span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
 	span.setAttribute('class', 'badge bg-info mb-3');
-	price.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }})+ '€';
+	totalWithOffers.innerHTML = (quantity) * (total / 100 + {{ attribut.price }})+ '€';
+	totalWithoutOffers.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';
 	customForm.appendChild(h3);
 	customForm.replaceChild(h3, customForm.childNodes[0]);
 	customForm.appendChild(p);
@@ -101,8 +143,6 @@ if (attribut == {{ attribut.id }}) {
 	customForm.replaceChild(textArea, customForm.childNodes[2]);
 	customForm.appendChild(span);
 	customForm.replaceChild(span, customForm.childNodes[3]);
-	customForm.appendChild(price);
-	customForm.replaceChild(price, customForm.childNodes[4]);
 	let custom = document.getElementById('custom').value;
 	let addtocart = document.getElementById('add-to-cart');
 	let description = custom;
@@ -118,10 +158,11 @@ if (attribut == {{ attribut.id }}) {
 	});
 } else {
 	let customForm = document.getElementById('customForm');
+	let totalWithOffers = document.getElementById('totalWithOffers');
+	let totalWithoutOffers = document.getElementById('totalWithoutOffers');
 	customForm.innerHTML = '';
-	let p = document.createElement('p');
-	p.innerHTML = (quantity) * {{ product.price / 100 }} + '€';
-	customForm.appendChild(p);
+	totalWithoutOffers.innerHTML = (quantity) * {{ product.price / 100 }} + '€';
+	totalWithOffers.innerHTML = (quantity * total / 100)  + '€';
 }
 {% endfor %}
 }
