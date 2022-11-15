@@ -100,10 +100,9 @@ class="btn btn-outline-primary btn-lg btn-block">Ajouter au panier</a>`;
 addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
 }
 {% endfor %}
-
-{% for attribut in attributs|filter(a => a.persoIsEnable) %}
-if (attribut == {{ attribut.id }}) {
 let customForm = document.getElementById('customForm');
+{% for attribut in attributs %}
+if (attribut == {{ attribut.id }}) {
 let quantity = document.getElementById('quantity').value;
 let attribut = document.getElementById('attribut').value;
 let h3 = document.createElement('h3');
@@ -124,23 +123,24 @@ textArea.setAttribute('required', 'required');
 textArea.setAttribute('rows', '4');
 textArea.setAttribute('cols', '50');
 span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
-span.setAttribute('class', 'badge bg-info mb-3');{% if product.offers is not empty %}totalPrice.innerHTML = (quantity) * ((total / 100) + {{ attribut.price }}) + '€';
+span.setAttribute('class', 'badge bg-info mb-3');
+
+{% if product.offers is not empty %}
+totalPrice.innerHTML = (quantity) * ((total / 100) + {{ attribut.price }}) + '€';
 totalInlinePrice.innerHTML = (quantity) * ({{ product.price / 100 }}) + '€';
-{% else %}totalPrice.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';{% endif %}totalPrice.setAttribute('class', 'fw-bold text-end fs-5 mt-auto');
+{% else %}
+totalPrice.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';
+{% endif %}
+
+totalPrice.setAttribute('class', 'fw-bold text-end fs-5 mt-auto');
 totalInlinePrice.setAttribute('class', 'card-text fw-bold text-decoration-line-through text-end');
-customForm.innerHTML = '';
-customForm.appendChild(h3);
-customForm.replaceChild(h3, customForm.childNodes[0]);
-customForm.appendChild(p);
-customForm.replaceChild(p, customForm.childNodes[1]);
-customForm.appendChild(textArea);
-customForm.replaceChild(textArea, customForm.childNodes[2]);
-customForm.appendChild(span);
-customForm.replaceChild(span, customForm.childNodes[3]);
-customForm.appendChild(totalInlinePrice);
-customForm.replaceChild(totalInlinePrice, customForm.childNodes[4]);
-customForm.appendChild(totalPrice);
-customForm.replaceChild(totalPrice, customForm.childNodes[5]);
+
+{% if attribut.persoIsEnable %}
+customForm.replaceChildren(h3, p, textArea, span, totalInlinePrice, totalPrice);
+{% else %}
+customForm.replaceChildren(totalInlinePrice, totalPrice);
+{% endif %}
+
 let custom = document.getElementById('custom').value;
 let addtocart = document.getElementById('add-to-cart');
 let description = custom;
@@ -154,17 +154,6 @@ addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart',
 addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
 addtocart.innerHTML = addtocart.innerHTML.replace("description", description);
 });
-} else {
-customForm.innerHTML = '';
-let totalPrice = document.createElement('p');
-let totalInlinePrice = document.createElement('p');{% if product.offers is not empty %}totalPrice.innerHTML = (quantity) * ({{ total / 100 }}) + '€';
-totalInlinePrice.innerHTML = (quantity) * ({{ product.price / 100 }}) + '€';
-{% else %}totalPrice.innerHTML = (quantity) * {{ product.price / 100 }} + '€';{% endif %}totalPrice.setAttribute('class', 'fw-bold text-end fs-5 mt-auto');
-totalInlinePrice.setAttribute('class', 'card-text fw-bold text-decoration-line-through text-end');
-customForm.appendChild(totalInlinePrice);
-customForm.replaceChild(totalInlinePrice, customForm.childNodes[0]);
-customForm.appendChild(totalPrice);
-customForm.replaceChild(totalPrice, customForm.childNodes[1]);
 }
 {% endfor %}
 }</script>
