@@ -12,11 +12,13 @@
 		<hr>
 		<strong>Statut de la commande :
 		</strong>
-		{% if order.state == 1 %}
+		{% if order.state == 0 %}
+			En attente de paiement
+		{% elseif order.state == 1 %}
 			Payée
-		{% elseif order.state == 2 %}
-			Préparation en cours
 		{% elseif order.state == 3 %}
+			Préparation en cours
+		{% elseif order.state == 4 %}
 			Livraison en cours
 		{% endif %}<br>
 		<strong>Commande passé le :</strong>
@@ -24,9 +26,9 @@
 		<strong>Référence de ma commande :</strong>
 		{{ order.reference }}<br>
 		<strong>Transporteur choisi :</strong>
-			{% for ship in shipping %}
-				{{ ship.name }}
-			{% endfor %}
+		{% for ship in shipping %}
+			{{ ship.name }}
+		{% endfor %}
 		<br>
 		<hr>
 		<strong>Détails</strong>
@@ -89,10 +91,10 @@
 					{% for ship in shipping %}
 						{{ ((order.getTotal) / 100 + ship.price)|number_format(2, ',', '.', ' ') }}
 						&euro;
-				{% endfor %}
+					{% endfor %}
 				</div>
 			</div>
 		</div>
-		<a href="{{ path('account_order_pdf', { id: order.id }) }}">Télécharger votre facture au format pdf</a>
+		<a class="linkNav" href="{{ path('account_order_pdf', { id: order.id }) }}">Télécharger votre facture au format pdf</a>
 	</div>
 {% endblock %}
