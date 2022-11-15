@@ -111,7 +111,7 @@
 													{% set totalEuro = (reduceEuro * 100) %}
 												{% endif %}
 											{% endfor %}
-										{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent %}
+										{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent + (attribut.attribut.price * 100) %}
 									<p>prix HT</p>
 									<p>{{ ((( totalWhitOffers / 100) - (( totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 								</div>
@@ -121,12 +121,12 @@
 										€</p>
 								{% else %}
 									<p>prix HT</p>
-									<p>{{ (((attribut.attribut.product.price / 100) - ((attribut.attribut.product.price / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+									<p>{{ ((((attribut.attribut.product.price / 100 ) + (attribut.attribut.price )) - (((attribut.attribut.product.price / 100) + (attribut.attribut.price ) ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 								</div>
 								<div class="col-auto">
 									<p>prix TTC</p>
-									<p>{{ ((attribut.attribut.product.price / 100) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
-									{% set total = total + ( (attribut.attribut.product.price * attribut.quantity) / 100) %}
+									<p>{{ (((attribut.attribut.product.price / 100) + (attribut.attribut.price )) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+									{% set total = total + ((((attribut.attribut.product.price / 100) + (attribut.attribut.price)) * attribut.quantity) ) %}
 								{% endif %}
 							</div>
 						</div>
