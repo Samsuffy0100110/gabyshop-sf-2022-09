@@ -38,50 +38,43 @@
 	</div>
 	{% set total = 0 %}
 	{% set offers = product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
-{% for offer in offers %}
-	{% if loop.index0 == 0 %}
-		<p id="totalWithoutOffers" class="card-text fw-bold text-decoration-line-through text-end"></p>
-	{% endif %}
-{% endfor %}
-{% for offer in offers %}
-	{% if offer.typeReduce == "percent" %}
-		<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }} : - {{ offer.reduce }}&nbsp%</div>
-	{% endif %}
-	{% if offer.typeReduce == "euro" %}
-		<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }} : - {{ offer.reduce }}&nbsp€</div>
-	{% endif %}
-{% else %}
-	<p class="card-text fw-bold text-end fs-5 mt-auto">{{ product.price / 100}}&nbsp€</p>
-{% endfor %}
-{% if offers| length > 0 %}
-	{% set number = 0 %}
-	{% set reduce = 0 %}
-	{% set reduceEuro = 0 %}
-	{% set total = 0 %}
-	{% set totalEuro = 0 %}
-	{% set totalPercent = 0 %}
 	{% for offer in offers %}
 		{% if offer.typeReduce == "percent" %}
-			{% set number = product.price * (offer.reduce / 100) %}
-			{% set reduce = number %}
-			{% set totalPercent = reduce %}
+			<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }}
+				: -
+				{{ offer.reduce }}&nbsp%</div>
 		{% endif %}
 		{% if offer.typeReduce == "euro" %}
-			{% set number = offer.reduce %}
-			{% set reduceEuro = reduceEuro + number %}
-			{% set totalEuro = (reduceEuro * 100) %}
+			<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }}
+				: -
+				{{ offer.reduce }}&nbsp€</div>
 		{% endif %}
+		{% else %}
 	{% endfor %}
-	{% set total = product.price - totalEuro - totalPercent %}
-	<p id="totalWithOffers" class="card-text fw-bold text-end fs-5 mt-auto">{{ total / 100 }}€</p>
-{% endif %}
+	{% if offers| length > 0 %}
+		{% set number = 0 %}
+		{% set reduce = 0 %}
+		{% set reduceEuro = 0 %}
+		{% set total = 0 %}
+		{% set totalEuro = 0 %}
+		{% set totalPercent = 0 %}
+		{% for offer in offers %}
+			{% if offer.typeReduce == "percent" %}
+				{% set number = product.price * (offer.reduce / 100) %}
+				{% set reduce = number %}
+				{% set totalPercent = reduce %}
+			{% endif %}
+			{% if offer.typeReduce == "euro" %}
+				{% set number = offer.reduce %}
+				{% set reduceEuro = reduceEuro + number %}
+				{% set totalEuro = (reduceEuro * 100) %}
+			{% endif %}
+		{% endfor %}
+		{% set total = product.price - totalEuro - totalPercent %}
+	{% endif %}
 
-</div></div>
-<script>
-let quantities = {};
-{% for attribut in attributs %}
-quantities[{{ attribut.id }}] = {{ attribut.quantity }};
-{% endfor %}
+</div></div><script>
+let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}
 function Changequantity() {
 let select = document.getElementById('quantity');
 let attribut = document.getElementById('attribut').value;
@@ -99,8 +92,7 @@ let quantity = document.getElementById('quantity').value;
 let attribut = document.getElementById('attribut').value;
 let addtocart = document.getElementById('add-to-cart');
 let total = {{ total }};
-q = parseInt(quantity);
-{% for attribut in attributs %}
+q = parseInt(quantity);{% for attribut in attributs %}
 if (attribut == {{ attribut.id }}) {
 addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', 
 { id:attribut.id, quantity:"q", attribut:attribut.id, description:"aucune" }) }}" 
@@ -111,59 +103,68 @@ addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
 
 {% for attribut in attributs|filter(a => a.persoIsEnable) %}
 if (attribut == {{ attribut.id }}) {
-	let customForm = document.getElementById('customForm');
-	let quantity = document.getElementById('quantity').value;
-	let attribut = document.getElementById('attribut').value;
-	let h3 = document.createElement('h3');
-	let p = document.createElement('p');
-	let textArea = document.createElement('textarea');
-	let span = document.createElement('span');
-	let totalWithOffers = document.getElementById('totalWithOffers');
-	let totalWithoutOffers = document.getElementById('totalWithoutOffers');
-	h3.innerHTML = 'Personnalisation';
-	h3.setAttribute('class', 'mt-2 mb-2');
-	p.innerHTML = 'Vous pouvez personnaliser votre produit en écrivant votre message ci-dessous.';
-	textArea.setAttribute('type', 'text');
-	textArea.setAttribute('name', 'custom');
-	textArea.setAttribute('id', 'custom');
-	textArea.setAttribute('class', 'form-control form-control-lg mb-3 mt-2');
-	textArea.setAttribute('placeholder', 'Votre texte');
-	textArea.setAttribute('required', 'required');
-	textArea.setAttribute('rows', '4');
-	textArea.setAttribute('cols', '50');
-	span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
-	span.setAttribute('class', 'badge bg-info mb-3');
-	totalWithOffers.innerHTML = (quantity) * (total / 100 + {{ attribut.price }})+ '€';
-	totalWithoutOffers.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';
-	customForm.appendChild(h3);
-	customForm.replaceChild(h3, customForm.childNodes[0]);
-	customForm.appendChild(p);
-	customForm.replaceChild(p, customForm.childNodes[1]);
-	customForm.appendChild(textArea);
-	customForm.replaceChild(textArea, customForm.childNodes[2]);
-	customForm.appendChild(span);
-	customForm.replaceChild(span, customForm.childNodes[3]);
-	let custom = document.getElementById('custom').value;
-	let addtocart = document.getElementById('add-to-cart');
-	let description = custom;
-	textArea.addEventListener('input', function () {
-		let custom = document.getElementById('custom').value;
-		let addtocart = document.getElementById('add-to-cart');
-		let description = custom;
-		addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', 
+let customForm = document.getElementById('customForm');
+let quantity = document.getElementById('quantity').value;
+let attribut = document.getElementById('attribut').value;
+let h3 = document.createElement('h3');
+let p = document.createElement('p');
+let textArea = document.createElement('textarea');
+let span = document.createElement('span');
+let totalPrice = document.createElement('p');
+let totalInlinePrice = document.createElement('p');
+h3.innerHTML = 'Personnalisation';
+h3.setAttribute('class', 'mt-2 mb-2');
+p.innerHTML = 'Vous pouvez personnaliser votre produit en écrivant votre message ci-dessous.';
+textArea.setAttribute('type', 'text');
+textArea.setAttribute('name', 'custom');
+textArea.setAttribute('id', 'custom');
+textArea.setAttribute('class', 'form-control form-control-lg mb-3 mt-2');
+textArea.setAttribute('placeholder', 'Votre texte');
+textArea.setAttribute('required', 'required');
+textArea.setAttribute('rows', '4');
+textArea.setAttribute('cols', '50');
+span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
+span.setAttribute('class', 'badge bg-info mb-3');{% if product.offers is not empty %}totalPrice.innerHTML = (quantity) * ((total / 100) + {{ attribut.price }}) + '€';
+totalInlinePrice.innerHTML = (quantity) * ({{ product.price / 100 }}) + '€';
+{% else %}totalPrice.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';{% endif %}totalPrice.setAttribute('class', 'fw-bold text-end fs-5 mt-auto');
+totalInlinePrice.setAttribute('class', 'card-text fw-bold text-decoration-line-through text-end');
+customForm.innerHTML = '';
+customForm.appendChild(h3);
+customForm.replaceChild(h3, customForm.childNodes[0]);
+customForm.appendChild(p);
+customForm.replaceChild(p, customForm.childNodes[1]);
+customForm.appendChild(textArea);
+customForm.replaceChild(textArea, customForm.childNodes[2]);
+customForm.appendChild(span);
+customForm.replaceChild(span, customForm.childNodes[3]);
+customForm.appendChild(totalInlinePrice);
+customForm.replaceChild(totalInlinePrice, customForm.childNodes[4]);
+customForm.appendChild(totalPrice);
+customForm.replaceChild(totalPrice, customForm.childNodes[5]);
+let custom = document.getElementById('custom').value;
+let addtocart = document.getElementById('add-to-cart');
+let description = custom;
+textArea.addEventListener('input', function () {
+let custom = document.getElementById('custom').value;
+let addtocart = document.getElementById('add-to-cart');
+let description = custom;
+addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', 
 		{ id:attribut.id, quantity:"q", attribut:attribut.id, description:"description" }) }}"
 		class="btn btn-outline-primary btn-lg btn-block">Ajouter au panier</a>`;
-		addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
-		addtocart.innerHTML = addtocart.innerHTML.replace("description", description);
-	});
+addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
+addtocart.innerHTML = addtocart.innerHTML.replace("description", description);
+});
 } else {
-	let customForm = document.getElementById('customForm');
-	let totalWithOffers = document.getElementById('totalWithOffers');
-	let totalWithoutOffers = document.getElementById('totalWithoutOffers');
-	customForm.innerHTML = '';
-	totalWithoutOffers.innerHTML = (quantity) * {{ product.price / 100 }} + '€';
-	totalWithOffers.innerHTML = (quantity * total / 100)  + '€';
+customForm.innerHTML = '';
+let totalPrice = document.createElement('p');
+let totalInlinePrice = document.createElement('p');{% if product.offers is not empty %}totalPrice.innerHTML = (quantity) * ({{ total / 100 }}) + '€';
+totalInlinePrice.innerHTML = (quantity) * ({{ product.price / 100 }}) + '€';
+{% else %}totalPrice.innerHTML = (quantity) * {{ product.price / 100 }} + '€';{% endif %}totalPrice.setAttribute('class', 'fw-bold text-end fs-5 mt-auto');
+totalInlinePrice.setAttribute('class', 'card-text fw-bold text-decoration-line-through text-end');
+customForm.appendChild(totalInlinePrice);
+customForm.replaceChild(totalInlinePrice, customForm.childNodes[0]);
+customForm.appendChild(totalPrice);
+customForm.replaceChild(totalPrice, customForm.childNodes[1]);
 }
 {% endfor %}
-}
-</script>
+}</script>
