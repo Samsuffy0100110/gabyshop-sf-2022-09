@@ -42,41 +42,11 @@
 				{% if promo_code is not empty %}
 					<hr>
 				<strong>Code Promo</strong>
-				<div class="mt-2 mb-2">Attention les codes promotionnels ne sont pas cumulables avec les promotions en cours.</div>
 						<div class="form-group">
 							<input id="code" type="text" class="form-control mt-2" name="code" placeholder="Entrez votre code Promo">
 						</div>
 						<div id="message"></div>
-						<div id="validatecode"></div>
-				<script>
-				let code = document.getElementById('code');
-				let message = document.getElementById('message');
-				let validatecode = document.getElementById('validatecode');
-				code.addEventListener('keyup', function(){
-				let code = document.getElementById('code').value;
-				validatecode.innerHTML = '<button type="submit" class="btn btn-primary mt-2">Valider</button>';
-				});
-				validatecode.addEventListener('click', function(){
-				let code = document.getElementById('code').value;
-				let codepromo = "{{ promo_code.code }}";
-				if(code == codepromo){
-				message.innerHTML = '<div class="alert alert-success mt-2" role="alert">Code Promo Valide</div>';
-				let promo = "{{ promo_code.reduce }}";
-				let promototal = ( ({{total }} / 100)  * promo ) / 100 ;
-				let changePromo = document.getElementById('changePromo');
-				let pay = document.getElementById('pay-btn');
-				let total = {{ total }} / 100;
-				let shipping = {{ shipping.price }};
-				changePromo.innerHTML = total + shipping - promototal;
-				pay.innerHTML =  total + shipping - promototal;
-				}else{
-				message.innerHTML = '<div class="alert alert-danger mt-2" role="alert">Code Promo Invalide</div>';
-				setTimeout(function(){
-   				window.location.reload(1);
-				}, 3000);
-				}
-				});
-				</script>
+						<div id="validatecode"></div>	
 				{% endif %}
 				{% endfor %}
 			</div>
@@ -138,13 +108,13 @@
 										{% set totalWhitOffersHT = totalWhitOffersHT + ((totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity ) %}
 									{% else %}
 										<p>prix HT</p>
-										<p>{{ ((((attribut.attribut.product.price / 100) + (attribut.attribut.price * 100)) - (((attribut.attribut.product.price / 100 ) + (attribut.attribut.price * 100)) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+										<p>{{ ((((attribut.attribut.product.price / 100) + (attribut.attribut.price )) - (((attribut.attribut.product.price / 100 ) + (attribut.attribut.price)) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 									</div>
 									<div class="col-auto">
 										<p>prix TTC</p>
-										<p>{{ ((attribut.attribut.product.price / 100) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+										<p>{{ (((attribut.attribut.product.price / 100) + (attribut.attribut.price ))  * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 										{% set total = total + (((attribut.attribut.product.price + (attribut.attribut.price * 100)) * attribut.quantity) / 100) %}
-										{% set totalHT = totalHT + ((((attribut.attribut.product.price / 100) + (attribut.attribut.price * 100)) - (((attribut.attribut.product.price / 100) + (attribut.attribut.price * 100))  * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) %}
+										{% set totalHT = totalHT + ((((attribut.attribut.product.price / 100) + (attribut.attribut.price )) - (((attribut.attribut.product.price / 100) + (attribut.attribut.price ))  * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) %}
 									{% endif %}
 								</div>
 							</div>
@@ -174,7 +144,7 @@
 		</div>
 	</div>
 	<script>
-		var stripe = Stripe("{{ stripe_key }}");
+var stripe = Stripe("{{ stripe_key }}");
 var elements = stripe.elements();
 var cardElement = elements.create('card', {
 hidePostalCode: true,
@@ -211,5 +181,37 @@ document.getElementById('checkout-form').submit();
 }
 });
 }
+{% for promo_code in promo_codes %}
+{% if promo_code is not empty %}
+let code = document.getElementById('code');
+let message = document.getElementById('message');
+let validatecode = document.getElementById('validatecode');
+code.addEventListener('keyup', function(){
+let code = document.getElementById('code').value;
+validatecode.innerHTML = '<button type="submit" class="btn btn-primary mt-2">Valider</button>';
+});
+validatecode.addEventListener('click', function(){
+let code = document.getElementById('code').value;
+let codepromo = "{{ promo_code.code }}";
+if(code == codepromo){
+message.innerHTML = '<div class="alert alert-success mt-2" role="alert">Code Promo Valide</div>';
+let promo = {{ promo_code.reduce }};
+let Total =  {{ Total }} ;
+let total = {{ total }};
+let promototal = ((((({{ total }} + {{ Total }} )))  * promo) / 100);
+let changePromo = document.getElementById('changePromo');
+let pay = document.getElementById('pay-btn');
+let shipping = {{ shipping.price }};
+changePromo.innerHTML = (total + Total + shipping - promototal).toFixed(2)  + ' €';
+pay.innerHTML = 'Payer ' + (total + Total + shipping - promototal).toFixed(2) + ' €';
+}else{
+message.innerHTML = '<div class="alert alert-danger mt-2" role="alert">Code Promo Invalide</div>';
+setTimeout(function(){
+window.location.reload(1);
+}, 3000);
+}
+});
+{% endif %}
+{% endfor %}
 </script>
 {% endblock %}
