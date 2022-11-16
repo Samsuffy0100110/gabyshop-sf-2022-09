@@ -162,6 +162,7 @@ class OrderCrudController extends AbstractCrudController
                 'Payée' => '1',
                 'Préparation en cours' => '2',
                 'Livraison en cours' => '3',
+                'Livré' => '4',
             ]),
             ArrayField::new('orderDetails', 'Produits achetés')->hideOnIndex(),
             ArrayField::new('customs', 'Personnalisation')
