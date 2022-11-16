@@ -2,6 +2,7 @@
 
 namespace App\Entity\Order;
 
+use App\Entity\Product\Product;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Order\OrderDetailsRepository;
 
@@ -16,9 +17,6 @@ class OrderDetails
     #[ORM\ManyToOne(inversedBy: 'orderDetails')]
     private ?Order $myOrder = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $product = null;
-
     #[ORM\Column(nullable: true)]
     private ?int $quantity = null;
 
@@ -30,6 +28,9 @@ class OrderDetails
 
     #[ORM\Column(length: 255)]
     private ?string $taxe = null;
+
+    #[ORM\ManyToOne(inversedBy: 'orderDetails')]
+    private ?Product $product = null;
 
     public function getId(): ?int
     {
@@ -44,18 +45,6 @@ class OrderDetails
     public function setMyOrder(?Order $myOrder): self
     {
         $this->myOrder = $myOrder;
-
-        return $this;
-    }
-
-    public function getProduct(): ?string
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?string $product): self
-    {
-        $this->product = $product;
 
         return $this;
     }
@@ -109,6 +98,18 @@ class OrderDetails
     public function setTaxe(string $taxe): self
     {
         $this->taxe = $taxe;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

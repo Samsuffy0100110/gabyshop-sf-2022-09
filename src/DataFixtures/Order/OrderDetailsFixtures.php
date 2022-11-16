@@ -6,6 +6,7 @@ use App\Entity\Order\OrderDetails;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\Order\OrderFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use App\DataFixtures\Product\ProductFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class OrderDetailsFixtures extends Fixture implements DependentFixtureInterface
@@ -14,7 +15,7 @@ class OrderDetailsFixtures extends Fixture implements DependentFixtureInterface
     {
         $orderDetails = new OrderDetails();
         $orderDetails->setMyOrder($this->getReference(1));
-        $orderDetails->setProduct('Product 1');
+        $orderDetails->setProduct($this->getReference('product_1'));
         $orderDetails->setQuantity(1);
         $orderDetails->setPrice(10);
         $orderDetails->setTotal(10);
@@ -23,7 +24,7 @@ class OrderDetailsFixtures extends Fixture implements DependentFixtureInterface
 
         $orderDetails = new OrderDetails();
         $orderDetails->setMyOrder($this->getReference(1));
-        $orderDetails->setProduct('Product 2');
+        $orderDetails->setProduct($this->getReference('product_1'));
         $orderDetails->setQuantity(2);
         $orderDetails->setPrice(20);
         $orderDetails->setTotal(40);
@@ -32,7 +33,7 @@ class OrderDetailsFixtures extends Fixture implements DependentFixtureInterface
 
         $orderDetails = new OrderDetails();
         $orderDetails->setMyOrder($this->getReference(2));
-        $orderDetails->setProduct('Product 3');
+        $orderDetails->setProduct($this->getReference('product_2'));
         $orderDetails->setQuantity(3);
         $orderDetails->setPrice(30);
         $orderDetails->setTotal(90);
@@ -46,6 +47,7 @@ class OrderDetailsFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             OrderFixtures::class,
+            ProductFixtures::class,
         ];
     }
 }
