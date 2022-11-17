@@ -27,6 +27,9 @@ class Custom
     #[ORM\ManyToOne(inversedBy: 'customs')]
     private ?Attribut $attribut = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $price = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -83,6 +86,18 @@ class Custom
     public function setAttribut(?Attribut $attribut): self
     {
         $this->attribut = $attribut;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
