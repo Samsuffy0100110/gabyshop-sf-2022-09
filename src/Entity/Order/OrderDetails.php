@@ -32,6 +32,24 @@ class OrderDetails
     #[ORM\ManyToOne(inversedBy: 'orderDetails')]
     private ?Product $product = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $primaryOfferName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $primaryOfferReduce = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $primaryTypeReduce = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $secondaryOfferName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $secondaryOfferReduce = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $secondaryTypeReduce = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -110,6 +128,78 @@ class OrderDetails
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getPrimaryOfferName(): ?string
+    {
+        return $this->primaryOfferName;
+    }
+
+    public function setPrimaryOfferName(?string $primaryOfferName): self
+    {
+        $this->primaryOfferName = $primaryOfferName;
+
+        return $this;
+    }
+
+    public function getPrimaryOfferReduce(): ?int
+    {
+        return $this->primaryOfferReduce;
+    }
+
+    public function setPrimaryOfferReduce(?int $primaryOfferReduce): self
+    {
+        $this->primaryOfferReduce = $primaryOfferReduce;
+
+        return $this;
+    }
+
+    public function getPrimaryOfferTypeReduce(): ?string
+    {
+        return $this->primaryTypeReduce;
+    }
+
+    public function setPrimaryOfferTypeReduce(?string $primaryTypeReduce): self
+    {
+        $this->primaryTypeReduce = $primaryTypeReduce;
+
+        return $this;
+    }
+
+    public function getSecondaryOfferName(): ?string
+    {
+        return $this->secondaryOfferName;
+    }
+
+    public function setSecondaryOfferName(?string $secondaryOfferName): self
+    {
+        $this->secondaryOfferName = $secondaryOfferName;
+
+        return $this;
+    }
+
+    public function getSecondaryOfferReduce(): ?int
+    {
+        return $this->secondaryOfferReduce;
+    }
+
+    public function setSecondaryOfferReduce(?int $secondaryOfferReduce): self
+    {
+        $this->secondaryOfferReduce = $secondaryOfferReduce;
+
+        return $this;
+    }
+
+    public function getSecondaryOfferTypeReduce(): ?string
+    {
+        return $this->secondaryTypeReduce;
+    }
+
+    public function setSecondaryOfferTypeReduce(?string $secondaryTypeReduce): self
+    {
+        $this->secondaryTypeReduce = $secondaryTypeReduce;
 
         return $this;
     }

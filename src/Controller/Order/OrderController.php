@@ -110,6 +110,12 @@ class OrderController extends AbstractController
                     ->setQuantity($product['quantity'])
                     ->setPrice($product['product']->getPrice())
                     ->setTaxe($product['product']->getTaxe())
+                    ->setPrimaryOfferName($product['primaryOfferName'])
+                    ->setPrimaryOfferReduce($product['primaryOfferReduce'])
+                    ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
+                    ->setSecondaryOfferName($product['secondaryOfferName'])
+                    ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
+                    ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
                     ->setTotal($product['product']->getPrice() * $product['quantity']);
                 $this->entityManager->persist($orderDetails);
             }
@@ -124,6 +130,7 @@ class OrderController extends AbstractController
             ->getQuery()
             ->execute();
 
+            $adress = $form->get('addresses')->getData();
             if ($mondialRelayService->shipByTotWeight($cart) != 'Livraison gratuite') {
                 $orderRepository->createQueryBuilder('o')
                 ->update()
