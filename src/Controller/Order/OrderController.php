@@ -58,12 +58,12 @@ class OrderController extends AbstractController
 
     #[Route('/commande/recapitulatif', name: 'order_recap', methods: ['POST'])]
     public function add(
-        CartService $cart,
         Request $request,
+        CartService $cart,
+        OrderRepository $orderRepository,
         CustomRepository $customRepository,
         MondialRelayService $mondialRelayService,
         PromoCodeRepository $promoCodeRepository,
-        OrderRepository $orderRepository,
     ) {
         $form = $this->createForm(OrderType::class, null, [
             'user' => $this->getUser()
