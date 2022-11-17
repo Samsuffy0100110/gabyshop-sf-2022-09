@@ -2,9 +2,12 @@
 
 namespace App\Service;
 
-use App\Entity\Product\Attribut;
+use DateTime;
+use App\Entity\Product\Offer;
 use App\Entity\Product\Custom;
+use App\Entity\Product\Attribut;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Product\OfferRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService
@@ -71,6 +74,43 @@ class CartService
                 $attribut = $this->entityManager->getRepository(Attribut::class)->find($id);
                 $product = $attribut->getProduct();
                 $custom = $this->entityManager->getRepository(Custom::class)->findOneBy(['attribut' => $id]);
+
+                $offers = $this->entityManager->getRepository(Offer::class)->createQueryBuilder('o')
+                    ->select('o')
+                    ->join('o.product', 'p')
+                    ->where('p.id = :id')
+                    ->andWhere('o.isActive = :isActive')
+                    ->andWhere('o.startedAt <= :now')
+                    ->andWhere('o.endedAt >= :now')
+                    ->setParameter('id', $product->getId())
+                    ->setParameter('isActive', true)
+                    ->setParameter('now', new DateTime())
+                    ->setFirstResult(0)
+                    ->getQuery()
+                    ->getResult();
+
+                if ($offers) {
+                    $primaryName = $offers[0]->getName();
+                    $primaryReduce = $offers[0]->getReduce();
+                    $primaryType = $offers[0]->getTypeReduce();
+                    if (isset($offers[1])) {
+                        $secondaryName = $offers[1]->getName();
+                        $secondaryReduce = $offers[1]->getReduce();
+                        $secondaryType = $offers[1]->getTypeReduce();
+                    } else {
+                        $secondaryName = null;
+                        $secondaryReduce = null;
+                        $secondaryType = null;
+                    }
+                } else {
+                    $primaryName = null;
+                    $primaryReduce = null;
+                    $primaryType = null;
+                    $secondaryName = null;
+                    $secondaryReduce = null;
+                    $secondaryType = null;
+                }
+
                 if (!$attribut) {
                     $this->delete($id);
                     continue;
@@ -80,6 +120,12 @@ class CartService
                     'quantity' => $quantity,
                     'product' => $product,
                     'custom' => $custom,
+                    'primaryOfferName' => $primaryName,
+                    'primaryOfferReduce' => $primaryReduce,
+                    'primaryOfferTypeReduce' => $primaryType,
+                    'secondaryOfferName' => $secondaryName,
+                    'secondaryOfferReduce' => $secondaryReduce,
+                    'secondaryOfferTypeReduce' => $secondaryType,
                 ];
             }
         }
