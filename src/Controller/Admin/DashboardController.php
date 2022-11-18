@@ -32,6 +32,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
+/**
+ * This will suppress all the PMD warnings in
+ * this class.
+ *
+ * @SuppressWarnings(PHPMD)
+ */
 class DashboardController extends AbstractDashboardController
 {
     private $orderRepository;
