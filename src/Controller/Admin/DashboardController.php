@@ -18,9 +18,10 @@ use App\Entity\Product\Attribut;
 use App\Entity\Product\Category;
 use App\Entity\Product\PromoCode;
 use App\Repository\UserRepository;
+use App\Repository\AddressRepository;
 use App\Entity\Product\ParentCategory;
-use App\Entity\Communication\NewsLetter;
 use App\Entity\Communication\Commentary;
+use App\Entity\Communication\NewsLetter;
 use App\Entity\Product\FeaturedProducts;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Product\ProductRepository;
@@ -36,15 +37,18 @@ class DashboardController extends AbstractDashboardController
     private $orderRepository;
     private $userRepository;
     private $productRepository;
+    private $addressRepository;
 
     public function __construct(
         OrderRepository $orderRepository,
         ProductRepository $productRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        AddressRepository $addressRepository
     ) {
         $this->orderRepository = $orderRepository;
         $this->productRepository = $productRepository;
         $this->userRepository = $userRepository;
+        $this->addressRepository = $addressRepository;
     }
 
     #[Route('/admin', name: 'admin')]
@@ -54,7 +58,9 @@ class DashboardController extends AbstractDashboardController
         return $this->render('admin/dashboard.html.twig', [
             'orders' => $this->orderRepository->findAll(),
             'products' => $this->productRepository->findAll(),
-            'users' => $this->userRepository->findAll()]);
+            'users' => $this->userRepository->findAll(),
+            'addresses' => $this->addressRepository->findAll(),
+        ]);
     }
 
     public function configureDashboard(): Dashboard
