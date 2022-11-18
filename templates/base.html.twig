@@ -25,7 +25,6 @@
 					{{ render(controller('App\\Controller\\Shop\\FrontController::navbar')) }}
 			{% endif %}
 		{% endfor %}
-
 		<div class="container">
 			{% for label, messages in app.flashes %}
 				{% for message in messages %}
@@ -40,6 +39,9 @@
 		{% block body %}{% endblock %}
 		{% block footer %}
 			{% include "includes/footer/index.html.twig" %}
+		{% endblock %}
+		{% block cookie %}
+			{% include "includes/cookies/index.html.twig" %}
 		{% endblock %}
 	</body>
 </html>
