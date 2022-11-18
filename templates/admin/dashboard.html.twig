@@ -10,8 +10,7 @@
 			<div class="col-8">
 				<h1 class="text-center mt-5 ">Bienvenue sur l'administration</h1>
 			</div>
-			<div class="col-2">
-			</div>
+			<div class="col-2"></div>
 		</div>
 		<div class="row">
 			<div class="col text-center">
@@ -33,7 +32,7 @@
 		<div class="row mt-5 text-center">
 			<div class="col">
 				<div class="card m-3">
-				<div class="card-header fw-bold fs-4">Dashboard Produits</div>
+					<div class="card-header fw-bold fs-4">Dashboard Produits</div>
 					<div class="card-body">
 						<p class="card-text fs-4">Nombre de Produits</p>
 						<p class="fw-bold fs-3">
@@ -54,13 +53,83 @@
 				</div>
 			</div>
 			<div class="col">
-			<div class="card m-3">
-			<div class="card-header fw-bold fs-4">Dashboard Utilisateurs</div>
-			<div class ="card-body">
-				<p class="card-text fs-4">Nombre d'utilisateurs</p>
-				<p class="fw-bold fs-3">
-					{{ users|length }}
-				</p>
+				<div class="card m-3">
+					<div class="card-header fw-bold fs-4">Dashboard Utilisateurs</div>
+					<div class="card-body">
+						<p class="card-text fs-4">Nombre d'utilisateurs</p>
+						<p class="fw-bold fs-3">
+							{{ users|length }}
+						</p>
+					</div>
+				</div>
 			</div>
+		</div>
+
+			<div class="row">
+				<div class="col">
+					<div class="card">
+						<h2 class="card-header mb-2 text-center">Commandes</h2>
+
+						<table>
+							<thead>
+								<tr>
+									<th class="text-center">References</th>
+									<th class="text-center">Clients</th>
+									<th class="text-center">Produits</th>
+									<th class="text-center">Date</th>
+									<th class="text-center">Transporteur</th>
+									<th class="text-center">Adresse de livraison</th>
+									<th class="text-center">Statut</th>
+
+								</tr>
+							</thead>
+							{% for order in orders |filter (order => order.state != 4) %}
+								<tbody>
+									<tr>
+										<td class="col text-center">{{ order.reference }}</td>
+										<td class="col text-center">{{ order.user.fullName }}</td>
+										<td class="col text-center">
+											{% for product in order.orderDetails %}
+												{{ product.product}}
+												x
+												{{ product.quantity }}
+												<br>
+											{% endfor %}
+										</td>
+
+										<td class="col text-center">{{ order.createdAt|date('d/m/Y') }}</td>
+										<td class="col text-center">
+											{% for shipping in order.shipping %}
+												{{ shipping.name }}
+												{{ shipping.price }}€
+											{% endfor %}
+										</td>
+										<td class="col text-center">
+											{{ order.adress.name }}
+											<br>
+											{{ order.adress.adresse }}<br>
+											{{ order.adress.zipcode }}
+											{{ order.adress.city }}<br>
+											{{ order.adress.country }}
+										</td>
+										<td class="col text-center">
+											{% if order.state == 0 %}
+												<span class="badge bg-warning">En attente de paiement</span>
+											{% elseif order.state == 1 %}
+												<span class="badge bg-info">Payée</span>
+											{% elseif order.state == 2 %}
+												<span class="badge bg-success">Preparation en cours</span>
+											{% elseif order.state == 3 %}
+												<span class="badge bg-danger">Livraison en cours</span>
+											{% endif %}
+										</td>
+									</tr>
+								</tbody>
+							{% endfor %}
+						</table>
+					</div>
+				</div>
+			</div>
+
 		</div>
 	{% endblock %}
