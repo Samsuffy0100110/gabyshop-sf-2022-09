@@ -12,24 +12,26 @@
 		<div class="row">
 			<div class="col-md-6">
 				{% if shipping.name is same as 'Livraison gratuite' %}
-					<strong>Mon adresse de livraison</strong>
-					<br>
-					<div class="form-check mt-4">
+					<div class="form-check mt-4 mb-4">
+						<strong>Mon adresse de livraison</strong>
+						<br>
 						{{ delivery_address|raw }}
 					</div>
 				{% else %}
-					<strong>Votre Point Mondial Relay</strong>
-					<br>
-					<div>{{ app.request.request.get("nom") }}</div>
-					<div>{{ app.request.request.get("adresse") }}</div>
-					<div>{{ app.request.request.get("cp") }}</div>
-					<div>{{ app.request.request.get("ville") }}</div>
-					<div>{{ app.request.request.get("pays") }}</div>
+					<div class="form-check mt-4 mb-4">
+						<strong>Votre Point Mondial Relay</strong>
+						<br>
+						<div>{{ app.request.request.get("nom") }}</div>
+						<div>{{ app.request.request.get("adresse") }}</div>
+						<div>{{ app.request.request.get("cp") }}</div>
+						<div>{{ app.request.request.get("ville") }}</div>
+						<div>{{ app.request.request.get("pays") }}</div>
+					</div>
 				{% endif %}
 				<hr>
-				<strong>Mon transporteur</strong>
-				<br>
-				<div class="form-check mt-4">
+				<div class="form-check mt-4 mb-4">
+					<strong>Mon transporteur</strong>
+					<br>
 					{{ shipping.name }}
 					<br>
 					{{ shipping.description }}
@@ -39,23 +41,23 @@
 					&euro;
 				</div>
 				{% for promo_code in promo_codes %}
-				{% if promo_code is not empty %}
-					<hr>
-				<strong>Code Promo</strong>
+					{% if promo_code is not empty %}
+						<hr>
+						<strong>Code Promo</strong>
 						<div class="form-group">
 							<input id="code" type="text" class="form-control mt-2" name="code" placeholder="Entrez votre code Promo">
 						</div>
 						<div id="message"></div>
-						<div id="validatecode"></div>	
-				{% endif %}
+						<div id="validatecode"></div>
+					{% endif %}
 				{% endfor %}
 			</div>
 			<div class="col-md-6">
-				<div class="text-center">
+				<div class="text-center mt-3 mb-3">
 					<h4>Ma commande</h4>
 				</div>
 				<div class="order-summary mb-5">
-					<div class="bg-light p-3 rounded shadow">
+					<div class="bg-light p-3 rounded shadow border">
 						{% set Total = 0 %}
 						{% set totalHT = 0 %}
 						{% set totalWhitOffers = 0 %}
@@ -63,7 +65,7 @@
 						{% set total = 0 %}
 						{% set nbProducts = 0 %}
 						{% for key, attribut in cart %}
-							<div class="row {% if key > 0 %}mt-2{% endif %}">
+							<div class="row {% if key > 0 %}mt-2{% endif %}d-flex flex-nowrap">
 								<div class="col-auto">
 									<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
 								</div>
@@ -75,29 +77,28 @@
 									<p>x
 										{{ attribut.quantity }}</p>
 								</div>
-								<div class="col-auto">
-									{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
-									{% if offers| length > 0 %}
-										{% set number = 0 %}
-										{% set reduce = 0 %}
-										{% set reduceEuro = 0 %}
-										{% set totalWhitOffers = 0 %}
-										{% set totalEuro = 0 %}
-										{% set totalPercent = 0 %}
-										{% for offer in offers %}
-											{% if offer.typeReduce == "percent" %}
-												{% set number = attribut.attribut.product.price * (offer.reduce / 100) %}
-												{% set reduce = number %}
-												{% set totalPercent = reduce %}
-											{% endif %}
-											{% if offer.typeReduce == "euro" %}
-												{% set number = offer.reduce %}
-												{% set reduceEuro = reduceEuro + number %}
-												{% set totalEuro = (reduceEuro * 100) %}
-											{% endif %}
-										{% endfor %}
-									
-										{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent + (attribut.attribut.price * 100) %}
+								{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
+								{% if offers| length > 0 %}
+									{% set number = 0 %}
+									{% set reduce = 0 %}
+									{% set reduceEuro = 0 %}
+									{% set totalWhitOffers = 0 %}
+									{% set totalEuro = 0 %}
+									{% set totalPercent = 0 %}
+									{% for offer in offers %}
+										{% if offer.typeReduce == "percent" %}
+											{% set number = attribut.attribut.product.price * (offer.reduce / 100) %}
+											{% set reduce = number %}
+											{% set totalPercent = reduce %}
+										{% endif %}
+										{% if offer.typeReduce == "euro" %}
+											{% set number = offer.reduce %}
+											{% set reduceEuro = reduceEuro + number %}
+											{% set totalEuro = (reduceEuro * 100) %}
+										{% endif %}
+									{% endfor %}
+									{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent + (attribut.attribut.price * 100) %}
+									<div class="col-auto">
 										<p>prix HT</p>
 										<p>{{ (( totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity )| number_format(2, ',', '.') }}&euro;</p>
 									</div>
@@ -105,46 +106,49 @@
 										<p>prix TTC</p>
 										<p class="card-text">{{ (totalWhitOffers / 100) * (attribut.quantity) }}
 											€</p>
-										{% set totalWhitOffersHT = totalWhitOffersHT + ((totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity ) %}
-									{% else %}
+									</div>
+									{% set totalWhitOffersHT = totalWhitOffersHT + ((totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity ) %}
+								{% else %}
+									<div class="col-auto">
 										<p>prix HT</p>
 										<p>{{ ((((attribut.attribut.product.price / 100) + (attribut.attribut.price )) - (((attribut.attribut.product.price / 100 ) + (attribut.attribut.price)) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 									</div>
 									<div class="col-auto">
 										<p>prix TTC</p>
 										<p>{{ (((attribut.attribut.product.price / 100) + (attribut.attribut.price ))  * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
-										{% set total = total + (((attribut.attribut.product.price + (attribut.attribut.price * 100)) * attribut.quantity) / 100) %}
-										{% set totalHT = totalHT + ((((attribut.attribut.product.price / 100) + (attribut.attribut.price )) - (((attribut.attribut.product.price / 100) + (attribut.attribut.price ))  * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) %}
-									{% endif %}
-								</div>
+									</div>
+									{% set total = total + (((attribut.attribut.product.price + (attribut.attribut.price * 100)) * attribut.quantity) / 100) %}
+									{% set totalHT = totalHT + ((((attribut.attribut.product.price / 100) + (attribut.attribut.price )) - (((attribut.attribut.product.price / 100) + (attribut.attribut.price ))  * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) %}
+								{% endif %}
 							</div>
 							{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100)) %}
 						{% endfor %}
-						<hr>
-						<strong>Sous-total HT :</strong>
-						{{ ( totalHT + totalWhitOffersHT ) | number_format(2, ',', '.') }}&euro;<br>
-						<strong>Sous-total TTC :</strong>
-						{{ (total + Total) | number_format(2, ',', '.') }}&euro;<br>
-						<strong>Livraison :</strong>
-						{{ (shipping.price ) | number_format(2, ',', '.') }}&euro;
-						<hr>
-						<strong>Total :</strong>
-						<div id="changePromo">{{ (Total + total + shipping.price) }}&euro;</div>
-						<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
-							<input type='hidden' name='stripeToken' id='stripe-token-id'>
-							<label for="card-element" class="mb-2 mt-3">Veuillez remplir vos coordonnées bancaires</label>
-							<br>
-							<div id="card-element" class="form-control"></div>
-							<button id='pay-btn' class="btn btn-success mt-3 mb-5" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
-								{{ (Total + total + shipping.price) }}&euro;</button>
-						</form>
 					</div>
+					<hr>
+					<strong>Sous-total HT :</strong>
+					{{ ( totalHT + totalWhitOffersHT ) | number_format(2, ',', '.') }}&euro;<br>
+					<strong>Sous-total TTC :</strong>
+					{{ (total + Total) | number_format(2, ',', '.') }}&euro;<br>
+					<strong>Livraison :</strong>
+					{{ (shipping.price ) | number_format(2, ',', '.') }}&euro;
+					<hr>
+					<strong>Total :</strong>
+					<div id="changePromo">{{ (Total + total + shipping.price) }}&euro;</div>
+					<form id='checkout-form' method='post' action="{{ path('stripe_charge') }}">
+						<input type='hidden' name='stripeToken' id='stripe-token-id'>
+						<label for="card-element" class="mb-2 mt-3">Veuillez remplir vos coordonnées bancaires</label>
+						<br>
+						<div id="card-element" class="form-control"></div>
+						<button id='pay-btn' class="btn btn-success mt-3 mb-5" type="button" style="margin-top: 20px; width: 100%;padding: 7px;" onclick="createToken()">Payer
+							{{ (Total + total + shipping.price) }}&euro;</button>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-	<script>
-var stripe = Stripe("{{ stripe_key }}");
+</div>
+<script>
+	var stripe = Stripe("{{ stripe_key }}");
 var elements = stripe.elements();
 var cardElement = elements.create('card', {
 hidePostalCode: true,
@@ -186,32 +190,31 @@ document.getElementById('checkout-form').submit();
 let code = document.getElementById('code');
 let message = document.getElementById('message');
 let validatecode = document.getElementById('validatecode');
-code.addEventListener('keyup', function(){
+code.addEventListener('keyup', function () {
 let code = document.getElementById('code').value;
 validatecode.innerHTML = '<button type="submit" class="btn btn-primary mt-2">Valider</button>';
 });
-validatecode.addEventListener('click', function(){
+validatecode.addEventListener('click', function () {
 let code = document.getElementById('code').value;
 let codepromo = "{{ promo_code.code }}";
-if(code == codepromo){
+if (code == codepromo) {
 message.innerHTML = '<div class="alert alert-success mt-2" role="alert">Code Promo Valide</div>';
 let promo = {{ promo_code.reduce }};
-let Total =  {{ Total }} ;
+let Total = {{ Total }};
 let total = {{ total }};
-let promototal = ((((({{ total }} + {{ Total }} )))  * promo) / 100);
+let promototal = ((((({{ total }} + {{ Total }}))) * promo) / 100);
 let changePromo = document.getElementById('changePromo');
 let pay = document.getElementById('pay-btn');
 let shipping = {{ shipping.price }};
-changePromo.innerHTML = (total + Total + shipping - promototal).toFixed(2)  + ' €';
-pay.innerHTML = 'Payer ' + (total + Total + shipping - promototal).toFixed(2) + ' €';
-}else{
+changePromo.innerHTML = (total + Total + shipping - promototal).toFixed(2) + ' €';
+pay.innerHTML = 'Payer ' + (
+total + Total + shipping - promototal
+).toFixed(2) + ' €';
+} else {
 message.innerHTML = '<div class="alert alert-danger mt-2" role="alert">Code Promo Invalide</div>';
-setTimeout(function(){
+setTimeout(function () {
 window.location.reload(1);
 }, 3000);
 }
-});
-{% endif %}
-{% endfor %}
-</script>
-{% endblock %}
+});{% endif %}{% endfor %}
+</script>{% endblock %}

@@ -47,12 +47,12 @@
 						<div>
 							<span id="cb_Pays"></span>
 						</div>
-							<input type="hidden" name="id">
-							<input type="hidden" name="nom" id="cb_Nom">
-							<input type="hidden" name="adresse" id="cb_Adresse">
-							<input type="hidden" name="cp" id="cb_CP">
-							<input type="hidden" name="ville" id="cb_Ville">
-							<input type="hidden" name="pays" id="cb_Pays">
+						<input type="hidden" name="id">
+						<input type="hidden" name="nom" id="cb_Nom">
+						<input type="hidden" name="adresse" id="cb_Adresse">
+						<input type="hidden" name="cp" id="cb_CP">
+						<input type="hidden" name="ville" id="cb_Ville">
+						<input type="hidden" name="pays" id="cb_Pays">
 						<div class="d-none">
 							{{ form_widget(form.name, {attr: {id:"name"}}) }}
 							{{ form_widget(form.adresse, {attr: {id:"adresse"}}) }}
@@ -69,16 +69,16 @@
 				{{ formHTML|replace({'[br]':'<br>'})|raw }}
 			</div>
 			<div class="col-md-6 mb-3">
-				<div class="text-center">
+				<div class="text-center mt-3">
 					<h4>Récapitulatif de votre commande</h4>
 				</div>
-			<div class="bg-light p-3 rounded shadow">
+				<div class="bg-light p-3 rounded shadow mt-3 border">
 					{% set Total = 0 %}
 					{% set totalWhitOffers = 0 %}
 					{% set total = 0 %}
 					{% set nbProducts = 0 %}
 					{% for key, attribut in cart %}
-						<div class="row {% if key > 0 %}mt-2{% endif %}">
+						<div class="row {% if key > 0 %}mt-2{% endif %}d-flex flex-nowrap">
 							<div class="col-auto">
 								<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
 							</div>
@@ -89,29 +89,29 @@
 							<div class="col-auto my-auto">
 								<p>x
 									{{ attribut.quantity }}</p>
-						</div>
-						<div class="col-auto">
-								{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
-									{% if offers| length > 0 %}
-										{% set number = 0 %}
-										{% set reduce = 0 %}
-										{% set reduceEuro = 0 %}
-										{% set totalWhitOffers = 0 %}
-										{% set totalEuro = 0 %}
-										{% set totalPercent = 0 %}
-											{% for offer in offers %}
-												{% if offer.typeReduce == "percent" %}
-													{% set number = attribut.attribut.product.price * (offer.reduce / 100) %}
-													{% set reduce = number %}
-													{% set totalPercent = reduce %}
-												{% endif %}
-												{% if offer.typeReduce == "euro" %}
-													{% set number = offer.reduce %}
-													{% set reduceEuro = reduceEuro + number %}
-													{% set totalEuro = (reduceEuro * 100) %}
-												{% endif %}
-											{% endfor %}
-										{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent + (attribut.attribut.price * 100) %}
+							</div>
+							{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
+							{% if offers| length > 0 %}
+								{% set number = 0 %}
+								{% set reduce = 0 %}
+								{% set reduceEuro = 0 %}
+								{% set totalWhitOffers = 0 %}
+								{% set totalEuro = 0 %}
+								{% set totalPercent = 0 %}
+								{% for offer in offers %}
+									{% if offer.typeReduce == "percent" %}
+										{% set number = attribut.attribut.product.price * (offer.reduce / 100) %}
+										{% set reduce = number %}
+										{% set totalPercent = reduce %}
+									{% endif %}
+									{% if offer.typeReduce == "euro" %}
+										{% set number = offer.reduce %}
+										{% set reduceEuro = reduceEuro + number %}
+										{% set totalEuro = (reduceEuro * 100) %}
+									{% endif %}
+								{% endfor %}
+								{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent + (attribut.attribut.price * 100) %}
+								<div class="col-auto">
 									<p>prix HT</p>
 									<p>{{ ((( totalWhitOffers / 100) - (( totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 								</div>
@@ -119,7 +119,9 @@
 									<p>prix TTC</p>
 									<p class="card-text fw-bold">{{ (totalWhitOffers / 100) * (attribut.quantity) }}
 										€</p>
-								{% else %}
+								</div>
+							{% else %}
+								<div class="col-auto">
 									<p>prix HT</p>
 									<p>{{ ((((attribut.attribut.product.price / 100 ) + (attribut.attribut.price )) - (((attribut.attribut.product.price / 100) + (attribut.attribut.price ) ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 								</div>
@@ -127,15 +129,19 @@
 									<p>prix TTC</p>
 									<p>{{ (((attribut.attribut.product.price / 100) + (attribut.attribut.price )) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 									{% set total = total + ((((attribut.attribut.product.price / 100) + (attribut.attribut.price)) * attribut.quantity) ) %}
-								{% endif %}
-							</div>
+								</div>
+							{% endif %}
 						</div>
 						{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100)) %}{% set nbProducts = nbProducts + attribut.quantity %}
 					{% endfor %}
 					<div class="text-end">
-						<b>Nombre de produits :{{ nbProducts }}</b>
+						<p>Nombre de produits :
+							<b>{{ nbProducts }}</b>
+						</p>
 						<br>
-						<b>Total de mon panier :{{ ( Total + total)  | number_format(2, ',', '.') }}&euro;</b>
+						<p>Total de mon panier :
+							<b>{{ ( Total + total)  | number_format(2, ',', '.') }}&euro;</b>
+						</p>
 						<br>
 					</div>
 				</div>
@@ -206,5 +212,5 @@ country.value = data.Pays;
 }
 });
 });
-</script>
+	</script>
 {% endblock %}
