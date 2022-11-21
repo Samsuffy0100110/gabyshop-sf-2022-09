@@ -10,10 +10,10 @@
 			<div class="col-lg-12">
 				<i>
 					<small>
-						<a href="{{ path('home') }}">Home</a>
+						<a class="crumb" href="{{ path('home') }}">Accueil</a>
 						/
-						<a href="{{ path('account_dashboard') }}">Dashboard</a>
-						/Mes commandes
+						<a class="crumb" href="{{ path('account_dashboard') }}">Tableau de bord</a>
+						/  Mes commandes
 					</small>
 				</i>
 			</div>
@@ -28,7 +28,7 @@
 					<hr>
 					<p>Vous n'avez aucune commande d'enregistrée.</p>
 				{% else %}
-					<table class="table mt-4">
+					<table class="table mt-4 table-striped rounded border shadow">
 						<thead>
 							<tr>
 								<th scope="col">Numéro commande</th>
@@ -52,7 +52,7 @@
 										{% elseif order.state == 3 %}
 											Livraison en cours
 										{% elseif order.state == 4 %}
-										 	Livré
+											Livré
 										{% endif %}
 									</td>
 									<td>{{ order.createdAt |date('d-m-Y') }}</td>
