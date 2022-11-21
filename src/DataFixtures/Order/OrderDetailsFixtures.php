@@ -20,6 +20,14 @@ class OrderDetailsFixtures extends Fixture implements DependentFixtureInterface
         $orderDetails->setPrice(10);
         $orderDetails->setTotal(10);
         $orderDetails->setTaxe('20%');
+        $orderDetails->setPrimaryOfferName('Super Promo de Noël');
+        $orderDetails->setPrimaryOfferReduce(10);
+        $orderDetails->setPrimaryOfferTypeReduce('percent');
+        $orderDetails->setSecondaryOfferName('Vente flash !');
+        $orderDetails->setSecondaryOfferReduce(10);
+        $orderDetails->setSecondaryOfferTypeReduce('percent');
+        $orderDetails->setCustomPrice(3);
+        $orderDetails->setCustomDescription('Cadeau de Noël');
         $manager->persist($orderDetails);
 
         $orderDetails = new OrderDetails();
@@ -29,6 +37,14 @@ class OrderDetailsFixtures extends Fixture implements DependentFixtureInterface
         $orderDetails->setPrice(20);
         $orderDetails->setTotal(40);
         $orderDetails->setTaxe('20%');
+        $orderDetails->setPrimaryOfferName('Super Promo de Halloween');
+        $orderDetails->setPrimaryOfferReduce(10);
+        $orderDetails->setPrimaryOfferTypeReduce('percent');
+        $orderDetails->setSecondaryOfferName('Vente flash !');
+        $orderDetails->setSecondaryOfferReduce(10);
+        $orderDetails->setSecondaryOfferTypeReduce('percent');
+        $orderDetails->setCustomPrice(3);
+        $orderDetails->setCustomDescription('Cadeau de Halloween');
         $manager->persist($orderDetails);
 
         $orderDetails = new OrderDetails();
@@ -38,6 +54,14 @@ class OrderDetailsFixtures extends Fixture implements DependentFixtureInterface
         $orderDetails->setPrice(30);
         $orderDetails->setTotal(90);
         $orderDetails->setTaxe('20%');
+        $orderDetails->setPrimaryOfferName('Super Promo de Paques');
+        $orderDetails->setPrimaryOfferReduce(20);
+        $orderDetails->setPrimaryOfferTypeReduce('amount');
+        $orderDetails->setSecondaryOfferName('Vente flash !');
+        $orderDetails->setSecondaryOfferReduce(10);
+        $orderDetails->setSecondaryOfferTypeReduce('percent');
+        $orderDetails->setCustomPrice(3);
+        $orderDetails->setCustomDescription('Cadeau de Paques');
         $manager->persist($orderDetails);
 
         $manager->flush();
