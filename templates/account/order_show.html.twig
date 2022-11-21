@@ -30,7 +30,7 @@
 		<strong>Transporteur choisi :</strong>
 		{% for ship in shipping %}
 			{{ ship.name }}
-		{% endfor %}
+		
 		<br>
 		<hr>
 		<strong>Détails</strong>
@@ -38,6 +38,7 @@
 			<thead>
 				<tr>
 					<th scope="col">Produit</th>
+					<th scope="col">Perso</th>
 					<th scope="col">Quantité</th>
 					<th scope="col">Prix unitaire HT</th>
 					<th scope="col">Prix unitaire TTC</th>
@@ -45,25 +46,47 @@
 				</tr>
 			</thead>
 			<tbody>
+			{% set Total = 0 %}
+			{% set TotalHT = 0 %}
+			{% set totalWithPrimaryOffer = 0 %}
+			{% set totalWithSecondaryOffer = 0 %}
+			
 				{% for product in order.orderDetails %}
+				<pre>
+					{{ dump(product) }}
+				</pre>
+
+				{% set Total = Total + ((product.product.price / 100) + (product.customPrice)) * product.quantity %}
+				{% set TotalHT = TotalHT + ((((product.product.price / 100) + (product.customPrice)) - ((((product.product.price / 100) + (product.customPrice)) * (product.taxe)) / 100 )) * product.quantity ) %}
 					<tr>
-						<td>{{ product.product }}</td>
+						<td>{{ product.product.name }}</td>
+						<td>{% if product.customDescription is not null %}{{ product.customDescription }}{% else %}pas de perso{% endif %}</td>
 						<td>{{ product.quantity }}</td>
-						{% if product.taxe == "TVA 20%" %}
-							<td>{{ (product.price * 0.8 / 100 + product.customPrice)|number_format(2, ',', '.', ' ') }}
-								&euro;
-							</td>
-						{% else %}
-							<td>{{ (product.price * 0.9 / 100 + product.customPrice)|number_format(2, ',', '.', ' ') }}
-								&euro;
-							</td>
-						{% endif %}
-						<td>{{ (product.price / 100 + product.customPrice)|number_format(2, ',', '.', ' ') }}
-							&euro;
-						</td>
-						<td>{{ ((product.total) / 100 + product.customPrice)|number_format(2, ',', '.', ' ') }}
-							&euro;
-						</td>
+				{% if  product.primaryOfferName is not empty %}
+				{% if product.primaryOfferTypeReduce == "percent" %}
+				{% set percentReduce = 0 %}
+				{% set percentReduce = ((product.product.price / 100) * product.primaryOfferReduce) / 100 %}
+				{% set totalWithPrimaryOffer = totalWithPrimaryOffer - percentReduce %}
+				{% else %}
+				{% set euroReduce = 0 %}
+				{% set euroReduce = product.primaryOfferReduce %}
+				{% set totalWithPrimaryOffer = totalWithPrimaryOffer  - euroReduce %}
+				{% endif %}
+				{% endif %}
+				{% if  product.secondaryOfferName is not empty %}
+				{% if product.secondaryOfferTypeReduce == "percent" %}
+				{% set secondaryPercentReduce = 0 %}
+				{% set secondaryPercentReduce = ((product.product.price / 100) * product.secondaryOfferReduce) / 100 %}
+				{% set totalWithSecondaryOffer = totalWithSecondaryOffer - secondaryPercentReduce %}
+				{% else %}
+				{% set secondaryEuroReduce = 0 %}
+				{% set secondaryEuroReduce = product.secondaryOfferReduce %}
+				{% set totalWithSecondaryOffer = totalWithSecondaryOffer - secondaryEuroReduceeuroReduce %}
+				{% endif %}
+				{% endif %}
+						<td>{{ (((product.product.price / 100 +(totalWithPrimaryOffer) + (totalWithSecondaryOffer)) + (product.customPrice)) - ((((product.product.price / 100) + (product.customPrice)) * (product.taxe)) / 100 )) | number_format(2, ',', ' ') }} €</td>
+						<td>{{ ((product.product.price / 100 +(totalWithPrimaryOffer) + (totalWithSecondaryOffer)) + (product.customPrice)) | number_format(2, ',', ' ') }} €</td>
+						<td>{{ (((product.product.price / 100 +(totalWithPrimaryOffer) + (totalWithSecondaryOffer)) + (product.customPrice)) * product.quantity) | number_format(2, ',', ' ') }} €</td>
 					</tr>
 				{% endfor %}
 			</tbody>
@@ -73,25 +96,25 @@
 			<div class="col-lg-2 bg-light rounded mt-2 mb-5 p-3">
 				<div class="text-end">
 					<strong>Sous Total HT:</strong>
-					{{ ( order.getTotal - (order.getTotal / 100)) / 100 }}
+					{{  (TotalHT)|number_format(2, ',', '.', ' ') }}
 					&euro;
 					<hr>
 					<strong>Sous-total TTC:
 					</strong>
-					{{ ((order.getTotal) / 100)|number_format(2, ',', '.', ' ') }}
+					{{  (Total )|number_format(2, ',', '.', ' ') }}
 					&euro;
 					<hr>
 					<strong>Livraison :
 					</strong>
-					{% for ship in shipping %}
+			
 						{{ ((ship.price))|number_format(2, ',', '.', ' ') }}
-					{% endfor %}
+					
 					&euro;
 					<hr>
 					<strong>Total :
 					</strong>
-					{% for ship in shipping %}
-						{{ ((order.getTotal) / 100 + ship.price)|number_format(2, ',', '.', ' ') }}
+					
+						{{  (Total + ship.price)|number_format(2, ',', '.', ' ') }}
 						&euro;
 					{% endfor %}
 				</div>
