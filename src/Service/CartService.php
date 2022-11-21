@@ -74,7 +74,11 @@ class CartService
                 $attribut = $this->entityManager->getRepository(Attribut::class)->find($id);
                 $product = $attribut->getProduct();
                 $custom = $this->entityManager->getRepository(Custom::class)->findOneBy(['attribut' => $id]);
+                $description = $this->entityManager->getRepository(Custom::class)->findOneBy(['attribut' => $id]);
 
+                foreach ($attribut->getCustoms() as $custom) {
+                    $description = $custom->getDescription();
+                }
                 $offers = $this->entityManager->getRepository(Offer::class)->createQueryBuilder('o')
                     ->select('o')
                     ->join('o.product', 'p')
@@ -120,6 +124,7 @@ class CartService
                     'quantity' => $quantity,
                     'product' => $product,
                     'custom' => $custom,
+                    'description' => $description,
                     'primaryOfferName' => $primaryName,
                     'primaryOfferReduce' => $primaryReduce,
                     'primaryOfferTypeReduce' => $primaryType,
