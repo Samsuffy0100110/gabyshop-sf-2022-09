@@ -3,6 +3,7 @@
 namespace App\Entity\Order;
 
 use App\Entity\Product\Product;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Order\OrderDetailsRepository;
 
@@ -49,6 +50,10 @@ class OrderDetails
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $secondaryTypeReduce = null;
+    #[ORM\Column(nullable: true)]
+    private ?float $customPrice = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $customDescription = null;
 
     public function getId(): ?int
     {
@@ -201,6 +206,28 @@ class OrderDetails
     {
         $this->secondaryTypeReduce = $secondaryTypeReduce;
 
+        return $this;
+    }
+
+    public function getCustomPrice(): ?float
+    {
+        return $this->customPrice;
+    }
+
+    public function setCustomPrice(?float $customPrice): self
+    {
+        $this->customPrice = $customPrice;
+        return $this;
+    }
+
+    public function getCustomDescription(): ?string
+    {
+        return $this->customDescription;
+    }
+
+    public function setCustomDescription(?string $customDescription): self
+    {
+        $this->customDescription = $customDescription;
         return $this;
     }
 }
