@@ -53,18 +53,18 @@
 						<td>{{ product.product }}</td>
 						<td>{{ product.quantity }}</td>
 						{% if product.taxe == "TVA 20%" %}
-							<td>{{ (product.price * 0.8 / 100)|number_format(2, ',', '.', ' ') }}
+							<td>{{ (product.price * 0.8 / 100 + product.customPrice)|number_format(2, ',', '.', ' ') }}
 								&euro;
 							</td>
 						{% else %}
-							<td>{{ (product.price * 0.9 / 100)|number_format(2, ',', '.', ' ') }}
+							<td>{{ (product.price * 0.9 / 100 + product.customPrice)|number_format(2, ',', '.', ' ') }}
 								&euro;
 							</td>
 						{% endif %}
-						<td>{{ (product.price / 100)|number_format(2, ',', '.', ' ') }}
+						<td>{{ (product.price / 100 + product.customPrice)|number_format(2, ',', '.', ' ') }}
 							&euro;
 						</td>
-						<td>{{ ((product.total) / 100)|number_format(2, ',', '.', ' ') }}
+						<td>{{ ((product.total) / 100 + product.customPrice)|number_format(2, ',', '.', ' ') }}
 							&euro;
 						</td>
 					</tr>

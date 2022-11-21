@@ -116,6 +116,8 @@ class OrderController extends AbstractController
                     ->setSecondaryOfferName($product['secondaryOfferName'])
                     ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
                     ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
+                    ->setCustomPrice($product['attribut']->getPrice())
+                    ->setCustomDescription($product['custom']->getDescription())
                     ->setTotal($product['product']->getPrice() * $product['quantity']);
                 $this->entityManager->persist($orderDetails);
             }
