@@ -114,13 +114,13 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="text-end mt-3">
+			<div class="text-end">
 				<p>Nombre de produits :
 					<b>{{ nbProducts }}</b>
-				</p><br>
+				</p>
 				<p>Total de mon panier :
 					<b>{{ ( Total + total)  | number_format(2, ',', '.') }}&euro;</b>
-				</p><br>
+				</p>
 				<a href="{{ path('order') }}" class="btn btn-outline-success mt-2">Valider mon panier</a>
 			</div>
 		{% else %}
@@ -128,6 +128,7 @@
 			<p>Votre panier est vide.</p>
 		{% endif %}
 	</div>
+	{% if wishlist %}{% include "includes/wishlist/index.html.twig" %}{% endif %}
 	<script>
 		let attribut = document.querySelectorAll('.attribut');
 	</script>
