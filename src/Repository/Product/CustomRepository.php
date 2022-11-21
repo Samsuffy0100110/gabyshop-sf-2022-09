@@ -3,6 +3,7 @@
 namespace App\Repository\Product;
 
 use App\Entity\Product\Custom;
+use App\Entity\Product\Attribut;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -37,6 +38,16 @@ class CustomRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findOneDescriptionByAttribut(Attribut $attribut): ?Custom
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.attribut = :attribut')
+            ->setParameter('attribut', $attribut)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
 //    /**

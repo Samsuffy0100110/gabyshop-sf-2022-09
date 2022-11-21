@@ -109,7 +109,7 @@ class OrderController extends AbstractController
                     ->setProduct($product['product'])
                     ->setQuantity($product['quantity'])
                     ->setPrice($product['product']->getPrice())
-                    ->setTaxe($product['product']->getTaxe())
+                    ->setTaxe($product['product']->getTaxe()->getPercent())
                     ->setPrimaryOfferName($product['primaryOfferName'])
                     ->setPrimaryOfferReduce($product['primaryOfferReduce'])
                     ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
@@ -117,7 +117,7 @@ class OrderController extends AbstractController
                     ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
                     ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
                     ->setCustomPrice($product['attribut']->getPrice())
-                    ->setCustomDescription($product['custom']->getDescription())
+                    ->setCustomDescription($product['description'])
                     ->setTotal($product['product']->getPrice() * $product['quantity']);
                 $this->entityManager->persist($orderDetails);
             }
