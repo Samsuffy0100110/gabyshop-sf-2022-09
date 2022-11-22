@@ -27,7 +27,7 @@ class TwigEventSubscriber implements EventSubscriberInterface
 
     private LogoRepository $logoRepository;
 
-    private MaintenanceRepository $maintenanceRepository;
+    private MaintenanceRepository $maintenance;
 
     public function __construct(
         Environment $twig,
@@ -36,7 +36,7 @@ class TwigEventSubscriber implements EventSubscriberInterface
         PagesRepository $pagesRepository,
         OfferRepository $offerRepository,
         LogoRepository $logoRepository,
-        MaintenanceRepository $maintenanceRepository,
+        MaintenanceRepository $maintenance,
     ) {
         $this->twig = $twig;
         $this->themeRepository = $themeRepository;
@@ -44,7 +44,7 @@ class TwigEventSubscriber implements EventSubscriberInterface
         $this->pagesRepository = $pagesRepository;
         $this->offerRepository = $offerRepository;
         $this->logoRepository = $logoRepository;
-        $this->maintenanceRepository = $maintenanceRepository;
+        $this->maintenance = $maintenance;
     }
 
     public function onControllerEvent(ControllerEvent $event): void
@@ -54,7 +54,7 @@ class TwigEventSubscriber implements EventSubscriberInterface
         $this->twig->addGlobal('pages', $this->pagesRepository->findAll());
         $this->twig->addGlobal('offers', $this->offerRepository->findAll());
         $this->twig->addGlobal('logo', $this->logoRepository->findOneBy(['position' => 1]));
-        $this->twig->addGlobal('maintenance', $this->maintenanceRepository->findAll());
+        $this->twig->addGlobal('maintenance', $this->maintenance->findAll());
     }
 
     public static function getSubscribedEvents()

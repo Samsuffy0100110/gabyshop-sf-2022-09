@@ -30,6 +30,9 @@
     border: 1px solid #ddd;
     z-index: 1;
     border-radius: 15px;
+    height: 100vh;
+    overflow-y: scroll;
+    scrollbar-width: thin;
 }
 
 /* Links inside the dropdown */

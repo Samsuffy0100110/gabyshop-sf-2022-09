@@ -4,6 +4,12 @@ namespace App\Service;
 
 use App\Service\CartService;
 
+/**
+ * This will suppress CyclomaticComplexity warning in
+ * this class.
+ *
+ * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+ */
 class MondialRelayService
 {
     public function shipByTotWeight(CartService $cartService)

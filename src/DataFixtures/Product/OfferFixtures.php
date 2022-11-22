@@ -20,6 +20,7 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
         $offer->setStartedAt(new DateTime('2023-12-01'));
         $offer->setEndedAt(new DateTime('2023-12-31'));
         $offer->addProduct($this->getReference('product_1'));
+        $this->addReference('Super Promo de Noël', $offer);
         $manager->persist($offer);
 
         $offer = new Offer();

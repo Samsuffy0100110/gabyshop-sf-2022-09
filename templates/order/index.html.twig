@@ -79,16 +79,16 @@
 					{% set nbProducts = 0 %}
 					{% for key, attribut in cart %}
 						<div class="row {% if key > 0 %}mt-2{% endif %}d-flex flex-nowrap">
-							<div class="col-auto">
+							<div class="col">
 								<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
 							</div>
-							<div class="col-auto my-auto">
+							<div class="col">
 								<p class="fw-bold">{{ attribut.attribut.product.name }}</p><br>
 								<p>{{ attribut.attribut.name }}</p>
 							</div>
-							<div class="col-auto my-auto">
-								<p>x
-									{{ attribut.quantity }}</p>
+							<div class="col my-auto">
+								<b>x
+								{{ attribut.quantity }}</b>
 							</div>
 							{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
 							{% if offers| length > 0 %}
@@ -111,27 +111,28 @@
 									{% endif %}
 								{% endfor %}
 								{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent + (attribut.attribut.price * 100) %}
-								<div class="col-auto">
-									<p>prix HT</p>
+								<div class="col">
+									<b>prix HT</b>
 									<p>{{ ((( totalWhitOffers / 100) - (( totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 								</div>
-								<div class="col-auto">
-									<p>prix TTC</p>
+								<div class="col">
+									<b>TTC</b>
 									<p class="card-text fw-bold">{{ (totalWhitOffers / 100) * (attribut.quantity) }}
 										€</p>
 								</div>
 							{% else %}
-								<div class="col-auto">
-									<p>prix HT</p>
+								<div class="col">
+									<b>prix HT</b>
 									<p>{{ ((((attribut.attribut.product.price / 100 ) + (attribut.attribut.price )) - (((attribut.attribut.product.price / 100) + (attribut.attribut.price ) ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 								</div>
-								<div class="col-auto">
-									<p>prix TTC</p>
+								<div class="col">
+									<b>TTC</b>
 									<p>{{ (((attribut.attribut.product.price / 100) + (attribut.attribut.price )) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
 									{% set total = total + ((((attribut.attribut.product.price / 100) + (attribut.attribut.price)) * attribut.quantity) ) %}
 								</div>
 							{% endif %}
 						</div>
+						<hr>
 						{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100)) %}{% set nbProducts = nbProducts + attribut.quantity %}
 					{% endfor %}
 					<div class="text-end">

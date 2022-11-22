@@ -1,7 +1,6 @@
 {% extends "@EasyAdmin/page/content.html.twig" %}
 
 {% block content %}
-
 	<div class="container-fluid">
 		<div class="row mb-3">
 			<div class="col-2 d-flex align-items-center justify-content-center">
@@ -13,24 +12,24 @@
 			<div class="col-2"></div>
 		</div>
 		<div class="row">
-			<div class="col text-center">
+			<div class="col-lg-4 text-center">
 				<h2>Stripe</h2>
 				<p>Acces à la console Stripe</p>
 				<a href="https://dashboard.stripe.com/login" class="btn btn-primary" target="_blank">Accéder à la console</a>
 			</div>
-			<div class="col text-center">
+			<div class="col-lg-4 text-center">
 				<h2>Mondial Relay</h2>
 				<p>Acces à la console Mondial Relay</p>
 				<a href="https://www.mondialrelay.fr/" class="btn btn-primary" target="_blank">Mondial Relay</a>
 			</div>
-			<div class="col text-center">
+			<div class="col-lg-4 text-center">
 				<h2>Google Analytics</h2>
 				<p>Acces à la console Google Analytics</p>
 				<a href="https://analytics.google.com/analytics/web/" class="btn btn-primary" target="_blank">Google Analytics</a>
 			</div>
 		</div>
 		<div class="row mt-5 text-center">
-			<div class="col">
+			<div class="col-lg-4">
 				<div class="card m-3">
 					<div class="card-header fw-bold fs-4">Dashboard Produits</div>
 					<div class="card-body">
@@ -41,7 +40,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col">
+			<div class="col-lg-4">
 				<div class="card m-3">
 					<div class="card-header fw-bold fs-4">Dashboard Commandes</div>
 					<div class="card-body">
@@ -52,7 +51,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col">
+			<div class="col-lg-4">
 				<div class="card m-3">
 					<div class="card-header fw-bold fs-4">Dashboard Utilisateurs</div>
 					<div class="card-body">
@@ -64,72 +63,67 @@
 				</div>
 			</div>
 		</div>
-
-			<div class="row">
-				<div class="col">
-					<div class="card">
-						<h2 class="card-header mb-2 text-center">Commandes</h2>
-
-						<table>
-							<thead>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="card">
+					<h2 class="card-header mb-2 text-center">Commandes</h2>
+					<table>
+						<thead>
+							<tr>
+								<th class="text-center">References</th>
+								<th class="text-center">Clients</th>
+								<th class="text-center">Produits</th>
+								<th class="text-center">Date</th>
+								<th class="text-center">Transporteur</th>
+								<th class="text-center">Adresse de livraison</th>
+								<th class="text-center">Statut</th>
+							</tr>
+						</thead>
+						{% for order in orders |filter (order => order.state != 4) %}
+							<tbody>
 								<tr>
-									<th class="text-center">References</th>
-									<th class="text-center">Clients</th>
-									<th class="text-center">Produits</th>
-									<th class="text-center">Date</th>
-									<th class="text-center">Transporteur</th>
-									<th class="text-center">Adresse de livraison</th>
-									<th class="text-center">Statut</th>
-
-								</tr>
-							</thead>
-							{% for order in orders |filter (order => order.state != 4) %}
-								<tbody>
-									<tr>
-										<td class="col text-center">{{ order.reference }}</td>
-										<td class="col text-center">{{ order.user.fullName }}</td>
-										<td class="col text-center">
-											{% for product in order.orderDetails %}
-												{{ product.product}}
-												x
-												{{ product.quantity }}
-												<br>
-											{% endfor %}
-										</td>
-
-										<td class="col text-center">{{ order.createdAt|date('d/m/Y') }}</td>
-										<td class="col text-center">
-											{% for shipping in order.shipping %}
-												{{ shipping.name }}
-												{{ shipping.price }}€
-											{% endfor %}
-										</td>
-										<td class="col text-center">
-											{{ order.adress.name }}
+									<td class="col text-center">{{ order.reference }}</td>
+									<td class="col text-center">{{ order.user.fullName }}</td>
+									<td class="col text-center">
+										{% for product in order.orderDetails %}
+											{{ product.product}}
+											x
+											{{ product.quantity }}
 											<br>
-											{{ order.adress.adresse }}<br>
-											{{ order.adress.zipcode }}
-											{{ order.adress.city }}<br>
-											{{ order.adress.country }}
-										</td>
-										<td class="col text-center">
-											{% if order.state == 0 %}
-												<span class="badge bg-warning">En attente de paiement</span>
-											{% elseif order.state == 1 %}
-												<span class="badge bg-info">Payée</span>
-											{% elseif order.state == 2 %}
-												<span class="badge bg-success">Preparation en cours</span>
-											{% elseif order.state == 3 %}
-												<span class="badge bg-danger">Livraison en cours</span>
-											{% endif %}
-										</td>
-									</tr>
-								</tbody>
-							{% endfor %}
-						</table>
-					</div>
+										{% endfor %}
+									</td>
+									<td class="col text-center">{{ order.createdAt|date('d/m/Y') }}</td>
+									<td class="col text-center">
+										{% for shipping in order.shipping %}
+											{{ shipping.name }}
+											{{ shipping.price }}€
+										{% endfor %}
+									</td>
+									<td class="col text-center">
+										{{ order.adress.name }}
+										<br>
+										{{ order.adress.adresse }}<br>
+										{{ order.adress.zipcode }}
+										{{ order.adress.city }}<br>
+										{{ order.adress.country }}
+									</td>
+									<td class="col text-center">
+										{% if order.state == 0 %}
+											<span class="badge bg-warning">En attente de paiement</span>
+										{% elseif order.state == 1 %}
+											<span class="badge bg-info">Payée</span>
+										{% elseif order.state == 2 %}
+											<span class="badge bg-success">Preparation en cours</span>
+										{% elseif order.state == 3 %}
+											<span class="badge bg-danger">Livraison en cours</span>
+										{% endif %}
+									</td>
+								</tr>
+							</tbody>
+						{% endfor %}
+					</table>
 				</div>
 			</div>
-
 		</div>
-	{% endblock %}
+	</div>
+{% endblock %}

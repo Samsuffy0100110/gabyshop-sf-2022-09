@@ -6,6 +6,7 @@ use App\Service\CartService;
 use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
 use App\Repository\Product\CustomRepository;
+use App\Repository\Product\WishlistRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,10 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CartController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(CartService $cart): Response
+    public function index(CartService $cart, WishlistRepository $wishlistRepository): Response
     {
+        $wishlist = $wishlistRepository->findBy(['user' => $this->getUser()]);
         return $this->render('cart/index.html.twig', [
             'cart' => $cart->getFull(),
+            'wishlist' => $wishlist
         ]);
     }
 
