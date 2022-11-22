@@ -29,7 +29,7 @@
 		</div>
 		<div class="row mb-5">
 			{% for category in parentCategory.categories %}
-				<div class="col-lg-4 d-flex justify-content-center mt-5">
+				<div class="col-lg-3 col-6 d-flex justify-content-center mt-5">
 					<div class="card product-card shadow h-100" style="width: 400px;">
 						<div class="grayscale">
 							<figure><img class="card-img-top image-cover" style="height:400px;" src="{{ ('/images/categories/' ~ category.image)|imagine_filter('categories') }}" alt="{{ category.name }}"></figure>

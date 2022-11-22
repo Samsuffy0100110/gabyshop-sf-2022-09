@@ -26,7 +26,7 @@ class PromoCodeFixtures extends Fixture
         $promoCode->setCreatedAt(new DateTime());
         $promoCode->setStartedAt(new DateTime());
         $promoCode->setEndedAt(new DateTime('+1 day'));
-        $promoCode->setIsActive(true);
+        $promoCode->setIsActive(false);
         $promoCode->setReduce(20);
         $promoCode->setCode('COEUR20');
         $manager->persist($promoCode);
