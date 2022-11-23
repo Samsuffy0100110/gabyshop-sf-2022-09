@@ -29,72 +29,176 @@
 		<strong>Transporteur choisi :</strong>
 		{% for ship in shipping %}
 			{{ ship.name }}
-		{% endfor %}
+		
 		<br>
 		<hr>
 		<strong>Détails</strong>
-		<table class="table mt-4">
-			<thead>
-				<tr>
-					<th scope="col">Produit</th>
-					<th scope="col">Quantité</th>
-					<th scope="col">Prix unitaire HT</th>
-					<th scope="col">Prix unitaire TTC</th>
-					<th scope="col">Total</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for product in order.orderDetails %}
+			<table class="table mt-4">
+				<thead>
 					<tr>
-						<td>{{ product.product }}</td>
-						<td>{{ product.quantity }}</td>
-						{% if product.taxe == "TVA 20%" %}
-							<td>{{ (product.price * 0.8 / 100)|number_format(2, ',', '.', ' ') }}
-								&euro;
-							</td>
-						{% else %}
-							<td>{{ (product.price * 0.9 / 100)|number_format(2, ',', '.', ' ') }}
-								&euro;
-							</td>
-						{% endif %}
-						<td>{{ (product.price / 100)|number_format(2, ',', '.', ' ') }}
-							&euro;
-						</td>
-						<td>{{ ((product.total) / 100)|number_format(2, ',', '.', ' ') }}
-							&euro;
-						</td>
+						<th scope="col">Produit</th>
+						<th scope="col">Perso</th>
+						<th scope="col">Quantité</th>
+						<th scope="col">Prix HT</th>
+						<th scope="col">Prix TTC</th>
 					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<div class="row">
-			<div class="col-lg-10"></div>
-			<div class="col-lg-2 bg-light rounded mt-2 mb-5 p-3">
-				<div class="text-end">
-					<strong>Sous Total HT:</strong>
-					{{ (order.getTotal / 100) - order.getTotal }}
-					&euro;
-					<hr>
-					<strong>Sous-total TTC:
-					</strong>
-					{{ ((order.getTotal) / 100)|number_format(2, ',', '.', ' ') }}
-					&euro;
-					<hr>
-					<strong>Livraison :
-					</strong>
-					{% for ship in shipping %}
-						{{ ((ship.price))|number_format(2, ',', '.', ' ') }}
-					{% endfor %}
-					&euro;
-					<hr>
-					<strong>Total :
-					</strong>
-					{% for ship in shipping %}
-						{{ ((order.getTotal) / 100 + ship.price)|number_format(2, ',', '.', ' ') }}
-						&euro;
-					{% endfor %}
-				</div>
-			</div>
+				</thead>
+				<tbody>
+					{% set Total = 0 %}
+					{% set TotalHT = 0 %}
+					{% set totalWithPrimaryOffer = 0 %}
+					{% set totalWithPrimaryOfferEuro = 0 %}
+					{% set totalWithSecondaryOffer = 0 %}
+					{% set totalWithSecondaryOfferEuro = 0 %}
+					{% set TotalWithNoOffer = 0 %}
+					{% set TotalwithPriandNoSec = 0 %}
+					{% set TotalwithPriandSec = 0 %}
+					{% set TotalwithNoPriandSec = 0 %}
+					{% set totalWithNoOffer = 0 %}
+					{% set totalwithPriandNoSec = 0 %}
+					{% set totalwithPriandSec = 0 %}
+					{% set totalwithNoPriandSec = 0 %}
+					{% set TotalWithNoOfferHT = 0 %}
+					{% set TotalwithPriandNoSecHT = 0 %}
+					{% set TotalwithPriandSecHT = 0 %}
+					{% set TotalwithNoPriandSecHT = 0 %}
+
+					{% for product in order.orderDetails %}
+						<tr>
+							<td>{{ product.product.name }}</td>
+							<td>{{ product.customDescription }}</td>
+							<td>{{ product.quantity }}</td>
+
+
+							{% if product.primaryOfferName is not empty and product.secondaryOfferName is not empty %}
+								{% set totalWithPrimaryOffer = 0 %}
+								{% set totalWithPrimaryOfferEuro = 0 %}
+								{% set totalWithSecondaryOffer = 0 %}
+								{% set totalWithSecondaryOfferEuro = 0 %}
+								{% if  product.primaryOfferName is not empty %}
+									{% if product.primaryOfferTypeReduce == "percent" %}
+										{% set percentReduce = 0 %}
+										{% set percentReduce = (((product.price / 100) * (product.primaryOfferReduce)) / 100) %}
+										{% set totalWithPrimaryOffer = totalWithPrimaryOffer - percentReduce %}
+									{% else %}
+										{% set euroReduce = 0 %}
+										{% set euroReduce = product.primaryOfferReduce %}
+										{% set totalWithPrimaryOfferEuro = totalWithPrimaryOfferEuro - euroReduce %}
+									{% endif %}
+								{% endif %}
+								{% if  product.secondaryOfferName is not empty %}
+									{% if product.secondaryOfferTypeReduce == "percent" %}
+										{% set secondaryPercentReduce = 0 %}
+										{% set secondaryPercentReduce = (((product.price / 100) * (product.secondaryOfferReduce)) / 100) %}
+										{% set totalWithSecondaryOffer = totalWithSecondaryOffer - secondaryPercentReduce %}
+									{% else %}
+										{% set secondaryEuroReduce = 0 %}
+										{% set secondaryEuroReduce = product.secondaryOfferReduce %}
+										{% set totalWithSecondaryOfferEuro = totalWithSecondaryOfferEuro - secondaryEuroReduce %}
+									{% endif %}
+								{% endif %}
+								{% set totalwithPriandSec = 0 %}
+								{% set totalwithPriandSec = totalwithPriandSec + ((((product.price / 100)+ (product.customPrice) + (totalWithPrimaryOffer) + (totalWithSecondaryOffer))* product.quantity)) + (totalWithPrimaryOfferEuro) + (totalWithSecondaryOfferEuro) %}
+								{% set TotalwithPriandSec = TotalwithPriandSec + totalwithPriandSec %}
+								{% set TotalwithPriandSecHT = TotalwithPriandSecHT + totalwithPriandSec - ((totalwithPriandSec * product.taxe) / 100) %}
+								<td>{{ ((((totalwithPriandSec) ) - (( ((totalwithPriandSec) )* (product.taxe)) / 100 )) ) | number_format(2, ',', ' ') }}
+									€</td>
+								<td>{{ (totalwithPriandSec ) | number_format(2, ',', ' ') }}
+									€</td>
+							</tr>
+						{% elseif product.primaryOfferName is not empty and product.secondaryOfferName is empty %}
+							{% set totalWithPrimaryOffer = 0 %}
+							{% set totalWithPrimaryOfferEuro = 0 %}
+							{% if  product.primaryOfferName is not empty %}
+								{% if product.primaryOfferTypeReduce == "percent" %}
+									{% set percentReduce = 0 %}
+									{% set percentReduce = (((product.price / 100) * (product.primaryOfferReduce)) / 100) %}
+									{% set totalWithPrimaryOffer = totalWithPrimaryOffer - percentReduce %}
+								{% else %}
+									{% set euroReduce = 0 %}
+									{% set euroReduce = product.primaryOfferReduce %}
+									{% set totalWithPrimaryOfferEuro = totalWithPrimaryOfferEuro - euroReduce %}
+								{% endif %}
+							{% endif %}
+							{% set totalwithPriandNoSec = 0 %}
+							{% set totalwithPriandNoSec = totalwithPriandNoSec + (((product.price / 100) + (product.customPrice) + (totalWithPrimaryOffer) ) * (product.quantity)) + (totalWithPrimaryOfferEuro) %}
+							{% set TotalwithPriandNoSec = TotalwithPriandNoSec + totalwithPriandNoSec %}
+							{% set TotalwithPriandNoSecHT = TotalwithPriandNoSecHT + totalwithPriandNoSec - ((totalwithPriandNoSec * product.taxe) / 100) %}
+
+							<td>{{ ((((totalwithPriandNoSec)) - (((totalwithPriandNoSec ) * (product.taxe)) / 100 ))) | number_format(2, ',', ' ') }}
+								€</td>
+							<td>{{ (totalwithPriandNoSec) | number_format(2, ',', ' ') }}
+								€</td>
+
+						</tr>
+					{% elseif product.primaryOfferName is empty and product.secondaryOfferName is not empty %}
+						{% set totalWithSecondaryOffer = 0 %}
+						{% set totalWithSecondaryOfferEuro = 0 %}
+						{% if  product.secondaryOfferName is not empty %}
+							{% if product.secondaryOfferTypeReduce == "percent" %}
+								{% set secondaryPercentReduce = 0 %}
+								{% set secondaryPercentReduce = (((product.price / 100) * (product.secondaryOfferReduce)) / 100) %}
+								{% set totalWithSecondaryOffer = totalWithSecondaryOffer - secondaryPercentReduce %}
+							{% else %}
+								{% set secondaryEuroReduce = 0 %}
+								{% set secondaryEuroReduce = product.secondaryOfferReduce %}
+								{% set totalWithSecondaryOfferEuro = totalWithSecondaryOfferEuro - secondaryEuroReduceeuroReduce %}
+							{% endif %}
+						{% endif %}
+						{% set totalwithNoPriandSec = 0 %}
+						{% set totalwithNoPriandSec = totalwithNoPriandSec + (((product.price / 100) + (totalWithSecondaryOffer)+ (product.customPrice))* product.quantity) + (totalWithSecondaryOfferEuro) %}
+						{% set TotalwithNoPriandSec = TotalwithNoPriandSec + totalwithNoPriandSec %}
+						{% set TotalwithNoPriandSecHT = TotalwithNoPriandSecHT + totalwithNoPriandSec - ((totalwithNoPriandSec * product.taxe) / 100) %}
+						<td>{{ ((((totalwithNoPriandSec)) - (((totalwithNoPriandSec) * (product.taxe)) / 100 )) ) | number_format(2, ',', ' ') }}
+							€</td>
+						<td>{{ (totalwithNoPriandSec) | number_format(2, ',', ' ') }}
+							€</td>
+
+					</tr>
+				{% else %}
+					{% set totalWithNoOffer = 0 %}
+					{% set totalWithNoOffer = totalWithNoOffer + (((product.price / 100) + (product.customPrice)) * product.quantity )%}
+					{% set TotalWithNoOffer =  TotalWithNoOffer + totalWithNoOffer %}
+					{% set TotalWithNoOfferHT =  TotalWithNoOfferHT + totalWithNoOffer - ((totalWithNoOffer * product.taxe) / 100) %}
+					<td>{{ (totalWithNoOffer - (((totalWithNoOffer) * (product.taxe)) / 100 )) | number_format(2, ',', ' ') }}
+						€</td>
+					<td>{{ (totalWithNoOffer) | number_format(2, ',', ' ') }}
+						€</td>
+				{% endif %}
+			{% endfor %}
+			{% set Total = Total +  TotalWithNoOffer +  TotalwithPriandNoSec + TotalwithPriandSec + TotalwithNoPriandSec %}
+			{% set TotalHT = TotalHT + TotalWithNoOfferHT + TotalwithPriandNoSecHT + TotalwithPriandSecHT + TotalwithNoPriandSecHT %}
+
+		</tbody>
+	</table>
+	<div class="row">
+		<div class="col-lg-10"></div>
+		<div class="col-lg-2 bg-light rounded mt-2 mb-5 p-3">
+			<div class="text-end">
+				<strong>Sous Total HT :</strong>
+				{{  (TotalHT)|number_format(2, ',', '.', ' ') }}
+				&euro;
+				<hr>
+				<strong>Sous-total TTC :
+				</strong>
+				{{  (Total )|number_format(2, ',', '.', ' ') }}
+				&euro;
+				<hr>
+				<strong>Livraison :
+				</strong>
+
+				{{ ((ship.price))|number_format(2, ',', '.', ' ') }}
+
+				&euro;
+				<hr>
+				<strong>Total :
+				</strong>
+
+				{{  (Total + ship.price)|number_format(2, ',', '.', ' ') }}
+				&euro;
+			{% endfor %}
 		</div>
+	</div>
+</div>
 	</div>
 {% endblock %}

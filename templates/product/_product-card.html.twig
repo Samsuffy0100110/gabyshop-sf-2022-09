@@ -37,6 +37,7 @@
 		<div id="add-to-cart"></div>
 	</div>
 	{% set total = 0 %}
+	{% set totalEuro = 0 %}
 	{% set offers = product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
 	{% for offer in offers %}
 		{% if offer.typeReduce == "percent" %}
@@ -66,11 +67,11 @@
 			{% endif %}
 			{% if offer.typeReduce == "euro" %}
 				{% set number = offer.reduce %}
-				{% set reduceEuro = reduceEuro + number %}
+				{% set reduceEuro =  reduceEuro + number %}
 				{% set totalEuro = (reduceEuro * 100) %}
 			{% endif %}
 		{% endfor %}
-		{% set total = product.price - totalEuro - totalPercent %}
+		{% set total = product.price - totalPercent %}
 	{% endif %}
 
 </div></div><script>
@@ -92,6 +93,7 @@ let quantity = document.getElementById('quantity').value;
 let attribut = document.getElementById('attribut').value;
 let addtocart = document.getElementById('add-to-cart');
 let total = {{ total }};
+let totalEuro = ({{ totalEuro }} / 100);
 q = parseInt(quantity);{% for attribut in attributs %}
 if (attribut == {{ attribut.id }}) {
 addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', 
@@ -126,7 +128,7 @@ span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€'
 span.setAttribute('class', 'badge bg-info mb-3');
 
 {% if product.offers is not empty %}
-totalPrice.innerHTML = (quantity) * ((total / 100) + {{ attribut.price }}) + '€';
+totalPrice.innerHTML = ((quantity) * ((total / 100) + {{ attribut.price }} )) - totalEuro + '€';
 totalInlinePrice.innerHTML = (quantity) * ({{ product.price / 100 }}) + '€';
 {% else %}
 totalPrice.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';

@@ -59,6 +59,7 @@
 				<div class="order-summary mb-5">
 					<div class="bg-light p-3 rounded shadow border">
 						{% set Total = 0 %}
+						{% set totalEuro = 0 %}
 						{% set totalHT = 0 %}
 						{% set totalWhitOffers = 0 %}
 						{% set totalWhitOffersHT = 0 %}
@@ -94,20 +95,21 @@
 										{% if offer.typeReduce == "euro" %}
 											{% set number = offer.reduce %}
 											{% set reduceEuro = reduceEuro + number %}
-											{% set totalEuro = (reduceEuro * 100) %}
+											{% set totalEuro = reduceEuro %}
 										{% endif %}
 									{% endfor %}
-									{% set totalWhitOffers = attribut.attribut.product.price - totalEuro - totalPercent + (attribut.attribut.price * 100) %}
+									{% set totalWhitOffers = attribut.attribut.product.price - totalPercent + (attribut.attribut.price * 100) %}
 									<div class="col">
 										<b>prix HT</b>
-										<p>{{ (( totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity )| number_format(2, ',', '.') }}&euro;</p>
+										<p>{{ ((( totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) - totalEuro )| number_format(2, ',', '.') }}&euro;</p>
 									</div>
 									<div class="col">
 										<b>prix TTC</b>
-										<p class="card-text">{{ (totalWhitOffers / 100) * (attribut.quantity) }}
+										<p class="card-text">{{ ((totalWhitOffers / 100) * (attribut.quantity) - totalEuro)}}
 											€</p>
 									</div>
-									{% set totalWhitOffersHT = totalWhitOffersHT + ((totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity ) %}
+								{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100) - totalEuro) %}
+								{% set totalWhitOffersHT = totalWhitOffersHT + (((totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) - totalEuro ) %}
 								{% else %}
 									<div class="col">
 										<b>prix HT</b>
@@ -122,7 +124,6 @@
 								{% endif %}
 							</div>
 							<hr>
-							{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100)) %}
 						{% endfor %}
 					</div>
 					<hr>
