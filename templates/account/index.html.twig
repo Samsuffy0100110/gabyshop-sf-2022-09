@@ -27,19 +27,24 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12">
-							<p>{{ user.firstName }} {{ user.lastName }}</p>
+							<p>{{ user.firstName }}
+								{{ user.lastName }}</p>
 							<p class="fw-bold">{{ user.email }}</p>
 							{% if user.isVerified == false %}
 								<a href="{{ path('account_verify-email') }}" class="btn btn-outline-danger">Email non vérifié</a>
 							{% else %}
-							<p class="btn btn-outline-success">Email vérifié</p>
+								<p class="btn btn-outline-success">Email vérifié</p>
 							{% endif %}
 						</div>
 					</div>
 					<div class="row mt-5">
 						<div class="col-lg-12 d-flex">
-							<a href="{{ path('account_profile') }}" class="nav-link me-5"><i class="fa fa-pen"></i> Modifier mes informations</a>
-							<a href="{{ path('change-password') }}" class="nav-link"><i class="fa fa-lock"></i> Modifier mot de passe</a>
+							<a href="{{ path('account_profile') }}" class="nav-link me-5">
+								<i class="fa fa-pen"></i>
+								Modifier mes informations</a>
+							<a href="{{ path('change-password') }}" class="nav-link">
+								<i class="fa fa-lock"></i>
+								Modifier mot de passe</a>
 						</div>
 					</div>
 				</div>

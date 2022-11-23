@@ -2,8 +2,8 @@
 
 namespace App\Entity\Order;
 
-use App\Entity\Product\Product;
 use Doctrine\DBAL\Types\Types;
+use App\Entity\Product\Product;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\Order\OrderDetailsRepository;
 

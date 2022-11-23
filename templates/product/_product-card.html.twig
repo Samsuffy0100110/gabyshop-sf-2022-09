@@ -43,12 +43,14 @@
 		{% if offer.typeReduce == "percent" %}
 			<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }}
 				: -
-				{{ offer.reduce }}&nbsp%</div>
+				{{ offer.reduce }}&nbsp%
+			</div>
 		{% endif %}
 		{% if offer.typeReduce == "euro" %}
 			<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }}
 				: -
-				{{ offer.reduce }}&nbsp€</div>
+				{{ offer.reduce }}&nbsp€
+			</div>
 		{% endif %}
 		{% else %}
 	{% endfor %}
@@ -73,10 +75,9 @@
 		{% endfor %}
 		{% set total = product.price - totalPercent %}
 	{% endif %}
-
-</div></div><script>
-let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}
-function Changequantity() {
+</div>
+<script>
+	let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}function Changequantity() {
 let select = document.getElementById('quantity');
 let attribut = document.getElementById('attribut').value;
 select.innerHTML = '';
@@ -102,8 +103,7 @@ class="btn btn-outline-primary btn-lg btn-block">Ajouter au panier</a>`;
 addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
 }
 {% endfor %}
-let customForm = document.getElementById('customForm');
-{% for attribut in attributs %}
+let customForm = document.getElementById('customForm');{% for attribut in attributs %}
 if (attribut == {{ attribut.id }}) {
 let quantity = document.getElementById('quantity').value;
 let attribut = document.getElementById('attribut').value;
@@ -125,23 +125,18 @@ textArea.setAttribute('required', 'required');
 textArea.setAttribute('rows', '4');
 textArea.setAttribute('cols', '50');
 span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
+<<<<<<< HEAD
 span.setAttribute('class', 'badge bg-info mb-3');
 
 {% if product.offers is not empty %}
 totalPrice.innerHTML = ((quantity) * ((total / 100) + {{ attribut.price }} )) - totalEuro + '€';
+=======
+span.setAttribute('class', 'badge bg-info mb-3');{% if product.offers is not empty %}totalPrice.innerHTML = (quantity) * ((total / 100) + {{ attribut.price }}) + '€';
+>>>>>>> 938c03ae36f142dec29dedeb8c3bc61f288e8c76
 totalInlinePrice.innerHTML = (quantity) * ({{ product.price / 100 }}) + '€';
-{% else %}
-totalPrice.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';
-{% endif %}
-
-totalPrice.setAttribute('class', 'fw-bold text-end fs-5 mt-auto');
-totalInlinePrice.setAttribute('class', 'card-text fw-bold text-decoration-line-through text-end');
-
-{% if attribut.persoIsEnable %}
-customForm.replaceChildren(h3, p, textArea, span, totalInlinePrice, totalPrice);
-{% else %}
-customForm.replaceChildren(totalInlinePrice, totalPrice);
-{% endif %}
+{% else %}totalPrice.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';{% endif %}totalPrice.setAttribute('class', 'fw-bold text-end fs-5 mt-auto');
+totalInlinePrice.setAttribute('class', 'card-text fw-bold text-decoration-line-through text-end');{% if attribut.persoIsEnable %}customForm.replaceChildren(h3, p, textArea, span, totalInlinePrice, totalPrice);
+{% else %}customForm.replaceChildren(totalInlinePrice, totalPrice);{% endif %}
 
 let custom = document.getElementById('custom').value;
 let addtocart = document.getElementById('add-to-cart');
@@ -158,4 +153,5 @@ addtocart.innerHTML = addtocart.innerHTML.replace("description", description);
 });
 }
 {% endfor %}
-}</script>
+}
+</script>

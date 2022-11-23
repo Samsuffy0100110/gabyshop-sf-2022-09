@@ -5,14 +5,13 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul
-					class="navbar-nav me-auto mb-2 mb-lg-0">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					{% for parentCategory in parentCategories %}
-					<li class="nav-item">
-						<a class="nav-link" href="{{ path('category_show', { parentCategory: parentCategory.slug }) }}">
-							{{ parentCategory.name }}
-						</a>
-					</li>
+						<li class="nav-item">
+							<a class="nav-link fs-5" href="{{ path('category_show', { parentCategory: parentCategory.slug }) }}">
+								{{ parentCategory.name }}
+							</a>
+						</li>
 					{% endfor %}
 				</ul>
 				<div class="dropdown">
@@ -28,7 +27,6 @@
 		</div>
 	</nav>
 </div>
-
 <script>
 	function myFunction() {
 document.getElementById("myDropdown").classList.toggle("show");

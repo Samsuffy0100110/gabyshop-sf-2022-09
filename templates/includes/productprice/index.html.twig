@@ -7,10 +7,14 @@
 {% endfor %}
 {% for offer in offers %}
 	{% if offer.typeReduce == "percent" %}
-		<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }} : - {{ offer.reduce }}&nbsp%</div>
+		<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }}
+			: -
+			{{ offer.reduce }}&nbsp%</div>
 	{% endif %}
 	{% if offer.typeReduce == "euro" %}
-		<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }} : - {{ offer.reduce }}&nbsp€</div>
+		<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }}
+			: -
+			{{ offer.reduce }}&nbsp€</div>
 	{% endif %}
 {% else %}
 	<p class="card-text fw-bold text-end fs-5 mt-auto">{{ product.price / 100}}&nbsp€</p>

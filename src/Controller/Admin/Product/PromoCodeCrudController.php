@@ -27,6 +27,7 @@ class PromoCodeCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Codes Promo')
             ->setSearchFields(['name', 'reduce', 'code','dateStart', 'dateEnd', 'active'])
             ->setPaginatorPageSize(10)
+            ->showEntityActionsInlined()
             ->setDefaultSort(['name' => 'ASC']);
     }
 
@@ -45,7 +46,8 @@ class PromoCodeCrudController extends AbstractCrudController
                 ->setFormat('long'),
             DateField::new('endedAt', 'Date de fin')
                 ->setFormat('long'),
-            BooleanField::new('Isactive', 'Actif'),
+            BooleanField::new('Isactive', 'Actif')
+                ->setHelp('Attention un seul code promo peut être actif à la fois'),
         ];
     }
 
