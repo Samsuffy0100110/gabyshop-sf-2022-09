@@ -34,8 +34,6 @@
 								<th scope="col">Numéro commande</th>
 								<th scope="col">Statut</th>
 								<th scope="col">Payée le</th>
-								<th scope="col">Produit(s)</th>
-								<th scope="col" colspan="2">Total</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -56,11 +54,7 @@
 										{% endif %}
 									</td>
 									<td>{{ order.createdAt |date('d-m-Y') }}</td>
-									<td class="text-left">{{ order.orderDetails|length }}</td>
-									{% for shipping in order.shipping %}
-										<td>{{ ((shipping.price) + order.getTotal / 100)|number_format(2, ',', '.', ' ') }}
-											&euro;</td>
-									{% endfor %}
+									
 									<td class="text-right">
 										<a class="linkNav" href="{{ path('account_order', {'id': order.id}) }}">Détail de votre commande</a>
 									</td>
