@@ -1,6 +1,6 @@
 <div class="container">
 	<div class="row">
-	<h2 class="mt-2 mb-5 text-center">Notre Selection</h2>
+		<h2 class="mt-2 mb-5 text-center">Notre Selection</h2>
 		<div class="col-lg-6 mb-lg-0 col mb-2">
 			{% for starProduct in starProducts|filter(starProduct => starProduct.position == 1) %}
 				<a href="{{ path('product_show', { parentCategory: starProduct.product.category.parent.slug, category: starProduct.product.category.slug, product: starProduct.product.slug }) }}">
@@ -24,11 +24,13 @@
 						{% for offer in offers %}
 							{% if offer.typeReduce == "percent" %}
 								<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold mb-1" style="font-size: 0.75rem">{{ offer.name }}
-									: - {{ offer.reduce }}&nbsp%</div>
+									: -
+									{{ offer.reduce }}&nbsp%</div>
 							{% endif %}
 							{% if offer.typeReduce == "euro" %}
 								<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold mb-1" style="font-size: 0.75rem">{{ offer.name }}
-									: - {{ offer.reduce }}&nbsp€</div>
+									: -
+									{{ offer.reduce }}&nbsp€</div>
 							{% endif %}
 						{% else %}
 							<p class="card-text fw-bold text-end fs-5 mt-auto">{{ starProduct.product.price / 100}}&nbsp€</p>

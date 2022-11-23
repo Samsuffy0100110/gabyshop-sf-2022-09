@@ -2,8 +2,8 @@
 
 namespace App\Entity\Product;
 
-use App\Entity\Order\OrderDetails;
 use DateTimeImmutable;
+use App\Entity\Order\OrderDetails;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Communication\Commentary;

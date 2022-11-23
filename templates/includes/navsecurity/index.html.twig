@@ -42,18 +42,18 @@
 	</div>
 {% endif %}
 {% block javascripts %}
-<script>
-	let hover = document.getElementsByClassName('navHover');
+	<script>
+		let hover = document.getElementsByClassName('navHover');
 for (let i = 0; i < hover.length; i++) {
-    hover[i].addEventListener("mouseover", (event) => {
-        event.target.style.background = "linear-gradient(180deg, {{ theme.fontColor }}, {{ theme.colorMenu }})";
-        event.target.style.color = "{{ theme.fontColor }}";
-		
-	});
-    hover[i].addEventListener("mouseout", (event) => {
-        event.target.style.color = "{{ theme.fontColor }}";
-        event.target.style.background = "none";
-    });
+hover[i].addEventListener("mouseover", (event) => {
+event.target.style.background = "linear-gradient(180deg,  {{ theme.fontColor }},  {{ theme.colorMenu }})";
+event.target.style.color = "{{ theme.fontColor }}";
+
+});
+hover[i].addEventListener("mouseout", (event) => {
+event.target.style.color = "{{ theme.fontColor }}";
+event.target.style.background = "none";
+});
 }
-</script>
+	</script>
 {% endblock %}

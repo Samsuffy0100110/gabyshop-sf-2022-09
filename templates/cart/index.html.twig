@@ -128,7 +128,9 @@
 			<p>Votre panier est vide.</p>
 		{% endif %}
 	</div>
-	{% if wishlist %}{% include "includes/wishlist/index.html.twig" %}{% endif %}
+	{% if wishlist %}
+		{% include "includes/wishlist/index.html.twig" %}
+	{% endif %}
 	<script>
 		let attribut = document.querySelectorAll('.attribut');
 	</script>

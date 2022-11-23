@@ -7,7 +7,6 @@ use App\Entity\Product\Offer;
 use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\Product\OfferRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class CartService
