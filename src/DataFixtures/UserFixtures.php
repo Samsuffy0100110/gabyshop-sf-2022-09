@@ -36,25 +36,6 @@ class UserFixtures extends Fixture
         $this->addReference("Admin", $user);
         $user->setPassword($hashPassword);
         $manager->persist($user);
-
-        $user = new User();
-        $user->setEmail("user@localhost.fr");
-        $user->setRoles(["ROLE_USER"]);
-        $hashPassword = $this->passwordHasher->hashPassword($user, "user");
-        $user->setFirstname("User");
-        $user->setLastname("Lastname");
-        $user->setIsPro(false);
-        $user->setIdpro("");
-        $user->setCompanyname("");
-        $user->setGoogleId("123456789");
-        $user->setIsNewsletterOk(true);
-        $user->setBirthday(new DateTimeImmutable());
-        $user->setGender("Femme");
-        $user->setPhone("0631896585");
-        $user->setPassword($hashPassword);
-        $this->addReference("User", $user);
-        $manager->persist($user);
-
         $manager->flush();
     }
 }

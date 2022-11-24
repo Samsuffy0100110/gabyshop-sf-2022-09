@@ -35,7 +35,8 @@ class ProfileType extends AbstractType
                         'maxMessage' => 'Le prénom doit contenir au maximum {{ limit }} caractères',
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z]+$/',
+                        'pattern' => '/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄ
+                        ĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]+$/',
                         'message' => 'Le prénom ne doit contenir que des lettres',
                     ]),
                 ],
@@ -53,7 +54,8 @@ class ProfileType extends AbstractType
                         'maxMessage' => 'Le nom doit contenir au maximum {{ limit }} caractères',
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z]+$/',
+                        'pattern' => '/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄ
+                        ĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]+$/',
                         'message' => 'Le nom ne doit contenir que des lettres',
                     ]),
                 ],
@@ -130,16 +132,6 @@ class ProfileType extends AbstractType
                 ],
                 'required' => false
             ])
-            ->add(
-                'avatarFile',
-                DropzoneType::class,
-                [
-                'label' => false,
-                'attr' => [
-                    'placeholder' => 'Glissez ici pour uploader votre avatar',
-                ],
-                ]
-            )
             ->add('isNewsletterOk', CheckboxType::class, [
                 'label' => 'Je souhaite recevoir la newsletter',
                 'required' => false,

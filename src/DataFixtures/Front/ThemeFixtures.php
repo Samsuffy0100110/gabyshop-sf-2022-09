@@ -18,16 +18,6 @@ class ThemeFixtures extends Fixture
         $theme->setFontColor("#FFFFFF");
         $theme->setIsActive(true);
         $manager->persist($theme);
-
-        $theme = new Theme();
-        $theme->setName("Thème 2");
-        $theme->setColorMenu("#FFFFFF");
-        $theme->setBackgroundColor("#000000");
-        $theme->setFooterColor("#FFFFAF");
-        $theme->setFontColor("#000000");
-        $theme->setIsActive(false);
-        $manager->persist($theme);
-
         $manager->flush();
     }
 }
