@@ -77,8 +77,10 @@ class DashboardController extends AbstractDashboardController
     }
 
     public function configureMenuItems(): iterable
-    {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+    {   
+        yield MenuItem::linkToRoute('Retour sur le site', 'fas fa-home', 'home');
+        yield MenuItem::section('');
+        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-sliders');
         yield MenuItem::section('');
         yield MenuItem::section('Gestion Produits');
         yield MenuItem::linkToCrud('Catégorie', 'fas fa-folder', ParentCategory::class);
@@ -114,7 +116,5 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('');
         yield MenuItem::section('Commentaires');
         yield MenuItem::linkToCrud('Commentaires', 'fas fa-comments', Commentary::class);
-        yield MenuItem::section('');
-        yield MenuItem::linkToRoute('Retour sur le site', 'fas fa-home', 'home');
     }
 }
