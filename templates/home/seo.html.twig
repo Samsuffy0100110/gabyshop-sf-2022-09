@@ -12,6 +12,7 @@
 <meta property="og:title" content="{{ shop.name }}" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://gabyshop.fr" />
+{% if logo != null %}
 <meta property="og:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
 <meta property="og:description" content="{{ shop.description }}" />
 <meta property="twitter:title" content="{{ shop.name }}" />
@@ -49,6 +50,7 @@
 <meta property="youtube:url" content="https://gabyshop.fr" />
 <meta property="youtube:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
 <meta property="youtube:description" content="{{ shop.description }}" />
+{% endif %}
 <title>
     {% block title %}{{ shop.name }}
     {% endblock %}

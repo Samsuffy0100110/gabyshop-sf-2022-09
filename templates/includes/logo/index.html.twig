@@ -2,7 +2,13 @@
 	<div class="row mt-2 align-items-center">
 		<div class="col">
 			{% if logo %}
-				<a href="{{ path('home') }}"><img class="logo" src="{{ '/images/logos/' ~ logo.image }}" alt="{{ logo.name }}"></a>
+				{% if logo.image is empty %}
+					{% for shop in shops %}
+						<a href="{{ path('home') }}"><img class="logo rounded" src="https://fakeimg.pl/400x400/?text={{ shop.name }}" alt="{{ logo.name }}"></a>
+					{% endfor %}
+				{% else %}
+					<a href="{{ path('home') }}"><img class="logo" src="{{ '/images/logos/' ~ logo.image }}" alt="{{ logo.name }}"></a>
+				{% endif %}
 			{% else %}
 				{% for shop in shops %}
 					<a class="text-decoration-none" href="{{ path('home') }}">

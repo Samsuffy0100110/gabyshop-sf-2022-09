@@ -1,5 +1,9 @@
 <div class="col-lg-12">
-	<img src="{{ ('/images/products/' ~ product.image0) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded mb-2 img-gallery">
+	{% if product.image0 is empty %}
+		<img class="myImages w-100 rounded mb-2 img-gallery" src="https://fakeimg.pl/400x400/?text={{ product.name }}" alt="{{ product.name }}">
+	{% else %}
+		<img src="{{ ('/images/products/' ~ product.image0) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded mb-2 img-gallery">
+	{% endif %}
 </div>
 <div class="col-lg-3">
 	{% if product.image1 == null %}
@@ -50,7 +54,7 @@
 
 <!-- The Modal -->
 <div id="myModal" class="modal">
-  <span class="close">&times;</span>
-  <img class="modal-content" id="img01">
-  <div id="caption"></div>
+	<span class="close">&times;</span>
+	<img class="modal-content" id="img01">
+	<div id="caption"></div>
 </div>

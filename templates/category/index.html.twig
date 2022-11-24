@@ -24,10 +24,14 @@
 		<div class="row">
 			<div class="col-lg-12 mt-5 mb-5">
 				<div class="card text-white fw-bold">
-					<img class="img-fluid shadow rounded-top w-100 banner-image" style="max-height: 400px" src="{{ ('/images/categories/' ~ category.image) }}" alt="{{ category.name }}">
-					<div class="card-img-overlay d-flex">
-						<h1 class="card-title text-center align-self-center mx-auto">{{ category.name }}</h1>
-					</div>
+					{% if category.image is empty %}
+						<img class="img-fluid rounded-top w-100 banner-image" style="max-height: 400px" src="https://fakeimg.pl/1000x400/?text={{ category.name }}" alt="{{ category.name }}">
+					{% else %}
+						<img class="img-fluid shadow rounded-top w-100 banner-image" style="max-height: 400px" src="{{ ('/images/categories/' ~ category.image) }}" alt="{{ category.name }}">
+						<div class="card-img-overlay d-flex">
+							<h1 class="card-title text-center align-self-center mx-auto">{{ category.name }}</h1>
+						</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -43,7 +47,11 @@
 					<div class="col-lg-3 col-6 mb-2 d-flex justify-content-center">
 						<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">
 							<div class="card product-card shadow">
-								<img src="{{ ('/images/products/' ~ product.image0)|imagine_filter('latest_products') }}" class="w-100 card-img-top product-image" alt="{{ product.name }}">
+								{% if product.image0 is empty %}
+									<img class="w-100 card-img-top product-image" src="https://fakeimg.pl/400x400/?text={{ product.name }}" alt="{{ product.name }}">
+								{% else %}
+									<img src="{{ ('/images/products/' ~ product.image0)|imagine_filter('latest_products') }}" class="w-100 card-img-top product-image" alt="{{ product.name }}">
+								{% endif %}
 								<div class="middle">
 									<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
 								</div>
