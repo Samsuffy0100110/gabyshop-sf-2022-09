@@ -63,22 +63,26 @@ class ProductCrudController extends AbstractCrudController
             ->setBasePath('/images/products')
             ->setUploadDir('public/images/products')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
-            ->setRequired(false),
+            ->setRequired(false)
+            ->hideOnIndex(),
         ImageField::new('image2', 'Image 2')
             ->setBasePath('/images/products')
             ->setUploadDir('public/images/products')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
-            ->setRequired(false),
+            ->setRequired(false)
+            ->hideOnIndex(),
         ImageField::new('image3', 'Image 3')
             ->setBasePath('/images/products')
             ->setUploadDir('public/images/products')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
-            ->setRequired(false),
+            ->setRequired(false)
+            ->hideOnIndex(),
         ImageField::new('image4', 'Image 4')
             ->setBasePath('/images/products')
             ->setUploadDir('public/images/products')
             ->setUploadedFileNamePattern('[randomhash].[extension]')
-            ->setRequired(false),
+            ->setRequired(false)
+            ->hideOnIndex(),
         MoneyField::new('price')
             ->setLabel('Prix')
             ->setCurrency('EUR'),
@@ -105,7 +109,7 @@ class ProductCrudController extends AbstractCrudController
             ->setTargetFieldName('name')
             ->setLabel('Slug')
             ->setHelp('Le slug est le nom qui apparaîtra dans la barre de navigation, 
-            il est généré automatiquement à partir du nom')
+            il est généré automatiquement à partir du nom du produit')
             ->hideOnIndex(),
         ];
     }

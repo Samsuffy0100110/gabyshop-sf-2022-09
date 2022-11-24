@@ -7,7 +7,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ShopCrudController extends AbstractCrudController
@@ -37,14 +41,15 @@ class ShopCrudController extends AbstractCrudController
                 ->setLabel('Ville'),
             TextField::new('zipCode')
                 ->setLabel('Code postal'),
-            TextField::new('country')
+            CountryField::new('country')
                 ->setLabel('Pays'),
-            TextField::new('phone')
+            TelephoneField::new('phone')
                 ->setLabel('Téléphone'),
-            TextField::new('mail')
+            EmailField::new('mail')
                 ->setLabel('Email'),
-            TextField::new('description')
-                ->setLabel('Description'),
+            TextareaField::new('description')
+                ->setLabel('Description')
+                ->hideOnIndex(),
             TextField::new('shopNumberPro')
                 ->setLabel('Numéro de boutique PRO'),
             BooleanField::new('isActive')

@@ -7,10 +7,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 
 class AttributCrudController extends AbstractCrudController
 {
@@ -32,17 +33,25 @@ class AttributCrudController extends AbstractCrudController
     {
         return [
             TextField::new('name')
-                ->setLabel('Nom'),
+                ->setLabel('Nom')
+                ->setDefaultColumns('col-lg-8'),
             IntegerField::new('position')
                 ->setLabel('Position')
-                ->hideOnIndex(),
+                ->hideOnIndex()
+                ->setDefaultColumns('col-lg-8'),
             IntegerField::new('quantity')
-                ->setLabel('Quantité'),
+                ->setLabel('Quantité')
+                ->setDefaultColumns('col-lg-8'),
             AssociationField::new('product')
                 ->setLabel('Produit')
-                ->hideOnForm(),
-            IntegerField::new('price')
+                ->hideOnForm()
+                ->setDefaultColumns('col-lg-8'),
+            MoneyField::new('price')
                 ->setLabel('Prix')
+                ->setCurrency('EUR')
+                ->setHelp('Prix de la personnalisation')
+                ->setDefaultColumns('col-lg-8')
+                ->setNumDecimals(2)
                 ->setRequired(true),
             TextField::new('perso')
                 ->setLabel('Personnalisation')

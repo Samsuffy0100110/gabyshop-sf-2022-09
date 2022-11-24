@@ -52,7 +52,9 @@ class PagesCrudController extends AbstractCrudController
                 ->setFormat('long'),
             SlugField::new('slug')
                 ->setTargetFieldName('title')
-                ->setLabel('Slug'),
+                ->setLabel('Slug')
+                ->setHelp('Le slug est le nom qui apparaîtra dans la barre de navigation, 
+                    il est généré automatiquement à partir du nom de la page'),
             TextareaField::new('content')
                 ->setLabel('Contenu')
                 ->setFormType(CKEditorType::class)

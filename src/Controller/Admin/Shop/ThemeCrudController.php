@@ -33,16 +33,17 @@ class ThemeCrudController extends AbstractCrudController
             TextField::new('name')
                 ->setLabel('Nom'),
             ColorField::new('colorMenu')
-                ->setLabel('Couleur'),
+                ->setLabel('Couleur du menu'),
             ColorField::new('backgroundColor')
                 ->setLabel('Couleur de fond'),
             ColorField::new('footerColor')
                 ->setLabel('Couleur du pied de page'),
             ColorField::new('fontColor')
-                ->setLabel('Couleur de la police'),
+                ->setLabel('Couleur de la police')
+                ->setHelp('Attention au contraste des couleurs'),
             BooleanField::new('isActive')
                 ->setLabel('Actif')
-                ->hideOnForm(),
+                ->hideOnForm()
         ];
     }
 

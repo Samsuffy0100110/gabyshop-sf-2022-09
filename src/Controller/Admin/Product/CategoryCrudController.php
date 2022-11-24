@@ -54,7 +54,7 @@ class CategoryCrudController extends AbstractCrudController
                 ->setTargetFieldName('name')
                 ->setLabel('Slug')
                 ->setHelp('Le slug est le nom qui apparaîtra dans la barre de navigation, 
-                il est généré automatiquement à partir du nom')
+                il est généré automatiquement à partir du nom de la sous-catégorie,')
                 ->hideOnIndex(),
         ];
     }
