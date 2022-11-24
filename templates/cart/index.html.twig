@@ -40,7 +40,11 @@
 						{% for attribut in cart %}
 							<tr>
 								<td>
-									<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
+									{% if attribut.attribut.product.image0 is empty %}
+										<img class="rounded img-thumbnail" src="https://fakeimg.pl/100x100/?text={{ attribut.attribut.product.name }}" alt="{{ attribut.attribut.product.name }}">
+									{% else %}
+										<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
+									{% endif %}
 								</td>
 								<td>
 									{{ attribut.attribut.product.name }}<br>
@@ -85,34 +89,27 @@
 											{% endif %}
 										{% endfor %}
 										{% set totalWhitOffers = (attribut.attribut.product.price  - totalPercent) + (attribut.attribut.price * 100) %}
-										<p class="card-text fw-bold">{{ (((totalWhitOffers) / 100) - totalEuro) | number_format(2, ',', '.')}} </p>
-										
-									</td>
+										<p class="card-text fw-bold">{{ (((totalWhitOffers) / 100) - totalEuro) | number_format(2, ',', '.')}}</p>
 								</td>
-								<td>{{ ((( totalWhitOffers * attribut.quantity) / 100) - totalEuro) | number_format(2, ',', '.') }}
-									&euro;</td>
-								<td>
-									<a href="{{ path('cart_delete', { id:attribut.attribut.id }) }}">
-										<img src="{{ ('/images/others/trash-can.png') }}" alt="supprimer mon produit" height="20">
-									</a>
-								</td>
+								<td>{{ ((( totalWhitOffers * attribut.quantity) / 100) - totalEuro) | number_format(2, ',', '.') }}&euro;</td>
+								
 								{% set Total = Total + ((totalWhitOffers * attribut.quantity) / 100 ) - totalEuro  %}
 							{% else %}
-								<td>
 									{{ (attribut.attribut.product.price / 100) + (attribut.attribut.price) }}&euro;
 								</td>
 								<td>{{ ((((attribut.attribut.product.price / 100) + (attribut.attribut.price)) * attribut.quantity)) | number_format(2, ',', '.') }}
 									&euro;
 								</td>
-								<td>
+								{% set total = total + (((attribut.attribut.product.price / 100) + attribut.attribut.price) * attribut.quantity) %}
+							{% endif %}
+							<td>
 									<a href="{{ path('cart_delete', { id:attribut.attribut.id }) }}">
 										<img src="{{ ('/images/others/trash-can.png') }}" alt="supprimer mon produit" height="20">
 									</a>
-								</td>
-								{% set total = total + (((attribut.attribut.product.price / 100) + attribut.attribut.price) * attribut.quantity) %}
-							{% endif %}
+						</td>
 							{% set nbProducts = nbProducts + attribut.quantity %}
 						{% endfor %}
+						
 					</tbody>
 				</table>
 			</div>

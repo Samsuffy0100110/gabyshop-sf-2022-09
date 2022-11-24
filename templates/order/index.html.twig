@@ -81,7 +81,11 @@
 					{% for key, attribut in cart %}
 						<div class="row {% if key > 0 %}mt-2{% endif %}d-flex flex-nowrap">
 							<div class="col">
-								<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
+								{% if attribut.attribut.product.image0 is empty %}
+									<img class="rounded img-thumbnail" src="https://fakeimg.pl/100x100/?text={{ attribut.attribut.product.name }}" alt="{{ attribut.attribut.product.name }}">
+								{% else %}
+									<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
+								{% endif %}
 							</div>
 							<div class="col">
 								<p class="fw-bold">{{ attribut.attribut.product.name }}</p><br>
@@ -89,7 +93,7 @@
 							</div>
 							<div class="col my-auto">
 								<b>x
-								{{ attribut.quantity }}</b>
+									{{ attribut.quantity }}</b>
 							</div>
 							{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
 							{% if offers| length > 0 %}
