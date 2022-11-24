@@ -125,14 +125,10 @@ textArea.setAttribute('required', 'required');
 textArea.setAttribute('rows', '4');
 textArea.setAttribute('cols', '50');
 span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
-<<<<<<< HEAD
 span.setAttribute('class', 'badge bg-info mb-3');
 
 {% if product.offers is not empty %}
 totalPrice.innerHTML = ((quantity) * ((total / 100) + {{ attribut.price }} )) - totalEuro + '€';
-=======
-span.setAttribute('class', 'badge bg-info mb-3');{% if product.offers is not empty %}totalPrice.innerHTML = (quantity) * ((total / 100) + {{ attribut.price }}) + '€';
->>>>>>> 938c03ae36f142dec29dedeb8c3bc61f288e8c76
 totalInlinePrice.innerHTML = (quantity) * ({{ product.price / 100 }}) + '€';
 {% else %}totalPrice.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';{% endif %}totalPrice.setAttribute('class', 'fw-bold text-end fs-5 mt-auto');
 totalInlinePrice.setAttribute('class', 'card-text fw-bold text-decoration-line-through text-end');{% if attribut.persoIsEnable %}customForm.replaceChildren(h3, p, textArea, span, totalInlinePrice, totalPrice);
