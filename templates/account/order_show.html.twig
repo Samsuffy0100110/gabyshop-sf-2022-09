@@ -64,7 +64,7 @@
 					{% set TotalwithNoPriandSecHT = 0 %}
 					{% for product in order.orderDetails %}
 						<tr>
-							<td>{{ product.product.name }}</td>
+							<td>{{ product.product }}</td>
 							<td>{{ product.customDescription }}</td>
 							<td>{{ product.quantity }}</td>
 							{% if product.primaryOfferName is not empty and product.secondaryOfferName is not empty %}
