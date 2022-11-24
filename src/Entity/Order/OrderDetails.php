@@ -50,6 +50,7 @@ class OrderDetails
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $secondaryTypeReduce = null;
+    
     #[ORM\Column(nullable: true)]
     private ?float $customPrice = null;
     #[ORM\Column(type: Types::TEXT, nullable: true)]
