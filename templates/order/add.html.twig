@@ -68,7 +68,11 @@
 						{% for key, attribut in cart %}
 							<div class="row {% if key > 0 %}mt-2{% endif %}d-flex flex-nowrap">
 								<div class="col">
-									<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
+									{% if attribut.attribut.product.image0 is empty %}
+										<img class="rounded img-thumbnail" src="https://fakeimg.pl/100x100/?text={{ attribut.attribut.product.name }}" alt="{{ attribut.attribut.product.name }}">
+									{% else %}
+										<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
+									{% endif %}
 								</div>
 								<div class="col">
 									<p class="fw-bold">{{ attribut.attribut.product.name }}</p><br>
@@ -108,8 +112,8 @@
 										<p class="card-text">{{ ((totalWhitOffers / 100) * (attribut.quantity) - totalEuro)}}
 											€</p>
 									</div>
-								{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100) - totalEuro) %}
-								{% set totalWhitOffersHT = totalWhitOffersHT + (((totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) - totalEuro ) %}
+									{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100) - totalEuro) %}
+									{% set totalWhitOffersHT = totalWhitOffersHT + (((totalWhitOffers / 100 - ((totalWhitOffers / 100 ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) - totalEuro ) %}
 								{% else %}
 									<div class="col">
 										<b>prix HT</b>

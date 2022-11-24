@@ -26,7 +26,6 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdAt = null;
 
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $reference = null;
 
