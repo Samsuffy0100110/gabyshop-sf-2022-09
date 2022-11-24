@@ -33,7 +33,7 @@ class Attribut
     #[ORM\Column(nullable: true)]
     private ?bool $persoIsEnable = null;
 
-    #[ORM\OneToMany(mappedBy: 'attribut', targetEntity: Custom::class)]
+    #[ORM\OneToMany(mappedBy: 'attribut', targetEntity: Custom::class, cascade: ['persist', 'remove'])]
     private Collection $customs;
 
     public function __construct()

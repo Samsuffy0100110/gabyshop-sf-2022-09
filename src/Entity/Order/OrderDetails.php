@@ -30,9 +30,6 @@ class OrderDetails
     #[ORM\Column(length: 255)]
     private ?string $taxe = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orderDetails')]
-    private ?Product $product = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $primaryOfferName = null;
 
@@ -50,11 +47,15 @@ class OrderDetails
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $secondaryTypeReduce = null;
-    
+
     #[ORM\Column(nullable: true)]
     private ?float $customPrice = null;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $customDescription = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $product = null;
 
     public function getId(): ?int
     {
@@ -113,7 +114,7 @@ class OrderDetails
     {
         return sprintf('%s x%s', $this->getProduct(), $this->getQuantity());
     }
-
+    
     public function getTaxe(): ?string
     {
         return $this->taxe;
@@ -122,18 +123,6 @@ class OrderDetails
     public function setTaxe(string $taxe): self
     {
         $this->taxe = $taxe;
-
-        return $this;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
 
         return $this;
     }
@@ -229,6 +218,18 @@ class OrderDetails
     public function setCustomDescription(?string $customDescription): self
     {
         $this->customDescription = $customDescription;
+        return $this;
+    }
+
+    public function getProduct(): ?string
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?string $product): self
+    {
+        $this->product = $product;
+
         return $this;
     }
 }
