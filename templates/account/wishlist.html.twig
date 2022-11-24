@@ -19,23 +19,23 @@
 			</div>
 		</div>
 		<div class="row mt-5 mb-5">
-			<div class="col-lg-3">
+			<div class="col-lg-3 mt-2">
 				{{ include('account/_dashboardLinks.html.twig') }}
 			</div>
-			<div class="col-lg-9 border rounded p-5">
+			<div class="col-lg-9 mt-2 border rounded p-3">
 				<h1>Ma liste d'envie</h1>
 				{% if wishlists is not empty %}
 					{% for wishlist in wishlists %}
 						<div class="card mb-2">
 							<div class="card-body">
 								<div class="row">
-									<div class="col-lg-3">
+									<div class="col-lg-3 mt-2">
 										<img src="{{ ('/images/products/' ~ wishlist.product.image0)|imagine_filter('random_products_mini') }}" alt="" class="img-fluid rounded">
 										<div class="text-center">
 											<a href="{{ path('product_show', { parentCategory: wishlist.product.category.parent.slug, category: wishlist.product.category.slug, product: wishlist.product.slug }) }}" class="btn btn-outline-success m-3">Voir</a>
 										</div>
 									</div>
-									<div class="col-lg-9">
+									<div class="col-lg-9 mt-2">
 										<h5>{{ wishlist.product.name }}</h5>
 										<p>{{ wishlist.product.description }}</p>
 										<p class="text-end fw-bold fs-5">{{ wishlist.product.price / 100 }}€</p>

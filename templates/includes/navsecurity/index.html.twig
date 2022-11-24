@@ -2,21 +2,21 @@
 	<div class="container-fluid g-0" style="background-color: {{ theme.colorMenu }}; color: {{ theme.fontColor }};">
 		<div class="row g-0 d-flex align-items-center">
 			{% if is_granted('ROLE_ADMIN') %}
-				<div class="col-lg-7"></div>
-				<div class="col-lg-1 text-center">
+				<div class="col-lg-7 col"></div>
+				<div class="col-lg-1 text-center ">
 					<a class="p-2 nav-link navHover" href="{{ path('admin') }}">Administration</a>
 				</div>
 			{% else %}
-				<div class="col-lg-8"></div>
+				<div class="col-lg-7 col"></div>
 			{% endif %}
-			<div class="col-lg-1 text-center">
+			<div class="col-lg-2 text-center col">
 				<a class="nav-link navHover p-2">Bonjour
 					{{ app.user.firstname }}</a>
 			</div>
-			<div class="col-lg-1 text-center">
+			<div class="col-lg-2 text-center col">
 				<a class="nav-link navHover p-2" href="{{ path('account_dashboard') }}">Mon Compte</a>
 			</div>
-			<div class="col-lg-1 text-center">
+			<div class="col-lg-1 text-center col">
 				<a class="nav-link navHover p-2" href="{{ path('logout') }}">Déconnexion</a>
 			</div>
 		</div>
@@ -24,11 +24,11 @@
 {% else %}
 	<div class="container-fluid g-0" style="background-color: {{ theme.colorMenu }}; color: {{ theme.fontColor }};">
 		<div class="row g-0">
-			<div class="col-lg-10"></div>
-			<div class="col-lg-1 text-center">
+			<div class="col-lg-10 col"></div>
+			<div class="col-lg-1 text-center col">
 				<a class="p-2 nav-link navHover" href="{{ path('login') }}">Connexion</a>
 			</div>
-			<div class="col-lg-1 text-center">
+			<div class="col-lg-1 text-center col">
 				<a class="p-2 nav-link navHover" href="{{ path('register') }}">Inscription</a>
 			</div>
 		</div>
