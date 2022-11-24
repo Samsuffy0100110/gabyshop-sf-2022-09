@@ -7,21 +7,37 @@
 						{% if date(banner.startedAT) < date() and date(banner.endedAT) > date() %}
 							{% if banner.position == 2 and loop.index0 == 0 %}
 								<div class="carousel-item active" data-bs-interval="5000">
-									<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+									{% if banner.image is empty %}
+										<img class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" src="https://fakeimg.pl/1000x400/?text={{ banner.name }}" alt="{{ banner.name }}">
+									{% else %}
+										<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+									{% endif %}
 								</div>
 							{% endif %}
 							{% if banner.position == 1 %}
 								{% if loop.index0 == 0 and loop.first == true %}
 									<div class="carousel-item active" data-bs-interval="5000">
-										<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+										{% if banner.image is empty %}
+											<img class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" src="https://fakeimg.pl/1000x400/?text={{ banner.name }}" alt="{{ banner.name }}">
+										{% else %}
+											<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+										{% endif %}
 									</div>
 								{% elseif loop.index0 == 1 and loop.first == false  and loop.revindex == ( loop.length - 1) %}
 									<div class="carousel-item" data-bs-interval="5000">
-										<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+										{% if banner.image is empty %}
+											<img class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" src="https://fakeimg.pl/1000x400/?text={{ banner.name }}" alt="{{ banner.name }}">
+										{% else %}
+											<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+										{% endif %}
 									</div>
 								{% else %}
 									<div class="carousel-item " data-bs-interval="5000">
-										<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+										{% if banner.image is empty %}
+											<img class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" src="https://fakeimg.pl/1000x400/?text={{ banner.name }}" alt="{{ banner.name }}">
+										{% else %}
+											<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:400px;" alt="{{ banner.name }}">
+										{% endif %}
 									</div>
 								{% endif %}
 							{% endif %}
@@ -35,7 +51,11 @@
 				{% if date(banner.startedAT) < date() and date(banner.endedAT) > date() %}
 					{% if banner.position == 2 %}
 						<div class="mb-3">
-							<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:100px;" alt="{{ banner.name }}">
+							{% if banner.image is empty %}
+								<img class="img-fluid w-100 rounded banner-image shadow" style="height:100px;" src="https://fakeimg.pl/1000x100/?text={{ banner.name }}" alt="{{ banner.name }}">
+							{% else %}
+								<img src="{{ ('/images/banners/' ~ banner.image) }}" class="img-fluid w-100 rounded banner-image shadow" style="height:100px;" alt="{{ banner.name }}">
+							{% endif %}
 						</div>
 					{% endif %}
 				{% endif %}

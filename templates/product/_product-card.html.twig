@@ -124,7 +124,7 @@ textArea.setAttribute('placeholder', 'Votre texte');
 textArea.setAttribute('required', 'required');
 textArea.setAttribute('rows', '4');
 textArea.setAttribute('cols', '50');
-span.innerHTML = 'Personnalisation' + ' ' + ' + ' + {{ attribut.price }} + '€';
+span.innerHTML =' ' + {{ attribut.price }} + '€';
 span.setAttribute('class', 'badge bg-info mb-3');
 
 {% if product.offers is not empty %}

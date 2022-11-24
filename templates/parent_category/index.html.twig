@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parentCategory.name }} |
+{% block title %}
+	{{ parentCategory.name }}
+	|
 	{{ parent() }}
 {% endblock %}
 
@@ -12,7 +14,7 @@
 					<small>
 						<a class="crumb" href="{{ path('home')}}">Accueil</a>
 						/
-					<a class="fw-bold text-decoration-none link-dark">{{ parentCategory.name }}</a>
+						<a class="fw-bold text-decoration-none link-dark">{{ parentCategory.name }}</a>
 					</small>
 				</i>
 			</div>
@@ -20,10 +22,15 @@
 		<div class="row">
 			<div class="col-lg-12 mt-5 mb-5">
 				<div class="card text-white fw-bold shadow ">
-					<img class="img-fluid rounded w-100 banner-image" style="max-height: 400px" src="{{ ('/images/parentCategories/' ~ parentCategory.image) }}" alt="{{ parentCategory.name }}">
-					<div class="card-img-overlay d-flex">
-						<h1 class="card-title text-center align-self-center mx-auto">{{ parentCategory.name }}</h1>
-					</div>
+					{% if parentCategory.image is empty %}
+						<img class="img-fluid rounded w-100 banner-image" style="max-height: 400px" src="https://fakeimg.pl/1000x400/?text={{ parentCategory.name }}" alt="{{ parentCategory.name }}">
+					{% else %}
+						<img class="img-fluid rounded w-100 banner-image" style="max-height: 400px" src="{{ ('/images/parentCategories/' ~ parentCategory.image) }}" alt="{{ parentCategory.name }}">
+
+						<div class="card-img-overlay d-flex">
+							<h1 class="card-title text-center align-self-center mx-auto">{{ parentCategory.name }}</h1>
+						</div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -31,9 +38,15 @@
 			{% for category in parentCategory.categories %}
 				<div class="col-lg-3 col-6 d-flex justify-content-center mt-5">
 					<div class="card product-card shadow h-100" style="width: 400px;">
-						<div class="grayscale">
-							<figure><img class="card-img-top image-cover" style="height:400px;" src="{{ ('/images/categories/' ~ category.image)|imagine_filter('categories') }}" alt="{{ category.name }}"></figure>
-						</div>
+						{% if category.image is empty %}
+							<div class="grayscale">
+								<figure><img class=" img-fluid" style="height:400px;" src="https://fakeimg.pl/200x200/?text={{ category.name }}&font_size=30" alt="{{ category.name }}"></figure>
+							</div>
+						{% else %}
+							<div class="grayscale">
+								<figure><img class="card-img-top image-cover" style="height:400px;" src="{{ ('/images/categories/' ~ category.image)|imagine_filter('categories') }}" alt="{{ category.name }}"></figure>
+							</div>
+						{% endif %}
 						<div class="middle">
 							<a href="{{ path('sub-category_show', { parentCategory: parentCategory.slug, category: category.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
 						</div>
