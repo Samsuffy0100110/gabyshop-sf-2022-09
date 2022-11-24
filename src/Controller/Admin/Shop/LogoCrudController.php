@@ -25,7 +25,9 @@ class LogoCrudController extends AbstractCrudController
             ->setEntityLabelInPlural('Logos')
             ->setEntityLabelInSingular('Logo')
             ->showEntityActionsInlined()
-            ->setPageTitle('index', 'Administration des Logos');
+            ->setPageTitle('index', 'Administration des Logos')
+            ->setHelp('index', 'Attention un logo doit être actif pour être affiché
+            et un logo doit être actif à la fois');
     }
 
     public function configureFields(string $pageName): iterable

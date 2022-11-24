@@ -28,7 +28,8 @@ class CommentaryCrudController extends AbstractCrudController
             ->setDefaultSort(['id' => 'DESC'])
             ->setPaginatorPageSize(10)
             ->showEntityActionsInlined()
-            ->setSearchFields(['id', 'email']);
+            ->setSearchFields(['id', 'email'])
+            ->setHelp('index', 'Attention la modération des commentaires est à faire en toute responsabilité');
     }
 
     public function configureFields(string $pageName): iterable

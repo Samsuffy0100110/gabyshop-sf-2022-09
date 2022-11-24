@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
@@ -40,7 +41,7 @@ class NewsLetterCrudController extends AbstractCrudController
                 ->setLabel('Nom'),
             TextField::new('title')
                 ->setLabel('Titre'),
-            TextField::new('summary')
+            TextareaField::new('summary')
                 ->setLabel('Résumé'),
             ImageField::new('image', 'Image')
                 ->setBasePath('/images/newsletter')
