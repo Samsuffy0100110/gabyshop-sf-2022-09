@@ -35,7 +35,7 @@ class RegistrationFormType extends AbstractType
                         'maxMessage' => 'Le nom doit contenir au maximum {{ limit }} caractères',
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z]+$/',
+                        'pattern' => '/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]+$/',
                         'message' => 'Le nom ne doit contenir que des lettres',
                     ]),
                 ],
@@ -53,7 +53,7 @@ class RegistrationFormType extends AbstractType
                         'maxMessage' => 'Le prénom doit contenir au maximum {{ limit }} caractères',
                     ]),
                     new Regex([
-                        'pattern' => '/^[a-zA-Z]+$/',
+                        'pattern' => '/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]+$/',
                         'message' => 'Le prénom ne doit contenir que des lettres',
                     ]),
                 ],

@@ -2,6 +2,8 @@
 
 namespace App\Controller\Security;
 
+use App\Entity\Address;
+use App\Form\User\AddressType;
 use App\Repository\UserRepository;
 use App\Form\User\ChangePasswordType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,10 +49,15 @@ class GoogleController extends AbstractController
         $user = $userRepository->findOneBy(['id' => $this->getUser()]);
         $form = $this->createForm(ChangePasswordType::class, $user);
         $form->handleRequest($request);
+        $address = new Address();
+        $formAddress = $this->createForm(AddressType::class, $address);
+        $formAddress->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->setPassword($hashPass->hashPassword($user, $form->get('plainPassword')->getData()));
             $user->setIsVerified(true);
+            $address->setUser($user);
+            $entityManager->persist($address);
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Votre mot de passe a bien été mis à jour.');
@@ -58,6 +65,7 @@ class GoogleController extends AbstractController
         }
         return $this->render('security/google/create-password.html.twig', [
             'form' => $form->createView(),
+            'formAddress' => $formAddress->createView(),
         ]);
     }
 }

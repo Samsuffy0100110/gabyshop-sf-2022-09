@@ -42,7 +42,8 @@ class AttributCrudController extends AbstractCrudController
                 ->setLabel('Produit')
                 ->hideOnForm(),
             IntegerField::new('price')
-                ->setLabel('Prix'),
+                ->setLabel('Prix')
+                ->setRequired(true),
             TextField::new('perso')
                 ->setLabel('Personnalisation')
                 ->hideOnForm(),

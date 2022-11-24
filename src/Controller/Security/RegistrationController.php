@@ -3,13 +3,15 @@
 namespace App\Controller\Security;
 
 use App\Entity\User;
+use App\Form\User\AddressType;
 use App\Security\EmailVerifier;
 use Symfony\Component\Mime\Address;
 use App\Form\User\RegistrationFormType;
 use App\Security\SecurityAuthenticator;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Address as AddressEntity;
 use App\Repository\Front\LogoRepository;
 use App\Repository\Front\ShopRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Front\ThemeRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,9 +49,13 @@ class RegistrationController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        $address = new AddressEntity();
+        $formAddress = $this->createForm(AddressType::class, $address);
+        $formAddress->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            $address->setUser($user);
             $user->setRoles(['ROLE_USER']);
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -57,8 +63,8 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
             $entityManager->persist($user);
+            $entityManager->persist($address);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
@@ -84,6 +90,7 @@ class RegistrationController extends AbstractController
         }
         return $this->render('security/registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'addressForm' => $formAddress->createView(),
         ]);
     }
 

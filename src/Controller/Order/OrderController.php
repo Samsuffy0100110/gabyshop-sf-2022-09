@@ -73,6 +73,16 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $shipping = $form->get('shipping')->getData();
             $delivery = $form->get('addresses')->getData();
+            if ($delivery == null) {
+                $delivery = new Address();
+                $delivery->setUser($this->getUser())
+                ->setName($form->get('name')->getData())
+                ->setAdresse($form->get('adresse')->getData())
+                ->setZipcode($form->get('zipCode')->getData())
+                ->setCity($form->get('city')->getData())
+                ->setCountry($form->get('country')->getData());
+                $this->entityManager->persist($delivery);
+            } 
             $deliveryAddress = sprintf(
                 '%s %s <br> %s <br> %s %s <br> %s',
                 $delivery->getUser()->getFirstname(),
@@ -91,17 +101,6 @@ class OrderController extends AbstractController
                 ->addShipping($shipping)
                 ->setState(0);
             $this->entityManager->persist($order);
-
-            if ($mondialRelayService->shipByTotWeight($cart) != 'Livraison gratuite') {
-                $adress = new Address();
-                $adress->setUser($this->getUser())
-                    ->setName($form->get('name')->getData())
-                    ->setAdresse($form->get('adresse')->getData())
-                    ->setZipcode($form->get('zipCode')->getData())
-                    ->setCity($form->get('city')->getData())
-                    ->setCountry($form->get('country')->getData());
-                $this->entityManager->persist($adress);
-            }
 
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
@@ -160,7 +159,7 @@ class OrderController extends AbstractController
                 'order' => $order,
                 'promo_codes' => $promoCodeRepository->findByIsValidated(),
             ]);
-        }
+        } 
         return $this->redirectToRoute('cart');
     }
 
