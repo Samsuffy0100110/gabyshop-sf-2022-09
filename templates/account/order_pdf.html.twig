@@ -29,10 +29,9 @@
 		<strong>Transporteur choisi :</strong>
 		{% for ship in shipping %}
 			{{ ship.name }}
-		
-		<br>
-		<hr>
-		<strong>Détails</strong>
+			<br>
+			<hr>
+			<strong>Détails</strong>
 			<table class="table mt-4">
 				<thead>
 					<tr>
@@ -62,14 +61,11 @@
 					{% set TotalwithPriandNoSecHT = 0 %}
 					{% set TotalwithPriandSecHT = 0 %}
 					{% set TotalwithNoPriandSecHT = 0 %}
-
 					{% for product in order.orderDetails %}
 						<tr>
 							<td>{{ product.product.name }}</td>
 							<td>{{ product.customDescription }}</td>
 							<td>{{ product.quantity }}</td>
-
-
 							{% if product.primaryOfferName is not empty and product.secondaryOfferName is not empty %}
 								{% set totalWithPrimaryOffer = 0 %}
 								{% set totalWithPrimaryOfferEuro = 0 %}
@@ -129,7 +125,6 @@
 								€</td>
 							<td>{{ (totalwithPriandNoSec) | number_format(2, ',', ' ') }}
 								€</td>
-
 						</tr>
 					{% elseif product.primaryOfferName is empty and product.secondaryOfferName is not empty %}
 						{% set totalWithSecondaryOffer = 0 %}
@@ -153,7 +148,6 @@
 							€</td>
 						<td>{{ (totalwithNoPriandSec) | number_format(2, ',', ' ') }}
 							€</td>
-
 					</tr>
 				{% else %}
 					{% set totalWithNoOffer = 0 %}
@@ -168,7 +162,6 @@
 			{% endfor %}
 			{% set Total = Total +  TotalWithNoOffer +  TotalwithPriandNoSec + TotalwithPriandSec + TotalwithNoPriandSec %}
 			{% set TotalHT = TotalHT + TotalWithNoOfferHT + TotalwithPriandNoSecHT + TotalwithPriandSecHT + TotalwithNoPriandSecHT %}
-
 		</tbody>
 	</table>
 	<div class="row">
@@ -186,19 +179,14 @@
 				<hr>
 				<strong>Livraison :
 				</strong>
-
 				{{ ((ship.price))|number_format(2, ',', '.', ' ') }}
-
 				&euro;
 				<hr>
 				<strong>Total :
 				</strong>
-
 				{{  (Total + ship.price)|number_format(2, ',', '.', ' ') }}
 				&euro;
 			{% endfor %}
 		</div>
 	</div>
-</div>
-	</div>
-{% endblock %}
+</div></div>{% endblock %}
