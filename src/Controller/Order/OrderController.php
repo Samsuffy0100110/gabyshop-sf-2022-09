@@ -82,7 +82,7 @@ class OrderController extends AbstractController
                 ->setCity($form->get('city')->getData())
                 ->setCountry($form->get('country')->getData());
                 $this->entityManager->persist($delivery);
-            } 
+            }
             $deliveryAddress = sprintf(
                 '%s %s <br> %s <br> %s %s <br> %s',
                 $delivery->getUser()->getFirstname(),
@@ -159,7 +159,7 @@ class OrderController extends AbstractController
                 'order' => $order,
                 'promo_codes' => $promoCodeRepository->findByIsValidated(),
             ]);
-        } 
+        }
         return $this->redirectToRoute('cart');
     }
 

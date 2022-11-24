@@ -36,7 +36,6 @@ class UserFixtures extends Fixture
         $this->addReference("Admin", $user);
         $user->setPassword($hashPassword);
         $manager->persist($user);
-        
         $manager->flush();
     }
 }
