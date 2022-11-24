@@ -15,7 +15,6 @@
 	</div>
 	<div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">
 		{% for comment in product.commentaries %}
-			<hr>
 			<p class="text-decoration-none fw-bold">{{ comment.user.firstname }}</p>
 			<i>{{ comment.createdAt|format_datetime('full', 'short', locale='fr', timezone='Europe/Paris') }}</i>
 			<div class="container">
@@ -23,7 +22,6 @@
 					<p>{{ comment.comment|raw }}</p>
 				</div>
 			</div>
-			<hr>
 		{% endfor %}
 		{% if app.user %}
 			{{ form_start(form) }}

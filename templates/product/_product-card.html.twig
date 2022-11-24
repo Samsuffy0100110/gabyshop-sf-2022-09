@@ -76,6 +76,7 @@
 		{% set total = product.price - totalPercent %}
 	{% endif %}
 </div>
+</div>
 <script>
 	let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}function Changequantity() {
 let select = document.getElementById('quantity');
