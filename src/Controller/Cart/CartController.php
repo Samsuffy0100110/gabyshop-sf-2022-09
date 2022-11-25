@@ -6,6 +6,7 @@ use App\Service\CartService;
 use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
 use App\Repository\Product\CustomRepository;
+use App\Repository\Product\AttributRepository;
 use App\Repository\Product\WishlistRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,6 +39,7 @@ class CartController extends AbstractController
         int $quantity,
         Attribut $attribut,
         string $description,
+        AttributRepository $attributRepository,
         CustomRepository $customRepository
     ): Response {
         $custom = new Custom();
@@ -47,6 +49,8 @@ class CartController extends AbstractController
         $custom->setPrice($attribut->getPrice());
         $customRepository->save($custom, true);
         $cart->addIdAndQuantity($id, $quantity);
+        $attribut->setQuantity($attribut->getQuantity() - $quantity);
+        $attributRepository->add($attribut, true);
         return $this->redirectToRoute('cart_index');
     }
 

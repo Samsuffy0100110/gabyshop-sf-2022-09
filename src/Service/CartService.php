@@ -72,13 +72,12 @@ class CartService
             foreach ($this->get() as $id => $quantity) {
                 $attribut = $this->entityManager->getRepository(Attribut::class)->find($id);
                 $product = $attribut->getProduct();
-                $custom = $this->entityManager->getRepository(Custom::class)->findOneBy(['attribut' => $id]);
-                $description = $this->entityManager->getRepository(Custom::class)->findOneBy(['attribut' => $attribut->getName()]);
-
-                foreach ($attribut->getCustoms() as $custom) {
-                    $description = $custom->getDescription();
+                $customs = $this->entityManager->getRepository(Custom::class)->findAll();
+                foreach ($customs as $custom) {
+                    if ($custom->getDescription() == $attribut->getName()) {
+                        $custom = $custom;
+                    }
                 }
-
                 $offers = $this->entityManager->getRepository(Offer::class)->createQueryBuilder('o')
                     ->select('o')
                     ->join('o.product', 'p')
@@ -123,8 +122,7 @@ class CartService
                     'attribut' => $attribut,
                     'quantity' => $quantity,
                     'product' => $product,
-                    // 'custom' => $custom,
-                    'description' => $description,
+                    'custom' => $custom,
                     'primaryOfferName' => $primaryName,
                     'primaryOfferReduce' => $primaryReduce,
                     'primaryOfferTypeReduce' => $primaryType,
@@ -133,7 +131,7 @@ class CartService
                     'secondaryOfferTypeReduce' => $secondaryType,
                 ];
             }
-        }
+        } 
         return $cartComplete;
     }
 

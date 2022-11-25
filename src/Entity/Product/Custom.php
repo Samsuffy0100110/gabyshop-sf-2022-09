@@ -24,8 +24,8 @@ class Custom
     #[ORM\Column(nullable: true)]
     private ?int $quantity = null;
 
-    #[ORM\ManyToOne(inversedBy: 'customs')]
-    private ?Attribut $attribut = null;
+    #[ORM\Column(nullable: true)]
+    private ?string $attribut = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $price = null;
@@ -73,17 +73,15 @@ class Custom
 
     public function __toString()
     {
-        return $this->attribut . ' / ' .
-        'Déscription : ' . '  ' . $this->description . ' / ' .
-        'Quantité x' . '  ' . $this->quantity;
+        return $this->description;
     }
 
-    public function getAttribut(): ?Attribut
+    public function getAttribut(): ?string
     {
         return $this->attribut;
     }
 
-    public function setAttribut(?Attribut $attribut): self
+    public function setAttribut(?string $attribut): self
     {
         $this->attribut = $attribut;
 

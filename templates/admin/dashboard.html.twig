@@ -109,14 +109,14 @@
 											{{ shipping.price }}€
 										{% endfor %}
 									</td>
-									<td class="col text-center">
+									{# <td class="col text-center">
 										{{ order.adress.name }}
 										<br>
 										{{ order.adress.adresse }}<br>
 										{{ order.adress.zipcode }}
 										{{ order.adress.city }}<br>
 										{{ order.adress.country }}
-									</td>
+									</td> #}
 									<td class="col text-center">
 										{% if order.state == 0 %}
 											<span class="badge bg-warning">En attente de paiement</span>
