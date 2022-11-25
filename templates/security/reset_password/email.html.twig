@@ -44,7 +44,13 @@
 		</style>
 		<div class="container">
             <div class="banner">
-                <img src="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" alt="{{ logo.name }}">
+                {% if logo == null %}
+		{% for shop in shops %}
+		<img class="logo rounded" src="https://fakeimg.pl/400x400/?text={{ shop.name }}" alt="{{ shop.name }}">
+		{% endfor %}
+		{% else %}
+        <img src="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" alt="{{ logo.name }}">
+		{% endif %}
                 <h1>Bonjour {{ user.firstname }}</h1>
             </div>
             <p>Pour redéfinir un mot de passe, merci de suivre ce lien</p>
