@@ -2,10 +2,13 @@
 	<div class="row">
 		<h1 class="text-center">Site en Maintenance</h1>
 		<div class="col text-center">
-			{% if logo %}
-				<a href="{{ path('home') }}"><img class="logo" src="{{ '/images/logos/' ~ logo.image }}" alt="{{ logo.name }}"></a>
-				{% else %}
-			{% endif %}
+			{% if logo == null %}
+		{% for shop in shops %}
+		<img class="logo rounded" src="https://fakeimg.pl/400x400/?text={{ shop.name }}" alt="{{ shop.name }}">
+		{% endfor %}
+		{% else %}
+        <img src="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" alt="{{ logo.name }}">
+		{% endif %}
 			{% for shop in shops %}
 				<div class="fs-1 text-center mx-auto">{{ shop.name }}</div>
 				<div class="text-center mb-2">Notre site est actuellement en maintenance.</div>

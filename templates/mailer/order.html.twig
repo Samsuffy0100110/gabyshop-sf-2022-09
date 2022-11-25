@@ -121,7 +121,7 @@
 			<div class="banner">
 				{% if logo == null %}
 					{% for shop in shops %}
-						<a href="{{ path('home') }}"><img class="logo rounded" src="https://fakeimg.pl/400x400/?text={{ shop.name }}" alt="{{ shop.name }}"></a>
+						<img class="logo rounded" src="https://fakeimg.pl/400x400/?text={{ shop.name }}" alt="{{ shop.name }}">
 					{% endfor %}
 				{% else %}
 					<img src="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" alt="{{ logo.name }}">
