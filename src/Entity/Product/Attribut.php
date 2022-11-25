@@ -33,14 +33,6 @@ class Attribut
     #[ORM\Column(nullable: true)]
     private ?bool $persoIsEnable = null;
 
-    #[ORM\OneToMany(mappedBy: 'attribut', targetEntity: Custom::class, cascade: ['persist', 'remove'])]
-    private Collection $customs;
-
-    public function __construct()
-    {
-        $this->customs = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -119,24 +111,6 @@ class Attribut
     public function setPersoIsEnable(?bool $persoIsEnable): self
     {
         $this->persoIsEnable = $persoIsEnable;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Custom>
-     */
-    public function getCustoms(): Collection
-    {
-        return $this->customs;
-    }
-
-    public function addCustom(Custom $custom): self
-    {
-        if (!$this->customs->contains($custom)) {
-            $this->customs->add($custom);
-            $custom->setAttribut($this);
-        }
 
         return $this;
     }
