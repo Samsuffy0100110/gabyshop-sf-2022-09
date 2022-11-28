@@ -114,16 +114,4 @@ class Attribut
 
         return $this;
     }
-
-    public function removeCustom(Custom $custom): self
-    {
-        if ($this->customs->removeElement($custom)) {
-            // set the owning side to null (unless already changed)
-            if ($custom->getAttribut() === $this) {
-                $custom->setAttribut(null);
-            }
-        }
-
-        return $this;
-    }
 }
