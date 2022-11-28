@@ -23,6 +23,7 @@ use App\Entity\Product\ParentCategory;
 use App\Entity\Communication\Commentary;
 use App\Entity\Communication\NewsLetter;
 use App\Entity\Product\FeaturedProducts;
+use App\Repository\Order\OrderDetailsRepository;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Product\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,6 +48,7 @@ class DashboardController extends AbstractDashboardController
 
     public function __construct(
         OrderRepository $orderRepository,
+        OrderDetailsRepository $orderDetailsRepository,
         ProductRepository $productRepository,
         UserRepository $userRepository,
         AddressRepository $addressRepository
@@ -55,6 +57,7 @@ class DashboardController extends AbstractDashboardController
         $this->productRepository = $productRepository;
         $this->userRepository = $userRepository;
         $this->addressRepository = $addressRepository;
+        $this->orderDetailsRepository = $orderDetailsRepository;
     }
 
     #[Route('/admin', name: 'admin')]
@@ -66,6 +69,7 @@ class DashboardController extends AbstractDashboardController
             'products' => $this->productRepository->findAll(),
             'users' => $this->userRepository->findAll(),
             'addresses' => $this->addressRepository->findAll(),
+            'ordersDetails' => $this->orderDetailsRepository->findAll(),
         ]);
     }
 

@@ -150,25 +150,24 @@ class OrderController extends AbstractController
                 ->getQuery()
                 ->execute();
 
-            // $adress = $form->get('addresses')->getData();
-            // if ($mondialRelayService->shipByTotWeight($cart) != 'Livraison gratuite') {
-            //     $orderRepository->createQueryBuilder('o')
-            //     ->update()
-            //     ->set('o.adress', ':adress')
-            //     ->where('o.adress IS NULL')
-            //     ->setParameter('adress', $adress)
-            //     ->getQuery()
-            //     ->execute();
-            // }
-            // } else {
-            //     $orderRepository->createQueryBuilder('o')
-            //     ->update()
-            //     ->set('o.adress', ':adress')
-            //     ->where('o.adress IS NULL')
-            //     ->setParameter('adress', $delivery)
-            //     ->getQuery()
-            //     ->execute();
-            // }
+            $adress = $form->get('addresses')->getData();
+            if ($mondialRelayService->shipByTotWeight($cart) != 'Livraison gratuite') {
+                $orderRepository->createQueryBuilder('o')
+                ->update()
+                ->set('o.adress', ':adress')
+                ->where('o.adress IS NULL')
+                ->setParameter('adress', $adress)
+                ->getQuery()
+                ->execute();
+            } else {
+                $orderRepository->createQueryBuilder('o')
+                ->update()
+                ->set('o.adress', ':adress')
+                ->where('o.adress IS NULL')
+                ->setParameter('adress', $delivery)
+                ->getQuery()
+                ->execute();
+            }
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
                 'shipping' => $shipping,

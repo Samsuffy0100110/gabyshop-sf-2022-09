@@ -90,16 +90,18 @@
 							</tr>
 						</thead>
 						{% for order in orders |filter (order => order.state != 4) %}
+	
 							<tbody>
 								<tr>
 									<td class="col text-center">{{ order.reference }}</td>
 									<td class="col text-center">{{ order.user.fullName }}</td>
 									<td class="col text-center">
 										{% for product in order.orderDetails %}
-											{{ product.product}}
+											{{ product.product}} 
 											x
 											{{ product.quantity }}
 											<br>
+											perso: {{ product.customDescription}}
 										{% endfor %}
 									</td>
 									<td class="col text-center">{{ order.createdAt|date('d/m/Y') }}</td>
@@ -109,14 +111,14 @@
 											{{ shipping.price }}€
 										{% endfor %}
 									</td>
-									{# <td class="col text-center">
+									<td class="col text-center">
 										{{ order.adress.name }}
 										<br>
 										{{ order.adress.adresse }}<br>
 										{{ order.adress.zipcode }}
 										{{ order.adress.city }}<br>
 										{{ order.adress.country }}
-									</td> #}
+									</td>
 									<td class="col text-center">
 										{% if order.state == 0 %}
 											<span class="badge bg-warning">En attente de paiement</span>
