@@ -40,6 +40,9 @@
 					{{ (shipping.price)| number_format(2, ',', '.') }}
 					&euro;
 				</div>
+				<pre>
+					{{ dump(order) }}
+				</pre>
 				{% for promo_code in promo_codes %}
 					{% if promo_code is not empty %}
 						<hr>
