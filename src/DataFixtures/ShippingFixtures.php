@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures\Order;
+namespace App\DataFixtures;
 
 use App\Entity\Order\Shipping;
 use Doctrine\Persistence\ObjectManager;

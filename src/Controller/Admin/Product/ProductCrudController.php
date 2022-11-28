@@ -51,7 +51,8 @@ class ProductCrudController extends AbstractCrudController
         TextareaField::new('summary', 'Résumé')
             ->setLabel('Résumé'),
         TextareaField::new('description', 'Description')
-            ->setLabel('Description'),
+            ->setLabel('Description')
+            ->hideOnIndex(),
         CollectionField::new('attributs')
             ->useEntryCrudForm(),
         ImageField::new('image0', 'Image Principale')

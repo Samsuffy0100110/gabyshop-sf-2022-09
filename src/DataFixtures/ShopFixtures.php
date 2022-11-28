@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures\Front;
+namespace App\DataFixtures;
 
 use App\Entity\Front\Shop;
 use Doctrine\Persistence\ObjectManager;

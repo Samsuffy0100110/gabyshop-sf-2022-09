@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures\Front;
+namespace App\DataFixtures;
 
 use App\Entity\Maintenance;
 use Doctrine\Persistence\ObjectManager;
