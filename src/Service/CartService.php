@@ -131,7 +131,7 @@ class CartService
                     'secondaryOfferTypeReduce' => $secondaryType,
                 ];
             }
-        } 
+        }
         return $cartComplete;
     }
 

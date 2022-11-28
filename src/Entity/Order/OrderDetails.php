@@ -114,7 +114,7 @@ class OrderDetails
     {
         return sprintf('%s x%s', $this->getProduct(), $this->getQuantity());
     }
-    
+
     public function getTaxe(): ?string
     {
         return $this->taxe;
