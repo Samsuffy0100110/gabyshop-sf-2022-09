@@ -12,6 +12,7 @@ use App\Repository\AddressRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Order\ShippingRepository;
+use App\Repository\Product\CustomRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\Product\WishlistRepository;
@@ -104,11 +105,13 @@ class AccountController extends AbstractController
     #[ParamConverter('order', options: ['mapping' => ['id' => 'id']])]
     public function userOrder(
         Order $order,
+        CustomRepository $customRepository,
     ): Response {
         $shipping = $order->getShipping();
         return $this->render('account/order_show.html.twig', [
             'order' => $order,
             'shipping' => $shipping,
+            'customs' => $customRepository->findBy(['customOrder' => $order]),
         ]);
     }
 

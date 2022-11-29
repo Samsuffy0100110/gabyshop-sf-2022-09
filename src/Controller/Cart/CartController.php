@@ -47,6 +47,7 @@ class CartController extends AbstractController
         $custom->setDescription($description);
         $custom->setQuantity($quantity);
         $custom->setPrice($attribut->getPrice());
+        $custom->setProduct($attribut->getProduct());
         $customRepository->save($custom, true);
         $cart->addIdAndQuantity($id, $quantity);
         $attribut->setQuantity($attribut->getQuantity() - $quantity);
