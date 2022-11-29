@@ -164,30 +164,34 @@
 		</tbody>
 	</table>
 	<div class="row">
-		<div class="col-lg-8 bg-light rounded mt-2 mb-5 p-3">
-			<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<th scope="col">Produit</th>
-						<th scope="col">Attribut</th>
-						<th scope="col">Prix</th>
-						<th scope="col">Quantité</th>
-						<th scope="col">Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for custom in customs %}
+		{% if customs %}
+			<div class="col-lg-8 bg-light rounded mt-2 mb-5 p-3">
+				<table class="table table-bordered table-striped">
+					<thead>
 						<tr>
-							<td>{{ custom.product }}</td>
-							<td>{{ custom.attribut }}</td>
-							<td>{{ custom.price | number_format(2, ',', ' ') }}€</td>
-							<td>{{ custom.quantity }}</td>
-							<td>{{ custom.description }}</td>
+							<th scope="col">Produit</th>
+							<th scope="col">Attribut</th>
+							<th scope="col">Personnalisation</th>
+							<th scope="col">Quantité</th>
+							<th scope="col">Description</th>
 						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+					</thead>
+					<tbody>
+						{% for custom in customs %}
+							<tr>
+								<td>{{ custom.product }}</td>
+								<td>{{ custom.attribut }}</td>
+								<td>{{ custom.price | number_format(2, ',', ' ') }}€</td>
+								<td>{{ custom.quantity }}</td>
+								<td>{{ custom.description }}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% else %}
+			<div class="col-g-8"></div>
+		{% endif %}
 		<div class="col-lg-2"></div>
 		<div class="col-lg-2 bg-light rounded mt-2 mb-5 p-3">
 			<div class="text-end">

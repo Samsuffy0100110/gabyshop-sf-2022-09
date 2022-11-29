@@ -73,16 +73,6 @@ class OrderController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $shipping = $form->get('shipping')->getData();
             $delivery = $form->get('addresses')->getData();
-            // if ($delivery == null) {
-            //     $delivery = new Address();
-            //     $delivery->setUser($this->getUser())
-            //         ->setName($form->get('name')->getData())
-            //         ->setAdresse($form->get('adresse')->getData())
-            //         ->setZipcode($form->get('zipCode')->getData())
-            //         ->setCity($form->get('city')->getData())
-            //         ->setCountry($form->get('country')->getData());
-            //     $this->entityManager->persist($delivery);
-            // }
             $deliveryAddress = sprintf(
                 '%s %s <br> %s <br> %s %s <br> %s',
                 $delivery->getUser()->getFirstname(),
@@ -105,12 +95,12 @@ class OrderController extends AbstractController
                 $this->entityManager->persist($adress);
             } else {
                 $orderRepository->createQueryBuilder('o')
-                ->update()
-                ->set('o.adress', ':adress')
-                ->where('o.adress IS NULL')
-                ->setParameter('adress', $delivery)
-                ->getQuery()
-                ->execute();
+                    ->update()
+                    ->set('o.adress', ':adress')
+                    ->where('o.adress IS NULL')
+                    ->setParameter('adress', $delivery)
+                    ->getQuery()
+                    ->execute();
             }
 
             $dayDate = new DateTime();
@@ -187,9 +177,18 @@ class OrderController extends AbstractController
         $order = $this->entityManager->getRepository(Order::class)
             ->findOneBy(['user' => $this->getUser()], ['createdAt' => 'DESC']);
         $getEmail = $this->entityManager->getRepository(Order::class)->findOneBy(['user' => $this->getUser()]);
+
+        $orderRepository->createQueryBuilder('o')
+            ->update()
+            ->set('o.state', ':state')
+            ->where('o.state = 0')
+            ->setParameter('state', 1)
+            ->getQuery()
+            ->execute();
+
         $email = (new Email())
             ->to($this->getParameter('mailer_address'))
-            ->from('noreply@gmail.com')
+            ->from($this->getParameter('mailer_address'))
             ->subject('Nouvelle commande')
             ->html($this->renderView('mailer/order.html.twig', [
                 'cart' => $cart->getFull(),
@@ -199,14 +198,6 @@ class OrderController extends AbstractController
                 'address' => $order->getAdress(),
             ]));
         $mailer->send($email);
-
-        $orderRepository->createQueryBuilder('o')
-            ->update()
-            ->set('o.state', ':state')
-            ->where('o.state = 0')
-            ->setParameter('state', 1)
-            ->getQuery()
-            ->execute();
 
         $emailClient = (new Email())
             ->to($getEmail->getUser()->getEmail())
