@@ -17,7 +17,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         $product->setTaxe($this->getReference("Tax Free"));
         $product->setCategory($this->getReference('Vibromasseur'));
         $product->setDescription("Le rabbit est un sextoy qui permet de stimuler les zones érogénes");
-        $product->setPrice(100);
+        $product->setPrice(1000);
         $product->setWeight(100);
         $product->setSlug('rabbit');
         $this->addReference("Rabbit", $product);
@@ -28,7 +28,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
         $product->setTaxe($this->getReference("Tax Free"));
         $product->setCategory($this->getReference('Vibromasseur'));
         $product->setDescription("Le chibre de dieu est énorme");
-        $product->setPrice(100);
+        $product->setPrice(1000);
         $product->setWeight(1000);
         $product->setSlug('chibre');
         $this->addReference("Chibre de dieu", $product);

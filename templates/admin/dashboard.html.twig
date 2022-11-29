@@ -87,10 +87,10 @@
 								<th class="text-center">Transporteur</th>
 								<th class="text-center">Adresse de livraison</th>
 								<th class="text-center">Statut</th>
+								<th class="text-center">Détail</th>
 							</tr>
 						</thead>
 						{% for order in orders |filter (order => order.state != 4) %}
-	
 							<tbody>
 								<tr>
 									<td class="col text-center">{{ order.reference }}</td>
@@ -101,7 +101,6 @@
 											x
 											{{ product.quantity }}
 											<br>
-											perso: {{ product.customDescription}}
 										{% endfor %}
 									</td>
 									<td class="col text-center">{{ order.createdAt|date('d/m/Y') }}</td>
@@ -129,6 +128,15 @@
 										{% elseif order.state == 3 %}
 											<span class="badge bg-danger">Livraison en cours</span>
 										{% endif %}
+									</td>
+									<td class="col text-center">
+										<a href="{{ ea_url()
+											.setController('App\\Controller\\Admin\\Order\\OrderCrudController')
+											.setAction('detail')
+											.setEntityId(order.id) }}
+										" class="btn btn-primary">
+											<i class="fas fa-eye"></i>
+										</a>
 									</td>
 								</tr>
 							</tbody>

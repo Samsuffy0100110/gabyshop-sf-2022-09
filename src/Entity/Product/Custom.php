@@ -30,6 +30,9 @@ class Custom
     #[ORM\Column(nullable: true)]
     private ?float $price = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $product = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,7 +76,7 @@ class Custom
 
     public function __toString()
     {
-        return $this->description;
+        return $this->product . ' - ' . $this->attribut . ' - ' . 'x' . $this->quantity . ' = ' . $this->description;
     }
 
     public function getAttribut(): ?string
@@ -96,6 +99,18 @@ class Custom
     public function setPrice(?float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getProduct(): ?string
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?string $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }

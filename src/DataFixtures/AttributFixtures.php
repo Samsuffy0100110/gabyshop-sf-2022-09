@@ -14,7 +14,7 @@ class AttributFixtures extends Fixture implements DependentFixtureInterface
     {
         $attribut = new Attribut();
         $attribut->setName("Violet");
-        $attribut->setPrice(10);
+        $attribut->setPrice(1);
         $attribut->setQuantity(10);
         $attribut->setProduct($this->getReference("Rabbit"));
         $attribut->setPosition(1);
@@ -23,7 +23,7 @@ class AttributFixtures extends Fixture implements DependentFixtureInterface
 
         $attribut = new Attribut();
         $attribut->setName("Rouge");
-        $attribut->setPrice(10);
+        $attribut->setPrice(1);
         $attribut->setQuantity(10);
         $attribut->setProduct($this->getReference("Chibre de dieu"));
         $attribut->setPosition(2);
