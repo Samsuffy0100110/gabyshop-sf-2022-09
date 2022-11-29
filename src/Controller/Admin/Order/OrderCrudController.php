@@ -47,9 +47,14 @@ class OrderCrudController extends AbstractCrudController
             ->setCssClass('update-state')
             ->linkToCrudAction('updateDelivery');
 
+        $updateDelivered = Action::new('updateDelivered', 'Livré', 'fas fa-check')
+            ->setCssClass('update-state')
+            ->linkToCrudAction('updateDelivered');
+
         return $actions->add('index', 'detail')
             ->add('detail', $updatePreparation)
             ->add('detail', $updateDelivery)
+            ->add('detail', $updateDelivered)
             ->update(Crud::PAGE_INDEX, 'detail', function (Action $action) {
                 return $action->setIcon('fa fa-eye')->setLabel('voir')->setCssClass('btn btn-info');
             })
@@ -77,7 +82,12 @@ class OrderCrudController extends AbstractCrudController
                 $order->getReference()
             ));
 
-            // Notification email ?
+            // $url = $this->crudUrlGenerator
+            // ->setController(OrderCrudController::class)
+            // ->setAction(Action::EDIT)
+            // ->generateUrl();
+            // return $this->redirect($url);
+
         } elseif ($order->getState() !== 2) {
             $this->addFlash('notice', sprintf(
                 "<span style='background-color:#ff3838; 
@@ -138,6 +148,53 @@ class OrderCrudController extends AbstractCrudController
                 "<span style='background-color:#ff3838; 
                 color:#000'>La commande <strong>%s</strong> 
                 est au status \"Livraison en cours\"<span>",
+                $order->getReference()
+            ));
+        }
+        $url = $this->crudUrlGenerator
+            ->setController(OrderCrudController::class)
+            ->setAction('index')
+            ->generateUrl();
+
+        return $this->redirect($url);
+    }
+
+    public function updateDelivered(AdminContext $adminContext, MailerInterface $mailer)
+    {
+        $order = $adminContext->getEntity()->getInstance();
+        if ($order->getState() === 3) {
+            $order->setState(4);
+            $this->entityManager->flush();
+
+            $this->addFlash('notice', sprintf(
+                "<span style='background-color:#32ff7e; 
+                color:#000'>La commande <strong>%s</strong> est passée au 
+                status \"Livré\"<span>",
+                $order->getReference()
+            ));
+            $email = (new TemplatedEmail())
+            ->from(new Address($this->getParameter('mailer_address')))
+            ->to($order->getUser()->getEmail())
+            ->subject('Votre commande est livrée')
+            ->html($this->renderView('mailer/delivered.html.twig', [
+                'order' => $order,
+                'address' => $order->getAdress(),
+                'shipping' => $order->getShipping(),
+            ]));
+            $mailer->send($email);
+        } elseif ($order->getState() !== 4) {
+            $this->addFlash('notice', sprintf(
+                "<span style='background-color:#ff3838; 
+                color:#000'>La commande <strong>%s</strong> 
+                devra avoir le status \"Livraison en cours\" afin de pouvoir 
+                la passer au status \"Livré\"<span>",
+                $order->getReference()
+            ));
+        } else {
+            $this->addFlash('notice', sprintf(
+                "<span style='background-color:#ff3838; 
+                color:#000'>La commande <strong>%s</strong> 
+                est au status \"Livré\"<span>",
                 $order->getReference()
             ));
         }
