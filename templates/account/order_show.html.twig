@@ -27,6 +27,10 @@
 		{{ order.createdAt |date('d-m-Y') }}<br>
 		<strong>Référence de ma commande :</strong>
 		{{ order.reference }}<br>
+		{% if order.trackingOrder %}
+			<strong>Numéro de suivi colis:</strong>
+			{{ order.trackingOrder }}<br>
+		{% endif %}
 		<strong>Transporteur choisi :</strong>
 		{% for ship in shipping %}
 			{{ ship.name }}

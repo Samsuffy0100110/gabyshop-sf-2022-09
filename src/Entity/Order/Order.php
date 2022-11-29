@@ -47,6 +47,9 @@ class Order
     #[ORM\OneToMany(mappedBy: 'customOrder', targetEntity: Custom::class)]
     private Collection $customs;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $trackingOrder = null;
+
     public function __construct()
     {
         $this->orderDetails = new ArrayCollection();
@@ -226,6 +229,18 @@ class Order
                 $custom->setCustomOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTrackingOrder(): ?string
+    {
+        return $this->trackingOrder;
+    }
+
+    public function setTrackingOrder(?string $trackingOrder): self
+    {
+        $this->trackingOrder = $trackingOrder;
 
         return $this;
     }
