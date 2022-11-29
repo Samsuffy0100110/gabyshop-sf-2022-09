@@ -41,7 +41,7 @@ class NewsLetterController extends AbstractController
             $newsLetterRepository->add($newsLetter, true);
 
             $email = (new TemplatedEmail())
-            ->from(new Address($this->getParameter('mailer_address'), 'GabyShop'))
+            ->from(new Address($this->getParameter('mailer_address'), $shop->getName()))
             ->to($newsLetter->getEmail())
             ->subject('Insciption Newsletter Gaby Shop !')
             ->htmlTemplate('mailer/sub-email.html.twig')

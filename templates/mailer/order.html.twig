@@ -131,9 +131,6 @@
 			</div>
 			<div class="box">
 				<h2>Commande n°{{ order.reference }}</h2>
-				<p>Montant total :
-					{{ order.total|number_format(2, ',', ' ') }}
-					€</p>
 				<p>Statut de la commande :
 					{% if order.state == 1 %}
 						{% set state = 'payée' %}

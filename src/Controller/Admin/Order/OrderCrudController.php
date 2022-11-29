@@ -3,7 +3,10 @@
 namespace App\Controller\Admin\Order;
 
 use App\Entity\Order\Order;
+use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -99,7 +102,7 @@ class OrderCrudController extends AbstractCrudController
         return $this->redirect($url);
     }
 
-    public function updateDelivery(AdminContext $adminContext)
+    public function updateDelivery(AdminContext $adminContext, MailerInterface $mailer)
     {
         $order = $adminContext->getEntity()->getInstance();
         if ($order->getState() === 2) {
@@ -112,7 +115,16 @@ class OrderCrudController extends AbstractCrudController
                 passée au status \"Livraison en cours\"<span>",
                 $order->getReference()
             ));
-            // Notification email ?
+            $email = (new TemplatedEmail())
+            ->from(new Address($this->getParameter('mailer_address')))
+            ->to($order->getUser()->getEmail())
+            ->subject('Votre commande est en cours de livraison')
+            ->html($this->renderView('mailer/delivery.html.twig', [
+                'order' => $order,
+                'address' => $order->getAdress(),
+                'shipping' => $order->getShipping(),
+            ]));
+            $mailer->send($email);
         } elseif ($order->getState() !== 3) {
             $this->addFlash('notice', sprintf(
                 "<span style='background-color:#ff3838; 

@@ -44,7 +44,7 @@ class SendNewsController extends AbstractController
         $users = $user->findAll();
         foreach ($users as $user) {
             $email = (new TemplatedEmail())
-            ->from(new Address($this->getParameter('mailer_address'), 'GabyShop'))
+            ->from(new Address($this->getParameter('mailer_address'), $shop->getName()))
             ->to(new Address($user->getEmail()))
             ->subject('Newsletter GabyShop !')
             ->htmlTemplate('mailer/newsletter.html.twig')
