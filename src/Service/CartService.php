@@ -130,6 +130,7 @@ class CartService
                     'secondaryOfferName' => $secondaryName,
                     'secondaryOfferReduce' => $secondaryReduce,
                     'secondaryOfferTypeReduce' => $secondaryType,
+                    'id' => $orderId = null,
                 ];
             }
         }
