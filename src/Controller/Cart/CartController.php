@@ -39,7 +39,7 @@ class CartController extends AbstractController
         int $quantity,
         Attribut $attribut,
         string $description,
-        AttributRepository $attributRepository,
+        // AttributRepository $attributRepository,
         CustomRepository $customRepository
     ): Response {
         
@@ -51,8 +51,8 @@ class CartController extends AbstractController
         $custom->setProduct($attribut->getProduct());
         $customRepository->save($custom, true);
         $cart->addIdAndQuantity($id, $quantity);
-        $attribut->setQuantity($attribut->getQuantity() - $quantity);
-        $attributRepository->add($attribut, true);
+        // $attribut->setQuantity($attribut->getQuantity() - $quantity);
+        // $attributRepository->add($attribut, true);
         return $this->redirectToRoute('cart_index');
     }
 

@@ -8,6 +8,7 @@ use App\Entity\Address;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
+use App\Entity\Product\Attribut;
 use Symfony\Component\Mime\Email;
 use App\Entity\Order\OrderDetails;
 use App\Service\MondialRelayService;
@@ -15,6 +16,7 @@ use App\Repository\Front\ShopRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Order\ShippingRepository;
+use App\Repository\Product\AttributRepository;
 use App\Repository\Product\CustomRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
@@ -35,8 +37,8 @@ class OrderController extends AbstractController
     #[Route('/commande', name: 'order')]
     public function index(
         CartService $cart,
-        MondialRelayService $mondialRelayService,
-        ShippingRepository $shippingRepository
+        ShippingRepository $shippingRepository,
+        MondialRelayService $mondialRelayService
     ) {
         if ($this->getUser() == null) {
             $this->addFlash('warning', 'Vous devez être connecté pour passer une commande.');
@@ -161,7 +163,8 @@ class OrderController extends AbstractController
         CartService $cart,
         MailerInterface $mailer,
         ShopRepository $shopRepository,
-        OrderRepository $orderRepository
+        OrderRepository $orderRepository,
+        AttributRepository $attributRepository
     ) {
 
         $shop = $shopRepository->findOneBy(['isActive' => true]);
@@ -189,6 +192,13 @@ class OrderController extends AbstractController
             ->setParameter('state', 1)
             ->getQuery()
             ->execute();
+
+        for ($i = 0; $i < count($cart->getFull()); $i++) {
+            $attribut = $attributRepository->findOneBy(['id' => $cart->getFull()[$i]['attribut']->getId()]);
+            $attribut->setQuantity($attribut->getQuantity() - $cart->getFull()[$i]['quantity']);
+            $this->entityManager->persist($attribut);
+            $this->entityManager->flush();
+        }
 
         $email = (new Email())
             ->to($this->getParameter('mailer_address'))
