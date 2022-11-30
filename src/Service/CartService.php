@@ -73,6 +73,7 @@ class CartService
                 $attribut = $this->entityManager->getRepository(Attribut::class)->find($id);
                 $product = $attribut->getProduct();
                 $customs = $this->entityManager->getRepository(Custom::class)->findAll();
+                $custom = "";
                 foreach ($customs as $custom) {
                     if ($custom->getDescription() == $attribut->getName()) {
                         $custom = $custom;

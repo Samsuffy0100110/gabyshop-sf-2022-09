@@ -12,10 +12,10 @@ use App\Repository\Product\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * This will suppress TooManyFields warning in
+ * This will suppress all the PMD warnings in
  * this class.
  *
- * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD)
  */
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product

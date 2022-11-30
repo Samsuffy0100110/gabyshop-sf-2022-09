@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use App\Controller\Admin\Order\TrackingCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
@@ -39,22 +40,23 @@ class OrderCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        $updatePreparation = Action::new('updatePreparation', 'Prépartion en cours', 'fas fa-box-open')
-            ->setCssClass('update-state')
+        $updatePreparation = Action::new('updatePreparation', 'Préparation en cours', 'fas fa-box-open')
+            ->setCssClass('update-state m-3 badge bg-primary p-2')
             ->linkToCrudAction('updatePreparation');
 
         $updateDelivery = Action::new('updateDelivery', 'Livraison en cours', 'fas fa-truck')
-            ->setCssClass('update-state')
+            ->setCssClass('update-state m-3 badge bg-primary p-2')
             ->linkToCrudAction('updateDelivery');
 
         $updateDelivered = Action::new('updateDelivered', 'Livré', 'fas fa-check')
-            ->setCssClass('update-state')
+            ->setCssClass('update-state m-3 badge bg-primary p-2')
             ->linkToCrudAction('updateDelivered');
 
         return $actions->add('index', 'detail')
-            ->add('detail', $updatePreparation)
-            ->add('detail', $updateDelivery)
-            ->add('detail', $updateDelivered)
+            ->add('detail', $updatePreparation->displayIf(fn (Order $order) =>
+                $order->getState() === 0 || $order->getState() === 1))
+            ->add('detail', $updateDelivery->displayIf(fn (Order $order) => $order->getState() === 2))
+            ->add('detail', $updateDelivered->displayIf(fn (Order $order) => $order->getState() === 3))
             ->update(Crud::PAGE_INDEX, 'detail', function (Action $action) {
                 return $action->setIcon('fa fa-eye')->setLabel('voir')->setCssClass('btn btn-info');
             })
@@ -82,12 +84,11 @@ class OrderCrudController extends AbstractCrudController
                 $order->getReference()
             ));
 
-            // $url = $this->crudUrlGenerator
-            // ->setController(OrderCrudController::class)
-            // ->setAction(Action::EDIT)
-            // ->generateUrl();
-            // return $this->redirect($url);
-
+            $url = $this->crudUrlGenerator
+            ->setController(OrderCrudController::class)
+            ->setAction(Action::EDIT)
+            ->generateUrl();
+            return $this->redirect($url);
         } elseif ($order->getState() !== 2) {
             $this->addFlash('notice', sprintf(
                 "<span style='background-color:#ff3838; 
@@ -215,28 +216,31 @@ class OrderCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('reference', 'Référence'),
-            DateTimeField::new('createdAt', 'créée le'),
+            IdField::new('reference', 'Référence')->hideOnForm(),
+            DateTimeField::new('createdAt', 'créée le')->hideOnForm(),
             DateTimeField::new('updatedAt', 'modifiée le'),
-            TextField::new('user.fullname', 'Nom Prénom')->hideOnIndex(),
-            TextField::new('adress.name', 'Lieu')->hideOnIndex(),
-            TextField::new('adress.adresse', 'Adresse de livraison')->hideOnIndex(),
-            TextField::new('adress.city', 'Ville')->hideOnIndex(),
-            TextField::new('adress.zipCode', 'Code postal')->hideOnIndex(),
-            TextField::new('adress.country', 'Pays')->hideOnIndex(),
-            TextField::new('user.phone', 'Téléphone')->hideOnIndex(),
-            AssociationField::new('user', 'Email')->hideOnIndex(),
+            TextField::new('user.fullname', 'Nom Prénom')->hideOnIndex()->hideOnForm(),
+            TextField::new('adress.name', 'Lieu')->hideOnIndex()->hideOnForm(),
+            TextField::new('adress.adresse', 'Adresse de livraison')->hideOnIndex()->hideOnForm(),
+            TextField::new('adress.city', 'Ville')->hideOnIndex()->hideOnForm(),
+            TextField::new('adress.zipCode', 'Code postal')->hideOnIndex()->hideOnForm(),
+            TextField::new('adress.country', 'Pays')->hideOnIndex()->hideOnForm(),
+            TextField::new('user.phone', 'Téléphone')->hideOnIndex()->hideOnForm(),
+            AssociationField::new('user', 'Email')->hideOnIndex()->hideOnForm(),
             ChoiceField::new('state', 'Etat commande')->setChoices([
                 'Non payée' => '0',
                 'Payée' => '1',
                 'Préparation en cours' => '2',
                 'Livraison en cours' => '3',
                 'Livré' => '4',
-            ]),
-            ArrayField::new('orderDetails', 'Produits achetés')->hideOnIndex(),
+            ])
+            ->hideOnForm(),
+            ArrayField::new('orderDetails', 'Produits achetés')->hideOnIndex()->hideOnForm(),
             ArrayField::new('customs', 'Personnalisation')
                 ->addCssClass('fw-bold')
-                ->hideOnIndex(),
+                ->hideOnIndex()
+                ->hideOnForm(),
+            TextField::new('trackingOrder', 'Numéro de suivi'),
         ];
     }
 }

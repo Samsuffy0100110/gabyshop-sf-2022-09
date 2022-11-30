@@ -29,7 +29,8 @@ final class Version20221124151225 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE order_details ADD product_id INT DEFAULT NULL, DROP product');
-        $this->addSql('ALTER TABLE order_details ADD CONSTRAINT FK_845CA2C14584665A FOREIGN KEY (product_id) REFERENCES product (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
+        $this->addSql('ALTER TABLE order_details ADD CONSTRAINT FK_845CA2C14584665A 
+        FOREIGN KEY (product_id) REFERENCES product (id) ON UPDATE NO ACTION ON DELETE NO ACTION');
         $this->addSql('CREATE INDEX IDX_845CA2C14584665A ON order_details (product_id)');
     }
 }

@@ -21,7 +21,8 @@ final class Version20221124163417 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE custom ADD attribut_id INT DEFAULT NULL, DROP attribut');
-        $this->addSql('ALTER TABLE custom ADD CONSTRAINT FK_F584169B51383AF3 FOREIGN KEY (attribut_id) REFERENCES attribut (id)');
+        $this->addSql('ALTER TABLE custom ADD CONSTRAINT FK_F584169B51383AF3 
+        FOREIGN KEY (attribut_id) REFERENCES attribut (id)');
         $this->addSql('CREATE INDEX IDX_F584169B51383AF3 ON custom (attribut_id)');
     }
 
