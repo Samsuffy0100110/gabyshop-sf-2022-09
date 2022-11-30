@@ -131,7 +131,6 @@ class OrderController extends AbstractController
                     ->setTotal($product['product']->getPrice() * $product['quantity']);
                 $this->entityManager->persist($orderDetails);
             }
-
             $this->entityManager->flush();
 
             $customRepository->createQueryBuilder('c')
@@ -141,7 +140,6 @@ class OrderController extends AbstractController
                 ->setParameter('order', $order)
                 ->getQuery()
                 ->execute();
-
 
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
@@ -165,18 +163,24 @@ class OrderController extends AbstractController
         ShopRepository $shopRepository,
         OrderRepository $orderRepository
     ) {
+
+        $shop = $shopRepository->findOneBy(['isActive' => true]);
+
         $cart->getTotal();
+
         Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
         Stripe\Charge::create([
             'amount' => $cart,
             "currency" => "eur",
-            'description' => 'Commande sur gabyShop',
+            'description' => $shop->getName(),
             "source" => $request->request->get('stripeToken'),
         ]);
-        $shop = $shopRepository->findOneBy(['isActive' => true]);
+
         $order = $this->entityManager->getRepository(Order::class)
             ->findOneBy(['user' => $this->getUser()], ['createdAt' => 'DESC']);
-        $getEmail = $this->entityManager->getRepository(Order::class)->findOneBy(['user' => $this->getUser()]);
+
+        $getEmail = $this->entityManager->getRepository(Order::class)
+            ->findOneBy(['user' => $this->getUser()]);
 
         $orderRepository->createQueryBuilder('o')
             ->update()
