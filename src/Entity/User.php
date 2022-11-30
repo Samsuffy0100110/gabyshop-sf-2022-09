@@ -20,10 +20,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
- * This will suppress TooManyFields warning in
+ * This will suppress all the PMD warnings in
  * this class.
  *
- * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD)
  */
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Cette adresse email est déjà utilisée')]

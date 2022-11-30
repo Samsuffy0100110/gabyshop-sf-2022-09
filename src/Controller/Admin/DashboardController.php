@@ -45,6 +45,7 @@ class DashboardController extends AbstractDashboardController
     private $userRepository;
     private $productRepository;
     private $addressRepository;
+    private $orderDetailsRepository;
 
     public function __construct(
         OrderRepository $orderRepository,
