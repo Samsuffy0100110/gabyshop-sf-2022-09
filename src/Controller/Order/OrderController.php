@@ -105,19 +105,30 @@ class OrderController extends AbstractController
                     ->execute();
             }
 
+            foreach ($cart->getFull() as $reference) {
+                $reference = $reference['reference'];
+            }
+            $order = $this->entityManager->getRepository(Order::class)->findOneBy([
+                'user' => $this->getUser(),
+            ]);
+
+            $orderDetails = $this->entityManager->getRepository(OrderDetails::class)->findOneBy([
+                'myOrder' => $order,
+            ]);
+
             $dayDate = new DateTime();
-            $order = new Order();
-            $order->setReference(sprintf('%s-%s', $dayDate->format('dmY'), uniqid()))
+            if (!$order) {
+                $order = new Order();
+                $order->setReference($reference)
                 ->setUser($this->getUser())
                 ->setCreatedAt($dayDate)
                 ->addShipping($shipping)
                 ->setAdress($adress)
                 ->setState(0);
-            $this->entityManager->persist($order);
-
-            foreach ($cart->getFull() as $product) {
-                $orderDetails = new OrderDetails();
-                $orderDetails->setMyOrder($order)
+                $this->entityManager->persist($order);
+                foreach ($cart->getFull() as $product) {
+                    $orderDetails = new OrderDetails();
+                    $orderDetails->setMyOrder($order)
                     ->setProduct($product['product'])
                     ->setQuantity($product['quantity'])
                     ->setPrice($product['product']->getPrice())
@@ -131,8 +142,53 @@ class OrderController extends AbstractController
                     ->setCustomPrice($product['attribut']->getPrice())
                     ->setCustomDescription($product['custom'])
                     ->setTotal($product['product']->getPrice() * $product['quantity']);
-                $this->entityManager->persist($orderDetails);
+                    $this->entityManager->persist($orderDetails);
+                }
+            } else {
+                $order->setReference($reference)
+                ->setUser($this->getUser())
+                ->setCreatedAt($dayDate)
+                ->addShipping($shipping)
+                ->setAdress($adress)
+                ->setState(0);
+                $this->entityManager->persist($order);
+                foreach ($cart->getFull() as $product) {
+                    $orderDetails->setMyOrder($order)
+                    ->setProduct($product['product'])
+                    ->setQuantity($product['quantity'])
+                    ->setPrice($product['product']->getPrice())
+                    ->setTaxe($product['product']->getTaxe()->getPercent())
+                    ->setPrimaryOfferName($product['primaryOfferName'])
+                    ->setPrimaryOfferReduce($product['primaryOfferReduce'])
+                    ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
+                    ->setSecondaryOfferName($product['secondaryOfferName'])
+                    ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
+                    ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
+                    ->setCustomPrice($product['attribut']->getPrice())
+                    ->setCustomDescription($product['custom'])
+                    ->setTotal($product['product']->getPrice() * $product['quantity']);
+                    $this->entityManager->persist($orderDetails);
+                }
             }
+
+            // foreach ($cart->getFull() as $product) {
+            //     $orderDetails = new OrderDetails();
+            //     $orderDetails->setMyOrder($order)
+            //         ->setProduct($product['product'])
+            //         ->setQuantity($product['quantity'])
+            //         ->setPrice($product['product']->getPrice())
+            //         ->setTaxe($product['product']->getTaxe()->getPercent())
+            //         ->setPrimaryOfferName($product['primaryOfferName'])
+            //         ->setPrimaryOfferReduce($product['primaryOfferReduce'])
+            //         ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
+            //         ->setSecondaryOfferName($product['secondaryOfferName'])
+            //         ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
+            //         ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
+            //         ->setCustomPrice($product['attribut']->getPrice())
+            //         ->setCustomDescription($product['custom'])
+            //         ->setTotal($product['product']->getPrice() * $product['quantity']);
+            //     $this->entityManager->persist($orderDetails);
+            // }
             $this->entityManager->flush();
 
             $customRepository->createQueryBuilder('c')

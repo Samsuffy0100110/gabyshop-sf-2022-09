@@ -197,19 +197,19 @@ OnParcelShopSelected:
 function (data) {
 $("#cb_ID").html(data.ID);
 $("#cb_Nom").html(data.Nom);
-$("#cb_Adresse").html(data.Adresse1 + ' ' + data.Adresse2);
+$("#cb_Adresse").html(data.Adresse1);
 $("#cb_CP").html(data.CP);
 $("#cb_Ville").html(data.Ville);
 $("#cb_Pays").html(data.Pays);
 $("[name='id']").val(data.ID);
 $("[name='nom']").val(data.Nom);
-$("[name='adresse']").val(data.Adresse1 + ' ' + data.Adresse2);
+$("[name='adresse']").val(data.Adresse1);
 $("[name='cp']").val(data.CP);
 $("[name='ville']").val(data.Ville);
 let name = document.getElementById('order_name');
 name.value = data.Nom;
 let address = document.getElementById('order_adresse');
-address.value = data.Adresse1 + ' ' + data.Adresse2;
+address.value = data.Adresse1;
 let zipCode = document.getElementById('order_zipCode');
 zipCode.value = data.CP;
 let city = document.getElementById('order_city');

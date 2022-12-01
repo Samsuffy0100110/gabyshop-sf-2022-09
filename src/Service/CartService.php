@@ -119,6 +119,8 @@ class CartService
                     $this->delete($id);
                     continue;
                 }
+
+                $dayDate = new DateTime();
                 $cartComplete[] = [
                     'attribut' => $attribut,
                     'quantity' => $quantity,
@@ -130,7 +132,11 @@ class CartService
                     'secondaryOfferName' => $secondaryName,
                     'secondaryOfferReduce' => $secondaryReduce,
                     'secondaryOfferTypeReduce' => $secondaryType,
-                    'id' => $orderId = null,
+                    'reference' => (sprintf(
+                        '%s-%s',
+                        $dayDate->format('dmY'),
+                        $id . '-' . $this->session->getId()
+                    )),
                 ];
             }
         }

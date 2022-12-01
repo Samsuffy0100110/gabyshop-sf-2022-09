@@ -20,6 +20,7 @@ class AdressFixtures extends Fixture implements DependentFixtureInterface
         $address->setZipCode('99999');
         $address->setCity('Nulle part');
         $address->setCountry('France');
+        $address->setIsActive(true);
         $manager->persist($address);
 
         $manager->flush();

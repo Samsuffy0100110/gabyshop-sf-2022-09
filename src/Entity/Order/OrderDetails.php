@@ -15,7 +15,7 @@ class OrderDetails
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'orderDetails')]
+    #[ORM\ManyToOne(inversedBy: 'orderDetails', cascade: ['persist'])]
     private ?Order $myOrder = null;
 
     #[ORM\Column(nullable: true)]
