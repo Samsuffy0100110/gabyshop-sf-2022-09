@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Repository\Product\PromoCodeRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\Length;
 
 class OrderController extends AbstractController
 {
@@ -108,87 +109,99 @@ class OrderController extends AbstractController
             foreach ($cart->getFull() as $reference) {
                 $reference = $reference['reference'];
             }
-            $order = $this->entityManager->getRepository(Order::class)->findOneBy([
+
+            $orders = $this->entityManager->getRepository(Order::class)->findBy([
                 'user' => $this->getUser(),
             ]);
 
-            $orderDetails = $this->entityManager->getRepository(OrderDetails::class)->findOneBy([
-                'myOrder' => $order,
+            $orderDetails = $this->entityManager->getRepository(OrderDetails::class)->findBy([
+                'myOrder' => $orders,
             ]);
 
-            $dayDate = new DateTime();
-            if (!$order) {
+            if (!$orders) {
                 $order = new Order();
-                $order->setReference($reference)
-                ->setUser($this->getUser())
-                ->setCreatedAt($dayDate)
-                ->addShipping($shipping)
-                ->setAdress($adress)
-                ->setState(0);
+                $order->setUser($this->getUser())
+                    ->setAdress($adress)
+                    ->setCreatedAt(new DateTime())
+                    ->addShipping($shipping)
+                    ->setReference($reference)
+                    ->setState(0);
                 $this->entityManager->persist($order);
                 foreach ($cart->getFull() as $product) {
                     $orderDetails = new OrderDetails();
                     $orderDetails->setMyOrder($order)
-                    ->setProduct($product['product'])
-                    ->setQuantity($product['quantity'])
-                    ->setPrice($product['product']->getPrice())
-                    ->setTaxe($product['product']->getTaxe()->getPercent())
-                    ->setPrimaryOfferName($product['primaryOfferName'])
-                    ->setPrimaryOfferReduce($product['primaryOfferReduce'])
-                    ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
-                    ->setSecondaryOfferName($product['secondaryOfferName'])
-                    ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
-                    ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
-                    ->setCustomPrice($product['attribut']->getPrice())
-                    ->setCustomDescription($product['custom'])
-                    ->setTotal($product['product']->getPrice() * $product['quantity']);
-                    $this->entityManager->persist($orderDetails);
+                        ->setProduct($product['product'])
+                        ->setQuantity($product['quantity'])
+                        ->setPrice($product['product']->getPrice())
+                        ->setTaxe($product['product']->getTaxe()->getPercent())
+                        ->setPrimaryOfferName($product['primaryOfferName'])
+                        ->setPrimaryOfferReduce($product['primaryOfferReduce'])
+                        ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
+                        ->setSecondaryOfferName($product['secondaryOfferName'])
+                        ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
+                        ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
+                        ->setCustomPrice($product['attribut']->getPrice())
+                        ->setCustomDescription($product['custom'])
+                        ->setTotal($product['product']->getPrice() * $product['quantity']);
                 }
-            } else {
-                $order->setReference($reference)
-                ->setUser($this->getUser())
-                ->setCreatedAt($dayDate)
-                ->addShipping($shipping)
-                ->setAdress($adress)
-                ->setState(0);
-                $this->entityManager->persist($order);
-                foreach ($cart->getFull() as $product) {
-                    $orderDetails->setMyOrder($order)
-                    ->setProduct($product['product'])
-                    ->setQuantity($product['quantity'])
-                    ->setPrice($product['product']->getPrice())
-                    ->setTaxe($product['product']->getTaxe()->getPercent())
-                    ->setPrimaryOfferName($product['primaryOfferName'])
-                    ->setPrimaryOfferReduce($product['primaryOfferReduce'])
-                    ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
-                    ->setSecondaryOfferName($product['secondaryOfferName'])
-                    ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
-                    ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
-                    ->setCustomPrice($product['attribut']->getPrice())
-                    ->setCustomDescription($product['custom'])
-                    ->setTotal($product['product']->getPrice() * $product['quantity']);
+                $this->entityManager->persist($orderDetails);
+            } elseif ($orders) {
+                foreach ($orders as $key) {
+                    $order = $key;
+                }
+                if ($order->getState() == 0 && $order->getReference() == $reference) {
+                    $order->setAdress($adress)
+                        ->setCreatedAt(new DateTime())
+                        ->addShipping($shipping)
+                        ->setState(0);
+                    $this->entityManager->persist($order);
+                    foreach ($cart->getFull() as $product) {
+                        $orderDetails = new OrderDetails();
+                        $orderDetails->setMyOrder($order)
+                            ->setProduct($product['product'])
+                            ->setQuantity($product['quantity'])
+                            ->setPrice($product['product']->getPrice())
+                            ->setTaxe($product['product']->getTaxe()->getPercent())
+                            ->setPrimaryOfferName($product['primaryOfferName'])
+                            ->setPrimaryOfferReduce($product['primaryOfferReduce'])
+                            ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
+                            ->setSecondaryOfferName($product['secondaryOfferName'])
+                            ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
+                            ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
+                            ->setCustomPrice($product['attribut']->getPrice())
+                            ->setCustomDescription($product['custom'])
+                            ->setTotal($product['product']->getPrice() * $product['quantity']);
+                    }
+                    $this->entityManager->persist($orderDetails);
+                } else {
+                    $order = new Order();
+                    $order->setUser($this->getUser())
+                        ->setAdress($adress)
+                        ->setCreatedAt(new DateTime())
+                        ->addShipping($shipping)
+                        ->setReference($reference)
+                        ->setState(0);
+                    $this->entityManager->persist($order);
+                    foreach ($cart->getFull() as $product) {
+                        $orderDetails = new OrderDetails();
+                        $orderDetails->setMyOrder($order)
+                            ->setProduct($product['product'])
+                            ->setQuantity($product['quantity'])
+                            ->setPrice($product['product']->getPrice())
+                            ->setTaxe($product['product']->getTaxe()->getPercent())
+                            ->setPrimaryOfferName($product['primaryOfferName'])
+                            ->setPrimaryOfferReduce($product['primaryOfferReduce'])
+                            ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
+                            ->setSecondaryOfferName($product['secondaryOfferName'])
+                            ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
+                            ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
+                            ->setCustomPrice($product['attribut']->getPrice())
+                            ->setCustomDescription($product['custom'])
+                            ->setTotal($product['product']->getPrice() * $product['quantity']);
+                    }
                     $this->entityManager->persist($orderDetails);
                 }
             }
-
-            // foreach ($cart->getFull() as $product) {
-            //     $orderDetails = new OrderDetails();
-            //     $orderDetails->setMyOrder($order)
-            //         ->setProduct($product['product'])
-            //         ->setQuantity($product['quantity'])
-            //         ->setPrice($product['product']->getPrice())
-            //         ->setTaxe($product['product']->getTaxe()->getPercent())
-            //         ->setPrimaryOfferName($product['primaryOfferName'])
-            //         ->setPrimaryOfferReduce($product['primaryOfferReduce'])
-            //         ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
-            //         ->setSecondaryOfferName($product['secondaryOfferName'])
-            //         ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
-            //         ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
-            //         ->setCustomPrice($product['attribut']->getPrice())
-            //         ->setCustomDescription($product['custom'])
-            //         ->setTotal($product['product']->getPrice() * $product['quantity']);
-            //     $this->entityManager->persist($orderDetails);
-            // }
             $this->entityManager->flush();
 
             $customRepository->createQueryBuilder('c')
