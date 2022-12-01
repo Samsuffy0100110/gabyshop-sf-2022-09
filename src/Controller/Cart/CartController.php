@@ -42,7 +42,7 @@ class CartController extends AbstractController
         // AttributRepository $attributRepository,
         CustomRepository $customRepository
     ): Response {
-        
+
         $custom = new Custom();
         $custom->setAttribut($attribut);
         $custom->setDescription($description);
