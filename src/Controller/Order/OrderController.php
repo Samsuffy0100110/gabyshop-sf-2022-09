@@ -8,7 +8,6 @@ use App\Entity\Address;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
-use App\Entity\Product\Attribut;
 use Symfony\Component\Mime\Email;
 use App\Entity\Order\OrderDetails;
 use App\Service\MondialRelayService;
@@ -24,7 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Repository\Product\PromoCodeRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Validator\Constraints\Length;
 
 class OrderController extends AbstractController
 {
@@ -105,19 +103,21 @@ class OrderController extends AbstractController
                     ->getQuery()
                     ->execute();
             }
-
+            $reference = '';
             foreach ($cart->getFull() as $reference) {
                 $reference = $reference['reference'];
             }
 
+            $orders = null;
             $orders = $this->entityManager->getRepository(Order::class)->findBy([
                 'user' => $this->getUser(),
             ]);
 
+            $orderDetails = null;
             $orderDetails = $this->entityManager->getRepository(OrderDetails::class)->findBy([
                 'myOrder' => $orders,
             ]);
-
+            $order = null;
             if (!$orders) {
                 $order = new Order();
                 $order->setUser($this->getUser())
@@ -145,7 +145,7 @@ class OrderController extends AbstractController
                         ->setTotal($product['product']->getPrice() * $product['quantity']);
                 }
                 $this->entityManager->persist($orderDetails);
-            } elseif ($orders) {
+            } else {
                 foreach ($orders as $key) {
                     $order = $key;
                 }
