@@ -254,13 +254,10 @@ class OrderController extends AbstractController
         $getEmail = $this->entityManager->getRepository(Order::class)
             ->findOneBy(['user' => $this->getUser()]);
 
-        $orderRepository->createQueryBuilder('o')
-            ->update()
-            ->set('o.state', ':state')
-            ->where('o.state = 0')
-            ->setParameter('state', 1)
-            ->getQuery()
-            ->execute();
+        $command = $orderRepository->findLastOrder();
+        $command->setState(1);
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
 
         for ($i = 0; $i < count($cart->getFull()); $i++) {
             $attribut = $attributRepository->findOneBy(['id' => $cart->getFull()[$i]['attribut']->getId()]);
