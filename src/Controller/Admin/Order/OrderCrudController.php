@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Order;
 
+use DateTime;
 use App\Entity\Order\Order;
 use Symfony\Component\Mime\Address;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,7 +14,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
-use App\Controller\Admin\Order\TrackingCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
@@ -75,6 +75,7 @@ class OrderCrudController extends AbstractCrudController
         $order = $adminContext->getEntity()->getInstance();
         if ($order->getState() === 1) {
             $order->setState(2);
+            $order->setUpdatedAt(new DateTime());
             $this->entityManager->flush();
 
             $this->addFlash('notice', sprintf(
@@ -83,7 +84,6 @@ class OrderCrudController extends AbstractCrudController
                 status \"Préparation en cours\"<span>",
                 $order->getReference()
             ));
-
             $url = $this->crudUrlGenerator
             ->setController(OrderCrudController::class)
             ->setAction(Action::EDIT)
@@ -218,7 +218,7 @@ class OrderCrudController extends AbstractCrudController
         return [
             IdField::new('reference', 'Référence')->hideOnForm(),
             DateTimeField::new('createdAt', 'créée le')->hideOnForm(),
-            DateTimeField::new('updatedAt', 'modifiée le'),
+            DateTimeField::new('updatedAt', 'modifiée le')->hideOnForm(),
             TextField::new('user.fullname', 'Nom Prénom')->hideOnIndex()->hideOnForm(),
             TextField::new('adress.name', 'Lieu')->hideOnIndex()->hideOnForm(),
             TextField::new('adress.adresse', 'Adresse de livraison')->hideOnIndex()->hideOnForm(),
