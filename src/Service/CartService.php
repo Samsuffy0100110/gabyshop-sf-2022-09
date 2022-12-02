@@ -132,11 +132,7 @@ class CartService
                     'secondaryOfferName' => $secondaryName,
                     'secondaryOfferReduce' => $secondaryReduce,
                     'secondaryOfferTypeReduce' => $secondaryType,
-                    'reference' => (sprintf(
-                        '%s-%s',
-                        $dayDate->format('dmY'),
-                        $id . '-' . $this->session->getId()
-                    )),
+                    'reference' => 1,
                 ];
             }
         }

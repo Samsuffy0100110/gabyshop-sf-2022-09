@@ -8,6 +8,7 @@ use App\Entity\Address;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
+use App\Entity\Product\Attribut;
 use Symfony\Component\Mime\Email;
 use App\Entity\Order\OrderDetails;
 use App\Service\MondialRelayService;
@@ -103,28 +104,24 @@ class OrderController extends AbstractController
                     ->getQuery()
                     ->execute();
             }
-            $reference = '';
             foreach ($cart->getFull() as $reference) {
                 $reference = $reference['reference'];
             }
-
-            $orders = null;
             $orders = $this->entityManager->getRepository(Order::class)->findBy([
                 'user' => $this->getUser(),
             ]);
 
-            $orderDetails = null;
-            $orderDetails = $this->entityManager->getRepository(OrderDetails::class)->findBy([
-                'myOrder' => $orders,
-            ]);
-            $order = null;
+            $dayDate = new DateTime();
+            foreach ($orders as $key) {
+                $order = $key;
+            }
             if (!$orders) {
                 $order = new Order();
-                $order->setUser($this->getUser())
-                    ->setAdress($adress)
-                    ->setCreatedAt(new DateTime())
+                $order->setReference($reference)
+                    ->setUser($this->getUser())
+                    ->setCreatedAt($dayDate)
                     ->addShipping($shipping)
-                    ->setReference($reference)
+                    ->setAdress($adress)
                     ->setState(0);
                 $this->entityManager->persist($order);
                 foreach ($cart->getFull() as $product) {
@@ -143,16 +140,18 @@ class OrderController extends AbstractController
                         ->setCustomPrice($product['attribut']->getPrice())
                         ->setCustomDescription($product['custom'])
                         ->setTotal($product['product']->getPrice() * $product['quantity']);
+                    $this->entityManager->persist($orderDetails);
                 }
-                $this->entityManager->persist($orderDetails);
-            } else {
-                foreach ($orders as $key) {
-                    $order = $key;
-                }
+                $this->entityManager->flush();
+            }
+
+            if ($orders) {
                 if ($order->getState() == 0 && $order->getReference() == $reference) {
-                    $order->setAdress($adress)
-                        ->setCreatedAt(new DateTime())
+                    $order->setReference($reference)
+                        ->setUser($this->getUser())
+                        ->setCreatedAt($dayDate)
                         ->addShipping($shipping)
+                        ->setAdress($adress)
                         ->setState(0);
                     $this->entityManager->persist($order);
                     foreach ($cart->getFull() as $product) {
@@ -171,15 +170,16 @@ class OrderController extends AbstractController
                             ->setCustomPrice($product['attribut']->getPrice())
                             ->setCustomDescription($product['custom'])
                             ->setTotal($product['product']->getPrice() * $product['quantity']);
+                        $this->entityManager->persist($orderDetails);
                     }
-                    $this->entityManager->persist($orderDetails);
+                    $this->entityManager->flush();
                 } else {
                     $order = new Order();
-                    $order->setUser($this->getUser())
-                        ->setAdress($adress)
-                        ->setCreatedAt(new DateTime())
+                    $order->setReference($reference)
+                        ->setUser($this->getUser())
+                        ->setCreatedAt($dayDate)
                         ->addShipping($shipping)
-                        ->setReference($reference)
+                        ->setAdress($adress)
                         ->setState(0);
                     $this->entityManager->persist($order);
                     foreach ($cart->getFull() as $product) {
@@ -198,11 +198,13 @@ class OrderController extends AbstractController
                             ->setCustomPrice($product['attribut']->getPrice())
                             ->setCustomDescription($product['custom'])
                             ->setTotal($product['product']->getPrice() * $product['quantity']);
+                        $this->entityManager->persist($orderDetails);
                     }
-                    $this->entityManager->persist($orderDetails);
+                    $this->entityManager->flush();
                 }
             }
-            $this->entityManager->flush();
+
+
 
             $customRepository->createQueryBuilder('c')
                 ->update()
