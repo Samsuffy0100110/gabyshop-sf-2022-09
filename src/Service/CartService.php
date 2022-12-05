@@ -132,7 +132,7 @@ class CartService
                     'secondaryOfferName' => $secondaryName,
                     'secondaryOfferReduce' => $secondaryReduce,
                     'secondaryOfferTypeReduce' => $secondaryType,
-                    'reference' => 1,
+                    'reference' => $dayDate->format('Ymd') . uniqid(),
                 ];
             }
         }
