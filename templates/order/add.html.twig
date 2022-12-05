@@ -9,6 +9,18 @@
 		<h2>Mon récapitulatif</h2>
 		<p>Vérifier vos informations avant de payer votre commande</p>
 		<hr>
+			<pre>
+				{{ dump(customs) }}
+			</pre>
+			<pre>
+				{{ dump(cart) }}
+			</pre>
+			<pre>
+				{{ dump(fuck) }}
+			</pre>
+			<pre>
+				{{ dump(fuck2) }}
+			</pre>
 		<div class="row">
 			<div class="col-md-6">
 				{% if shipping.name is same as 'Livraison gratuite' %}
@@ -75,8 +87,11 @@
 									{% endif %}
 								</div>
 								<div class="col">
-									<p class="fw-bold">{{ attribut.attribut.product.name }}</p><br>
+									<p class="fw-bold">{{ attribut.attribut.product.name }}</p>
 									<p>{{ attribut.attribut.name }}</p>
+									<p>perso :
+										<strong>{{ attribut.description }}</strong>
+									</p>
 								</div>
 								<div class="col my-auto">
 									<b>x

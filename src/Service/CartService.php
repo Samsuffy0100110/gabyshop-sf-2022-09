@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use DateTime;
-use App\Entity\Order\Order;
 use App\Entity\Product\Offer;
 use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
@@ -122,6 +121,18 @@ class CartService
                         $description = $custom->getDescription();
                     }
                 }
+
+                $key = [];
+                foreach ($this->entityManager->getRepository(Custom::class)->findAll() as $custom) {
+                    if ($custom->getAttribut() == $attribut) {
+                        $key[] = $custom->getId();
+                    }
+                }
+                $hey = null;
+                foreach ($key as $value) {
+                    $hey = $value;
+                }
+                
                 $dayDate = new DateTime();
                 $cartComplete[] = [
                     'attribut' => $attribut,
@@ -134,7 +145,8 @@ class CartService
                     'secondaryOfferName' => $secondaryName,
                     'secondaryOfferReduce' => $secondaryReduce,
                     'secondaryOfferTypeReduce' => $secondaryType,
-                    'reference' => $dayDate->format('Ymd') . uniqid(),
+                    'reference' => $dayDate->format('Ymd') . '-' . uniqid(),
+                    'customOrder' => $hey
                 ];
             }
         }

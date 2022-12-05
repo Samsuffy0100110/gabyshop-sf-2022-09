@@ -37,7 +37,6 @@
 				{% endfor %}
 			{% endfor %}
 		</div>
-		
 		{% include "includes/scroll-to-top/index.html.twig" %}
 		{% block body %}{% endblock %}
 		{% block footer %}
@@ -46,5 +45,14 @@
 		{% block cookie %}
 			{% include "includes/cookies/index.html.twig" %}
 		{% endblock %}
+		<script>
+			const alerts = document.querySelectorAll('[class*="alert-"]')
+for (const alert of alerts) {
+setTimeout(function () {
+const bootstrapAlert = bootstrap.Alert.getOrCreateInstance(alert);
+bootstrapAlert.close();
+}, 5000);
+}
+		</script>
 	</body>
 </html>

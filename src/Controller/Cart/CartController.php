@@ -5,6 +5,7 @@ namespace App\Controller\Cart;
 use App\Service\CartService;
 use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Product\CustomRepository;
 use App\Repository\Product\WishlistRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/panier', name: 'cart_')]
 class CartController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+    
     #[Route('/', name: 'index')]
-    public function index(CartService $cart, WishlistRepository $wishlistRepository): Response
+    public function index(CartService $cart, WishlistRepository $wishlistRepository, CustomRepository $customRepository): Response
     {
         $wishlist = $wishlistRepository->findBy(['user' => $this->getUser()]);
         return $this->render('cart/index.html.twig', [

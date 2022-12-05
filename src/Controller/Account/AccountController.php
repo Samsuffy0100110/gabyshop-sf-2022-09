@@ -119,7 +119,8 @@ class AccountController extends AbstractController
     #[ParamConverter('order', options: ['mapping' => ['id' => 'id']])]
     public function userOrderPdf(
         Order $order,
-        PdfService $pdfService
+        PdfService $pdfService,
+        CustomRepository $customRepository,
     ): Response {
         $shipping = $order->getShipping();
         $html = $this->renderView('account/order_pdf.html.twig', [
@@ -130,6 +131,7 @@ class AccountController extends AbstractController
         return $this->render('account/order_pdf.html.twig', [
             'order' => $order,
             'shipping' => $shipping,
+            'customs' => $customRepository->findBy(['customOrder' => $order]),
         ]);
     }
 

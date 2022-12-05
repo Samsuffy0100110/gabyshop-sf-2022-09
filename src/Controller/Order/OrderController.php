@@ -8,6 +8,7 @@ use App\Entity\Address;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
+use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
 use Symfony\Component\Mime\Email;
 use App\Entity\Order\OrderDetails;
@@ -16,10 +17,10 @@ use App\Repository\Front\ShopRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Order\ShippingRepository;
-use App\Repository\Product\AttributRepository;
 use App\Repository\Product\CustomRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
+use App\Repository\Product\AttributRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Repository\Product\PromoCodeRepository;
 use Symfony\Component\Routing\Annotation\Route;
@@ -148,34 +149,34 @@ class OrderController extends AbstractController
                 $order
                     ->addShipping($shipping)
                     ->setAdress($adress);
-                    $this->entityManager->persist($order);
-                    foreach ($cart->getFull() as $product) {
-                        $orderDetails = new OrderDetails();
-                        $orderDetails->setMyOrder($order)
-                            ->setProduct($product['product'])
-                            ->setQuantity($product['quantity'])
-                            ->setPrice($product['product']->getPrice())
-                            ->setTaxe($product['product']->getTaxe()->getPercent())
-                            ->setPrimaryOfferName($product['primaryOfferName'])
-                            ->setPrimaryOfferReduce($product['primaryOfferReduce'])
-                            ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
-                            ->setSecondaryOfferName($product['secondaryOfferName'])
-                            ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
-                            ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
-                            ->setCustomPrice($product['attribut']->getPrice())
-                            ->setCustomDescription($product['description'])
-                            ->setTotal($product['product']->getPrice() * $product['quantity']);
-                        $this->entityManager->persist($orderDetails);
-                    }
+                $this->entityManager->persist($order);
+                foreach ($cart->getFull() as $product) {
+                    $orderDetails = new OrderDetails();
+                    $orderDetails->setMyOrder($order)
+                        ->setProduct($product['product'])
+                        ->setQuantity($product['quantity'])
+                        ->setPrice($product['product']->getPrice())
+                        ->setTaxe($product['product']->getTaxe()->getPercent())
+                        ->setPrimaryOfferName($product['primaryOfferName'])
+                        ->setPrimaryOfferReduce($product['primaryOfferReduce'])
+                        ->setPrimaryOfferTypeReduce($product['primaryOfferTypeReduce'])
+                        ->setSecondaryOfferName($product['secondaryOfferName'])
+                        ->setSecondaryOfferReduce($product['secondaryOfferReduce'])
+                        ->setSecondaryOfferTypeReduce($product['secondaryOfferTypeReduce'])
+                        ->setCustomPrice($product['attribut']->getPrice())
+                        ->setCustomDescription($product['description'])
+                        ->setTotal($product['product']->getPrice() * $product['quantity']);
+                    $this->entityManager->persist($orderDetails);
+                }
             }
 
-                $orderDetails = $this->entityManager->getRepository(OrderDetails::class)->findBy([
-                    'myOrder' => $orders,
-                ]);
+            $orderDetails = $this->entityManager->getRepository(OrderDetails::class)->findBy([
+                'myOrder' => $orders,
+            ]);
 
-                foreach ($orderDetails as $orderDetail) {
-                    if ($orderDetail->getMyOrder() == $order) {
-                        $this->entityManager->remove($orderDetail);
+            foreach ($orderDetails as $orderDetail) {
+                if ($orderDetail->getMyOrder() == $order) {
+                    $this->entityManager->remove($orderDetail);
                 }
             }
             $this->entityManager->flush();
@@ -188,9 +189,39 @@ class OrderController extends AbstractController
                 ->getQuery()
                 ->execute();
 
+            $customRepository->createQueryBuilder('c')
+                ->update()
+                ->set('c.quantity', ':quantity')
+                ->where('c.customOrder = :order')
+                ->setParameter('quantity', $product['quantity'])
+                ->setParameter('order', $order)
+                ->getQuery()
+                ->execute();
+
+                $customs = $customRepository->findBy([
+                    'customOrder' => $order,
+                ]);
+
+                $fuck = count($customs);
+                $fuck2 = count($cart->getFull());
+
+                if ($fuck != $fuck2) {
+                    $customRepository->createQueryBuilder('c')
+                        ->delete()
+                        ->where('c.id is not null')
+                        ->andWhere('c.customOrder = :order')
+                        ->setParameter('order', $order)
+                        ->getQuery()
+                        ->execute();
+                }
+            
+
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
                 'shipping' => $shipping,
+                'customs' => $customs,
+                'fuck' => $fuck,
+                'fuck2' => $fuck2,
                 'delivery_address' => $deliveryAddress,
                 'reference' => $order->getReference(),
                 'stripe_key' => $_ENV["STRIPE_KEY"],

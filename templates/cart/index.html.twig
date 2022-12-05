@@ -48,7 +48,8 @@
 								</td>
 								<td>
 									{{ attribut.attribut.product.name }}<br>
-									{{ attribut.attribut.name }}
+									{{ attribut.attribut.name }}<br>
+									perso : <strong>{{ attribut.description }}</strong>
 								</td>
 								<td class="no-style-hover">
 									<a href="{{ path('cart_decrease',{ id:attribut.attribut.id }) }}" class="text-decoration-none">
