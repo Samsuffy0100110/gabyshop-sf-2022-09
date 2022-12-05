@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use DateTime;
+use App\Entity\Order\Order;
 use App\Entity\Product\Offer;
 use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
@@ -72,13 +73,7 @@ class CartService
             foreach ($this->get() as $id => $quantity) {
                 $attribut = $this->entityManager->getRepository(Attribut::class)->find($id);
                 $product = $attribut->getProduct();
-                $customs = $this->entityManager->getRepository(Custom::class)->findAll();
-                $custom = "";
-                foreach ($customs as $custom) {
-                    if ($custom->getDescription() == $attribut->getName()) {
-                        $custom = $custom;
-                    }
-                }
+
                 $offers = $this->entityManager->getRepository(Offer::class)->createQueryBuilder('o')
                     ->select('o')
                     ->join('o.product', 'p')
@@ -119,13 +114,20 @@ class CartService
                     $this->delete($id);
                     continue;
                 }
-
+                
+                $customs = $this->entityManager->getRepository(Custom::class)->findAll();
+                $description = '';
+                foreach ($customs as $custom) {
+                    if ($custom->getAttribut() == $attribut) {
+                        $description = $custom->getDescription();
+                    }
+                }
                 $dayDate = new DateTime();
                 $cartComplete[] = [
                     'attribut' => $attribut,
                     'quantity' => $quantity,
                     'product' => $product,
-                    'custom' => $custom,
+                    'description' => $description,
                     'primaryOfferName' => $primaryName,
                     'primaryOfferReduce' => $primaryReduce,
                     'primaryOfferTypeReduce' => $primaryType,
