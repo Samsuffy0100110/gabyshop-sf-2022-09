@@ -6,7 +6,6 @@ use App\Service\CartService;
 use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
 use App\Repository\Product\CustomRepository;
-use App\Repository\Product\AttributRepository;
 use App\Repository\Product\WishlistRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
