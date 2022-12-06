@@ -24,6 +24,12 @@ use App\Repository\Product\PromoCodeRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * This will suppress all the PMD warnings in
+ * this class.
+ *
+ * @SuppressWarnings(PHPMD)
+ */
 class OrderController extends AbstractController
 {
     private $entityManager;
@@ -187,6 +193,7 @@ class OrderController extends AbstractController
                 ->getQuery()
                 ->execute();
 
+            $product['quantity'] = null;
             $customRepository->createQueryBuilder('c')
                 ->update()
                 ->set('c.quantity', ':quantity')

@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CartController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(CartService $cart, WishlistRepository $wishlistRepository, CustomRepository $customRepository): Response
+    public function index(CartService $cart, WishlistRepository $wishlistRepository): Response
     {
         $wishlist = $wishlistRepository->findBy(['user' => $this->getUser()]);
         return $this->render('cart/index.html.twig', [

@@ -113,7 +113,7 @@ class CartService
                     $this->delete($id);
                     continue;
                 }
-                
+
                 $customs = $this->entityManager->getRepository(Custom::class)->findAll();
                 $description = '';
                 foreach ($customs as $custom) {
@@ -132,7 +132,7 @@ class CartService
                 foreach ($key as $value) {
                     $hey = $value;
                 }
-                
+
                 $dayDate = new DateTime();
                 $cartComplete[] = [
                     'attribut' => $attribut,
