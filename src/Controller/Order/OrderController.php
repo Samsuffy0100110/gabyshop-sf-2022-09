@@ -8,6 +8,7 @@ use App\Entity\Address;
 use App\Entity\Order\Order;
 use App\Service\CartService;
 use App\Form\Order\OrderType;
+use App\Entity\Product\Custom;
 use Symfony\Component\Mime\Email;
 use App\Entity\Order\OrderDetails;
 use App\Service\MondialRelayService;
@@ -193,43 +194,36 @@ class OrderController extends AbstractController
                 ->getQuery()
                 ->execute();
 
-            $customRepository->createQueryBuilder('c')
-                ->update()
-                ->set('c.quantity', ':quantity')
-                ->where('c.customOrder = :order')
-                ->setParameter('quantity', $product['quantity'])
-                ->setParameter('order', $order)
-                ->getQuery()
-                ->execute();
+            $cartQuantity = null;
+            for ($i = 0; $i < count($cart->getFull()); $i++) {
+                $cartQuantity[] = $cart->getFull()[$i]['quantity'];
+            }
 
             $customs = $customRepository->findBy([
                 'customOrder' => $order,
             ]);
 
-            $customsCount = count($customs);
-            $cartCount = count($cart->getFull());
-
-            if ($customsCount != $cartCount) {
-                foreach ($cart->getFull() as $customOrder) {
-                    foreach ($customs as $custom) {
-                        if ($custom->getId() != $customOrder['customOrder']) {
-                            $customRepository->createQueryBuilder('c')
-                                ->delete()
-                                ->where('c.id = :id')
-                                ->andWhere('c.customOrder != :order')
-                                ->setParameter('order', $customOrder['customOrder'])
-                                ->setParameter('id', $custom->getId())
-                                ->getQuery()
-                                ->execute();
-                        }
-                    }
-                }
+            $customQuantity = null;
+            for ($i = 0; $i < count($customs); $i++) {
+                $customQuantity[] = $customs[$i]->getQuantity();
             }
+
+            // for ($i = 0; $i < count($cartQuantity); $i++) {
+            //     for ($j = 0; $j < count($customQuantity); $j++) {
+            //         if ($customQuantity[$j] != $cartQuantity[$i]) {
+            //             $customs[$j]->setQuantity($cartQuantity[$i]);
+            //             $this->entityManager->persist($customs[$j]);
+            //             $this->entityManager->flush();
+            //         }
+            //     }
+            // }
 
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
-                'shipping' => $shipping,
+                'cartQuantity' => $cartQuantity,
                 'customs' => $customs,
+                'customQuantity' => $customQuantity,
+                'shipping' => $shipping,
                 'delivery_address' => $deliveryAddress,
                 'reference' => $order->getReference(),
                 'stripe_key' => $_ENV["STRIPE_KEY"],

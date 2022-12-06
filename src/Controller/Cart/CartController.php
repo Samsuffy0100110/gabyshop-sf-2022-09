@@ -25,9 +25,31 @@ class CartController extends AbstractController
     }
 
     #[Route('/add/{id}', name: 'add')]
-    public function add(CartService $cart, $id): Response
-    {
+    public function add(
+        int $id,
+        CartService $cart,
+        CustomRepository $customRepository
+        ): Response {
+
+        $custom = $customRepository->findOneBy(['id' => 599]);
+            $customRepository->createQueryBuilder('c')
+            ->delete()
+            ->where('c.id = :id')
+            ->setParameter('id', 599)
+            ->getQuery()
+            ->execute();
+            
+        // $custom = new Custom();
+        // $custom->setQuantity(1);
+        // $custom->setPrice(0);
+        // $custom->setProduct($id);
+        // $customRepository->save($custom, true);
+
+
+
         $cart->add($id);
+
+        // $custom->setQuantity($quantity);
         return $this->redirectToRoute('cart_index');
     }
 
@@ -40,6 +62,7 @@ class CartController extends AbstractController
         string $description,
         CustomRepository $customRepository
     ): Response {
+
         $custom = new Custom();
         $custom->setAttribut($attribut);
         $custom->setDescription($description);
@@ -47,7 +70,17 @@ class CartController extends AbstractController
         $custom->setPrice($attribut->getPrice());
         $custom->setProduct($attribut->getProduct());
         $customRepository->save($custom, true);
+
+        if ($cart->get()) {
+            foreach ($cart->get() as $key => $value) {
+                if ($value['product']->getId() == $id) {
+                    $quantity = $value['quantity'] + $quantity;
+                }
+            }
+        }
+
         $cart->addIdAndQuantity($id, $quantity);
+
         return $this->redirectToRoute('cart_index');
     }
 

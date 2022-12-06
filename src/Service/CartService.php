@@ -167,6 +167,7 @@ class CartService
         return $total;
     }
 
+
     public function getTotalWeight()
     {
         $totalWeight = 0;

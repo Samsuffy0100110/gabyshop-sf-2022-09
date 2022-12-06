@@ -9,6 +9,16 @@
 		<h2>Mon récapitulatif</h2>
 		<p>Vérifier vos informations avant de payer votre commande</p>
 		<hr>
+		<pre>
+			<strong class="text-danger fs-3">cart</strong>
+				{{ dump(cart) }}
+			<strong class="text-danger fs-3">cart quantité</strong>
+				{{ dump(cartQuantity) }}
+			<strong class="text-danger fs-3">custom BDD</strong>
+				{{ dump(customs) }}
+			<strong class="text-danger fs-3">custom quantité BDD</strong>
+				{{ dump(customQuantity) }}
+		</pre>
 		<div class="row">
 			<div class="col-md-6">
 				{% if shipping.name is same as 'Livraison gratuite' %}
