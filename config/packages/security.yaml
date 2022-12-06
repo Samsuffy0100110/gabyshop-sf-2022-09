@@ -20,6 +20,9 @@ security:
                 login_path: login
                 check_path: login
                 enable_csrf: true
+                use_referer: true
+                # default_target_path: order
+                # always_use_default_target_path: false
             logout:
                 path: logout
 
