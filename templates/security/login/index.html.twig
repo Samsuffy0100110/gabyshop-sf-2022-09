@@ -22,6 +22,7 @@
 						<div class="form-group">
 							<label for="username">Votre mail :</label>
 							<input class="form-control m-2" type="text" id="username" name="_username" value="{{ last_username }}"/>
+							<input type="hidden" name="_target_path" value="{{ app.request.headers.get('referer') }}"/>
 						</div>
 						<div class="form-group">
 							<label for="password">Mot de passe :</label>
