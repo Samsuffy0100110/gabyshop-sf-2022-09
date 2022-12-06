@@ -126,6 +126,7 @@ class AccountController extends AbstractController
         $html = $this->renderView('account/order_pdf.html.twig', [
             'order' => $order,
             'shipping' => $shipping,
+            'customs' => $customRepository->findBy(['customOrder' => $order]),
         ]);
         $pdfService->showPdfFile($html);
         return $this->render('account/order_pdf.html.twig', [

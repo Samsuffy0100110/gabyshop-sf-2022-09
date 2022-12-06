@@ -193,7 +193,7 @@ class OrderController extends AbstractController
                 ->getQuery()
                 ->execute();
 
-            $product['quantity'] = null;
+            $product['quantity'] = $product['quantity'];
             $customRepository->createQueryBuilder('c')
                 ->update()
                 ->set('c.quantity', ':quantity')
