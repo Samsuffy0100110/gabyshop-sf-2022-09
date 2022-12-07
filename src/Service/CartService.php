@@ -128,10 +128,6 @@ class CartService
                         $key[] = $custom->getId();
                     }
                 }
-                $hey = null;
-                foreach ($key as $value) {
-                    $hey = $value;
-                }
 
                 $dayDate = new DateTime();
                 $cartComplete[] = [
@@ -146,7 +142,7 @@ class CartService
                     'secondaryOfferReduce' => $secondaryReduce,
                     'secondaryOfferTypeReduce' => $secondaryType,
                     'reference' => $dayDate->format('Ymd') . '-' . uniqid(),
-                    'customOrder' => $hey
+                    'customOrder' => $id
                 ];
             }
         }

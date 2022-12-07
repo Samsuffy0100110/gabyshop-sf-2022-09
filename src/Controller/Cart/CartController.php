@@ -15,12 +15,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CartController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(CartService $cart, WishlistRepository $wishlistRepository): Response
-    {
+    public function index(
+        CartService $cart,
+        WishlistRepository $wishlistRepository,
+    ): Response {
         $wishlist = $wishlistRepository->findBy(['user' => $this->getUser()]);
         return $this->render('cart/index.html.twig', [
             'cart' => $cart->getFull(),
-            'wishlist' => $wishlist
+            'wishlist' => $wishlist,
         ]);
     }
 
@@ -29,27 +31,25 @@ class CartController extends AbstractController
         int $id,
         CartService $cart,
         CustomRepository $customRepository
-        ): Response {
-
-        $custom = $customRepository->findOneBy(['id' => 599]);
+    ): Response {
+            $cart->add($id);
+            $cartQuantity = [];
+            $cartId = null;
+            $customs = $customRepository->findAll();
+        foreach ($customs as $custom) {
+            $cartId[] = $custom->getId();
+        }
+            $cartQ = $cart->getFull();
+        foreach ($cartQ as $key => $value) {
+            $cartQuantity[$key] = $value['quantity'];
             $customRepository->createQueryBuilder('c')
-            ->delete()
-            ->where('c.id = :id')
-            ->setParameter('id', 599)
-            ->getQuery()
-            ->execute();
-            
-        // $custom = new Custom();
-        // $custom->setQuantity(1);
-        // $custom->setPrice(0);
-        // $custom->setProduct($id);
-        // $customRepository->save($custom, true);
-
-
-
-        $cart->add($id);
-
-        // $custom->setQuantity($quantity);
+                ->update()
+                ->set('c.quantity', $cartQuantity[$key])
+                ->where('c.id = :id')
+                ->setParameter('id', $cartId[$key])
+                ->getQuery()
+                ->execute();
+        }
         return $this->redirectToRoute('cart_index');
     }
 
@@ -71,14 +71,6 @@ class CartController extends AbstractController
         $custom->setProduct($attribut->getProduct());
         $customRepository->save($custom, true);
 
-        if ($cart->get()) {
-            foreach ($cart->get() as $key => $value) {
-                if ($value['product']->getId() == $id) {
-                    $quantity = $value['quantity'] + $quantity;
-                }
-            }
-        }
-
         $cart->addIdAndQuantity($id, $quantity);
 
         return $this->redirectToRoute('cart_index');
@@ -93,16 +85,60 @@ class CartController extends AbstractController
     }
 
     #[Route('/delete/{id}', name: 'delete')]
-    public function delete(CartService $cart, $id): Response
-    {
-        $cart->delete($id);
+    public function delete(
+        int $id,
+        CartService $cart,
+        CustomRepository $customRepository
+    ): Response {
+
+            $customs = $customRepository->findAll();
+            $customId = null;
+            $customOrder = null;
+
+        for ($i = 0; $i < count($cart->getFull()); $i++) {
+            $customOrder[] = $cart->getFull()[$i]['customOrder'];
+        }
+        for ($i = 0; $i < count($customs); $i++) {
+            $customId[] = $customs[$i]->getId();
+            if ($id == $customOrder[$i]) {
+                $customRepository->createQueryBuilder('c')
+                    ->delete()
+                    ->where('c.id = :id')
+                    ->setParameter('id', $customId[$i])
+                    ->getQuery()
+                    ->execute();
+            }
+        }
+            $cart->delete($id);
+
         return $this->redirectToRoute('cart_index');
     }
 
     #[Route('/decrease/{id}', name: 'decrease')]
-    public function decrease(CartService $cart, $id): Response
-    {
+    public function decrease(
+        int $id,
+        CartService $cart,
+        CustomRepository $customRepository
+    ): Response {
+
         $cart->decrease($id);
+        $cartQuantity = [];
+        $cartId = null;
+        $customs = $customRepository->findAll();
+        foreach ($customs as $custom) {
+            $cartId[] = $custom->getId();
+        }
+        $cartQ = $cart->getFull();
+        foreach ($cartQ as $key => $value) {
+            $cartQuantity[$key] = $value['quantity'];
+            $customRepository->createQueryBuilder('c')
+                ->update()
+                ->set('c.quantity', $cartQuantity[$key])
+                ->where('c.id = :id')
+                ->setParameter('id', $cartId[$key])
+                ->getQuery()
+                ->execute();
+        }
         return $this->redirectToRoute('cart_index');
     }
 }
