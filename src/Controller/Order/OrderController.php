@@ -70,6 +70,7 @@ class OrderController extends AbstractController
         CartService $cart,
         OrderRepository $orderRepository,
         CustomRepository $customRepository,
+        ShippingRepository $shippingRepository,
         MondialRelayService $mondialRelayService,
         PromoCodeRepository $promoCodeRepository,
     ) {
@@ -151,10 +152,19 @@ class OrderController extends AbstractController
                     $this->entityManager->persist($orderDetails);
                 }
             } else {
-                $order
-                    ->addShipping($shipping)
-                    ->setAdress($adress);
+                $shippingRepository->createQueryBuilder('s')
+                    ->update()
+                    ->set('s.orderShipping', ':orderShipping')
+                    ->setParameter('orderShipping', null)
+                    ->getQuery()
+                    ->execute();
+                $order->addShipping($shipping)->setAdress($adress);
                 $this->entityManager->persist($order);
+
+                // $order
+                //     ->addShipping($shipping)
+                //     ->setAdress($adress);
+                // $this->entityManager->persist($order);
                 foreach ($cart->getFull() as $product) {
                     $orderDetails = new OrderDetails();
                     $orderDetails->setMyOrder($order)
