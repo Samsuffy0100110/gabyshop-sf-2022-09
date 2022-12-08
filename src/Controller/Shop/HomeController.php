@@ -5,6 +5,7 @@ namespace App\Controller\Shop;
 use App\Repository\Front\LogoRepository;
 use App\Repository\Front\ShopRepository;
 use App\Repository\Front\SocialRepository;
+use App\Repository\Product\CustomRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
