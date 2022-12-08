@@ -25,6 +25,7 @@ security:
                 # always_use_default_target_path: false
             logout:
                 path: logout
+                target: logoutAction
 
             custom_authenticators:
                 - App\Security\GoogleAuthenticator
