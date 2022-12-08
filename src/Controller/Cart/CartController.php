@@ -5,6 +5,7 @@ namespace App\Controller\Cart;
 use App\Service\CartService;
 use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
+use App\Service\RemoveAllService;
 use App\Repository\Order\OrderRepository;
 use App\Repository\Order\ShippingRepository;
 use App\Repository\Product\CustomRepository;
@@ -81,27 +82,19 @@ class CartController extends AbstractController
     #[Route('/remove', name: 'remove')]
     public function remove(
         CartService $cart,
+        RemoveAllService $removeAllService,
         OrderRepository $orderRepository,
         CustomRepository $customRepository,
         ShippingRepository $shippingRepository,
         OrderDetailsRepository $orderDetailsRepo
     ): Response {
-        $orders = $orderRepository->findBy(['state' => 0]);
-        foreach ($orders as $order) {
-            $order->removeOrderDetail($orderDetailsRepo->findOneBy(['myOrder' => $order->getId()]));
-            $order->removeShipping($shippingRepository->findOneBy(['orderShipping' => $order->getId()]));
-            $order->removeCustom($customRepository->findOneBy(['customOrder' => $order->getId()]));
-            $orderRepository->remove($order, true);
-        }
-        $customs = $customRepository->findBy(['customOrder' => null]);
-        foreach ($customs as $custom) {
-            $customRepository->remove($custom, true);
-        }
-        $orderDetails = $orderDetailsRepo->findBy(['myOrder' => null]);
-        foreach ($orderDetails as $orderDetail) {
-            $orderDetailsRepo->remove($orderDetail, true);
-        }
-        $cart->remove();
+        $removeAllService->removeAll(
+            $cart,
+            $orderRepository,
+            $customRepository,
+            $shippingRepository,
+            $orderDetailsRepo
+        );
         $this->addFlash('success', 'Votre panier a bien été vidé');
         return $this->redirectToRoute('home');
     }
