@@ -77,8 +77,20 @@ class CartController extends AbstractController
     }
 
     #[Route('/remove', name: 'remove')]
-    public function remove(CartService $cart): Response
-    {
+    public function remove(
+        CartService $cart, 
+        CustomRepository $customRepository
+        ): Response {
+
+        $customs = $customRepository->findBy(['customOrder' => null]);
+        foreach ($customs as $custom) {
+            $customRepository->createQueryBuilder('c')
+                ->delete()
+                ->where('c.id = :id')
+                ->setParameter('id', $custom->getId())
+                ->getQuery()
+                ->execute();
+        }
         $cart->remove();
         $this->addFlash('success', 'Votre panier a bien été vidé');
         return $this->redirectToRoute('home');
