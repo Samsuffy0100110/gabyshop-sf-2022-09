@@ -23,7 +23,7 @@ class Shipping
     #[ORM\Column(nullable: true)]
     private ?float $price = null;
 
-    #[ORM\ManyToOne(inversedBy: 'shipping')]
+    #[ORM\ManyToOne(inversedBy: 'shipping', cascade: ['persist'])]
     private ?Order $orderShipping = null;
 
     public function getId(): ?int

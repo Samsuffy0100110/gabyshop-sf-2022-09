@@ -5,10 +5,13 @@ namespace App\Controller\Cart;
 use App\Service\CartService;
 use App\Entity\Product\Custom;
 use App\Entity\Product\Attribut;
+use App\Repository\Order\OrderRepository;
+use App\Repository\Order\ShippingRepository;
 use App\Repository\Product\CustomRepository;
 use App\Repository\Product\WishlistRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\Order\OrderDetailsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/panier', name: 'cart_')]
@@ -32,14 +35,14 @@ class CartController extends AbstractController
         CartService $cart,
         CustomRepository $customRepository
     ): Response {
-            $cart->add($id);
-            $cartQuantity = [];
-            $cartId = null;
-            $customs = $customRepository->findAll();
+        $cart->add($id);
+        $cartQuantity = [];
+        $cartId = null;
+        $customs = $customRepository->findAll();
         foreach ($customs as $custom) {
             $cartId[] = $custom->getId();
         }
-            $cartQ = $cart->getFull();
+        $cartQ = $cart->getFull();
         foreach ($cartQ as $key => $value) {
             $cartQuantity[$key] = $value['quantity'];
             $customRepository->createQueryBuilder('c')
@@ -62,7 +65,6 @@ class CartController extends AbstractController
         string $description,
         CustomRepository $customRepository
     ): Response {
-
         $custom = new Custom();
         $custom->setAttribut($attribut);
         $custom->setDescription($description);
@@ -78,18 +80,26 @@ class CartController extends AbstractController
 
     #[Route('/remove', name: 'remove')]
     public function remove(
-        CartService $cart, 
-        CustomRepository $customRepository
-        ): Response {
-
+        CartService $cart,
+        OrderRepository $orderRepository,
+        CustomRepository $customRepository,
+        ShippingRepository $shippingRepository,
+        OrderDetailsRepository $orderDetailsRepo
+    ): Response {
+        $orders = $orderRepository->findBy(['state' => 0]);
+        foreach ($orders as $order) {
+            $order->removeOrderDetail($orderDetailsRepo->findOneBy(['myOrder' => $order->getId()]));
+            $order->removeShipping($shippingRepository->findOneBy(['orderShipping' => $order->getId()]));
+            $order->removeCustom($customRepository->findOneBy(['customOrder' => $order->getId()]));
+            $orderRepository->remove($order, true);
+        }
         $customs = $customRepository->findBy(['customOrder' => null]);
         foreach ($customs as $custom) {
-            $customRepository->createQueryBuilder('c')
-                ->delete()
-                ->where('c.id = :id')
-                ->setParameter('id', $custom->getId())
-                ->getQuery()
-                ->execute();
+            $customRepository->remove($custom, true);
+        }
+        $orderDetails = $orderDetailsRepo->findBy(['myOrder' => null]);
+        foreach ($orderDetails as $orderDetail) {
+            $orderDetailsRepo->remove($orderDetail, true);
         }
         $cart->remove();
         $this->addFlash('success', 'Votre panier a bien été vidé');
@@ -103,9 +113,9 @@ class CartController extends AbstractController
         CustomRepository $customRepository
     ): Response {
 
-            $customs = $customRepository->findAll();
-            $customId = null;
-            $customOrder = null;
+        $customs = $customRepository->findAll();
+        $customId = null;
+        $customOrder = null;
 
         for ($i = 0; $i < count($cart->getFull()); $i++) {
             $customOrder[] = $cart->getFull()[$i]['customOrder'];
@@ -121,7 +131,7 @@ class CartController extends AbstractController
                     ->execute();
             }
         }
-            $cart->delete($id);
+        $cart->delete($id);
 
         return $this->redirectToRoute('cart_index');
     }

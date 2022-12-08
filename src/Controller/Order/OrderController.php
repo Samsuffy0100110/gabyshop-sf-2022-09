@@ -161,10 +161,6 @@ class OrderController extends AbstractController
                 $order->addShipping($shipping)->setAdress($adress);
                 $this->entityManager->persist($order);
 
-                // $order
-                //     ->addShipping($shipping)
-                //     ->setAdress($adress);
-                // $this->entityManager->persist($order);
                 foreach ($cart->getFull() as $product) {
                     $orderDetails = new OrderDetails();
                     $orderDetails->setMyOrder($order)
@@ -217,16 +213,6 @@ class OrderController extends AbstractController
             for ($i = 0; $i < count($customs); $i++) {
                 $customQuantity[] = $customs[$i]->getQuantity();
             }
-
-            // for ($i = 0; $i < count($cartQuantity); $i++) {
-            //     for ($j = 0; $j < count($customQuantity); $j++) {
-            //         if ($customQuantity[$j] != $cartQuantity[$i]) {
-            //             $customs[$j]->setQuantity($cartQuantity[$i]);
-            //             $this->entityManager->persist($customs[$j]);
-            //             $this->entityManager->flush();
-            //         }
-            //     }
-            // }
 
             return $this->render('order/add.html.twig', [
                 'cart' => $cart->getFull(),
