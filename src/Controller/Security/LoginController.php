@@ -3,9 +3,13 @@
 namespace App\Controller\Security;
 
 use App\Service\CartService;
+use App\Service\RemoveAllService;
+use App\Repository\Order\OrderRepository;
+use App\Repository\Order\ShippingRepository;
 use App\Repository\Product\CustomRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\Order\OrderDetailsRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -32,17 +36,20 @@ class LoginController extends AbstractController
 
     #[Route('/logoutAction', name: 'logoutAction', methods: ['GET'])]
     public function logoutAction(
-        CustomRepository $customRepository
+        CartService $cart,
+        OrderRepository $orderRepository,
+        RemoveAllService $removeAllService,
+        CustomRepository $customRepository,
+        ShippingRepository $shippingRepository,
+        OrderDetailsRepository $orderDetailsRepo
     ): Response {
-        $customs = $customRepository->findBy(['customOrder' => null]);
-        foreach ($customs as $custom) {
-            $customRepository->createQueryBuilder('c')
-                ->delete()
-                ->where('c.id = :id')
-                ->setParameter('id', $custom->getId())
-                ->getQuery()
-                ->execute();
-        }
+        $removeAllService->removeAll(
+            $cart,
+            $orderRepository,
+            $customRepository,
+            $shippingRepository,
+            $orderDetailsRepo
+        );
         return $this->redirectToRoute('home');
     }
 }
