@@ -134,6 +134,7 @@ class CartService
                     'attribut' => $attribut,
                     'quantity' => $quantity,
                     'product' => $product,
+                    'customs' => $customs,
                     'description' => $description,
                     'primaryOfferName' => $primaryName,
                     'primaryOfferReduce' => $primaryReduce,

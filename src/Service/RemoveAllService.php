@@ -19,9 +19,15 @@ class RemoveAllService
     ) {
         $orders = $orderRepository->findBy(['state' => 0]);
         foreach ($orders as $order) {
-            $order->removeOrderDetail($orderDetailsRepo->findOneBy(['myOrder' => $order->getId()]));
+            $orderDetails = $orderDetailsRepo->findBy(['myOrder' => $order->getId()]);
+            $customs = $customRepository->findBy(['customOrder' => $order->getId()]);
+            foreach ($orderDetails as $orderDetail) {
+                $orderDetailsRepo->remove($orderDetail, true);
+            }
+            foreach ($customs as $custom) {
+                $customRepository->remove($custom, true);
+            }
             $order->removeShipping($shippingRepository->findOneBy(['orderShipping' => $order->getId()]));
-            $order->removeCustom($customRepository->findOneBy(['customOrder' => $order->getId()]));
             $orderRepository->remove($order, true);
         }
         $customs = $customRepository->findBy(['customOrder' => null]);
