@@ -33,6 +33,7 @@ class ShippingCrudController extends AbstractCrudController
             TextField::new('name', 'Nom'),
             TextareaField::new('description', 'Description'),
             MoneyField::new('price', 'Prix')
+                ->setCustomOption('storedAsCents', false)
                 ->setCurrency('EUR'),
         ];
     }

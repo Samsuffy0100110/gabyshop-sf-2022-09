@@ -50,10 +50,12 @@
 									{{ attribut.attribut.product.name }}<br>
 									{{ attribut.attribut.name }}<br>
 									{% for custom in attribut.customs|filter (c => c.attribut == attribut.attribut.name) %}
-										perso :
-										<strong>{{ custom.description }}</strong>
-										x
-										{{ custom.quantity }}<br>
+										{% if custom.description != 'aucune' %}
+											perso :
+											<strong>{{ custom.description }}</strong>
+											x
+											{{ custom.quantity }}<br>
+										{% endif %}
 									{% endfor %}
 
 								</td>

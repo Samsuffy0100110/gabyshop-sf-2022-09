@@ -78,8 +78,13 @@
 									<p class="fw-bold">{{ attribut.attribut.product.name }}</p>
 									<p>{{ attribut.attribut.name }}</p>
 									{% for custom in attribut.customs|filter (c => c.attribut == attribut.attribut.name) %}
-								perso : <strong>{{ custom.description }}</strong> x {{ custom.quantity }}<br>
-							{% endfor %}
+										{% if custom.description != 'aucune' %}
+											perso :
+											<strong>{{ custom.description }}</strong>
+											x
+											{{ custom.quantity }}<br>
+										{% endif %}
+									{% endfor %}
 								</div>
 								<div class="col my-auto">
 									<b>x

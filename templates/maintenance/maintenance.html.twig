@@ -1,21 +1,21 @@
 <div class="container">
 	<div class="row">
-		<h1 class="text-center">Site en Maintenance</h1>
+		<h1 class="text-center mb-3">Site en Maintenance</h1>
 		<div class="col text-center">
 			{% if logo == null %}
 		{% for shop in shops %}
-		<img class="logo rounded" src="https://fakeimg.pl/400x400/?text={{ shop.name }}" alt="{{ shop.name }}">
+		<img class="logo rounded mb-3" src="https://fakeimg.pl/400x400/?text={{ shop.name }}" alt="{{ shop.name }}">
 		{% endfor %}
 		{% else %}
         <img src="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" alt="{{ logo.name }}">
 		{% endif %}
 			{% for shop in shops %}
-				<div class="fs-1 text-center mx-auto">{{ shop.name }}</div>
+				<div class="fs-1 text-center mx-auto mb-3">{{ shop.name }}</div>
 				<div class="text-center mb-2">Notre site est actuellement en maintenance.</div>
 				<div class="text-center mb-2">Veuillez-nous excuser pour le dérangement.</div>
 				<div class="text-center mb-2">Nous reviendrons très vite.</div>
 				<div class="text-center mb-2">Merci de votre compréhension.</div>
-				<div class="text-center">L'équipe{{ shop.name }}</div>
+				<div class="text-center">L'équipe {{ shop.name }}</div>
 			</div>
 		{% endfor %}
 	</div>

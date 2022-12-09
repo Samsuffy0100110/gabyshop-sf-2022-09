@@ -49,8 +49,8 @@ class AttributCrudController extends AbstractCrudController
             MoneyField::new('price')
                 ->setLabel('Prix')
                 ->setCurrency('EUR')
+                ->setCustomOption('storedAsCents', false)
                 ->setDefaultColumns('col-lg-8')
-                ->setNumDecimals(2)
                 ->setEmptyData('0.00'),
             TextField::new('perso')
                 ->setLabel('Personnalisation')
