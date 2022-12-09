@@ -168,17 +168,17 @@
 			<div class="col-lg-8 bg-light rounded mt-2 mb-5 p-3">
 				<table class="table table-bordered table-striped">
 					<thead>
-						<tr>
+						<tr class="text-center">
 							<th scope="col">Produit</th>
-							<th scope="col">Attribut</th>
-							<th scope="col">Personnalisation</th>
+							<th scope="col">Option</th>
+							<th scope="col">Prix de la personnalisation</th>
 							<th scope="col">Quantité</th>
-							<th scope="col">Description</th>
+							<th scope="col">Votre personnalisation</th>
 						</tr>
 					</thead>
 					<tbody>
 						{% for custom in customs %}
-							<tr>
+							<tr class="text-center">
 								<td>{{ custom.product }}</td>
 								<td>{{ custom.attribut }}</td>
 								<td>{{ custom.price | number_format(2, ',', ' ') }}€</td>

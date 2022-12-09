@@ -24,7 +24,8 @@ class LoginController extends AbstractController
         ShippingRepository $shippingRepository,
         AuthenticationUtils $authenticationUtils,
         OrderDetailsRepository $orderDetailsRepo,
-        ): Response {
+    ): Response {
+        if ($cart->getFull() == null) {
             $removeAllService->removeAll(
                 $cart,
                 $orderRepository,
@@ -32,6 +33,7 @@ class LoginController extends AbstractController
                 $shippingRepository,
                 $orderDetailsRepo
             );
+        }
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
         return $this->render('security/login/index.html.twig', [
