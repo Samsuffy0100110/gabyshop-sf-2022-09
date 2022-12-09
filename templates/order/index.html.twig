@@ -90,7 +90,9 @@
 							<div class="col">
 								<p class="fw-bold">{{ attribut.attribut.product.name }}</p>
 								<p>{{ attribut.attribut.name }}</p>
-								<p>perso : <strong>{{ attribut.description }}</strong></p>
+								{% for custom in attribut.customs|filter (c => c.attribut == attribut.attribut.name) %}
+								perso : <strong>{{ custom.description }}</strong> x {{ custom.quantity }}<br>
+							{% endfor %}
 							</div>
 							<div class="col my-auto">
 								<b>x

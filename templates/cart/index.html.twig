@@ -49,7 +49,10 @@
 								<td>
 									{{ attribut.attribut.product.name }}<br>
 									{{ attribut.attribut.name }}<br>
-									perso : <strong>{{ attribut.description }}</strong>
+							{% for custom in attribut.customs|filter (c => c.attribut == attribut.attribut.name) %}
+								perso : <strong>{{ custom.description }}</strong> x {{ custom.quantity }}<br>
+							{% endfor %}
+									
 								</td>
 								<td class="no-style-hover">
 									<a href="{{ path('cart_decrease',{ id:attribut.attribut.id }) }}" class="text-decoration-none">
