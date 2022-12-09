@@ -49,7 +49,13 @@
 								<td>
 									{{ attribut.attribut.product.name }}<br>
 									{{ attribut.attribut.name }}<br>
-									perso : <strong>{{ attribut.description }}</strong>
+									{% for custom in attribut.customs|filter (c => c.attribut == attribut.attribut.name) %}
+										perso :
+										<strong>{{ custom.description }}</strong>
+										x
+										{{ custom.quantity }}<br>
+									{% endfor %}
+
 								</td>
 								<td class="no-style-hover">
 									<a href="{{ path('cart_decrease',{ id:attribut.attribut.id }) }}" class="text-decoration-none">
@@ -91,47 +97,47 @@
 										{% endfor %}
 										{% set totalWhitOffers = (attribut.attribut.product.price  - totalPercent) + (attribut.attribut.price * 100) %}
 										<p class="card-text fw-bold">{{ (((totalWhitOffers) / 100) - totalEuro) | number_format(2, ',', '.')}}</p>
+									</td>
 								</td>
 								<td>{{ ((( totalWhitOffers * attribut.quantity) / 100) - totalEuro) | number_format(2, ',', '.') }}&euro;</td>
-								
+
 								{% set Total = Total + ((totalWhitOffers * attribut.quantity) / 100 ) - totalEuro  %}
 							{% else %}
-									{{ (attribut.attribut.product.price / 100) + (attribut.attribut.price) }}&euro;
-								</td>
-								<td>{{ ((((attribut.attribut.product.price / 100) + (attribut.attribut.price)) * attribut.quantity)) | number_format(2, ',', '.') }}
-									&euro;
-								</td>
-								{% set total = total + (((attribut.attribut.product.price / 100) + attribut.attribut.price) * attribut.quantity) %}
-							{% endif %}
-							<td>
-									<a href="{{ path('cart_delete', { id:attribut.attribut.id }) }}">
-										<img src="{{ ('/images/others/trash-can.png') }}" alt="supprimer mon produit" height="20">
-									</a>
+								{{ (attribut.attribut.product.price / 100) + (attribut.attribut.price) }}&euro;
+							</td>
+							<td>{{ ((((attribut.attribut.product.price / 100) + (attribut.attribut.price)) * attribut.quantity)) | number_format(2, ',', '.') }}
+								&euro;
+							</td>
+							{% set total = total + (((attribut.attribut.product.price / 100) + attribut.attribut.price) * attribut.quantity) %}
+						{% endif %}
+						<td>
+							<a href="{{ path('cart_delete', { id:attribut.attribut.id }) }}">
+								<img src="{{ ('/images/others/trash-can.png') }}" alt="supprimer mon produit" height="20">
+							</a>
 						</td>
-							{% set nbProducts = nbProducts + attribut.quantity %}
-						{% endfor %}
-						
-					</tbody>
-				</table>
-			</div>
-			<div class="text-end">
-				<p>Nombre de produits :
-					<b>{{ nbProducts }}</b>
-				</p>
-				<p>Total de mon panier :
-					<b>{{ (Total + total ) | number_format(2, ',', '.') }}&euro;</b>
-				</p>
-				<a href="{{ path('order') }}" class="btn btn-outline-success mt-2">Valider mon panier</a>
-			</div>
-		{% else %}
-			<hr>
-			<p>Votre panier est vide.</p>
-		{% endif %}
-	</div>
-	{% if wishlist %}
-		{% include "includes/wishlist/index.html.twig" %}
+						{% set nbProducts = nbProducts + attribut.quantity %}
+					{% endfor %}
+
+				</tbody>
+			</table>
+		</div>
+		<div class="text-end">
+			<p>Nombre de produits :
+				<b>{{ nbProducts }}</b>
+			</p>
+			<p>Total de mon panier :
+				<b>{{ (Total + total ) | number_format(2, ',', '.') }}&euro;</b>
+			</p>
+			<a href="{{ path('order') }}" class="btn btn-outline-success mt-2">Valider mon panier</a>
+		</div>
+	{% else %}
+		<hr>
+		<p>Votre panier est vide.</p>
 	{% endif %}
-	<script>
-		let attribut = document.querySelectorAll('.attribut');
-	</script>
-{% endblock %}
+</div>
+{% if wishlist %}
+	{% include "includes/wishlist/index.html.twig" %}
+{% endif %}
+<script>
+	let attribut = document.querySelectorAll('.attribut');
+</script>{% endblock %}
