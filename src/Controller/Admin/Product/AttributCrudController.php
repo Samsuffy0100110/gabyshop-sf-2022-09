@@ -46,11 +46,12 @@ class AttributCrudController extends AbstractCrudController
                 ->setLabel('Produit')
                 ->hideOnForm()
                 ->setDefaultColumns('col-lg-8'),
-            IntegerField::new('price')
+            MoneyField::new('price')
                 ->setLabel('Prix')
-                ->setHelp('Prix de la personnalisation')
+                ->setCurrency('EUR')
                 ->setDefaultColumns('col-lg-8')
-                ->setRequired(true),
+                ->setNumDecimals(2)
+                ->setEmptyData('0.00'),
             TextField::new('perso')
                 ->setLabel('Personnalisation')
                 ->hideOnForm(),
