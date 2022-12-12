@@ -1,0 +1,8 @@
+
+parameters:
+    excludePaths:
+    - src/Security
+    ignoreErrors:
+    reportUnmatchedIgnoredErrors: false
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false

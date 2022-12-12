@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="mt-5 mb-5 text-info fw-bold">Erreur</h1>
+		<p class="mb-5 fw-bold">
+			Une erreur est survenue.
+			Vous pouvez retourner à la page d'accueil en cliquant sur le lien ci-dessous.
+			<a href="{{ path('home') }}">Retour à l'accueil</a>
+		</p>
+	</div>
+{% endblock %}

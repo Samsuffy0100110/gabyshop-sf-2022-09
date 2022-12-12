@@ -1,0 +1,55 @@
+<div class="container mb-3 mt-3">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light border rounded">
+		<div class="container-fluid">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					{% for parentCategory in parentCategories %}
+						<li class="nav-item">
+							<a class="nav-link fs-5" href="{{ path('category_show', { parentCategory: parentCategory.slug }) }}">
+								{{ parentCategory.name }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+				<div class="dropdown">
+					<button onclick="myFunction()" class="btn btn-outline-success">Recherche</button>
+					<div id="myDropdown" class="dropdown-content">
+						<input type="text" placeholder="Taper le nom d'un produit" id="myInput" onkeyup="filterFunction()">
+						{% for product in products %}
+							<a href="{{ path('product_show', { parentCategory: product.category.parent.slug, category: product.category.slug, product: product.slug }) }}">{{ product.name }}</a>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+</div>
+<script>
+	function myFunction() {
+document.getElementById("myDropdown").classList.toggle("show");
+}
+
+function filterFunction() {
+var input,
+filter,
+ul,
+li,
+a,
+i;
+input = document.getElementById("myInput");
+filter = input.value.toUpperCase();
+div = document.getElementById("myDropdown");
+a = div.getElementsByTagName("a");
+for (i = 0; i < a.length; i++) {
+txtValue = a[i].textContent || a[i].innerText;
+if (txtValue.toUpperCase().indexOf(filter) > -1) {
+a[i].style.display = "";
+} else {
+a[i].style.display = "none";
+}
+}
+}
+</script>

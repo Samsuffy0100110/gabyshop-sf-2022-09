@@ -1,0 +1,25 @@
+<div class="container">
+	<div class="row mb-5">
+		<h2 class="mt-5 mb-5 text-center">Les produits que vous pourriez apprécier</h2>
+		{% for product in wishlist|slice(0, 4) %}
+			<div class="col-lg-3 col-6 mb-2 d-flex justify-content-center">
+				<a href="{{ path('product_show', { parentCategory: product.product.category.parent.slug, category: product.product.category.slug, product: product.product.slug }) }}">
+					<div class="card product-card shadow">
+						{% if product.product.image0 is empty %}
+							<img class="w-100 card-img-top product-image" src="https://fakeimg.pl/400x400/?text={{ product.product.name }}" alt="{{ product.product.name }}">
+						{% else %}
+							<img src="{{ ('/images/products/' ~ product.product.image0)|imagine_filter('latest_products') }}" class="w-100 card-img-top product-image" alt="{{ product.product.name }}">
+						{% endif %}
+						<div class="middle">
+							<a href="{{ path('product_show', { parentCategory: product.product.category.parent.slug, category: product.product.category.slug, product: product.product.slug }) }}" class="product-text nav-link rounded btn btn-outline-light fw-bold">Voir</a>
+						</div>
+					</a>
+					<div class="card-body d-flex flex-column">
+						<h5 class="card-title">{{ product.product.name }}</h5>
+						<p class="card-text">{{ product.product.summary|u.truncate(50, '...', false) }}</p>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>

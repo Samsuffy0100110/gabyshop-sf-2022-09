@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	{% if error %}
+	<div class="container">
+		<div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+			{{ error.messageKey|trans(error.messageData, 'security') }}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>	
+	{% endif %}
+	<div class="container">
+		<div class="row text-center">
+			<h1 class="mb-5">Bienvenue dans votre espace client</h1>
+			<div class="col">
+				<div class="card p-5 mb-5 bg-light">
+					<h2>Connexion</h2>
+					<h4>Si vous avez un compte, connectez-vous</h4>
+					<form action="{{ path('login') }}" method="post">
+						<div class="form-group">
+							<label for="username">Votre mail :</label>
+							<input class="form-control m-2" type="text" id="username" name="_username" value="{{ last_username }}"/>
+							<input type="hidden" name="_target_path" value="{{ app.request.headers.get('referer') }}"/>
+						</div>
+						<div class="form-group">
+							<label for="password">Mot de passe :</label>
+							<input class="form-control m-2" type="password" id="password" name="_password"/>
+							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+						</div>
+						<button class="btn btn-success mx-auto m-2" type="submit">Connection</button>
+					</form>
+					<a class="btn btn-primary mx-auto m-2" href="{{ path('forgot_password_request') }}">Mot de passe oublié ?</a>
+				</div>
+			</div>
+			<div class="col">
+				<div class="card p-5 bg-light mb-5 ">
+					<h2 class"mb-5">Vous n'avez pas de compte ?</h2>
+					<a class="btn btn-success mx-auto m-5" href="{{ path('register') }}">Inscrivez-vous</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	{{ render(controller('App\\Controller\\Communication\\NewsLetterController::subscribeForm')) }}
+{% endblock %}
+ 

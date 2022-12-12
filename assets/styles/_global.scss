@@ -1,0 +1,38 @@
+*{
+    box-sizing: border-box;
+}
+
+.user-avatar{
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+}
+
+.linkNav{
+    color: rgb(232, 68, 68);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.crumb{
+    color: rgb(232, 68, 68);
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.linkNav:hover{
+
+    color: rgb(202, 174, 51);
+    text-decoration: underline;
+}
+
+.crumb:hover{
+    color: rgb(202, 174, 51);
+    text-decoration: underline;
+}

@@ -1,0 +1,39 @@
+<ul class="nav nav-tabs card-herder-tabs" id="myTab" role="tablist">
+	<li class="nav-item" role="presentation">
+		<button class="nav-link active text-dark fw-bold" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Détail du produit</button>
+	</li>
+	<li class="nav-item" role="presentation">
+		<button class="nav-link text-dark fw-bold" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Commentaires</button>
+	</li>
+</ul>
+<div class="tab-content" id="myTabContent">
+	<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+		<div class="card-body bg-white rounded-bottom border border-top-0">
+			<h5 class="card-title">{{ product.name }}</h5>
+			<p class="card-text">{{ product.description }}</p>
+		</div>
+	</div>
+	<div class="tab-pane " id="profile" role="tabpanel" aria-labelledby="profile-tab">
+		{% for comment in product.commentaries %}
+			<p class="text-decoration-none fw-bold">{{ comment.user.firstname }}</p>
+			<i>{{ comment.createdAt|format_datetime('full', 'short', locale='fr', timezone='Europe/Paris') }}</i>
+			<div class="container">
+				<div class="card shadow text-dark bg-light p-1 mt-3 mb-3">
+					<p>{{ comment.comment|raw }}</p>
+				</div>
+			</div>
+		{% endfor %}
+		{% if app.user %}
+			{{ form_start(form) }}
+			{{ form_row(form.comment) }}
+			<h5>Note le produit</h5>
+			{{ form_row(form.rating) }}
+			<button type="submit" class="btn btn-success">Envoyer</button>
+			{{ form_end(form) }}
+		{% else %}
+			<hr>
+			<a class="btn btn-outline-success mb-5 mt-5 " href="{{ path('login')}}">Connecte toi pour laisser un message</a>
+		{% endif %}
+	</div>
+</div>
+

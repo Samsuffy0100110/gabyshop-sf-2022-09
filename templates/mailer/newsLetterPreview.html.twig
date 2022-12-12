@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ newsletter.name }} |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Prévisualisation</h1>
+					<h2>Titre</h2>
+					<p>{{ newsletter.title }}</p>
+					<p class="created-at" >Créer le : {{ newsletter.createdAt|date('d/m/Y') }}</p>
+					<h2>Image</h2>
+					<img class="mb-5" src="{{ ('/images/newsletter/' ~ newsletter.image) }}" alt="{{ newsletter.title }}">
+					<p>{{ newsletter.description|raw }}</p>
+			<a class="btn btn-info mt-5 mb-5" href="{{ path('newsletter_send', { 'id': newsletter.id }) }}">Envoyer la newsletter</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

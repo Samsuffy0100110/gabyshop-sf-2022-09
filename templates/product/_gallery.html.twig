@@ -1,0 +1,60 @@
+<div class="col-lg-12">
+	{% if product.image0 is empty %}
+		<img class="myImages w-100 rounded mb-2 img-gallery" src="https://fakeimg.pl/400x400/?text={{ product.name }}" alt="{{ product.name }}">
+	{% else %}
+		<img src="{{ ('/images/products/' ~ product.image0) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded mb-2 img-gallery">
+	{% endif %}
+</div>
+<div class="col-lg-3 col">
+	{% if product.image1 == null %}
+		<div class="text-center mt-4">
+			<i class="fa-solid fa-camera-retro fa-4x"></i>
+		</div>
+	{% else %}
+		<div class="img-gallery">
+			<img src="{{ ('/images/products/' ~ product.image1) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded img-gallery">
+		</div>
+	{% endif %}
+</div>
+<div class="col-lg-3 col">
+	{% if product.image2 == null %}
+		<div class="text-center mt-4">
+			<i class="fa-solid fa-camera-retro fa-4x"></i>
+		</div>
+	{% else %}
+		<div class="img-gallery">
+			<img src="{{ ('/images/products/' ~ product.image2) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded img-gallery">
+		</div>
+	{% endif %}
+</div>
+<div class="col-lg-3 col ">
+	{% if product.image3 == null %}
+		<div class="text-center mt-4">
+			<i class="fa-solid fa-camera-retro fa-4x"></i>
+		</div>
+	{% else %}
+		<div class="img-gallery">
+			<img src="{{ ('/images/products/' ~ product.image3) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded img-gallery">
+		</div>
+	{% endif %}
+</div>
+<div class="col-lg-3 col ">
+	{% if product.image4 == null %}
+		<div class="text-center mt-4">
+			<i class="fa-solid fa-camera-retro fa-4x"></i>
+		</div>
+	{% else %}
+		<div class="img-gallery">
+			<img src="{{ ('/images/products/' ~ product.image4) }}" alt="{{ product.name }}" id="myImg" class="myImages w-100 rounded img-gallery">
+		</div>
+	{% endif %}
+</div>
+
+<div class="clearfix"></div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+	<span class="close">&times;</span>
+	<img class="modal-content" id="img01">
+	<div id="caption"></div>
+</div>

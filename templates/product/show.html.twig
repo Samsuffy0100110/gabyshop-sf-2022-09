@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail
+	{{ product.name }}
+	|
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12 mb-5">
+				<i>
+					<small>
+						<a class="crumb" href="{{ path('home')}}">Accueil</a>
+						/
+						<a class="crumb" href="{{ path('category_show', { parentCategory: parentCategory.slug })}}">{{ parentCategory.name }}</a>
+						/
+						<a class="crumb" href="{{ path('sub-category_show', { parentCategory: parentCategory.slug, category: category.slug })}}">{{ category.name }}</a>
+						/
+						<a class="fw-bold text-decoration-none link-dark">{{ product.name }}</a>
+					</small>
+				</i>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg mb-3">
+				<div class="row">
+					{% include "product/_gallery.html.twig" %}
+				</div>
+			</div>
+			<div class="col-lg mb-3">
+				{% include "product/_product-card.html.twig" %}
+			</div>
+		</div>
+		<div class="row mb-3 ">
+			<div class="col-12">
+				<div class="card text-center mt-2 mb-2">
+					<div class="card-header border-bottom-0">
+						{% include "product/_comments.html.twig" %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row mb-3">
+			{% include "product/_similar-products.html.twig" %}
+		</div>
+		</div>
+	</div>
+{% endblock %}

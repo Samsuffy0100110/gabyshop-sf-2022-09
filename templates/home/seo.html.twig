@@ -1,0 +1,57 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+<meta http-equiv="x-ua-compatible" content="ie=edge"/>
+<meta name="description" content="{{ shop.description }}"/>
+<meta name="revisit-after" content="3 days">
+<meta name="language" content="fr">
+<meta name="robots" content="index, follow">
+<meta name="author" content="{{ shop.name }}">
+<meta name="copyright" content="{{ shop.name }}">
+<meta name="distribution" content="global">
+<meta name="rating" content="general">
+<meta property="og:title" content="{{ shop.name }}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ absolute_url('/') }}" />
+{% if logo != null %}
+<meta property="og:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
+<meta property="og:description" content="{{ shop.description }}" />
+<meta property="twitter:title" content="{{ shop.name }}" />
+<meta property="twitter:type" content="website" />
+<meta property="twitter:url" content="{{ absolute_url('/') }}" />
+<meta property="twitter:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
+<meta property="twitter:description" content="{{ shop.description }}" />
+<meta property="instagram:title" content="{{ shop.name }}" />
+<meta property="instagram:type" content="website" />
+<meta property="instagram:url" content="{{ absolute_url('/') }}" />
+<meta property="instagram:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
+<meta property="instagram:description" content="{{ shop.description }}" />
+<meta property="pinterest:title" content="{{ shop.name }}" />
+<meta property="pinterest:type" content="website" />
+<meta property="pinterest:url" content="{{ absolute_url('/') }}" />
+<meta property="pinterest:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
+<meta property="pinterest:description" content="{{ shop.description }}" />
+<meta property="facebook:title" content="{{ shop.name }}" />
+<meta property="facebook:type" content="website" />
+<meta property="facebook:url" content="{{ absolute_url('/') }}" />
+<meta property="facebook:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
+<meta property="facebook:description" content="{{ shop.description }}" />
+<meta property="google:title" content="{{ shop.name }}" />
+<meta property="google:type" content="website" />
+<meta property="google:url" content="{{ absolute_url('/') }}" />
+<meta property="google:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
+<meta property="google:description" content="{{ shop.description }}" />
+<meta property="linkedin:title" content="{{ shop.name }}" />
+<meta property="linkedin:type" content="website" />
+<meta property="linkedin:url" content="{{ absolute_url('/') }}" />
+<meta property="linkedin:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
+<meta property="linkedin:description" content="{{ shop.description }}" />
+<meta property="youtube:title" content="{{ shop.name }}" />
+<meta property="youtube:type" content="website" />
+<meta property="youtube:url" content="{{ absolute_url('/') }}" />
+<meta property="youtube:image" content="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" />
+<meta property="youtube:description" content="{{ shop.description }}" />
+{% endif %}
+<title>
+    {% block title %}{{ shop.name }}
+    {% endblock %}
+</title>

@@ -1,0 +1,154 @@
+<div class="card h-100">
+	<div class="card-header">
+		<h2 class="card-title">{{ product.name }}</h2>
+	</div>
+	<div class="card-body d-flex flex-column">
+		{% include "product/_rating.html.twig" %}
+		<p class="card-text mt-1">{{ product.summary }}</p>
+		{% if app.user %}
+			<a href="{{ path('wishlist_new', { product: product.slug }) }}">Ajouter à ma liste d'envie</a>
+		{% endif %}
+		<div class="row">
+			<div class="col-md-6 mb-3">
+				{% if attributs | length > 0 %}
+					<label for="attribut">Options :</label>
+					<select class="form-control form-control-lg" name="attribut" id="attribut" onchange="Changequantity()" required>
+						<option value="">Choisissez une option</option>
+						{% for attribut in attributs %}
+							<option value="{{ attribut.id }}">{{ attribut.name }}</option>
+						{% endfor %}
+					</select>
+					<div class="invalid-feedback">
+						Merci de choisir votre option
+					</div>
+				</div>
+				<div class="col-md-6 mb-3">
+					<label for="quantity">Quantité :</label>
+					<select class="form-control form-control-lg" id="quantity" name="quantity" onchange="setQuantity()" required></select>
+					<div class="invalid-feedback">
+						Merci de choisir une quantité.
+					</div>
+				</div>
+			{% else %}
+				<div class=" fw-bold">Désolé produit victime de son succès, en attente de réapprovisionnement.</div>
+			</div>
+		{% endif %}
+		<div id="customForm"></div>
+		<div id="add-to-cart"></div>
+	</div>
+	{% set total = 0 %}
+	{% set totalEuro = 0 %}
+	{% set offers = product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
+	{% for offer in offers %}
+		{% if offer.typeReduce == "percent" %}
+			<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }}
+				: -
+				{{ offer.reduce }}&nbsp%
+			</div>
+		{% endif %}
+		{% if offer.typeReduce == "euro" %}
+			<div class="text-center text-white rounded-3 bg-danger p-1 fw-semibold m-1" style="font-size: 0.75rem">{{ offer.name }}
+				: -
+				{{ offer.reduce }}&nbsp€
+			</div>
+		{% endif %}
+		{% else %}
+	{% endfor %}
+	{% if offers| length > 0 %}
+		{% set number = 0 %}
+		{% set reduce = 0 %}
+		{% set reduceEuro = 0 %}
+		{% set total = 0 %}
+		{% set totalEuro = 0 %}
+		{% set totalPercent = 0 %}
+		{% for offer in offers %}
+			{% if offer.typeReduce == "percent" %}
+				{% set number = product.price * (offer.reduce / 100) %}
+				{% set reduce = number %}
+				{% set totalPercent = reduce %}
+			{% endif %}
+			{% if offer.typeReduce == "euro" %}
+				{% set number = offer.reduce %}
+				{% set reduceEuro =  reduceEuro + number %}
+				{% set totalEuro = (reduceEuro * 100) %}
+			{% endif %}
+		{% endfor %}
+		{% set total = product.price - totalPercent %}
+	{% endif %}
+</div>
+</div>
+<script>
+	let quantities = {};{% for attribut in attributs %}quantities[{{ attribut.id }}] = {{ attribut.quantity }};{% endfor %}function Changequantity() {
+let select = document.getElementById('quantity');
+let attribut = document.getElementById('attribut').value;
+select.innerHTML = '';
+for (let i = 0; i <= quantities[attribut]; i++) {
+let option = document.createElement('option');
+option.value = i;
+option.innerHTML = i;
+select.appendChild(option);
+}
+}
+
+function setQuantity() {
+let quantity = document.getElementById('quantity').value;
+let attribut = document.getElementById('attribut').value;
+let addtocart = document.getElementById('add-to-cart');
+let total = {{ total }};
+let totalEuro = ({{ totalEuro }} / 100);
+q = parseInt(quantity);{% for attribut in attributs %}
+if (attribut == {{ attribut.id }}) {
+addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', 
+{ id:attribut.id, quantity:"q", attribut:attribut.id, description:"aucune" }) }}" 
+class="btn btn-outline-primary btn-lg btn-block">Ajouter au panier</a>`;
+addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
+}
+{% endfor %}
+let customForm = document.getElementById('customForm');{% for attribut in attributs %}
+if (attribut == {{ attribut.id }}) {
+let quantity = document.getElementById('quantity').value;
+let attribut = document.getElementById('attribut').value;
+let h3 = document.createElement('h3');
+let p = document.createElement('p');
+let textArea = document.createElement('textarea');
+let span = document.createElement('span');
+let totalPrice = document.createElement('p');
+let totalInlinePrice = document.createElement('p');
+h3.innerHTML = 'Personnalisation';
+h3.setAttribute('class', 'mt-2 mb-2');
+p.innerHTML = 'Vous pouvez personnaliser votre produit en écrivant votre message ci-dessous.';
+textArea.setAttribute('type', 'text');
+textArea.setAttribute('name', 'custom');
+textArea.setAttribute('id', 'custom');
+textArea.setAttribute('class', 'form-control form-control-lg mb-3 mt-2');
+textArea.setAttribute('placeholder', 'Votre texte');
+textArea.setAttribute('required', 'required');
+textArea.setAttribute('rows', '4');
+textArea.setAttribute('cols', '50');
+span.innerHTML =' ' + {{ attribut.price }} + '€';
+span.setAttribute('class', 'badge bg-info mb-3');
+
+{% if product.offers is not empty %}
+totalPrice.innerHTML = ((quantity) * ((total / 100) + {{ attribut.price }} )) - totalEuro + '€';
+totalInlinePrice.innerHTML = (quantity) * ({{ product.price / 100 }}) + '€';
+{% else %}totalPrice.innerHTML = (quantity) * ({{ product.price / 100 }} + {{ attribut.price }}) + '€';{% endif %}totalPrice.setAttribute('class', 'fw-bold text-end fs-5 mt-auto');
+totalInlinePrice.setAttribute('class', 'card-text fw-bold text-decoration-line-through text-end');{% if attribut.persoIsEnable %}customForm.replaceChildren(h3, p, textArea, span, totalInlinePrice, totalPrice);
+{% else %}customForm.replaceChildren(totalInlinePrice, totalPrice);{% endif %}
+
+let custom = document.getElementById('custom').value;
+let addtocart = document.getElementById('add-to-cart');
+let description = custom;
+textArea.addEventListener('input', function () {
+let custom = document.getElementById('custom').value;
+let addtocart = document.getElementById('add-to-cart');
+let description = custom;
+addtocart.innerHTML = `<a href="{{ path('cart_add-to-cart', 
+		{ id:attribut.id, quantity:"q", attribut:attribut.id, description:"description" }) }}"
+		class="btn btn-outline-primary btn-lg btn-block">Ajouter au panier</a>`;
+addtocart.innerHTML = addtocart.innerHTML.replace("q", q);
+addtocart.innerHTML = addtocart.innerHTML.replace("description", description);
+});
+}
+{% endfor %}
+}
+</script>

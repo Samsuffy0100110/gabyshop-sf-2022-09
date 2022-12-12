@@ -1,0 +1,14 @@
+<div class="col-lg mb-3 col">
+    <h4>Nos Coordonnées</h4>
+    <div class="d-flex justify-content-center">
+    {% for shop in shops %}
+    <div class="text-center">
+        <p><i class="fas fa-home"></i> {{ shop.name }}</p>
+        <p><i class="fas fa-map-marker-alt"></i> {{ shop.adress }}</p>
+        <p>{{ shop.zipcode}} {{ shop.city }}</p>
+        <p><i class="fas fa-phone"></i> {{ shop.phone }}</p>
+        <p><i class="fas fa-envelope"></i> {{ shop.mail }}</p>
+    </div>
+    {% endfor %}
+    </div>
+</div>

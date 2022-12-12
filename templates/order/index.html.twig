@@ -1,0 +1,231 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h2 class="mt-5">Je passe ma commande</h2>
+		<p>Choisissez vos préférences avant de passer votre commande</p>
+		<hr>
+		<div class="row">
+			<div class="col-md-6">
+				{% set formHTML  %}
+				{{ form_start(form,{action: path('order_recap') }) }}
+				{% if shippingMethod == 'Livraison gratuite' %}
+					{{ form_label(form.addresses, 'Adresse de livraison') }}
+					<a href="{{ path('account_address') }}">Ajouter une nouvelle adresse</a>
+				{% else %}
+					<div class="mb-3">
+						<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+						<script src="//unpkg.com/leaflet/dist/leaflet.js"></script>
+						<link rel="stylesheet" type="text/css" href="//unpkg.com/leaflet/dist/leaflet.css"/>
+						<script src="//widget.mondialrelay.com/parcelshop-picker/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
+						<!-- HTML Element in which the Parcelshop Picker Widget is loaded -->
+						<div id="Zone_Widget"></div>
+						<!-- HTML element to display the parcelshop selected, for demo only. Should use hidden instead. -->
+						<input type="hidden" id="Target_Widget"/>
+						<span id="TargetDisplayInfoPR_Widget"></span>
+						<!-- Balises HTML utilisées dans la fonction de CallBack pour reçevoir des données à afficher -->
+						<div class="mt-2" style="font-weight:bold;text-decoration:underline;">Point de livraison choisi :</div><br/>
+						<div class="d-none">data.ID =
+							<span id="cb_ID"></span>
+						</div>
+						<div>
+							<span id="cb_Nom"></span>
+						</div>
+						<div>
+							<span id="cb_Adresse"></span>
+						</div>
+						<div>
+							<span id="cb_CP"></span>
+						</div>
+						<div>
+							<span id="cb_Ville"></span>
+						</div>
+						<div>
+							<span id="cb_Pays"></span>
+						</div>
+						<input type="hidden" name="id">
+						<input type="hidden" name="nom" id="cb_Nom">
+						<input type="hidden" name="adresse" id="cb_Adresse">
+						<input type="hidden" name="cp" id="cb_CP">
+						<input type="hidden" name="ville" id="cb_Ville">
+						<input type="hidden" name="pays" id="cb_Pays">
+						<div class="d-none">
+							{{ form_widget(form.name, {attr: {id:"name"}}) }}
+							{{ form_widget(form.adresse, {attr: {id:"adresse"}}) }}
+							{{ form_widget(form.zipCode, {attr: {id:"zipCode"}}) }}
+							{{ form_widget(form.city, {attr: {id:"city"}}) }}
+							{{ form_widget(form.country, {attr: {id:"country"}}) }}
+						</div>
+					</div>
+				{% endif %}
+				<div class="fw-bold">Montant de la Livraison :
+					{{ shipping.price | number_format(2, ',', '.') }}&euro;</div>
+				{{ form_end(form) }}
+				{% endset %}
+				{{ formHTML|replace({'[br]':'<br>'})|raw }}
+			</div>
+			<div class="col-md-6 mb-3">
+				<div class="text-center mt-3">
+					<h4>Récapitulatif de votre commande</h4>
+				</div>
+				<div class="bg-light p-3 rounded shadow mt-3 border">
+					{% set Total = 0 %}
+					{% set totalEuro = 0%}
+					{% set totalWhitOffers = 0 %}
+					{% set total = 0 %}
+					{% set nbProducts = 0 %}
+					{% for key, attribut in cart %}
+						<div class="row {% if key > 0 %}mt-2{% endif %}d-flex flex-nowrap">
+							<div class="col">
+								{% if attribut.attribut.product.image0 is empty %}
+									<img class="rounded img-thumbnail" src="https://fakeimg.pl/100x100/?text={{ attribut.attribut.product.name }}" alt="{{ attribut.attribut.product.name }}">
+								{% else %}
+									<img src="{{ ('/images/products/' ~ attribut.attribut.product.image0)|imagine_filter('Thumbnail_products_cart') }}" class="rounded" alt="{{ attribut.attribut.product.name }}">
+								{% endif %}
+							</div>
+							<div class="col">
+								<p class="fw-bold">{{ attribut.attribut.product.name }}</p>
+								<p>{{ attribut.attribut.name }}</p>
+								{% for custom in attribut.customs|filter (c => c.attribut == attribut.attribut.name) %}
+									{% if custom.description != 'aucune' %}
+										perso :
+										<strong>{{ custom.description }}</strong>
+										x
+										{{ custom.quantity }}<br>
+									{% endif %}
+								{% endfor %}
+							</div>
+							<div class="col my-auto">
+								<b>x
+									{{ attribut.quantity }}</b>
+							</div>
+							{% set offers = attribut.attribut.product.offers|filter(o => o.isActive == true)|filter(o => date(o.startedAT) < date() and date(o.endedAT) > date()) %}
+							{% if offers| length > 0 %}
+								{% set number = 0 %}
+								{% set reduce = 0 %}
+								{% set reduceEuro = 0 %}
+								{% set totalWhitOffers = 0 %}
+								{% set totalEuro = 0 %}
+								{% set totalPercent = 0 %}
+								{% for offer in offers %}
+									{% if offer.typeReduce == "percent" %}
+										{% set number = attribut.attribut.product.price * (offer.reduce / 100) %}
+										{% set reduce = number %}
+										{% set totalPercent = reduce %}
+									{% endif %}
+									{% if offer.typeReduce == "euro" %}
+										{% set number = offer.reduce %}
+										{% set reduceEuro = reduceEuro + number %}
+										{% set totalEuro = reduceEuro  %}
+									{% endif %}
+								{% endfor %}
+								{% set totalWhitOffers = attribut.attribut.product.price - totalPercent + (attribut.attribut.price * 100) %}
+								<div class="col">
+									<b>prix HT</b>
+									<p>{{ ((((( totalWhitOffers / 100) - (( totalWhitOffers / 100 ) - totalEuro) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity) - totalEuro)| number_format(2, ',', '.') }}&euro;</p>
+								</div>
+								<div class="col">
+									<b>TTC</b>
+									<p class="card-text fw-bold">{{ (((totalWhitOffers / 100) * (attribut.quantity)) - totalEuro) }}
+										€</p>
+								</div>
+								{% set Total = (Total + ((totalWhitOffers * attribut.quantity) / 100) - totalEuro) %}
+							{% else %}
+								<div class="col">
+									<b>prix HT</b>
+									<p>{{ ((((attribut.attribut.product.price / 100 ) + (attribut.attribut.price )) - (((attribut.attribut.product.price / 100) + (attribut.attribut.price ) ) * (attribut.attribut.product.taxe.percent / 100 ))) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+								</div>
+								<div class="col">
+									<b>TTC</b>
+									<p>{{ (((attribut.attribut.product.price / 100) + (attribut.attribut.price )) * attribut.quantity)| number_format(2, ',', '.') }}&euro;</p>
+									{% set total = total + ((((attribut.attribut.product.price / 100) + (attribut.attribut.price)) * attribut.quantity) ) %}
+								</div>
+							{% endif %}
+						</div>
+						<hr>
+						{% set nbProducts = nbProducts + attribut.quantity %}
+					{% endfor %}
+					<div class="text-end">
+						<p>Nombre de produits :
+							<b>{{ nbProducts }}</b>
+						</p>
+						<br>
+						<p>Total de mon panier :
+							<b>{{ ( Total + total)  | number_format(2, ',', '.') }}&euro;</b>
+						</p>
+						<br>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		// Init the widget on ready state
+$(document).ready(function () { // Loading the Parcelshop picker widget into the <div> with id "Zone_Widget" with such settings:
+$("#Zone_Widget").MR_ParcelShopPicker({
+//
+// Settings relating to the HTML.
+//
+// JQuery selector of the HTML element receiving the Parcelshop Number (ex: here, input type text, but should be input hidden)
+Target: "#Target_Widget",
+//
+// Settings for Parcelshop data access
+//
+// Code given by Mondial Relay, 8 characters (padding right with spaces)
+// BDTEST is used for development only => a warning appears
+Brand: "CC22KKW2",
+// Default Country (2 letters) used for search at loading
+Country: "FR",
+// Default postal Code used for search at loading
+PostCode: "17100",
+// Delivery mode (Standard [24R], XL [24L], XXL [24X], Drive [DRI])
+ColLivMod: "24R",
+// Number of parcelshops requested (must be less than 20)
+NbResults: "5",
+//
+// Display settings
+//
+// Enable Responsive (nb: non responsive corresponds to the Widget used in older versions=
+Responsive: true,
+// Show the results on Leaflet map usng OpenStreetMap.
+ShowResultsOnMap: true,
+// class of the HTML element receiving the map
+class: "rounded",
+
+DisplayMapInfo: true,
+// Fonction de callback déclenché lors de la selection d'un Point Relais
+OnParcelShopSelected:
+// Fonction de traitement à la sélection du point relais.
+// Remplace les données de cette page par le contenu de la variable data.
+// data: les informations du Point Relais
+function (data) {
+$("#cb_ID").html(data.ID);
+$("#cb_Nom").html(data.Nom);
+$("#cb_Adresse").html(data.Adresse1);
+$("#cb_CP").html(data.CP);
+$("#cb_Ville").html(data.Ville);
+$("#cb_Pays").html(data.Pays);
+$("[name='id']").val(data.ID);
+$("[name='nom']").val(data.Nom);
+$("[name='adresse']").val(data.Adresse1);
+$("[name='cp']").val(data.CP);
+$("[name='ville']").val(data.Ville);
+let name = document.getElementById('order_name');
+name.value = data.Nom;
+let address = document.getElementById('order_adresse');
+address.value = data.Adresse1;
+let zipCode = document.getElementById('order_zipCode');
+zipCode.value = data.CP;
+let city = document.getElementById('order_city');
+city.value = data.Ville;
+let country = document.getElementById('order_country');
+country.value = data.Pays;
+}
+});
+});
+	</script>
+{% endblock %}

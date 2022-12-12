@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations personnelles |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<i>
+					<small>
+						<a class="crumb" href="{{ path('home') }}">Accueil</a>
+						/
+						<a class="crumb" href="{{ path('account_dashboard') }}">Tableau de bord</a>
+						/Informations personnelles
+					</small>
+				</i>
+			</div>
+		</div>
+		<div class="row mt-5 mb-5">
+			<div class="col-lg-3 mt-2">
+				{{ include('account/_dashboardLinks.html.twig') }}
+			</div>
+			<div class="col-lg-9 mt-2 border rounded p-3">
+				<h1>Informations personnelles</h1>
+				<p class="dark">Modifier vos informations personnelles</p>
+				{{ form_start(form) }}
+				<div class="row">
+					<div class="col-lg-6">
+						{{ form_row(form.firstName) }}
+					</div>
+					<div class="col-lg-6">
+						{{ form_row(form.lastName) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-6">
+						{{ form_row(form.email) }}
+					</div>
+					<div class="col-lg-6">
+						{{ form_row(form.phone) }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-6">
+						{{ form_row(form.birthday) }}
+					</div>
+					<div class="col-lg-6">
+						{{ form_row(form.gender) }}
+					</div>
+				</div>
+				{% if user.isPro == true %}
+					<div class="row">
+						<div class="col-lg-6">
+							{{ form_row(form.companyname) }}
+						</div>
+						<div class="col-lg-6">
+							{{ form_row(form.idPro) }}
+						</div>
+					</div>
+				{% else %}
+					<div class="row d-none">
+						<div class="col-lg-6">
+							{{ form_row(form.companyname) }}
+						</div>
+						<div class="col-lg-6">
+							{{ form_row(form.idPro) }}
+						</div>
+					</div>
+				{% endif %}
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="form-check form-switch">
+							{{ form_row(form.isNewsletterOk) }}
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12 d-flex justify-content-end mt-3">
+						{{ form_row(form.submit) }}
+					</div>
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

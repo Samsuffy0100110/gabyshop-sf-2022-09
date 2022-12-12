@@ -1,0 +1,31 @@
+<div class="container">
+	<div class="row">
+		<h1 class="text-center mb-3">Site en Maintenance</h1>
+		<div class="col text-center">
+			{% if logo == null %}
+		{% for shop in shops %}
+		<img class="logo rounded mb-3" src="https://fakeimg.pl/400x400/?text={{ shop.name }}" alt="{{ shop.name }}">
+		{% endfor %}
+		{% else %}
+        <img src="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" alt="{{ logo.name }}">
+		{% endif %}
+			{% for shop in shops %}
+				<div class="fs-1 text-center mx-auto mb-3">{{ shop.name }}</div>
+				<div class="text-center mb-2">Notre site est actuellement en maintenance.</div>
+				<div class="text-center mb-2">Veuillez-nous excuser pour le dérangement.</div>
+				<div class="text-center mb-2">Nous reviendrons très vite.</div>
+				<div class="text-center mb-2">Merci de votre compréhension.</div>
+				<div class="text-center">L'équipe {{ shop.name }}</div>
+			</div>
+		{% endfor %}
+	</div>
+	<div class="row mt-3">
+		<div class="col text-center">
+			{% for social in socials %}
+				<a class="text-dark  me-2 text-decoration-none" target="_blank" href="{{ social.link }}">
+					<i class="fab fa-{{ social.name }} fa-2x"></i>
+				</a>
+			{% endfor %}
+		</div>
+	</div>
+</div></div>

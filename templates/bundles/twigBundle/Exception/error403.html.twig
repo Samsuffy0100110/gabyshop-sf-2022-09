@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accés refusé |
+	{{ parent() }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="mt-5 mb-5 text-danger fw-bold">Accés refusé</h1>
+		<p class="mb-5 fw-bold">
+			La page demandé est interdite d'accés.
+			Vous pouvez retourner à la page d'accueil en cliquant sur le lien ci-dessous.
+			<a href="{{ path('home') }}">Retour à l'accueil</a>
+		</p>
+	</div>
+{% endblock %}
