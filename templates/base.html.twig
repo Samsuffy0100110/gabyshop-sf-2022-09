@@ -18,6 +18,10 @@
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
+	<title>
+		{% block title %}{{ shop.name }}
+		{% endblock %}
+	</title>
 	<body class="d-flex flex-column h-100" style="background-color: {{ theme.backgroundColor }};">
 		{% include "includes/navsecurity/index.html.twig" %}
 		{% for maintenance in maintenance %}

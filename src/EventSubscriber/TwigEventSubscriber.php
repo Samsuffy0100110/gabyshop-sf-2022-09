@@ -55,6 +55,7 @@ class TwigEventSubscriber implements EventSubscriberInterface
         $this->twig->addGlobal('offers', $this->offerRepository->findAll());
         $this->twig->addGlobal('logo', $this->logoRepository->findOneBy(['position' => 1]));
         $this->twig->addGlobal('maintenance', $this->maintenance->findAll());
+        $this->twig->addGlobal('shop', $this->shopRepository->findOneBy(['isActive' => true]));
     }
 
     public static function getSubscribedEvents()

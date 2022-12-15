@@ -85,7 +85,7 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Commentary::class)]
     private Collection $commentaries;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Wishlist::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Wishlist::class, cascade: ['persist', 'remove'])]
     private Collection $wishlists;
 
     public function __construct()
