@@ -22,9 +22,10 @@ class FrontController extends AbstractController
         ]);
     }
 
-    public function logo(LogoRepository $logoRepository, ShopRepository $shopRepository): Response
-    {
-
+    public function logo(
+        LogoRepository $logoRepository, 
+        ShopRepository $shopRepository
+        ): Response {
         return $this->render('includes/logo/index.html.twig', [
             'logo' => $logoRepository->findOneBy(['position' => 1]),
             'shops' => $shopRepository->findAll(),
