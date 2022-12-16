@@ -90,7 +90,7 @@ class NewsLetterController extends AbstractController
         $form = $this->createForm(NewsLetterType::class, $newsLetter, [
             'attr' => ['action' => $this->generateUrl('newsletter')]
         ]);
-        return $this->renderForm('includes/newsLetter/index.html.twig', [
+        return $this->renderForm('includes/newsletter/index.html.twig', [
             'form' => $form,
         ]);
     }

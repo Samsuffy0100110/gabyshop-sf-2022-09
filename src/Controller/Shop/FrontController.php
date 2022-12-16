@@ -49,7 +49,7 @@ class FrontController extends AbstractController
         ParentCategoryRepository $parent,
         ProductRepository $product
     ): Response {
-        return $this->render('includes/productCarousel/index.html.twig', [
+        return $this->render('includes/productcarousel/index.html.twig', [
             'categories' => $category->findAll(),
             'parentCategories' => $parent->findAll(),
             'products' => $product->findAll(),
@@ -61,7 +61,7 @@ class FrontController extends AbstractController
         OfferRepository $offerRepository,
     ): Response {
 
-        return $this->render('includes/latestProducts/index.html.twig', [
+        return $this->render('includes/latestproducts/index.html.twig', [
             'products' => $productRepository->findBy([], ['createdAt' => 'DESC'], 4),
             'offers' => $offerRepository->findAll(),
         ]);
