@@ -1,10 +1,10 @@
 <div class="col-12 col-sm mb-3 text-center col">
 	{% for social in socials %}
-		<a class="text-white me-2 text-decoration-none" target="_blank" href="{{ social.link }}">
+		<a class="me-2 text-decoration-none" style="color:{{ theme.fontColor }};" target="_blank" href="{{ social.link }}">
 			<i class="fab fa-{{ social.name }} fa-2x"></i>
 		</a>
 	{% endfor %}
 	{% for shop in shops %}
-		<p class="text-white m-2">{{ shop.name }}&copy;{{ "now"|date("Y") }}</p>
+		<p class="m-2" style="color:{{ theme.fontColor }};">{{ shop.name }}&copy;{{ "now"|date("Y") }}</p>
 	{% endfor %}
 </div>
