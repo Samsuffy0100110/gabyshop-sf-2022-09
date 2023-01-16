@@ -22,7 +22,12 @@
 						{{ form_row(registrationForm.isNewsletterOk) }}
 						{{ form_row(registrationForm.isPro) }}
 					</div>
-					{{ form_row(addressForm) }}
+					{{ form_row(addressForm.name) }}
+					{{ form_row(addressForm.adresse) }}
+					{{ form_row(addressForm.complementAdresse) }}
+					{{ form_row(addressForm.zipcode) }}
+					{{ form_row(addressForm.city) }}
+					{{ form_row(addressForm.country) }}
 					{{ form_row(registrationForm.submit) }}
 					{{ form_end(registrationForm) }}
 				</div>
