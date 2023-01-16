@@ -38,7 +38,6 @@
 			{% set totalEuro = (reduceEuro * 100) %}
 		{% endif %}
 	{% endfor %}
-	{% set total = product.price - totalEuro - totalPercent %}
-	<p class="card-text fw-bold text-end fs-5 mt-auto">{{ total / 100 }}
-		€</p>
+	{% set total = (product.price - totalEuro - totalPercent) / 100 %}
+	<p class="card-text fw-bold text-end fs-5 mt-auto">{{ total|round(1, 'floor') }}&nbsp€</p>
 {% endif %}
