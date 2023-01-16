@@ -4,10 +4,10 @@
 		<div class="col text-center">
 			{% if logo == null %}
 		{% for shop in shops %}
-		<img class="logo rounded mb-3" src="https://fakeimg.pl/400x400/?text={{ shop.name }}" alt="{{ shop.name }}">
+		<img class="logo rounded mb-3" src="https://fakeimg.pl/200x200/?text={{ shop.name }}" alt="{{ shop.name }}">
 		{% endfor %}
 		{% else %}
-        <img src="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" alt="{{ logo.name }}">
+        <img style="width: 200px; height: 200px;"src="{{ absolute_url(asset('/images/logos/' ~ logo.image)) }}" alt="{{ logo.name }}">
 		{% endif %}
 			{% for shop in shops %}
 				<div class="fs-1 text-center mx-auto mb-3">{{ shop.name }}</div>
