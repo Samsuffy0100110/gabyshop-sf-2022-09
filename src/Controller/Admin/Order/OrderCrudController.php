@@ -210,7 +210,9 @@ class OrderCrudController extends AbstractCrudController
     public function configureCrud(Crud $crud): Crud
     {
         return $crud->setDefaultSort(['id' => 'DESC'])
-        ->showEntityActionsInlined();
+        ->showEntityActionsInlined()
+        ->setEntityLabelInSingular('Commande')
+        ->setEntityLabelInPlural('Commandes');
     }
 
     public function configureFields(string $pageName): iterable

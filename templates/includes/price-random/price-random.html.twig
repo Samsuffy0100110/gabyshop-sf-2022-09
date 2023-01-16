@@ -55,8 +55,8 @@
 					{% endif %}
 				{% endfor %}
 				{% set totalWhitOffers = starProduct.product.price - totalEuro - totalPercent %}
-				<p class="card-text fw-bold fs-5 mt-auto text-end">{{ totalWhitOffers / 100 }}
-					€</p>
+				{% set finalTotal = totalWhitOffers / 100 %}
+				<p class="card-text fw-bold fs-5 mt-auto text-end">{{ finalTotal|round(1, 'floor') }}&nbsp€</p>
 			{% endif %}
 		</div>
 	</div>

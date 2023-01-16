@@ -16,17 +16,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class TwigEventSubscriber implements EventSubscriberInterface
 {
     private Environment $twig;
-
     private ThemeRepository $themeRepository;
-
     private ShopRepository $shopRepository;
-
     private PagesRepository $pagesRepository;
-
     private OfferRepository $offerRepository;
-
     private LogoRepository $logoRepository;
-
     private MaintenanceRepository $maintenance;
 
     public function __construct(
