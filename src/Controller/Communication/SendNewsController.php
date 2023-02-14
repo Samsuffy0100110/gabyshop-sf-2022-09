@@ -23,7 +23,7 @@ class SendNewsController extends AbstractController
         NewsLetterRepository $newsLetterRepository,
         int $id
     ): Response {
-        return $this->render('mailer/NewsLetterPreview.html.twig', [
+        return $this->render('mailer/newsLetterPreview.html.twig', [
             'newsletter' => $newsLetterRepository->find($id),
         ]);
     }
@@ -47,7 +47,7 @@ class SendNewsController extends AbstractController
             ->from(new Address($this->getParameter('mailer_address'), $shop->getName()))
             ->to(new Address($user->getEmail()))
             ->subject('Newsletter de ' . $shop->getName())
-            ->htmlTemplate('mailer/newsletter.html.twig')
+            ->htmlTemplate('mailer/newsLetter.html.twig')
             ->context([
                 'newsletter' => $newsLetter->find($id),
                 'uuid' => Uuid::v4(),
